@@ -1,0 +1,26 @@
+---
+description: Core rules for the Next.js multi-purpose admin template
+alwaysApply: true
+---
+
+Read and follow `AGENTS.md` and `README-AI.md`.
+
+Architecture:
+- Keep routes thin.
+- Put business logic under `features/`.
+- Put reusable UI under `components/`.
+- Put configuration under `config/`.
+- Put infrastructure under `lib/`.
+- Prefer Server Components.
+- Use Client Components only where necessary.
+
+Quality:
+- TypeScript strict.
+- No unnecessary `any`.
+- Responsive.
+- Accessible.
+- Dark/light/system themes.
+- Loading/empty/error states.
+- Reuse existing components.
+- Avoid unnecessary dependencies.
+- Do not add comments to every line.
