@@ -12,20 +12,33 @@ import {
 } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { generateThemeCss, type ThemeColor, type ThemeRadius } from "@/config/themes"
+import {
+  generateThemeCss,
+  type ThemeColor,
+  type ThemeRadius,
+  type ThemeFont,
+} from "@/config/themes"
 
 interface CopyCodeDialogProps {
   color: ThemeColor
   radius: ThemeRadius
+  font?: ThemeFont
+  displayFont?: ThemeFont
   trigger?: React.ReactNode
 }
 
-export function CopyCodeDialog({ color, radius, trigger }: CopyCodeDialogProps) {
+export function CopyCodeDialog({
+  color,
+  radius,
+  font = "lexend",
+  displayFont = "lexend",
+  trigger,
+}: CopyCodeDialogProps) {
   const [copied, setCopied] = React.useState(false)
 
   const cssCode = React.useMemo(() => {
-    return generateThemeCss(color, radius)
-  }, [color, radius])
+    return generateThemeCss(color, radius, font, displayFont)
+  }, [color, radius, font, displayFont])
 
   const tailwindV4Snippet = React.useMemo(() => {
     return `@import "tailwindcss";

@@ -48,6 +48,8 @@
 }
 
 :root {
+    --font-sans: var(--font-lexend), sans-serif;
+    --font-heading: var(--font-lexend), sans-serif;
     --background: oklch(1 0 0);
     --foreground: oklch(0.145 0 0);
     --card: oklch(1 0 0);
@@ -120,12 +122,36 @@
   * {
     @apply border-border outline-ring/50;
     }
+  html {
+    font-family: var(--font-sans);
+    }
   body {
     @apply bg-background text-foreground;
+    font-family: var(--font-sans);
     }
-  html {
-    @apply font-sans;
+  h1, h2, h3, h4, h5, h6, .font-heading {
+    font-family: var(--font-heading);
     }
+}
+
+/* Font Families (font-sans) */
+@layer base {
+  [data-font="lexend"] { --font-sans: var(--font-lexend), sans-serif; }
+  [data-font="inter"] { --font-sans: var(--font-inter), sans-serif; }
+  [data-font="geist"] { --font-sans: var(--font-geist), sans-serif; }
+  [data-font="plus-jakarta-sans"] { --font-sans: var(--font-plus-jakarta), sans-serif; }
+  [data-font="manrope"] { --font-sans: var(--font-manrope), sans-serif; }
+  [data-font="outfit"] { --font-sans: var(--font-outfit), sans-serif; }
+  [data-font="dm-sans"] { --font-sans: var(--font-dm-sans), sans-serif; }
+
+  /* Display Font Families (font-heading) */
+  [data-display-font="lexend"] { --font-heading: var(--font-lexend), sans-serif; }
+  [data-display-font="inter"] { --font-heading: var(--font-inter), sans-serif; }
+  [data-display-font="geist"] { --font-heading: var(--font-geist), sans-serif; }
+  [data-display-font="plus-jakarta-sans"] { --font-heading: var(--font-plus-jakarta), sans-serif; }
+  [data-display-font="manrope"] { --font-heading: var(--font-manrope), sans-serif; }
+  [data-display-font="outfit"] { --font-heading: var(--font-outfit), sans-serif; }
+  [data-display-font="dm-sans"] { --font-heading: var(--font-dm-sans), sans-serif; }
 }
 
 /* Theme Color Presets */

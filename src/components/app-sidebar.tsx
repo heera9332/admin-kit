@@ -12,10 +12,17 @@ import {
   SidebarHeader,
   SidebarRail,
 } from "@/components/ui/sidebar"
+import { useThemeSettings } from "@/context/theme-settings-provider"
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const { sidebarVariant } = useThemeSettings()
+
   return (
-    <Sidebar collapsible="icon" {...props}>
+    <Sidebar
+      collapsible="icon"
+      variant={sidebarVariant === "default" ? "sidebar" : sidebarVariant}
+      {...props}
+    >
       <SidebarHeader>
         <TeamSwitcher teams={sidebarData.teams} />
       </SidebarHeader>

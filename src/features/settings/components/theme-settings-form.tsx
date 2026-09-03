@@ -9,18 +9,33 @@ import {
   RotateCcw,
   Maximize2,
   Minimize2,
+  PanelLeft,
+  LayoutTemplate,
+  SquareDashedBottomCode,
+  Type,
 } from "lucide-react"
 import { useThemeSettings } from "@/context/theme-settings-provider"
 import {
   THEME_COLORS,
   THEME_RADII,
   THEME_LAYOUTS,
+  SIDEBAR_VARIANTS,
+  THEME_FONTS,
   type ThemeColor,
   type ThemeRadius,
   type ThemeLayout,
+  type SidebarVariant,
+  type ThemeFont,
 } from "@/config/themes"
 import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 import { cn } from "@/lib/utils"
 import { CopyCodeDialog } from "./copy-code-dialog"
 import { ThemePreviewCard } from "./theme-preview-card"
@@ -35,6 +50,12 @@ export function ThemeSettingsForm() {
     setRadius,
     layout,
     setLayout,
+    sidebarVariant,
+    setSidebarVariant,
+    font,
+    setFont,
+    displayFont,
+    setDisplayFont,
     resetThemeSettings,
     isMounted,
   } = useThemeSettings()
@@ -59,6 +80,13 @@ export function ThemeSettingsForm() {
     )
   }
 
+  const currentColorConfig =
+    THEME_COLORS.find((c) => c.name === themeColor) ?? THEME_COLORS[0]
+  const currentActiveHex =
+    theme === "dark"
+      ? currentColorConfig.activeColor.dark
+      : currentColorConfig.activeColor.light
+
   return (
     <div className="space-y-8">
       {/* Header Section */}
@@ -71,7 +99,12 @@ export function ThemeSettingsForm() {
         </div>
 
         <div className="flex items-center gap-2">
-          <CopyCodeDialog color={themeColor} radius={radius} />
+          <CopyCodeDialog
+            color={themeColor}
+            radius={radius}
+            font={font}
+            displayFont={displayFont}
+          />
           <Button
             variant="outline"
             size="sm"
@@ -193,15 +226,56 @@ export function ThemeSettingsForm() {
 
       <Separator />
 
-      {/* Primary Color Section */}
+      {/* Primary Color Palette Section with Dropdown */}
       <div className="space-y-3.5">
-        <div>
-          <h4 className="text-xs font-semibold text-foreground">Color Palette</h4>
-          <p className="text-xs text-muted-foreground">
-            Select the primary brand and accent color for UI components.
-          </p>
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+          <div>
+            <h4 className="text-xs font-semibold text-foreground">Color Palette</h4>
+            <p className="text-xs text-muted-foreground">
+              Select the primary brand and accent color for UI components.
+            </p>
+          </div>
+
+          {/* Color Palette Dropdown */}
+          <div className="flex items-center gap-2">
+            <span className="text-[11px] text-muted-foreground font-medium hidden sm:inline">
+              Dropdown:
+            </span>
+            <Select
+              value={themeColor}
+              onValueChange={(val) => setThemeColor(val as ThemeColor)}
+            >
+              <SelectTrigger className="w-44 text-xs h-8">
+                <div className="flex items-center gap-2">
+                  <span
+                    className="size-3.5 rounded-full shrink-0 shadow-2xs"
+                    style={{ backgroundColor: currentActiveHex }}
+                  />
+                  <SelectValue placeholder="Select color" />
+                </div>
+              </SelectTrigger>
+              <SelectContent>
+                {THEME_COLORS.map((c) => {
+                  const hex =
+                    theme === "dark" ? c.activeColor.dark : c.activeColor.light
+                  return (
+                    <SelectItem key={c.name} value={c.name} className="text-xs">
+                      <div className="flex items-center gap-2">
+                        <span
+                          className="size-3 rounded-full shrink-0"
+                          style={{ backgroundColor: hex }}
+                        />
+                        <span>{c.label}</span>
+                      </div>
+                    </SelectItem>
+                  )
+                })}
+              </SelectContent>
+            </Select>
+          </div>
         </div>
 
+        {/* Swatches Grid */}
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2.5">
           {THEME_COLORS.map((c) => {
             const isSelected = themeColor === c.name
@@ -229,6 +303,189 @@ export function ThemeSettingsForm() {
               </button>
             )
           })}
+        </div>
+      </div>
+
+      <Separator />
+
+      {/* Sidebar Variant Section (inset, floating, default) */}
+      <div className="space-y-3.5">
+        <div>
+          <h4 className="text-xs font-semibold text-foreground">Sidebar Variant</h4>
+          <p className="text-xs text-muted-foreground">
+            Choose between standard rail, inner canvas inset, or detached floating sidebar styles.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 max-w-2xl">
+          {SIDEBAR_VARIANTS.map((item) => {
+            const isSelected = sidebarVariant === item.value
+
+            return (
+              <button
+                key={item.value}
+                type="button"
+                onClick={() => setSidebarVariant(item.value as SidebarVariant)}
+                className={cn(
+                  "group relative flex flex-col gap-2.5 rounded-xl border-2 p-3 transition-all text-left cursor-pointer",
+                  isSelected
+                    ? "border-primary bg-primary/5 ring-2 ring-primary/20"
+                    : "border-border/80 bg-card hover:border-primary/40"
+                )}
+              >
+                {/* Visual miniature of the sidebar variant */}
+                <div className="w-full aspect-16/10 rounded-lg border border-border/80 bg-muted/40 p-2 flex gap-1.5 shadow-xs overflow-hidden">
+                  {item.value === "default" && (
+                    <>
+                      <div className="w-1/4 h-full bg-sidebar border-r border-sidebar-border rounded-l-xs flex flex-col gap-1 p-1">
+                        <div className="h-1.5 w-full bg-primary/60 rounded-xs" />
+                        <div className="h-1 w-2/3 bg-muted-foreground/30 rounded-xs" />
+                      </div>
+                      <div className="flex-1 h-full bg-background rounded-r-xs p-1 space-y-1">
+                        <div className="h-1.5 w-1/3 bg-muted-foreground/20 rounded-xs" />
+                        <div className="h-3 w-full bg-card border border-border/60 rounded-xs" />
+                      </div>
+                    </>
+                  )}
+
+                  {item.value === "inset" && (
+                    <>
+                      <div className="w-1/4 h-full bg-sidebar flex flex-col gap-1 p-1">
+                        <div className="h-1.5 w-full bg-primary/60 rounded-xs" />
+                        <div className="h-1 w-2/3 bg-muted-foreground/30 rounded-xs" />
+                      </div>
+                      <div className="flex-1 h-full bg-background rounded-lg border border-border shadow-2xs p-1 space-y-1">
+                        <div className="h-1.5 w-1/3 bg-muted-foreground/20 rounded-xs" />
+                        <div className="h-2.5 w-full bg-muted/40 rounded-xs" />
+                      </div>
+                    </>
+                  )}
+
+                  {item.value === "floating" && (
+                    <>
+                      <div className="w-1/4 h-full bg-sidebar rounded-md border border-sidebar-border shadow-xs flex flex-col gap-1 p-1">
+                        <div className="h-1.5 w-full bg-primary/60 rounded-xs" />
+                        <div className="h-1 w-2/3 bg-muted-foreground/30 rounded-xs" />
+                      </div>
+                      <div className="flex-1 h-full bg-background rounded-md p-1 space-y-1">
+                        <div className="h-1.5 w-1/3 bg-muted-foreground/20 rounded-xs" />
+                        <div className="h-3 w-full bg-card border border-border/60 rounded-xs" />
+                      </div>
+                    </>
+                  )}
+                </div>
+
+                <div>
+                  <div className="flex items-center justify-between">
+                    <span className="flex items-center gap-1.5 text-xs font-semibold">
+                      {item.value === "default" && <PanelLeft className="size-3.5 text-primary" />}
+                      {item.value === "inset" && <LayoutTemplate className="size-3.5 text-primary" />}
+                      {item.value === "floating" && <SquareDashedBottomCode className="size-3.5 text-primary" />}
+                      <span>{item.label}</span>
+                    </span>
+                    {isSelected && <Check className="size-3.5 text-primary" />}
+                  </div>
+                  <p className="text-[11px] text-muted-foreground mt-0.5 leading-snug">
+                    {item.description}
+                  </p>
+                </div>
+              </button>
+            )
+          })}
+        </div>
+      </div>
+
+      <Separator />
+
+      {/* Typography: Font and Display Font Section */}
+      <div className="space-y-4">
+        <div>
+          <h4 className="text-xs font-semibold text-foreground flex items-center gap-1.5">
+            <Type className="size-3.5 text-primary" />
+            <span>Typography (Font & Display Font)</span>
+          </h4>
+          <p className="text-xs text-muted-foreground">
+            Customize the primary body font and display font for headings and titles.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-2xl">
+          {/* Base Font Dropdown */}
+          <div className="rounded-xl border border-border/80 bg-card p-4 space-y-3 shadow-xs">
+            <div className="flex items-center justify-between">
+              <div>
+                <span className="text-xs font-semibold block">Body & UI Font</span>
+                <span className="text-[11px] text-muted-foreground">
+                  Applied to paragraphs, data tables, and general UI.
+                </span>
+              </div>
+            </div>
+
+            <Select
+              value={font}
+              onValueChange={(val) => setFont(val as ThemeFont)}
+            >
+              <SelectTrigger className="w-full text-xs h-8">
+                <SelectValue placeholder="Select base font" />
+              </SelectTrigger>
+              <SelectContent>
+                {THEME_FONTS.map((f) => (
+                  <SelectItem key={f.value} value={f.value} className="text-xs">
+                    <span style={{ fontFamily: f.family }}>{f.label}</span>
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+
+            <div
+              className="p-3 rounded-lg bg-muted/50 border border-border/50 text-xs text-foreground leading-relaxed"
+              style={{
+                fontFamily:
+                  THEME_FONTS.find((f) => f.value === font)?.family ?? "inherit",
+              }}
+            >
+              The quick brown fox jumps over the lazy dog. 0123456789.
+            </div>
+          </div>
+
+          {/* Display Font Dropdown */}
+          <div className="rounded-xl border border-border/80 bg-card p-4 space-y-3 shadow-xs">
+            <div className="flex items-center justify-between">
+              <div>
+                <span className="text-xs font-semibold block">Display & Heading Font</span>
+                <span className="text-[11px] text-muted-foreground">
+                  Applied to page titles, headings, and hero text.
+                </span>
+              </div>
+            </div>
+
+            <Select
+              value={displayFont}
+              onValueChange={(val) => setDisplayFont(val as ThemeFont)}
+            >
+              <SelectTrigger className="w-full text-xs h-8">
+                <SelectValue placeholder="Select display font" />
+              </SelectTrigger>
+              <SelectContent>
+                {THEME_FONTS.map((f) => (
+                  <SelectItem key={f.value} value={f.value} className="text-xs">
+                    <span style={{ fontFamily: f.family }}>{f.label}</span>
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+
+            <div
+              className="p-3 rounded-lg bg-muted/50 border border-border/50 text-sm font-bold text-foreground leading-relaxed"
+              style={{
+                fontFamily:
+                  THEME_FONTS.find((f) => f.value === displayFont)?.family ??
+                  "inherit",
+              }}
+            >
+              Transform Your Vision Into Reality.
+            </div>
+          </div>
         </div>
       </div>
 

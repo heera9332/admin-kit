@@ -16,6 +16,17 @@ export type ThemeRadius = 0 | 0.3 | 0.5 | 0.75 | 1.0
 
 export type ThemeLayout = "fluid" | "boxed"
 
+export type SidebarVariant = "default" | "inset" | "floating"
+
+export type ThemeFont =
+  | "lexend"
+  | "inter"
+  | "geist"
+  | "plus-jakarta-sans"
+  | "manrope"
+  | "outfit"
+  | "dm-sans"
+
 export interface ThemeColorConfig {
   name: ThemeColor
   label: string
@@ -55,16 +66,35 @@ export interface ThemeLayoutConfig {
   description: string
 }
 
+export interface SidebarVariantConfig {
+  value: SidebarVariant
+  label: string
+  description: string
+}
+
+export interface ThemeFontConfig {
+  value: ThemeFont
+  label: string
+  family: string
+  description: string
+}
+
 export interface ThemeSettings {
   color: ThemeColor
   radius: ThemeRadius
   layout: ThemeLayout
+  sidebarVariant: SidebarVariant
+  font: ThemeFont
+  displayFont: ThemeFont
 }
 
 export const DEFAULT_THEME_SETTINGS: ThemeSettings = {
   color: "zinc",
   radius: 0.5,
   layout: "fluid",
+  sidebarVariant: "default",
+  font: "lexend",
+  displayFont: "lexend",
 }
 
 export const THEME_COLORS: ThemeColorConfig[] = [
@@ -403,15 +433,85 @@ export const THEME_LAYOUTS: ThemeLayoutConfig[] = [
   },
 ]
 
+export const SIDEBAR_VARIANTS: SidebarVariantConfig[] = [
+  {
+    value: "default",
+    label: "Default",
+    description: "Standard rail-aligned sidebar separated by a border divider.",
+  },
+  {
+    value: "inset",
+    label: "Inset",
+    description: "Framed within an inner canvas with rounded content padding.",
+  },
+  {
+    value: "floating",
+    label: "Floating",
+    description: "Elevated floating navigation bar with border and shadow.",
+  },
+]
+
+export const THEME_FONTS: ThemeFontConfig[] = [
+  {
+    value: "lexend",
+    label: "Lexend",
+    family: "var(--font-lexend), sans-serif",
+    description: "Clean, modern geometric sans engineered for reading proficiency.",
+  },
+  {
+    value: "inter",
+    label: "Inter",
+    family: "var(--font-inter), sans-serif",
+    description: "Carefully crafted for computer screens, clean and neutral.",
+  },
+  {
+    value: "geist",
+    label: "Geist",
+    family: "var(--font-geist), sans-serif",
+    description: "Modern typeface designed for speed, clarity, and precision.",
+  },
+  {
+    value: "plus-jakarta-sans",
+    label: "Plus Jakarta Sans",
+    family: "var(--font-plus-jakarta), sans-serif",
+    description: "Contemporary sans-serif with a geometric, high-tech touch.",
+  },
+  {
+    value: "manrope",
+    label: "Manrope",
+    family: "var(--font-manrope), sans-serif",
+    description: "Open-source modern font crossover of semi-geometric style.",
+  },
+  {
+    value: "outfit",
+    label: "Outfit",
+    family: "var(--font-outfit), sans-serif",
+    description: "Friendly, modern geometric design inspired by brand typography.",
+  },
+  {
+    value: "dm-sans",
+    label: "DM Sans",
+    family: "var(--font-dm-sans), sans-serif",
+    description: "Low-contrast geometric sans-serif suited for crisp interfaces.",
+  },
+]
+
 export function getThemeColorConfig(name: ThemeColor): ThemeColorConfig {
   return THEME_COLORS.find((t) => t.name === name) ?? THEME_COLORS[0]
 }
 
-export function generateThemeCss(color: ThemeColor, radius: ThemeRadius): string {
+export function generateThemeCss(
+  color: ThemeColor,
+  radius: ThemeRadius,
+  font: ThemeFont = "lexend",
+  displayFont: ThemeFont = "lexend"
+): string {
   const cfg = getThemeColorConfig(color)
 
   return `@layer base {
   :root {
+    --font-sans: var(--font-${font}), sans-serif;
+    --font-heading: var(--font-${displayFont}), sans-serif;
     --primary: ${cfg.cssVars.light.primary};
     --primary-foreground: ${cfg.cssVars.light.primaryForeground};
     --ring: ${cfg.cssVars.light.ring};

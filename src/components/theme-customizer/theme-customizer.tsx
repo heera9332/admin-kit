@@ -12,15 +12,22 @@ import {
   Maximize2,
   Minimize2,
   ExternalLink,
+  PanelLeft,
+  LayoutTemplate,
+  SquareDashedBottomCode,
 } from "lucide-react"
 import { useThemeSettings } from "@/context/theme-settings-provider"
 import {
   THEME_COLORS,
   THEME_RADII,
   THEME_LAYOUTS,
+  SIDEBAR_VARIANTS,
+  THEME_FONTS,
   type ThemeColor,
   type ThemeRadius,
   type ThemeLayout,
+  type SidebarVariant,
+  type ThemeFont,
 } from "@/config/themes"
 import { Button } from "@/components/ui/button"
 import {
@@ -31,6 +38,13 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 import { Separator } from "@/components/ui/separator"
 import { CopyCodeDialog } from "@/features/settings/components/copy-code-dialog"
 import { cn } from "@/lib/utils"
@@ -50,6 +64,12 @@ export function ThemeCustomizer({ className }: ThemeCustomizerProps) {
     setRadius,
     layout,
     setLayout,
+    sidebarVariant,
+    setSidebarVariant,
+    font,
+    setFont,
+    displayFont,
+    setDisplayFont,
     resetThemeSettings,
     isMounted,
   } = useThemeSettings()
@@ -67,6 +87,13 @@ export function ThemeCustomizer({ className }: ThemeCustomizerProps) {
     )
   }
 
+  const currentColorConfig =
+    THEME_COLORS.find((c) => c.name === themeColor) ?? THEME_COLORS[0]
+  const currentActiveHex =
+    theme === "dark"
+      ? currentColorConfig.activeColor.dark
+      : currentColorConfig.activeColor.light
+
   return (
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger
@@ -83,7 +110,7 @@ export function ThemeCustomizer({ className }: ThemeCustomizerProps) {
       </SheetTrigger>
       <SheetContent
         side="right"
-        className="w-full sm:max-w-sm flex flex-col p-6 overflow-y-auto"
+        className="w-full sm:max-w-md flex flex-col p-6 overflow-y-auto"
       >
         <SheetHeader className="p-0 text-left border-b pb-4">
           <div className="flex items-center justify-between pr-6">
@@ -98,7 +125,12 @@ export function ThemeCustomizer({ className }: ThemeCustomizerProps) {
               >
                 <RotateCcw className="size-3.5 text-muted-foreground" />
               </Button>
-              <CopyCodeDialog color={themeColor} radius={radius} />
+              <CopyCodeDialog
+                color={themeColor}
+                radius={radius}
+                font={font}
+                displayFont={displayFont}
+              />
             </div>
           </div>
           <SheetDescription className="text-xs text-muted-foreground mt-1">
@@ -106,7 +138,7 @@ export function ThemeCustomizer({ className }: ThemeCustomizerProps) {
           </SheetDescription>
         </SheetHeader>
 
-        <div className="flex flex-col gap-6 py-5 flex-1">
+        <div className="flex flex-col gap-5 py-5 flex-1">
           {/* Mode */}
           <div className="space-y-2.5">
             <span className="text-xs font-semibold text-foreground">Theme Mode</span>
@@ -143,18 +175,50 @@ export function ThemeCustomizer({ className }: ThemeCustomizerProps) {
 
           <Separator />
 
-          {/* Color Palette */}
+          {/* Color Palette with Dropdown */}
           <div className="space-y-2.5">
             <div className="flex items-center justify-between">
               <span className="text-xs font-semibold text-foreground">Color Palette</span>
-              <span className="text-[11px] font-medium text-primary capitalize">
-                {themeColor}
-              </span>
+              <Select
+                value={themeColor}
+                onValueChange={(val) => setThemeColor(val as ThemeColor)}
+              >
+                <SelectTrigger className="w-32 h-7 text-xs">
+                  <div className="flex items-center gap-1.5">
+                    <span
+                      className="size-2.5 rounded-full shrink-0"
+                      style={{ backgroundColor: currentActiveHex }}
+                    />
+                    <SelectValue placeholder="Color" />
+                  </div>
+                </SelectTrigger>
+                <SelectContent>
+                  {THEME_COLORS.map((c) => {
+                    const hex =
+                      theme === "dark"
+                        ? c.activeColor.dark
+                        : c.activeColor.light
+                    return (
+                      <SelectItem key={c.name} value={c.name} className="text-xs">
+                        <div className="flex items-center gap-1.5">
+                          <span
+                            className="size-2.5 rounded-full shrink-0"
+                            style={{ backgroundColor: hex }}
+                          />
+                          <span>{c.label}</span>
+                        </div>
+                      </SelectItem>
+                    )
+                  })}
+                </SelectContent>
+              </Select>
             </div>
+
             <div className="grid grid-cols-3 gap-2">
               {THEME_COLORS.map((c) => {
                 const isSelected = themeColor === c.name
-                const activeHex = theme === "dark" ? c.activeColor.dark : c.activeColor.light
+                const activeHex =
+                  theme === "dark" ? c.activeColor.dark : c.activeColor.light
 
                 return (
                   <button
@@ -178,6 +242,87 @@ export function ThemeCustomizer({ className }: ThemeCustomizerProps) {
                   </button>
                 )
               })}
+            </div>
+          </div>
+
+          <Separator />
+
+          {/* Sidebar Variant (inset, floating, default) */}
+          <div className="space-y-2.5">
+            <span className="text-xs font-semibold text-foreground">Sidebar Variant</span>
+            <div className="grid grid-cols-3 gap-2">
+              {SIDEBAR_VARIANTS.map((item) => {
+                const isSelected = sidebarVariant === item.value
+
+                return (
+                  <button
+                    key={item.value}
+                    type="button"
+                    onClick={() => setSidebarVariant(item.value as SidebarVariant)}
+                    className={cn(
+                      "flex flex-col items-center justify-center gap-1 py-2 px-1 rounded-lg border text-xs font-medium transition-all cursor-pointer text-center",
+                      isSelected
+                        ? "border-primary bg-primary/5 text-foreground font-semibold ring-1 ring-primary/20"
+                        : "border-border/80 bg-card text-muted-foreground hover:border-primary/40 hover:text-foreground"
+                    )}
+                  >
+                    {item.value === "default" && <PanelLeft className="size-3.5 text-primary" />}
+                    {item.value === "inset" && <LayoutTemplate className="size-3.5 text-primary" />}
+                    {item.value === "floating" && <SquareDashedBottomCode className="size-3.5 text-primary" />}
+                    <span className="text-[11px]">{item.label}</span>
+                  </button>
+                )
+              })}
+            </div>
+          </div>
+
+          <Separator />
+
+          {/* Typography: Font and Display Font */}
+          <div className="space-y-3">
+            <span className="text-xs font-semibold text-foreground">Typography</span>
+            <div className="grid grid-cols-2 gap-2.5">
+              <div className="space-y-1">
+                <span className="text-[11px] text-muted-foreground font-medium">
+                  Body Font
+                </span>
+                <Select
+                  value={font}
+                  onValueChange={(val) => setFont(val as ThemeFont)}
+                >
+                  <SelectTrigger className="w-full text-xs h-8">
+                    <SelectValue placeholder="Base Font" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {THEME_FONTS.map((f) => (
+                      <SelectItem key={f.value} value={f.value} className="text-xs">
+                        <span style={{ fontFamily: f.family }}>{f.label}</span>
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div className="space-y-1">
+                <span className="text-[11px] text-muted-foreground font-medium">
+                  Display Font
+                </span>
+                <Select
+                  value={displayFont}
+                  onValueChange={(val) => setDisplayFont(val as ThemeFont)}
+                >
+                  <SelectTrigger className="w-full text-xs h-8">
+                    <SelectValue placeholder="Display Font" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {THEME_FONTS.map((f) => (
+                      <SelectItem key={f.value} value={f.value} className="text-xs">
+                        <span style={{ fontFamily: f.family }}>{f.label}</span>
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
             </div>
           </div>
 
