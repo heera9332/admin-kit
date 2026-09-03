@@ -1,7 +1,6 @@
 "use client"
 
 import * as React from "react"
-
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -25,7 +24,7 @@ export function TeamSwitcher({
 }: {
   teams: {
     name: string
-    logo: React.ReactNode
+    logo: React.ComponentType<{ className?: string }> | React.ReactNode
     plan: string
   }[]
 }) {
@@ -34,6 +33,15 @@ export function TeamSwitcher({
   if (!activeTeam) {
     return null
   }
+
+  const renderLogo = (logo: React.ComponentType<{ className?: string }> | React.ReactNode) => {
+    if (React.isValidElement(logo)) {
+      return logo
+    }
+    const LogoComp = logo as React.ComponentType<{ className?: string }>
+    return <LogoComp className="size-4" />
+  }
+
   return (
     <SidebarMenu>
       <SidebarMenuItem>
@@ -47,13 +55,13 @@ export function TeamSwitcher({
             }
           >
             <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
-              {activeTeam.logo}
+              {renderLogo(activeTeam.logo)}
             </div>
             <div className="grid flex-1 text-left text-sm leading-tight">
               <span className="truncate font-medium">{activeTeam.name}</span>
-              <span className="truncate text-xs">{activeTeam.plan}</span>
+              <span className="truncate text-xs text-muted-foreground">{activeTeam.plan}</span>
             </div>
-            <ChevronsUpDownIcon className="ml-auto" />
+            <ChevronsUpDownIcon className="ml-auto size-4" />
           </DropdownMenuTrigger>
           <DropdownMenuContent
             className="w-fit"
@@ -72,9 +80,9 @@ export function TeamSwitcher({
                   className="gap-2 p-2"
                 >
                   <div className="flex size-6 items-center justify-center rounded-md border">
-                    {team.logo}
+                    {renderLogo(team.logo)}
                   </div>
-                  {team.name}
+                  <span>{team.name}</span>
                   <DropdownMenuShortcut>⌘{index + 1}</DropdownMenuShortcut>
                 </DropdownMenuItem>
               ))}
