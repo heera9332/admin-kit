@@ -1,7 +1,15 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
-};
+  async redirects() {
+    return [
+      {
+        source: "/dashboard/settings/theme",
+        destination: "/dashboard/settings/appearance",
+        permanent: true,
+      },
+    ]
+  },
+}
 
 export default nextConfig;

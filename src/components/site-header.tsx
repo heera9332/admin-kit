@@ -6,6 +6,7 @@ import { TopNav } from "@/components/layout/top-nav"
 import { SearchButton } from "@/components/layout/search-button"
 import { ProfileDropdown } from "@/components/layout/profile-dropdown"
 import { ThemeToggle } from "@/components/theme-toggle"
+import { ThemeCustomizer } from "@/components/theme-customizer"
 
 export function SiteHeader() {
   return (
@@ -21,6 +22,7 @@ export function SiteHeader() {
 
       <div className="flex items-center gap-2">
         <SearchButton />
+        <ThemeCustomizer />
         <ThemeToggle />
         <ProfileDropdown />
       </div>

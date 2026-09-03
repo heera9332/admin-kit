@@ -7,6 +7,7 @@ import { siteConfig } from "@/config/site"
 import { marketingNav } from "@/config/navigation"
 import { Button, buttonVariants } from "@/components/ui/button"
 import { ThemeToggle } from "@/components/theme-toggle"
+import { ThemeCustomizer } from "@/components/theme-customizer"
 import { GithubIcon } from "@/components/icons"
 import {
   Sheet,
@@ -53,6 +54,7 @@ export function Navbar() {
 
         {/* Right CTA Actions (Desktop) */}
         <div className="hidden md:flex items-center gap-2">
+          <ThemeCustomizer />
           <ThemeToggle />
 
           <a
@@ -76,6 +78,7 @@ export function Navbar() {
 
         {/* Mobile Navigation */}
         <div className="flex items-center gap-2 md:hidden">
+          <ThemeCustomizer />
           <ThemeToggle />
 
           <Sheet open={isOpen} onOpenChange={setIsOpen}>
