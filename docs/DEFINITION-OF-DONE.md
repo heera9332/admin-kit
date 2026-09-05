@@ -3,6 +3,7 @@
 A feature is done when:
 
 ## Functionality
+
 - [ ] User flow works
 - [ ] Validation works
 - [ ] Error handling works
@@ -10,6 +11,7 @@ A feature is done when:
 - [ ] Empty state works
 
 ## Architecture
+
 - [ ] Correct feature directory
 - [ ] No duplicated reusable components
 - [ ] Page remains thin
@@ -17,6 +19,7 @@ A feature is done when:
 - [ ] Configuration is not hardcoded
 
 ## UI
+
 - [ ] Matches design system
 - [ ] Responsive
 - [ ] Dark mode works
@@ -24,6 +27,7 @@ A feature is done when:
 - [ ] Keyboard navigation works
 
 ## Code Quality
+
 - [ ] TypeScript passes
 - [ ] ESLint passes
 - [ ] Tests pass
@@ -31,5 +35,6 @@ A feature is done when:
 - [ ] No unrelated refactors
 
 ## Documentation
+
 - [ ] Public reusable APIs documented when needed
 - [ ] Architecture docs updated when behavior changes

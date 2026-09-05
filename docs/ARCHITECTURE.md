@@ -46,21 +46,27 @@ tests/
 ## Responsibility Boundaries
 
 ### `app/`
+
 Routing, layouts, route-level loading/error boundaries, metadata, and thin composition.
 
 ### `components/`
+
 Reusable presentation and UI infrastructure.
 
 ### `features/`
+
 Business-domain functionality. Each feature can contain components, schemas, actions, types, and services specific to that domain.
 
 ### `config/`
+
 Navigation, branding, dashboard configuration, and other customization points.
 
 ### `lib/`
+
 Cross-feature infrastructure and utilities.
 
 ### `types/`
+
 Shared domain-independent types.
 
 ## Data Flow
@@ -98,6 +104,7 @@ Start with demo/mock implementations where appropriate and make API/database imp
 Default to Server Components.
 
 Use Client Components for:
+
 - Local interactive state
 - Browser APIs
 - Event handlers

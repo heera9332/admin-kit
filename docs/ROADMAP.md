@@ -1,6 +1,7 @@
 # Roadmap
 
 ## Phase 1 — Foundation
+
 - Initialize Next.js
 - TypeScript strict mode
 - Tailwind
@@ -12,6 +13,7 @@
 - Theme system
 
 ## Phase 2 — Design System
+
 - UI primitives
 - Admin shell
 - Sidebar
@@ -24,6 +26,7 @@
 - Feedback
 
 ## Phase 3 — Dashboard Engine
+
 - Stat cards
 - Charts
 - Activity
@@ -33,6 +36,7 @@
 - Responsive layouts
 
 ## Phase 4 — Business Modules
+
 - Users
 - Products
 - Orders
@@ -43,6 +47,7 @@
 - Settings
 
 ## Phase 5 — Reference Dashboards
+
 - SaaS
 - E-commerce
 - Analytics
@@ -51,6 +56,7 @@
 - Finance
 
 ## Phase 6 — Auth + RBAC
+
 - Login
 - Register
 - Password reset
@@ -60,6 +66,7 @@
 - Permissions
 
 ## Phase 7 — Quality
+
 - Unit tests
 - Component tests
 - E2E tests
@@ -68,6 +75,7 @@
 - Responsive checks
 
 ## Phase 8 — Documentation
+
 - Getting Started
 - Architecture
 - Theming
@@ -82,4 +90,5 @@
 - Customization
 
 ## Release Strategy
+
 Build MVP first. Do not implement every module before validating the core shell and component system.

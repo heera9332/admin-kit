@@ -3,6 +3,7 @@
 Use this as the execution order for AI coding agents.
 
 ## P0 — Foundation
+
 - [ ] Initialize Next.js application
 - [ ] Configure TypeScript strict mode
 - [ ] Configure Tailwind
@@ -12,6 +13,7 @@ Use this as the execution order for AI coding agents.
 - [ ] Configure pnpm scripts
 
 ## P0 — Shell
+
 - [ ] Build root layout
 - [ ] Build dashboard layout
 - [ ] Build sidebar
@@ -23,6 +25,7 @@ Use this as the execution order for AI coding agents.
 - [ ] Create navigation config
 
 ## P0 — Core UI
+
 - [ ] Audit shadcn components
 - [ ] Build page header
 - [ ] Build stat card
@@ -33,6 +36,7 @@ Use this as the execution order for AI coding agents.
 - [ ] Build command palette
 
 ## P0 — Data Table
+
 - [ ] TanStack Table integration
 - [ ] Sorting
 - [ ] Filtering
@@ -43,6 +47,7 @@ Use this as the execution order for AI coding agents.
 - [ ] URL state
 
 ## P1 — Forms
+
 - [ ] React Hook Form integration
 - [ ] Zod validation
 - [ ] Form field abstraction
@@ -52,6 +57,7 @@ Use this as the execution order for AI coding agents.
 - [ ] File upload
 
 ## P1 — Dashboard
+
 - [ ] SaaS dashboard
 - [ ] Analytics dashboard
 - [ ] E-commerce dashboard
@@ -60,6 +66,7 @@ Use this as the execution order for AI coding agents.
 - [ ] Finance dashboard
 
 ## P1 — Modules
+
 - [ ] Users
 - [ ] Products
 - [ ] Orders
@@ -70,6 +77,7 @@ Use this as the execution order for AI coding agents.
 - [ ] Settings
 
 ## P2 — Platform
+
 - [ ] Auth.js integration
 - [ ] Protected routes
 - [ ] RBAC
@@ -78,6 +86,7 @@ Use this as the execution order for AI coding agents.
 - [ ] API examples
 
 ## P2 — Quality
+
 - [ ] Unit tests
 - [ ] Component tests
 - [ ] E2E tests
@@ -86,6 +95,7 @@ Use this as the execution order for AI coding agents.
 - [ ] Responsive review
 
 ## P2 — Release
+
 - [ ] Documentation
 - [ ] Demo
 - [ ] README
