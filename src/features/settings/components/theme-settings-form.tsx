@@ -99,10 +99,10 @@ export function ThemeSettingsForm() {
         </div>
 
         <div className="flex items-center gap-2">
-          <span className="inline-flex items-center gap-1.5 text-[11px] text-muted-foreground bg-muted/60 border border-border/80 px-2.5 py-1 rounded-md">
+          <Button>
             <span className="size-1.5 rounded-full bg-emerald-500 animate-pulse" />
-            <span>Auto-saved</span>
-          </span>
+            Auto-saved
+          </Button>
           <CopyCodeDialog
             color={themeColor}
             radius={radius}
