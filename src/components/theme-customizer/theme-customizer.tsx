@@ -15,7 +15,6 @@ import {
   PanelLeft,
   LayoutTemplate,
   SquareDashedBottomCode,
-  Code2,
 } from "lucide-react"
 import { useThemeSettings } from "@/context/theme-settings-provider"
 import {
@@ -47,7 +46,6 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { Separator } from "@/components/ui/separator"
-import { CopyCodeDialog } from "@/features/settings/components/copy-code-dialog"
 import { cn } from "@/lib/utils"
 
 interface ThemeCustomizerProps {
@@ -126,22 +124,6 @@ export function ThemeCustomizer({ className }: ThemeCustomizerProps) {
               >
                 <RotateCcw className="size-3.5 text-muted-foreground" />
               </Button>
-              <CopyCodeDialog
-                color={themeColor}
-                radius={radius}
-                font={font}
-                displayFont={displayFont}
-                trigger={
-                  <Button
-                    variant="ghost"
-                    size="icon-xs"
-                    title="Export Theme CSS"
-                    aria-label="Export theme CSS"
-                  >
-                    <Code2 className="size-3.5 text-muted-foreground" />
-                  </Button>
-                }
-              />
             </div>
           </div>
           <SheetDescription className="text-xs text-muted-foreground mt-1">

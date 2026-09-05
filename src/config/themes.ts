@@ -499,35 +499,3 @@ export const THEME_FONTS: ThemeFontConfig[] = [
 export function getThemeColorConfig(name: ThemeColor): ThemeColorConfig {
   return THEME_COLORS.find((t) => t.name === name) ?? THEME_COLORS[0]
 }
-
-export function generateThemeCss(
-  color: ThemeColor,
-  radius: ThemeRadius,
-  font: ThemeFont = "lexend",
-  displayFont: ThemeFont = "lexend"
-): string {
-  const cfg = getThemeColorConfig(color)
-
-  return `@layer base {
-  :root {
-    --font-sans: var(--font-${font}), sans-serif;
-    --font-heading: var(--font-${displayFont}), sans-serif;
-    --primary: ${cfg.cssVars.light.primary};
-    --primary-foreground: ${cfg.cssVars.light.primaryForeground};
-    --ring: ${cfg.cssVars.light.ring};
-    --radius: ${radius}rem;
-    --sidebar-primary: ${cfg.cssVars.light.sidebarPrimary};
-    --sidebar-primary-foreground: ${cfg.cssVars.light.sidebarPrimaryForeground};
-    --chart-1: ${cfg.cssVars.light.chart1};
-  }
-
-  .dark {
-    --primary: ${cfg.cssVars.dark.primary};
-    --primary-foreground: ${cfg.cssVars.dark.primaryForeground};
-    --ring: ${cfg.cssVars.dark.ring};
-    --sidebar-primary: ${cfg.cssVars.dark.sidebarPrimary};
-    --sidebar-primary-foreground: ${cfg.cssVars.dark.sidebarPrimaryForeground};
-    --chart-1: ${cfg.cssVars.dark.chart1};
-  }
-}`
-}

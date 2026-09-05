@@ -37,7 +37,6 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { cn } from "@/lib/utils"
-import { CopyCodeDialog } from "./copy-code-dialog"
 import { ThemePreviewCard } from "./theme-preview-card"
 
 export function ThemeSettingsForm() {
@@ -99,16 +98,10 @@ export function ThemeSettingsForm() {
         </div>
 
         <div className="flex items-center gap-2">
-          <Button>
+          <span className="inline-flex items-center gap-1.5 text-[11px] font-medium text-muted-foreground bg-muted/60 border border-border/80 px-2.5 py-1.5 rounded-md">
             <span className="size-1.5 rounded-full bg-emerald-500 animate-pulse" />
-            Auto-saved
-          </Button>
-          <CopyCodeDialog
-            color={themeColor}
-            radius={radius}
-            font={font}
-            displayFont={displayFont}
-          />
+            <span>Auto-saved</span>
+          </span>
           <Button
             variant="outline"
             size="sm"
