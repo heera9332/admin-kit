@@ -45,10 +45,17 @@ export const LOCALES_CONFIG: Record<string, LocaleInfo> = {
     flag: "🇸🇦",
     dir: "rtl",
   },
+  hi: {
+    code: "hi",
+    name: "Hindi",
+    nativeName: "हिन्दी",
+    flag: "🇮🇳",
+    dir: "ltr",
+  },
 };
 
 export const routing = defineRouting({
-  locales: ["en", "es", "fr", "de", "ar"] as const,
+  locales: ["en", "es", "fr", "de", "ar", "hi"] as const,
   defaultLocale: "en",
 });
 

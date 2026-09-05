@@ -44,7 +44,7 @@ export const footerNav: NavSection[] = [
     title: "Resources",
     items: [
       { title: "Documentation", href: "#documentation" },
-      { title: "GitHub", href: "https://github.com/example/adminkit", external: true },
+      { title: "GitHub", href: "https://github.com/heera9332/admin-kit", external: true },
     ],
   },
   {

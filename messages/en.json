@@ -65,7 +65,8 @@
     "es": "Spanish",
     "fr": "French",
     "de": "German",
-    "ar": "Arabic"
+    "ar": "Arabic",
+    "hi": "Hindi"
   },
   "dashboard": {
     "title": "Dashboard",

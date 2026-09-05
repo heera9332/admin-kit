@@ -65,9 +65,6 @@ export function LocaleSwitcher({
           <Loader2 className="size-4 animate-spin text-muted-foreground" />
         ) : (
           <>
-            <span className="text-sm leading-none" role="img" aria-hidden="true">
-              {currentConfig.flag}
-            </span>
             <Languages className={cn("size-3.5 text-muted-foreground", showLabel && "hidden")} />
             {showLabel && (
               <span className="text-xs uppercase font-semibold text-foreground">

@@ -65,7 +65,8 @@
     "es": "Espagnol",
     "fr": "Français",
     "de": "Allemand",
-    "ar": "Arabe"
+    "ar": "Arabe",
+    "hi": "Hindi"
   },
   "dashboard": {
     "title": "Tableau de Bord",

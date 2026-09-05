@@ -15,7 +15,7 @@ import { ThemeProvider } from "@/providers/theme-provider"
 import { siteConfig } from "@/config/site"
 import { NextIntlClientProvider } from "next-intl"
 import { getMessages, setRequestLocale } from "next-intl/server"
-import { routing, type Locale } from "@/i18n/routing"
+import { routing, LOCALES_CONFIG, type Locale } from "@/i18n/routing"
 
 const lexend = Lexend({
   variable: "--font-lexend",
@@ -101,7 +101,7 @@ export default async function RootLayout({
   setRequestLocale(locale)
 
   const messages = await getMessages()
-  const isRtl = locale === "ar"
+  const isRtl = LOCALES_CONFIG[locale]?.dir === "rtl"
 
   return (
     <html
@@ -110,28 +110,6 @@ export default async function RootLayout({
       className={`${lexend.variable} ${inter.variable} ${geist.variable} ${plusJakartaSans.variable} ${manrope.variable} ${outfit.variable} ${dmSans.variable} font-sans h-full antialiased`}
       suppressHydrationWarning
     >
-      <head>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              try {
-                var color = localStorage.getItem('theme-color') || 'zinc';
-                var radius = localStorage.getItem('theme-radius') || '0.5';
-                var layout = localStorage.getItem('theme-layout') || 'fluid';
-                var sidebarVariant = localStorage.getItem('theme-sidebar-variant') || 'default';
-                var font = localStorage.getItem('theme-font') || 'lexend';
-                var displayFont = localStorage.getItem('theme-display-font') || 'lexend';
-                document.documentElement.setAttribute('data-theme', color);
-                document.documentElement.setAttribute('data-layout', layout);
-                document.documentElement.setAttribute('data-sidebar-variant', sidebarVariant);
-                document.documentElement.setAttribute('data-font', font);
-                document.documentElement.setAttribute('data-display-font', displayFont);
-                document.documentElement.style.setProperty('--radius', radius + 'rem');
-              } catch (e) {}
-            `,
-          }}
-        />
-      </head>
       <body className="min-h-full flex flex-col bg-background text-foreground antialiased selection:bg-primary/10 selection:text-primary">
         <ThemeProvider
           attribute="class"
