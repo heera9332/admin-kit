@@ -1,4 +1,4 @@
-import Link from "next/link"
+import { Link } from "@/i18n/routing"
 import { LayoutDashboard } from "lucide-react"
 import { siteConfig } from "@/config/site"
 import { footerNav } from "@/config/navigation"

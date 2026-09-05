@@ -1,13 +1,14 @@
 "use client"
 
 import * as React from "react"
-import Link from "next/link"
+import { Link } from "@/i18n/routing"
 import { Menu, ArrowRight, LayoutDashboard } from "lucide-react"
 import { siteConfig } from "@/config/site"
 import { marketingNav } from "@/config/navigation"
 import { Button, buttonVariants } from "@/components/ui/button"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { ThemeCustomizer } from "@/components/theme-customizer"
+import { LocaleSwitcher } from "@/components/locale-switcher"
 import { GithubIcon } from "@/components/icons"
 import {
   Sheet,
@@ -54,6 +55,7 @@ export function Navbar() {
 
         {/* Right CTA Actions (Desktop) */}
         <div className="hidden md:flex items-center gap-2">
+          <LocaleSwitcher />
           <ThemeCustomizer />
           <ThemeToggle />
 
@@ -78,6 +80,7 @@ export function Navbar() {
 
         {/* Mobile Navigation */}
         <div className="flex items-center gap-2 md:hidden">
+          <LocaleSwitcher />
           <ThemeCustomizer />
           <ThemeToggle />
 

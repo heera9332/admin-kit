@@ -1,4 +1,4 @@
-import Link from "next/link"
+import { Link } from "@/i18n/routing"
 import { ArrowRight, BookOpen, Sparkles } from "lucide-react"
 import { buttonVariants } from "@/components/ui/button"
 

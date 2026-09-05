@@ -1,24 +1,23 @@
 "use client"
 
-import Link from "next/link"
-import { useRouter } from "next/navigation"
+import { Link, useRouter } from "@/i18n/routing"
 import { Button } from "@/components/ui/button"
 
-export default function ForbiddenPage() {
+export default function MaintenanceErrorPage() {
   const router = useRouter()
 
   return (
     <div className="flex flex-col items-center justify-center text-center gap-2">
-      <span className="text-7xl sm:text-8xl font-black tracking-tighter text-amber-500/80 font-mono">
-        403
+      <span className="text-7xl sm:text-8xl font-black tracking-tighter text-purple-500/80 font-mono">
+        503
       </span>
-      <h1 className="text-xl font-bold tracking-tight">Access Forbidden</h1>
+      <h1 className="text-xl font-bold tracking-tight">System Under Maintenance</h1>
       <p className="text-xs sm:text-sm text-muted-foreground max-w-xs leading-relaxed">
-        You do not have sufficient permissions to view this protected view. Contact your team admin.
+        We are performing scheduled maintenance upgrades. Services will be restored shortly.
       </p>
       <div className="mt-6 flex items-center gap-3">
-        <Button variant="outline" size="sm" onClick={() => router.back()} className="text-xs">
-          Go Back
+        <Button variant="outline" size="sm" onClick={() => router.refresh()} className="text-xs">
+          Refresh
         </Button>
         <Button size="sm" render={<Link href="/dashboard" />} className="text-xs">
           <span>Back to Dashboard</span>

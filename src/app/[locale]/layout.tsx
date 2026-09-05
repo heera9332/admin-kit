@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next"
+import { notFound } from "next/navigation"
 import {
   Lexend,
   Inter,
@@ -8,10 +9,13 @@ import {
   Outfit,
   DM_Sans,
 } from "next/font/google"
-import "./globals.css"
+import "@/app/globals.css"
 import { TooltipProvider } from "@/components/ui/tooltip"
 import { ThemeProvider } from "@/providers/theme-provider"
 import { siteConfig } from "@/config/site"
+import { NextIntlClientProvider } from "next-intl"
+import { getMessages, setRequestLocale } from "next-intl/server"
+import { routing, type Locale } from "@/i18n/routing"
 
 const lexend = Lexend({
   variable: "--font-lexend",
@@ -76,14 +80,33 @@ export const viewport: Viewport = {
   initialScale: 1,
 }
 
-export default function RootLayout({
+export function generateStaticParams() {
+  return routing.locales.map((locale) => ({ locale }))
+}
+
+export default async function RootLayout({
   children,
+  params,
 }: Readonly<{
   children: React.ReactNode
+  params: Promise<{ locale: string }>
 }>) {
+  const { locale } = await params
+
+  if (!routing.locales.includes(locale as Locale)) {
+    notFound()
+  }
+
+  // Enable static rendering
+  setRequestLocale(locale)
+
+  const messages = await getMessages()
+  const isRtl = locale === "ar"
+
   return (
     <html
-      lang="en"
+      lang={locale}
+      dir={isRtl ? "rtl" : "ltr"}
       className={`${lexend.variable} ${inter.variable} ${geist.variable} ${plusJakartaSans.variable} ${manrope.variable} ${outfit.variable} ${dmSans.variable} font-sans h-full antialiased`}
       suppressHydrationWarning
     >
@@ -116,7 +139,9 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <TooltipProvider>{children}</TooltipProvider>
+          <NextIntlClientProvider messages={messages} locale={locale}>
+            <TooltipProvider>{children}</TooltipProvider>
+          </NextIntlClientProvider>
         </ThemeProvider>
       </body>
     </html>

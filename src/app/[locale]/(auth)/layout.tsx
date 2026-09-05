@@ -1,7 +1,8 @@
-import Link from "next/link"
+import { Link } from "@/i18n/routing"
 import { Command } from "lucide-react"
 import { siteConfig } from "@/config/site"
 import { ThemeToggle } from "@/components/theme-toggle"
+import { LocaleSwitcher } from "@/components/locale-switcher"
 
 export default function AuthLayout({
   children,
@@ -10,7 +11,8 @@ export default function AuthLayout({
 }) {
   return (
     <div className="relative min-h-screen flex flex-col items-center justify-center p-4 sm:p-6 bg-background">
-      <div className="absolute top-4 right-4 sm:top-6 sm:right-6">
+      <div className="absolute top-4 right-4 sm:top-6 sm:right-6 flex items-center gap-2">
+        <LocaleSwitcher />
         <ThemeToggle />
       </div>
 

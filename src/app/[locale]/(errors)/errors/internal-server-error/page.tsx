@@ -1,20 +1,19 @@
 "use client"
 
-import Link from "next/link"
-import { useRouter } from "next/navigation"
+import { Link, useRouter } from "@/i18n/routing"
 import { Button } from "@/components/ui/button"
 
-export default function UnauthorizedPage() {
+export default function InternalServerErrorPage() {
   const router = useRouter()
 
   return (
     <div className="flex flex-col items-center justify-center text-center gap-2">
-      <span className="text-7xl sm:text-8xl font-black tracking-tighter text-primary/80 font-mono">
-        401
+      <span className="text-7xl sm:text-8xl font-black tracking-tighter text-red-500/80 font-mono">
+        500
       </span>
-      <h1 className="text-xl font-bold tracking-tight">Unauthorized Access</h1>
+      <h1 className="text-xl font-bold tracking-tight">Internal Server Error</h1>
       <p className="text-xs sm:text-sm text-muted-foreground max-w-xs leading-relaxed">
-        Please log in with the appropriate administrative credentials to access this resource.
+        Something went wrong on our servers. Our telemetry engineers have been notified.
       </p>
       <div className="mt-6 flex items-center gap-3">
         <Button variant="outline" size="sm" onClick={() => router.back()} className="text-xs">
