@@ -100,7 +100,7 @@ export function LocaleSwitcher({
                 <span className="text-foreground">{cfg.nativeName}</span>
                 <span className="text-[11px] text-muted-foreground">({cfg.name})</span>
               </div>
-              {isSelected && <Check className="size-3.5 text-primary stroke-[3]" />}
+              {isSelected && <Check className="size-3.5 text-primary stroke-3" />}
             </DropdownMenuItem>
           )
         })}

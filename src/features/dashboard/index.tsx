@@ -109,7 +109,7 @@ export function DashboardFeature() {
             <Card className="lg:col-span-4">
               <CardHeader>
                 <CardTitle>Overview</CardTitle>
-                <CardDescription>Monthly revenue trends for current fiscal year</CardDescription>
+                <CardDescription>Monthly revenue trends for current final year</CardDescription>
               </CardHeader>
               <CardContent className="pl-2">
                 <Overview />

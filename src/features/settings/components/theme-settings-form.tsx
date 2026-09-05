@@ -209,7 +209,7 @@ export function ThemeSettingsForm() {
                 : "border-border/80 bg-card hover:border-primary/40"
             )}
           >
-            <div className="w-full aspect-16/10 rounded-lg border border-zinc-300 dark:border-zinc-700 bg-gradient-to-r from-white via-zinc-200 to-zinc-950 p-2 flex flex-col justify-between shadow-xs overflow-hidden">
+            <div className="w-full aspect-16/10 rounded-lg border border-zinc-300 dark:border-zinc-700 bg-linear-to-r from-white via-zinc-200 to-zinc-950 p-2 flex flex-col justify-between shadow-xs overflow-hidden">
               <div className="flex items-center gap-1">
                 <div className="h-2 w-2 rounded-full bg-zinc-400" />
                 <div className="h-1.5 w-8 rounded-sm bg-zinc-400" />
@@ -310,7 +310,7 @@ export function ThemeSettingsForm() {
                   className="flex size-4.5 shrink-0 items-center justify-center rounded-full shadow-2xs"
                   style={{ backgroundColor: activeHex }}
                 >
-                  {isSelected && <Check className="size-3 text-white stroke-[3]" />}
+                  {isSelected && <Check className="size-3 text-white stroke-3" />}
                 </span>
                 <span className="truncate">{c.label}</span>
               </button>
