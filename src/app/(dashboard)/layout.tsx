@@ -18,7 +18,7 @@ export default async function DashboardLayout({
         <AppSidebar />
         <SidebarInset>
           <SiteHeader />
-          <div className="flex flex-1 flex-col gap-4 p-4 sm:p-6 lg:p-8 overflow-y-auto">
+          <div className="flex flex-1 flex-col gap-4 p-4 overflow-y-auto">
             {children}
           </div>
         </SidebarInset>

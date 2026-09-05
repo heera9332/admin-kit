@@ -28,7 +28,7 @@ export function ProfileDropdown() {
           }
         >
           <Avatar className="size-8">
-            <AvatarImage src="/avatars/01.png" alt="@satnaing" />
+            <AvatarImage src="/avatars/01.png" alt="@adminkit" />
             <AvatarFallback>SN</AvatarFallback>
           </Avatar>
         </DropdownMenuTrigger>
@@ -36,9 +36,9 @@ export function ProfileDropdown() {
           <DropdownMenuGroup>
             <DropdownMenuLabel className="font-normal">
               <div className="flex flex-col space-y-1">
-                <p className="text-sm font-medium leading-none">satnaing</p>
+                <p className="text-sm font-medium leading-none">adminkit</p>
                 <p className="text-xs leading-none text-muted-foreground">
-                  satnaingdev@gmail.com
+                  heera-singh@zoro-dev.com 
                 </p>
               </div>
             </DropdownMenuLabel>

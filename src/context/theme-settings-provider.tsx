@@ -121,6 +121,7 @@ class ThemeStore {
         this.font,
         this.displayFont
       )
+      this.emitChange()
     } catch {
       // Ignore
     }
@@ -289,6 +290,8 @@ const ThemeSettingsContext = React.createContext<ThemeSettingsContextType | null
 
 const emptySubscribe = () => () => {}
 
+const SERVER_SNAPSHOT = `${DEFAULT_THEME_SETTINGS.color}:${DEFAULT_THEME_SETTINGS.radius}:${DEFAULT_THEME_SETTINGS.layout}:${DEFAULT_THEME_SETTINGS.sidebarVariant}:${DEFAULT_THEME_SETTINGS.font}:${DEFAULT_THEME_SETTINGS.displayFont}`
+
 export function ThemeSettingsProvider({ children }: { children: React.ReactNode }) {
   const { theme, setTheme } = useTheme()
 
@@ -298,15 +301,14 @@ export function ThemeSettingsProvider({ children }: { children: React.ReactNode 
     () => false
   )
 
-  if (typeof window !== "undefined") {
+  React.useEffect(() => {
     themeStore.init()
-  }
+  }, [])
 
-  React.useSyncExternalStore(
+  const snapshot = React.useSyncExternalStore(
     themeStore.subscribe,
     themeStore.getSnapshot,
-    () =>
-      `${DEFAULT_THEME_SETTINGS.color}:${DEFAULT_THEME_SETTINGS.radius}:${DEFAULT_THEME_SETTINGS.layout}:${DEFAULT_THEME_SETTINGS.sidebarVariant}:${DEFAULT_THEME_SETTINGS.font}:${DEFAULT_THEME_SETTINGS.displayFont}`
+    () => SERVER_SNAPSHOT
   )
 
   const setThemeColor = React.useCallback((color: ThemeColor) => {
@@ -337,8 +339,9 @@ export function ThemeSettingsProvider({ children }: { children: React.ReactNode 
     themeStore.reset(setTheme)
   }, [setTheme])
 
-  const contextValue = React.useMemo<ThemeSettingsContextType>(
-    () => ({
+  const contextValue = React.useMemo<ThemeSettingsContextType>(() => {
+    void snapshot
+    return {
       theme,
       setTheme,
       themeColor: themeStore.color,
@@ -355,20 +358,20 @@ export function ThemeSettingsProvider({ children }: { children: React.ReactNode 
       setDisplayFont,
       resetThemeSettings,
       isMounted,
-    }),
-    [
-      theme,
-      setTheme,
-      setThemeColor,
-      setRadius,
-      setLayout,
-      setSidebarVariant,
-      setFont,
-      setDisplayFont,
-      resetThemeSettings,
-      isMounted,
-    ]
-  )
+    }
+  }, [
+    theme,
+    setTheme,
+    setThemeColor,
+    setRadius,
+    setLayout,
+    setSidebarVariant,
+    setFont,
+    setDisplayFont,
+    resetThemeSettings,
+    isMounted,
+    snapshot,
+  ])
 
   return (
     <ThemeSettingsContext.Provider value={contextValue}>

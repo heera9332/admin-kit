@@ -11,7 +11,7 @@ import { Checkbox } from "@/components/ui/checkbox"
 
 export default function SignInPage() {
   const router = useRouter()
-  const [email, setEmail] = React.useState("satnaingdev@gmail.com")
+  const [email, setEmail] = React.useState("heera-singh@zoro-dev.com")
   const [password, setPassword] = React.useState("password123")
   const [isLoading, setIsLoading] = React.useState(false)
 

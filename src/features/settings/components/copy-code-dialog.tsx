@@ -72,16 +72,16 @@ ${cssCode}`
           ) : (
             <Button variant="outline" size="sm" className="gap-2 text-xs">
               <Code2 className="size-3.5" />
-              <span>Copy Code</span>
+              <span>Export CSS</span>
             </Button>
           )
         }
       />
       <DialogContent className="sm:max-w-xl max-h-[85vh] flex flex-col p-6 overflow-hidden">
         <DialogHeader className="gap-1 text-left">
-          <DialogTitle className="text-base font-semibold">Theme Code</DialogTitle>
+          <DialogTitle className="text-base font-semibold">Export Theme Code</DialogTitle>
           <DialogDescription className="text-xs text-muted-foreground">
-            Copy and paste these styles into your CSS file to use this theme configuration.
+            Export these generated CSS variables and Tailwind v4 theme configuration for use in external projects.
           </DialogDescription>
         </DialogHeader>
 

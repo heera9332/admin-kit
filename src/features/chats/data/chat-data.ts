@@ -26,7 +26,7 @@ export const chatContacts: ChatContact[] = [
     unread: 3,
     lastActive: "Just now",
     messages: [
-      { id: "m1", sender: "contact", text: "Hey satnaing! Did you check the latest pull request on the tasks dashboard?", time: "10:14 AM" },
+      { id: "m1", sender: "contact", text: "Hey adminkit! Did you check the latest pull request on the tasks dashboard?", time: "10:14 AM" },
       { id: "m2", sender: "user", text: "Hey Sarah! Yes, I just reviewed the TanStack table filters and pagination.", time: "10:15 AM" },
       { id: "m3", sender: "contact", text: "Awesome! The performance looks much faster with the new indexed queries.", time: "10:16 AM" },
       { id: "m4", sender: "contact", text: "Can we hop on a quick call before releasing the v1.2 update?", time: "10:18 AM" },

@@ -94,11 +94,15 @@ export function ThemeSettingsForm() {
         <div>
           <h3 className="text-base font-semibold">Theme Settings</h3>
           <p className="text-xs text-muted-foreground">
-            Adjust the appearance and layout to suit your preferences.
+            Adjust appearance, typography, colors, and layout. All changes apply live and save automatically.
           </p>
         </div>
 
         <div className="flex items-center gap-2">
+          <span className="inline-flex items-center gap-1.5 text-[11px] text-muted-foreground bg-muted/60 border border-border/80 px-2.5 py-1 rounded-md">
+            <span className="size-1.5 rounded-full bg-emerald-500 animate-pulse" />
+            <span>Auto-saved</span>
+          </span>
           <CopyCodeDialog
             color={themeColor}
             radius={radius}
@@ -135,7 +139,10 @@ export function ThemeSettingsForm() {
           {/* Light Mode */}
           <button
             type="button"
-            onClick={() => setTheme("light")}
+            onClick={() => {
+              setTheme("light")
+              showFeedback("Switched to Light mode")
+            }}
             className={cn(
               "group relative flex flex-col items-center gap-2 rounded-xl border-2 p-2.5 transition-all text-left cursor-pointer",
               theme === "light"
@@ -165,7 +172,10 @@ export function ThemeSettingsForm() {
           {/* Dark Mode */}
           <button
             type="button"
-            onClick={() => setTheme("dark")}
+            onClick={() => {
+              setTheme("dark")
+              showFeedback("Switched to Dark mode")
+            }}
             className={cn(
               "group relative flex flex-col items-center gap-2 rounded-xl border-2 p-2.5 transition-all text-left cursor-pointer",
               theme === "dark"
@@ -195,7 +205,10 @@ export function ThemeSettingsForm() {
           {/* System Mode */}
           <button
             type="button"
-            onClick={() => setTheme("system")}
+            onClick={() => {
+              setTheme("system")
+              showFeedback("Switched to System mode")
+            }}
             className={cn(
               "group relative flex flex-col items-center gap-2 rounded-xl border-2 p-2.5 transition-all text-left cursor-pointer",
               theme === "system"
@@ -243,7 +256,11 @@ export function ThemeSettingsForm() {
             </span>
             <Select
               value={themeColor}
-              onValueChange={(val) => setThemeColor(val as ThemeColor)}
+              onValueChange={(val) => {
+                setThemeColor(val as ThemeColor)
+                const c = THEME_COLORS.find((x) => x.name === val)
+                showFeedback(`Theme color changed to ${c?.label ?? val}`)
+              }}
             >
               <SelectTrigger className="w-44 text-xs h-8">
                 <div className="flex items-center gap-2">
@@ -285,7 +302,10 @@ export function ThemeSettingsForm() {
               <button
                 key={c.name}
                 type="button"
-                onClick={() => setThemeColor(c.name as ThemeColor)}
+                onClick={() => {
+                  setThemeColor(c.name as ThemeColor)
+                  showFeedback(`Theme color changed to ${c.label}`)
+                }}
                 className={cn(
                   "flex items-center gap-2.5 rounded-lg border px-3 py-2 text-xs font-medium transition-all text-left cursor-pointer",
                   isSelected
@@ -325,7 +345,10 @@ export function ThemeSettingsForm() {
               <button
                 key={item.value}
                 type="button"
-                onClick={() => setSidebarVariant(item.value as SidebarVariant)}
+                onClick={() => {
+                  setSidebarVariant(item.value as SidebarVariant)
+                  showFeedback(`Sidebar style changed to ${item.label}`)
+                }}
                 className={cn(
                   "group relative flex flex-col gap-2.5 rounded-xl border-2 p-3 transition-all text-left cursor-pointer",
                   isSelected
@@ -423,7 +446,11 @@ export function ThemeSettingsForm() {
 
             <Select
               value={font}
-              onValueChange={(val) => setFont(val as ThemeFont)}
+              onValueChange={(val) => {
+                setFont(val as ThemeFont)
+                const f = THEME_FONTS.find((x) => x.value === val)
+                showFeedback(`Body font changed to ${f?.label ?? val}`)
+              }}
             >
               <SelectTrigger className="w-full text-xs h-8">
                 <SelectValue placeholder="Select base font" />
@@ -461,7 +488,11 @@ export function ThemeSettingsForm() {
 
             <Select
               value={displayFont}
-              onValueChange={(val) => setDisplayFont(val as ThemeFont)}
+              onValueChange={(val) => {
+                setDisplayFont(val as ThemeFont)
+                const f = THEME_FONTS.find((x) => x.value === val)
+                showFeedback(`Display font changed to ${f?.label ?? val}`)
+              }}
             >
               <SelectTrigger className="w-full text-xs h-8">
                 <SelectValue placeholder="Select display font" />
@@ -508,7 +539,10 @@ export function ThemeSettingsForm() {
               <button
                 key={r.value}
                 type="button"
-                onClick={() => setRadius(r.value as ThemeRadius)}
+                onClick={() => {
+                  setRadius(r.value as ThemeRadius)
+                  showFeedback(`Border radius changed to ${r.label}rem`)
+                }}
                 className={cn(
                   "flex items-center gap-2 rounded-lg border px-3.5 py-1.5 text-xs font-medium transition-all cursor-pointer",
                   isSelected
@@ -548,7 +582,10 @@ export function ThemeSettingsForm() {
               <button
                 key={item.value}
                 type="button"
-                onClick={() => setLayout(item.value as ThemeLayout)}
+                onClick={() => {
+                  setLayout(item.value as ThemeLayout)
+                  showFeedback(`Layout changed to ${item.label}`)
+                }}
                 className={cn(
                   "flex items-start gap-3 rounded-xl border-2 p-3.5 transition-all text-left cursor-pointer",
                   isSelected

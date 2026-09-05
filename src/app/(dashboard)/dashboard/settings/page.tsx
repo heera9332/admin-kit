@@ -30,7 +30,7 @@ export default function ProfileSettingsPage() {
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="space-y-1.5">
           <Label htmlFor="username">Username</Label>
-          <Input id="username" defaultValue="satnaing" className="text-xs max-w-md" />
+          <Input id="username" defaultValue="adminkit" className="text-xs max-w-md" />
           <p className="text-[11px] text-muted-foreground">
             This is your public display name. It can be your real name or a pseudonym.
           </p>
@@ -38,7 +38,7 @@ export default function ProfileSettingsPage() {
 
         <div className="space-y-1.5">
           <Label htmlFor="email">Email</Label>
-          <Input id="email" type="email" defaultValue="satnaingdev@gmail.com" className="text-xs max-w-md" />
+          <Input id="email" type="email" defaultValue="heera-singh@zoro-dev.com" className="text-xs max-w-md" />
           <p className="text-[11px] text-muted-foreground">
             Your verified email address used for system security and recovery.
           </p>

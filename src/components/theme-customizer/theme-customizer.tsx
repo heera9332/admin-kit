@@ -15,6 +15,7 @@ import {
   PanelLeft,
   LayoutTemplate,
   SquareDashedBottomCode,
+  Code2,
 } from "lucide-react"
 import { useThemeSettings } from "@/context/theme-settings-provider"
 import {
@@ -130,11 +131,21 @@ export function ThemeCustomizer({ className }: ThemeCustomizerProps) {
                 radius={radius}
                 font={font}
                 displayFont={displayFont}
+                trigger={
+                  <Button
+                    variant="ghost"
+                    size="icon-xs"
+                    title="Export Theme CSS"
+                    aria-label="Export theme CSS"
+                  >
+                    <Code2 className="size-3.5 text-muted-foreground" />
+                  </Button>
+                }
               />
             </div>
           </div>
           <SheetDescription className="text-xs text-muted-foreground mt-1">
-            Adjust the appearance and layout to suit your preferences.
+            Adjust appearance, colors, and layout. All changes apply live and save automatically.
           </SheetDescription>
         </SheetHeader>
 

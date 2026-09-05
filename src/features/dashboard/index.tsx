@@ -21,7 +21,7 @@ export function DashboardFeature() {
         <div>
           <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">Dashboard</h1>
           <p className="text-xs sm:text-sm text-muted-foreground mt-0.5">
-            Welcome back, satnaing! Here is your business overview.
+            Welcome back, adminkit! Here is your business overview.
           </p>
         </div>
         <div className="flex items-center gap-2">
