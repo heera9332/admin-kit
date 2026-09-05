@@ -1,0 +1,17 @@
+/users:
+  get:
+    parameters:
+      - name: page
+        in: query
+        schema:
+          type: integer
+
+      - name: limit
+        in: query
+        schema:
+          type: integer
+
+      - name: search
+        in: query
+        schema:
+          type: string
