@@ -14,6 +14,7 @@ import {
   type ThemeRadius,
   type SidebarVariant,
   type ThemeFont,
+  type ThemeSettings,
 } from "@/config/themes"
 
 interface ThemeSettingsContextType {
@@ -35,14 +36,7 @@ interface ThemeSettingsContextType {
   isMounted: boolean
 }
 
-const STORAGE_KEYS = {
-  COLOR: "theme-color",
-  RADIUS: "theme-radius",
-  LAYOUT: "theme-layout",
-  SIDEBAR_VARIANT: "theme-sidebar-variant",
-  FONT: "theme-font",
-  DISPLAY_FONT: "theme-display-font",
-} as const
+const THEME_SETTINGS_STORAGE_KEY = "theme_settings"
 
 function applyThemeToDocument(
   color: ThemeColor,
@@ -76,42 +70,103 @@ class ThemeStore {
   private listeners: Set<Listener> = new Set()
   private initialized = false
 
+  private save() {
+    try {
+      const settings: ThemeSettings = {
+        color: this.color,
+        radius: this.radius,
+        layout: this.layout,
+        sidebarVariant: this.sidebarVariant,
+        font: this.font,
+        displayFont: this.displayFont,
+      }
+      localStorage.setItem(THEME_SETTINGS_STORAGE_KEY, JSON.stringify(settings))
+    } catch {
+      // Ignore
+    }
+  }
+
   init() {
     if (this.initialized || typeof window === "undefined") return
     this.initialized = true
 
     try {
-      const storedColor = localStorage.getItem(STORAGE_KEYS.COLOR) as ThemeColor | null
-      const storedRadius = localStorage.getItem(STORAGE_KEYS.RADIUS)
-      const storedLayout = localStorage.getItem(STORAGE_KEYS.LAYOUT) as ThemeLayout | null
-      const storedSidebar = localStorage.getItem(STORAGE_KEYS.SIDEBAR_VARIANT) as SidebarVariant | null
-      const storedFont = localStorage.getItem(STORAGE_KEYS.FONT) as ThemeFont | null
-      const storedDisplayFont = localStorage.getItem(STORAGE_KEYS.DISPLAY_FONT) as ThemeFont | null
+      let settings: Partial<ThemeSettings> | null = null
+      const raw = localStorage.getItem(THEME_SETTINGS_STORAGE_KEY)
+      if (raw) {
+        settings = JSON.parse(raw) as Partial<ThemeSettings>
+      } else {
+        // Fallback for migration from legacy separate keys
+        const legacyColor = localStorage.getItem("theme-color") as ThemeColor | null
+        const legacyRadius = localStorage.getItem("theme-radius")
+        const legacyLayout = localStorage.getItem("theme-layout") as ThemeLayout | null
+        const legacySidebar = localStorage.getItem("theme-sidebar-variant") as SidebarVariant | null
+        const legacyFont = localStorage.getItem("theme-font") as ThemeFont | null
+        const legacyDisplayFont = localStorage.getItem("theme-display-font") as ThemeFont | null
 
-      if (storedColor && THEME_COLORS.some((c) => c.name === storedColor)) {
-        this.color = storedColor
+        if (
+          legacyColor ||
+          legacyRadius ||
+          legacyLayout ||
+          legacySidebar ||
+          legacyFont ||
+          legacyDisplayFont
+        ) {
+          settings = {
+            ...(legacyColor ? { color: legacyColor } : {}),
+            ...(legacyRadius ? { radius: parseFloat(legacyRadius) as ThemeRadius } : {}),
+            ...(legacyLayout ? { layout: legacyLayout } : {}),
+            ...(legacySidebar ? { sidebarVariant: legacySidebar } : {}),
+            ...(legacyFont ? { font: legacyFont } : {}),
+            ...(legacyDisplayFont ? { displayFont: legacyDisplayFont } : {}),
+          }
+          try {
+            localStorage.removeItem("theme-color")
+            localStorage.removeItem("theme-radius")
+            localStorage.removeItem("theme-layout")
+            localStorage.removeItem("theme-sidebar-variant")
+            localStorage.removeItem("theme-font")
+            localStorage.removeItem("theme-display-font")
+          } catch {
+            // Ignore
+          }
+        }
       }
 
-      const parsedRadius = storedRadius ? parseFloat(storedRadius) : NaN
-      if (!isNaN(parsedRadius) && THEME_RADII.some((r) => r.value === parsedRadius)) {
-        this.radius = parsedRadius as ThemeRadius
+      if (settings?.color && THEME_COLORS.some((c) => c.name === settings.color)) {
+        this.color = settings.color
       }
 
-      if (storedLayout && THEME_LAYOUTS.some((l) => l.value === storedLayout)) {
-        this.layout = storedLayout
+      if (
+        settings?.radius !== undefined &&
+        THEME_RADII.some((r) => r.value === settings.radius)
+      ) {
+        this.radius = settings.radius
       }
 
-      if (storedSidebar && SIDEBAR_VARIANTS.some((s) => s.value === storedSidebar)) {
-        this.sidebarVariant = storedSidebar
+      if (settings?.layout && THEME_LAYOUTS.some((l) => l.value === settings.layout)) {
+        this.layout = settings.layout
       }
 
-      if (storedFont && THEME_FONTS.some((f) => f.value === storedFont)) {
-        this.font = storedFont
+      if (
+        settings?.sidebarVariant &&
+        SIDEBAR_VARIANTS.some((s) => s.value === settings.sidebarVariant)
+      ) {
+        this.sidebarVariant = settings.sidebarVariant
       }
 
-      if (storedDisplayFont && THEME_FONTS.some((f) => f.value === storedDisplayFont)) {
-        this.displayFont = storedDisplayFont
+      if (settings?.font && THEME_FONTS.some((f) => f.value === settings.font)) {
+        this.font = settings.font
       }
+
+      if (
+        settings?.displayFont &&
+        THEME_FONTS.some((f) => f.value === settings.displayFont)
+      ) {
+        this.displayFont = settings.displayFont
+      }
+
+      this.save()
 
       applyThemeToDocument(
         this.color,
@@ -140,11 +195,7 @@ class ThemeStore {
 
   setColor(newColor: ThemeColor) {
     this.color = newColor
-    try {
-      localStorage.setItem(STORAGE_KEYS.COLOR, newColor)
-    } catch {
-      // Ignore
-    }
+    this.save()
     applyThemeToDocument(
       this.color,
       this.radius,
@@ -158,11 +209,7 @@ class ThemeStore {
 
   setRadius(newRadius: ThemeRadius) {
     this.radius = newRadius
-    try {
-      localStorage.setItem(STORAGE_KEYS.RADIUS, newRadius.toString())
-    } catch {
-      // Ignore
-    }
+    this.save()
     applyThemeToDocument(
       this.color,
       this.radius,
@@ -176,11 +223,7 @@ class ThemeStore {
 
   setLayout(newLayout: ThemeLayout) {
     this.layout = newLayout
-    try {
-      localStorage.setItem(STORAGE_KEYS.LAYOUT, newLayout)
-    } catch {
-      // Ignore
-    }
+    this.save()
     applyThemeToDocument(
       this.color,
       this.radius,
@@ -194,11 +237,7 @@ class ThemeStore {
 
   setSidebarVariant(newVariant: SidebarVariant) {
     this.sidebarVariant = newVariant
-    try {
-      localStorage.setItem(STORAGE_KEYS.SIDEBAR_VARIANT, newVariant)
-    } catch {
-      // Ignore
-    }
+    this.save()
     applyThemeToDocument(
       this.color,
       this.radius,
@@ -212,11 +251,7 @@ class ThemeStore {
 
   setFont(newFont: ThemeFont) {
     this.font = newFont
-    try {
-      localStorage.setItem(STORAGE_KEYS.FONT, newFont)
-    } catch {
-      // Ignore
-    }
+    this.save()
     applyThemeToDocument(
       this.color,
       this.radius,
@@ -230,11 +265,7 @@ class ThemeStore {
 
   setDisplayFont(newDisplayFont: ThemeFont) {
     this.displayFont = newDisplayFont
-    try {
-      localStorage.setItem(STORAGE_KEYS.DISPLAY_FONT, newDisplayFont)
-    } catch {
-      // Ignore
-    }
+    this.save()
     applyThemeToDocument(
       this.color,
       this.radius,
@@ -255,16 +286,7 @@ class ThemeStore {
     this.font = DEFAULT_THEME_SETTINGS.font
     this.displayFont = DEFAULT_THEME_SETTINGS.displayFont
 
-    try {
-      localStorage.setItem(STORAGE_KEYS.COLOR, DEFAULT_THEME_SETTINGS.color)
-      localStorage.setItem(STORAGE_KEYS.RADIUS, DEFAULT_THEME_SETTINGS.radius.toString())
-      localStorage.setItem(STORAGE_KEYS.LAYOUT, DEFAULT_THEME_SETTINGS.layout)
-      localStorage.setItem(STORAGE_KEYS.SIDEBAR_VARIANT, DEFAULT_THEME_SETTINGS.sidebarVariant)
-      localStorage.setItem(STORAGE_KEYS.FONT, DEFAULT_THEME_SETTINGS.font)
-      localStorage.setItem(STORAGE_KEYS.DISPLAY_FONT, DEFAULT_THEME_SETTINGS.displayFont)
-    } catch {
-      // Ignore
-    }
+    this.save()
 
     applyThemeToDocument(
       this.color,
