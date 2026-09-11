@@ -14,10 +14,13 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { useTranslations } from "next-intl"
 import { SignOutDialog } from "./sign-out-dialog"
 
 export function ProfileDropdown() {
   const [openSignOut, setOpenSignOut] = React.useState(false)
+  const tNav = useTranslations("nav")
+  const tCommon = useTranslations("common")
 
   return (
     <>
@@ -46,15 +49,15 @@ export function ProfileDropdown() {
           <DropdownMenuSeparator />
           <DropdownMenuGroup>
             <DropdownMenuItem render={<Link href="/dashboard/settings" />}>
-              <span>Profile</span>
+              <span>{tNav("profile")}</span>
               <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
             </DropdownMenuItem>
             <DropdownMenuItem render={<Link href="/dashboard/settings/account" />}>
-              <span>Billing</span>
+              <span>{tNav("account")}</span>
               <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
             </DropdownMenuItem>
             <DropdownMenuItem render={<Link href="/dashboard/settings" />}>
-              <span>Settings</span>
+              <span>{tNav("settings")}</span>
               <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
             </DropdownMenuItem>
           </DropdownMenuGroup>
@@ -63,7 +66,7 @@ export function ProfileDropdown() {
             variant="destructive"
             onClick={() => setOpenSignOut(true)}
           >
-            <span>Sign out</span>
+            <span>{tCommon("logout")}</span>
             <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
           </DropdownMenuItem>
         </DropdownMenuContent>

@@ -35,6 +35,7 @@
     "forgotPassword": "पासवर्ड भूल गए",
     "otp": "2FA / ओटीपी",
     "errors": "त्रुटियां",
+    "unauthorized": "अनधिकृत (401)",
     "forbidden": "निषिद्ध (403)",
     "notFound": "नहीं मिला (404)",
     "serverError": "आंतरिक त्रुटि (500)",

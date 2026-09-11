@@ -1,5 +1,6 @@
 "use client"
 
+import { useTranslations } from "next-intl"
 import { DollarSign, Users, CreditCard, Activity, Download } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import {
@@ -15,13 +16,15 @@ import { RecentSales } from "./components/recent-sales"
 import { Analytics } from "./components/analytics"
 
 export function DashboardFeature() {
+  const t = useTranslations("dashboard")
+
   return (
     <div className="space-y-4">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">Dashboard</h1>
+          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">{t("title")}</h1>
           <p className="text-xs sm:text-sm text-muted-foreground mt-0.5">
-            Welcome back, adminkit! Here is your business overview.
+            {t("description")}
           </p>
         </div>
         <div className="flex items-center gap-2">
@@ -35,7 +38,7 @@ export function DashboardFeature() {
       <Tabs defaultValue="overview" className="space-y-4">
         <div className="w-full overflow-x-auto pb-1">
           <TabsList>
-            <TabsTrigger value="overview">Overview</TabsTrigger>
+            <TabsTrigger value="overview">{t("overview")}</TabsTrigger>
             <TabsTrigger value="analytics">Analytics</TabsTrigger>
             <TabsTrigger value="reports" disabled>Reports</TabsTrigger>
             <TabsTrigger value="notifications" disabled>Notifications</TabsTrigger>
@@ -47,7 +50,7 @@ export function DashboardFeature() {
             <Card>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-xs font-medium text-muted-foreground">
-                  Total Revenue
+                  {t("totalRevenue")}
                 </CardTitle>
                 <DollarSign className="size-4 text-muted-foreground" />
               </CardHeader>
@@ -62,7 +65,7 @@ export function DashboardFeature() {
             <Card>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-xs font-medium text-muted-foreground">
-                  Subscriptions
+                  {t("subscriptions")}
                 </CardTitle>
                 <Users className="size-4 text-muted-foreground" />
               </CardHeader>
@@ -77,7 +80,7 @@ export function DashboardFeature() {
             <Card>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-xs font-medium text-muted-foreground">
-                  Sales
+                  {t("sales")}
                 </CardTitle>
                 <CreditCard className="size-4 text-muted-foreground" />
               </CardHeader>
@@ -92,7 +95,7 @@ export function DashboardFeature() {
             <Card>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-xs font-medium text-muted-foreground">
-                  Active Now
+                  {t("activeNow")}
                 </CardTitle>
                 <Activity className="size-4 text-muted-foreground" />
               </CardHeader>
@@ -108,7 +111,7 @@ export function DashboardFeature() {
           <div className="grid gap-4 lg:grid-cols-7">
             <Card className="lg:col-span-4">
               <CardHeader>
-                <CardTitle>Overview</CardTitle>
+                <CardTitle>{t("overview")}</CardTitle>
                 <CardDescription>Monthly revenue trends for current final year</CardDescription>
               </CardHeader>
               <CardContent className="pl-2">
@@ -118,7 +121,7 @@ export function DashboardFeature() {
 
             <Card className="lg:col-span-3">
               <CardHeader>
-                <CardTitle>Recent Sales</CardTitle>
+                <CardTitle>{t("recentSales")}</CardTitle>
                 <CardDescription>You made 265 sales this month.</CardDescription>
               </CardHeader>
               <CardContent>

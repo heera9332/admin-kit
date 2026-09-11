@@ -1,7 +1,14 @@
+import type { NextRequest } from "next/server";
 import createMiddleware from "next-intl/middleware";
 import { routing } from "./i18n/routing";
 
-export default createMiddleware(routing);
+const handleProxy = createMiddleware(routing);
+
+export function proxy(request: NextRequest) {
+  return handleProxy(request);
+}
+
+export default proxy;
 
 export const config = {
   matcher: [
@@ -10,7 +17,7 @@ export const config = {
 
     // Set a cookie to remember the previous locale for
     // all requests that have a locale prefix
-    "/(en|es|fr|de|ar)/:path*",
+    "/(en|hi)/:path*",
 
     // Enable redirects that add missing locales
     // (e.g. `/dashboard` -> `/en/dashboard`)

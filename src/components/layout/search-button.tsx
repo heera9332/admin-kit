@@ -1,6 +1,7 @@
 "use client"
 
 import * as React from "react"
+import { useTranslations } from "next-intl"
 import { Search } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
@@ -12,10 +13,12 @@ interface SearchButtonProps extends React.ComponentProps<typeof Button> {
 
 export function SearchButton({
   className,
-  placeholder = "Search...",
+  placeholder,
   ...props
 }: SearchButtonProps) {
   const { setOpen } = useSearch()
+  const t = useTranslations("common")
+  const displayPlaceholder = placeholder ?? t("search")
 
   return (
     <Button
@@ -28,7 +31,7 @@ export function SearchButton({
       {...props}
     >
       <Search className="mr-2 size-3.5" />
-      <span className="truncate">{placeholder}</span>
+      <span className="truncate">{displayPlaceholder}</span>
       <kbd className="pointer-events-none absolute right-1.5 top-1.5 hidden h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium opacity-100 sm:flex">
         <span className="text-xs">⌘</span>K
       </kbd>

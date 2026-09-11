@@ -35,6 +35,7 @@
     "forgotPassword": "Forgot Password",
     "otp": "2FA / OTP",
     "errors": "Errors",
+    "unauthorized": "Unauthorized (401)",
     "forbidden": "Forbidden (403)",
     "notFound": "Not Found (404)",
     "serverError": "Internal Error (500)",

@@ -2,6 +2,7 @@
 
 import * as React from "react"
 import { Link, usePathname } from "@/i18n/routing"
+import { useTranslations } from "next-intl"
 import { Menu } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
@@ -14,18 +15,22 @@ import {
 
 const topNavLinks = [
   {
+    key: "overview",
     title: "Overview",
     href: "/dashboard",
   },
   {
+    key: "tasks",
     title: "Tasks",
     href: "/dashboard/tasks",
   },
   {
+    key: "apps",
     title: "Apps",
     href: "/dashboard/apps",
   },
   {
+    key: "settings",
     title: "Settings",
     href: "/dashboard/settings",
   },
@@ -33,6 +38,16 @@ const topNavLinks = [
 
 export function TopNav({ className, ...props }: React.HTMLAttributes<HTMLElement>) {
   const pathname = usePathname()
+  const t = useTranslations("common")
+
+  const getLabel = (key: string, fallback: string) => {
+    try {
+      type CommonKey = Parameters<typeof t>[0]
+      return t.has(key as CommonKey) ? t(key as CommonKey) : fallback
+    } catch {
+      return fallback
+    }
+  }
 
   return (
     <>
@@ -55,6 +70,7 @@ export function TopNav({ className, ...props }: React.HTMLAttributes<HTMLElement
               item.href === "/dashboard"
                 ? pathname === "/dashboard"
                 : pathname.startsWith(item.href)
+            const label = getLabel(item.key, item.title)
 
             return (
               <DropdownMenuItem
@@ -62,7 +78,7 @@ export function TopNav({ className, ...props }: React.HTMLAttributes<HTMLElement
                 render={<Link href={item.href} />}
                 className={isActive ? "font-semibold text-primary" : "text-muted-foreground"}
               >
-                <span>{item.title}</span>
+                <span>{label}</span>
               </DropdownMenuItem>
             )
           })}
@@ -81,6 +97,7 @@ export function TopNav({ className, ...props }: React.HTMLAttributes<HTMLElement
             item.href === "/dashboard"
               ? pathname === "/dashboard"
               : pathname.startsWith(item.href)
+          const label = getLabel(item.key, item.title)
 
           return (
             <Link
@@ -91,7 +108,7 @@ export function TopNav({ className, ...props }: React.HTMLAttributes<HTMLElement
                 isActive ? "text-foreground font-semibold" : "text-muted-foreground"
               )}
             >
-              {item.title}
+              {label}
             </Link>
           )
         })}

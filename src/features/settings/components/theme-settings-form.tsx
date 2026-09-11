@@ -14,6 +14,7 @@ import {
   SquareDashedBottomCode,
   Type,
 } from "lucide-react"
+import { useTranslations } from "next-intl"
 import { useThemeSettings } from "@/context/theme-settings-provider"
 import {
   THEME_COLORS,
@@ -40,6 +41,9 @@ import { cn } from "@/lib/utils"
 import { ThemePreviewCard } from "./theme-preview-card"
 
 export function ThemeSettingsForm() {
+  const tAppearance = useTranslations("settings.appearance")
+  const tCommon = useTranslations("common")
+
   const {
     theme,
     setTheme,
@@ -91,16 +95,16 @@ export function ThemeSettingsForm() {
       {/* Header Section */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h3 className="text-base font-semibold">Theme Settings</h3>
+          <h3 className="text-base font-semibold">{tAppearance("title")}</h3>
           <p className="text-xs text-muted-foreground">
-            Adjust appearance, typography, colors, and layout. All changes apply live and save automatically.
+            {tAppearance("description")}
           </p>
         </div>
 
         <div className="flex items-center gap-2">
           <span className="inline-flex items-center gap-1.5 text-[11px] font-medium text-muted-foreground bg-muted/60 border border-border/80 px-2.5 py-1.5 rounded-md">
             <span className="size-1.5 rounded-full bg-emerald-500 animate-pulse" />
-            <span>Auto-saved</span>
+            <span>{tCommon("autoSaved")}</span>
           </span>
           <Button
             variant="outline"
@@ -112,7 +116,7 @@ export function ThemeSettingsForm() {
             className="h-8 gap-1.5 text-xs"
           >
             <RotateCcw className="size-3.5 text-muted-foreground" />
-            <span>Reset</span>
+            <span>{tCommon("reset")}</span>
           </Button>
         </div>
       </div>
@@ -122,7 +126,7 @@ export function ThemeSettingsForm() {
       {/* Theme Mode Section */}
       <div className="space-y-3.5">
         <div>
-          <h4 className="text-xs font-semibold text-foreground">Color Mode</h4>
+          <h4 className="text-xs font-semibold text-foreground">{tAppearance("themeMode")}</h4>
           <p className="text-xs text-muted-foreground">
             Select light, dark, or automatic system theme.
           </p>
@@ -156,7 +160,7 @@ export function ThemeSettingsForm() {
             <div className="flex items-center justify-between w-full px-1">
               <span className="flex items-center gap-1.5 text-xs font-medium">
                 <Sun className="size-3.5 text-amber-500" />
-                <span>Light</span>
+                <span>{tAppearance("light")}</span>
               </span>
               {theme === "light" && <Check className="size-3.5 text-primary" />}
             </div>
@@ -189,7 +193,7 @@ export function ThemeSettingsForm() {
             <div className="flex items-center justify-between w-full px-1">
               <span className="flex items-center gap-1.5 text-xs font-medium">
                 <Moon className="size-3.5 text-blue-400" />
-                <span>Dark</span>
+                <span>{tAppearance("dark")}</span>
               </span>
               {theme === "dark" && <Check className="size-3.5 text-primary" />}
             </div>
@@ -222,7 +226,7 @@ export function ThemeSettingsForm() {
             <div className="flex items-center justify-between w-full px-1">
               <span className="flex items-center gap-1.5 text-xs font-medium">
                 <Laptop className="size-3.5 text-muted-foreground" />
-                <span>System</span>
+                <span>{tAppearance("system")}</span>
               </span>
               {theme === "system" && <Check className="size-3.5 text-primary" />}
             </div>
@@ -236,7 +240,7 @@ export function ThemeSettingsForm() {
       <div className="space-y-3.5">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
           <div>
-            <h4 className="text-xs font-semibold text-foreground">Color Palette</h4>
+            <h4 className="text-xs font-semibold text-foreground">{tAppearance("colorPalette")}</h4>
             <p className="text-xs text-muted-foreground">
               Select the primary brand and accent color for UI components.
             </p>
@@ -324,7 +328,7 @@ export function ThemeSettingsForm() {
       {/* Sidebar Variant Section (inset, floating, default) */}
       <div className="space-y-3.5">
         <div>
-          <h4 className="text-xs font-semibold text-foreground">Sidebar Variant</h4>
+          <h4 className="text-xs font-semibold text-foreground">{tAppearance("sidebarVariant")}</h4>
           <p className="text-xs text-muted-foreground">
             Choose between standard rail, inner canvas inset, or detached floating sidebar styles.
           </p>
@@ -418,7 +422,7 @@ export function ThemeSettingsForm() {
         <div>
           <h4 className="text-xs font-semibold text-foreground flex items-center gap-1.5">
             <Type className="size-3.5 text-primary" />
-            <span>Typography (Font & Display Font)</span>
+            <span>{tAppearance("typography")}</span>
           </h4>
           <p className="text-xs text-muted-foreground">
             Customize the primary body font and display font for headings and titles.
@@ -518,7 +522,7 @@ export function ThemeSettingsForm() {
       {/* Border Radius Section */}
       <div className="space-y-3.5">
         <div>
-          <h4 className="text-xs font-semibold text-foreground">Radius</h4>
+          <h4 className="text-xs font-semibold text-foreground">{tAppearance("radius")}</h4>
           <p className="text-xs text-muted-foreground">
             Adjust the border radius across buttons, cards, dialogs, and inputs.
           </p>
@@ -561,7 +565,7 @@ export function ThemeSettingsForm() {
       {/* Layout Style Section */}
       <div className="space-y-3.5">
         <div>
-          <h4 className="text-xs font-semibold text-foreground">Layout Style</h4>
+          <h4 className="text-xs font-semibold text-foreground">{tAppearance("layoutStyle")}</h4>
           <p className="text-xs text-muted-foreground">
             Choose how dashboard pages fit within the viewport.
           </p>

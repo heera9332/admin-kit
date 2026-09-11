@@ -144,7 +144,7 @@ export function UsersFeature() {
               if (val) setRoleFilter(val)
             }}
           >
-            <SelectTrigger className="h-8 text-xs w-[130px]">
+            <SelectTrigger className="h-8 text-xs w-32.5">
               <SelectValue placeholder="Role" />
             </SelectTrigger>
             <SelectContent>
@@ -162,7 +162,7 @@ export function UsersFeature() {
               if (val) setStatusFilter(val)
             }}
           >
-            <SelectTrigger className="h-8 text-xs w-[130px]">
+            <SelectTrigger className="h-8 text-xs w-32.5">
               <SelectValue placeholder="Status" />
             </SelectTrigger>
             <SelectContent>
@@ -242,7 +242,7 @@ export function UsersFeature() {
                         <MoreHorizontal className="size-4" />
                         <span className="sr-only">Open menu</span>
                       </DropdownMenuTrigger>
-                      <DropdownMenuContent align="end" className="w-[150px]">
+                      <DropdownMenuContent align="end" className="w-37.5">
                         <DropdownMenuLabel className="text-xs">Actions</DropdownMenuLabel>
                         <DropdownMenuItem onClick={() => navigator.clipboard.writeText(user.email)}>
                           Copy Email

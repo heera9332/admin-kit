@@ -1,3 +1,4 @@
+import { useTranslations } from "next-intl"
 import { Separator } from "@/components/ui/separator"
 import { SettingsSidebar } from "@/features/settings/components/settings-sidebar"
 
@@ -6,12 +7,14 @@ export default function SettingsLayout({
 }: {
   children: React.ReactNode
 }) {
+  const t = useTranslations("settings")
+
   return (
     <div className="space-y-6">
       <div className="space-y-0.5">
-        <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">Settings</h1>
+        <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">{t("title")}</h1>
         <p className="text-xs sm:text-sm text-muted-foreground mt-0.5">
-          Manage your account settings, notification preferences, and display appearance.
+          {t("description")}
         </p>
       </div>
 

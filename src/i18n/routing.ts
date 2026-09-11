@@ -55,8 +55,9 @@ export const LOCALES_CONFIG: Record<string, LocaleInfo> = {
 };
 
 export const routing = defineRouting({
-  locales: ["en", "es", "fr", "de", "ar", "hi"] as const,
+  locales: ["en", "hi"] as const,
   defaultLocale: "en",
+  localePrefix: 'as-needed'
 });
 
 export type Locale = (typeof routing.locales)[number];

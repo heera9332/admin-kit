@@ -2,6 +2,7 @@ import type { LucideIcon } from "lucide-react"
 
 export interface BaseNavItem {
   title: string
+  titleKey?: string
   badge?: string
   icon?: LucideIcon
 }
@@ -12,7 +13,7 @@ export interface NavLink extends BaseNavItem {
 }
 
 export interface NavCollapsible extends BaseNavItem {
-  items: (BaseNavItem & { url: string })[]
+  items: (BaseNavItem & { url: string; titleKey?: string })[]
   url?: never
 }
 
@@ -20,6 +21,7 @@ export type NavItem = NavLink | NavCollapsible
 
 export interface NavGroup {
   title: string
+  titleKey?: string
   items: NavItem[]
 }
 

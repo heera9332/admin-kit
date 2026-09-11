@@ -1,5 +1,6 @@
 "use client"
 
+import { useTranslations } from "next-intl"
 import { Link, usePathname } from "@/i18n/routing"
 import { UserCog, Wrench, Palette, Bell, Monitor } from "lucide-react"
 import { cn } from "@/lib/utils"
@@ -7,26 +8,31 @@ import { buttonVariants } from "@/components/ui/button"
 
 const navItems = [
   {
+    key: "profile",
     title: "Profile",
     href: "/dashboard/settings",
     icon: UserCog,
   },
   {
+    key: "account",
     title: "Account",
     href: "/dashboard/settings/account",
     icon: Wrench,
   },
   {
+    key: "appearance",
     title: "Appearance",
     href: "/dashboard/settings/appearance",
     icon: Palette,
   },
   {
+    key: "notifications",
     title: "Notifications",
     href: "/dashboard/settings/notifications",
     icon: Bell,
   },
   {
+    key: "display",
     title: "Display",
     href: "/dashboard/settings/display",
     icon: Monitor,
@@ -35,6 +41,8 @@ const navItems = [
 
 export function SettingsSidebar() {
   const pathname = usePathname()
+  const t = useTranslations("nav")
+  type NavKey = Parameters<typeof t>[0]
 
   return (
     <nav className="flex space-x-2 lg:flex-col lg:space-x-0 lg:space-y-1 overflow-x-auto pb-2 lg:pb-0">
@@ -44,6 +52,7 @@ export function SettingsSidebar() {
           item.href === "/dashboard/settings"
             ? pathname === "/dashboard/settings"
             : pathname === item.href
+        const label = t.has(item.key as NavKey) ? t(item.key as NavKey) : item.title
 
         return (
           <Link
@@ -58,7 +67,7 @@ export function SettingsSidebar() {
             )}
           >
             <Icon className="size-4" />
-            <span>{item.title}</span>
+            <span>{label}</span>
           </Link>
         )
       })}
