@@ -79,7 +79,10 @@ export interface ThemeFontConfig {
   description: string
 }
 
+export type ThemeMode = "light" | "dark" | "system"
+
 export interface ThemeSettings {
+  theme?: ThemeMode
   color: ThemeColor
   radius: ThemeRadius
   layout: ThemeLayout
@@ -89,6 +92,7 @@ export interface ThemeSettings {
 }
 
 export const DEFAULT_THEME_SETTINGS: ThemeSettings = {
+  theme: "system",
   color: "zinc",
   radius: 0.5,
   layout: "fluid",

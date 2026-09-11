@@ -21,6 +21,13 @@ const themeInitScript = `try {
     var raw = localStorage.getItem('theme_settings');
     if (raw) settings = JSON.parse(raw);
   } catch (e) {}
+  var mode = (settings && settings.theme) || localStorage.getItem('theme') || 'system';
+  var isDark = mode === 'dark' || (mode === 'system' && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+  if (isDark) {
+    document.documentElement.classList.add('dark');
+  } else {
+    document.documentElement.classList.remove('dark');
+  }
   var color = (settings && settings.color) || localStorage.getItem('theme-color') || 'zinc';
   var radius = (settings && settings.radius !== undefined) ? settings.radius : (localStorage.getItem('theme-radius') || '0.5');
   var layout = (settings && settings.layout) || localStorage.getItem('theme-layout') || 'fluid';
