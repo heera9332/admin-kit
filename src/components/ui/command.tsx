@@ -38,12 +38,14 @@ function CommandDialog({
   description = "Search for a command to run...",
   children,
   className,
+  commandClassName,
   showCloseButton = false,
   ...props
 }: Omit<React.ComponentProps<typeof Dialog>, "children"> & {
   title?: string
   description?: string
   className?: string
+  commandClassName?: string
   showCloseButton?: boolean
   children: React.ReactNode
 }) {
@@ -60,7 +62,14 @@ function CommandDialog({
         )}
         showCloseButton={showCloseButton}
       >
-        {children}
+        <Command
+          className={cn(
+            "[&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:font-medium [&_[cmdk-group-heading]]:text-muted-foreground [&_[cmdk-group]:not([hidden])_~[cmdk-group]]:pt-0 [&_[cmdk-group]]:px-2 [&_[cmdk-input-wrapper]_svg]:size-4 [&_[cmdk-item]]:px-2 [&_[cmdk-item]]:py-2",
+            commandClassName
+          )}
+        >
+          {children}
+        </Command>
       </DialogContent>
     </Dialog>
   )

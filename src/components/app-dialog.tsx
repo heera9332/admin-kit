@@ -78,16 +78,19 @@ export function AppDialog({
         <DialogTitle className="sr-only">Dialog</DialogTitle>
       )}
 
-      {children && (
-        <div
-          className={cn(
-            scrollable && "max-h-[calc(80vh-10rem)] overflow-y-auto pr-1",
-            contentClassName
-          )}
-        >
-          {children}
-        </div>
-      )}
+      {children &&
+        (scrollable || contentClassName ? (
+          <div
+            className={cn(
+              scrollable && "max-h-[calc(80vh-10rem)] overflow-y-auto pr-1",
+              contentClassName
+            )}
+          >
+            {children}
+          </div>
+        ) : (
+          children
+        ))}
 
       {footer && <DialogFooter className={footerClassName}>{footer}</DialogFooter>}
     </>
