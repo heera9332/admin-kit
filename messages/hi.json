@@ -543,9 +543,14 @@
       "system": "सिस्टम",
       "colorPalette": "रंग पैलेट",
       "sidebarVariant": "साइडबार प्रकार",
+      "sidebar": "साइडबार प्रकार",
       "typography": "टाइपोग्राफी",
+      "font": "इंटरफ़ेस फ़ॉन्ट",
+      "displayFont": "शीर्षक फ़ॉन्ट",
       "radius": "रेडियस",
-      "layoutStyle": "लेआउट शैली"
+      "layoutStyle": "लेआउट शैली",
+      "layout": "लेआउट शैली",
+      "livePreview": "लाइव पूर्वावलोकन"
     },
     "account": {
       "title": "खाता सेटिंग्स",

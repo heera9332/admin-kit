@@ -47,7 +47,7 @@ export function DataTablePagination<TData>({
               }
             }}
           >
-            <SelectTrigger className="h-8 w-[70px] text-xs">
+            <SelectTrigger className="h-8 w-17.5 text-xs">
               <SelectValue placeholder={currentPageSize} />
             </SelectTrigger>
             <SelectContent side="top">
@@ -59,7 +59,7 @@ export function DataTablePagination<TData>({
             </SelectContent>
           </Select>
         </div>
-        <div className="flex w-[100px] items-center justify-center text-xs font-medium">
+        <div className="flex w-25 items-center justify-center text-xs font-medium">
           Page {currentPage} of {pageCount}
         </div>
         <div className="flex items-center space-x-1 sm:space-x-2">

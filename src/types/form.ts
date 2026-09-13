@@ -92,6 +92,19 @@ export interface DateFieldConfig<TFieldValues extends FieldValues = FieldValues>
   dateFormat?: string
 }
 
+export interface CustomFieldConfig<TFieldValues extends FieldValues = FieldValues>
+  extends BaseFieldConfig<TFieldValues> {
+  type: "custom"
+  render: (props: {
+    value: unknown
+    onChange: (...event: unknown[]) => void
+    onBlur: () => void
+    name: string
+    fieldState: ControllerFieldState
+    id: string
+  }) => ReactNode
+}
+
 export type FieldConfig<TFieldValues extends FieldValues = FieldValues> =
   | TextFieldConfig<TFieldValues>
   | NumberFieldConfig<TFieldValues>
@@ -101,6 +114,7 @@ export type FieldConfig<TFieldValues extends FieldValues = FieldValues> =
   | CheckboxFieldConfig<TFieldValues>
   | RadioFieldConfig<TFieldValues>
   | DateFieldConfig<TFieldValues>
+  | CustomFieldConfig<TFieldValues>
 
 export type FormFieldsConfig<TFieldValues extends FieldValues = FieldValues> =
   FieldConfig<TFieldValues>[]

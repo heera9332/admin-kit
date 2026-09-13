@@ -242,6 +242,16 @@ export function FieldRenderer<TFieldValues extends FieldValues = FieldValues>({
       )
     }
 
+    case "custom":
+      return config.render({
+        value,
+        onChange,
+        onBlur,
+        name,
+        fieldState,
+        id,
+      })
+
     default:
       return null
   }

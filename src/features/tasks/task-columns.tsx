@@ -55,7 +55,7 @@ export function getTaskColumns({ onDelete }: GetTaskColumnsOptions = {}): Column
           indeterminate={table.getIsSomePageRowsSelected()}
           onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
           aria-label="Select all"
-          className="translate-y-[2px]"
+          className="translate-y-0.5"
         />
       ),
       cell: ({ row }) => (
@@ -63,7 +63,7 @@ export function getTaskColumns({ onDelete }: GetTaskColumnsOptions = {}): Column
           checked={row.getIsSelected()}
           onCheckedChange={(value) => row.toggleSelected(!!value)}
           aria-label="Select row"
-          className="translate-y-[2px]"
+          className="translate-y-0.5"
         />
       ),
       enableSorting: false,
@@ -97,7 +97,7 @@ export function getTaskColumns({ onDelete }: GetTaskColumnsOptions = {}): Column
             >
               {label}
             </Badge>
-            <span className="max-w-[450px] truncate font-medium text-xs sm:text-sm">
+            <span className="max-w-112.5 truncate font-medium text-xs sm:text-sm">
               {row.getValue("title")}
             </span>
           </div>
@@ -158,7 +158,7 @@ export function getTaskColumns({ onDelete }: GetTaskColumnsOptions = {}): Column
               <MoreHorizontal className="size-4" />
               <span className="sr-only">Open menu</span>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-[160px]">
+            <DropdownMenuContent align="end" className="w-40">
               <DropdownMenuLabel className="text-xs">Actions</DropdownMenuLabel>
               <DropdownMenuItem
                 onClick={() => navigator.clipboard.writeText(task.id)}

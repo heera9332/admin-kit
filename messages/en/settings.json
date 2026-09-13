@@ -17,9 +17,14 @@
     "system": "System",
     "colorPalette": "Color Palette",
     "sidebarVariant": "Sidebar Variant",
+    "sidebar": "Sidebar Variant",
     "typography": "Typography",
+    "font": "Interface Font",
+    "displayFont": "Display Font",
     "radius": "Radius",
-    "layoutStyle": "Layout Style"
+    "layoutStyle": "Layout Style",
+    "layout": "Layout Style",
+    "livePreview": "Interactive Live Preview"
   },
   "account": {
     "title": "Account Settings",

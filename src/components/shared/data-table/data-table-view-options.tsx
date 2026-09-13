@@ -45,7 +45,7 @@ export function DataTableViewOptions<TData>({
         <Settings2 className="size-3.5" />
         <span>View</span>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-[150px]">
+      <DropdownMenuContent align="end" className="w-37.5">
         <DropdownMenuLabel className="text-xs">Toggle columns</DropdownMenuLabel>
         <DropdownMenuSeparator />
         {hideableColumns.map((column) => {
