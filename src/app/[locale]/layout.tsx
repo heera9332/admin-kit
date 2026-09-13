@@ -16,6 +16,7 @@ import { siteConfig } from "@/config/site"
 import { NextIntlClientProvider } from "next-intl"
 import { getMessages, setRequestLocale } from "next-intl/server"
 import { routing, LOCALES_CONFIG, type Locale } from "@/i18n/routing"
+import { Analytics } from "@vercel/analytics/next"
 
 const lexend = Lexend({
   variable: "--font-lexend",
@@ -111,6 +112,7 @@ export default async function RootLayout({
       suppressHydrationWarning
     >
       <body className="min-h-full flex flex-col bg-background text-foreground antialiased selection:bg-primary/10 selection:text-primary">
+        <Analytics />
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
