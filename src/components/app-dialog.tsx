@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/dialog"
 import { cn } from "@/lib/utils"
 
-export type AppDialogSize = "sm" | "md" | "lg" | "xl" | "2xl" | "full"
+export type AppDialogSize = "sm" | "md" | "lg" | "xl" | "2xl" | "3xl" | "4xl" | "full"
 
 const sizeClasses: Record<AppDialogSize, string> = {
   sm: "sm:max-w-sm",
@@ -21,6 +21,8 @@ const sizeClasses: Record<AppDialogSize, string> = {
   lg: "sm:max-w-lg",
   xl: "sm:max-w-xl",
   "2xl": "sm:max-w-2xl",
+  "3xl": "sm:max-w-3xl",
+  "4xl": "sm:max-w-4xl",
   full: "sm:max-w-[calc(100vw-2rem)] sm:max-h-[calc(100vh-2rem)]",
 }
 
