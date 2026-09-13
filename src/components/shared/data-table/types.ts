@@ -32,4 +32,5 @@ export interface DataTableProps<TData, TValue = unknown> {
   pagination?: boolean | DataTablePaginationConfig
   emptyMessage?: string
   toolbarActions?: React.ReactNode
+  onRowClick?: (row: TData) => void
 }
