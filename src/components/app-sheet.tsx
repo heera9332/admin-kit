@@ -96,7 +96,7 @@ export function AppSheet({
       {children && (
         <div
           className={cn(
-            "flex-1",
+            "flex-1 px-2",
             scrollable && "overflow-y-auto",
             contentClassName
           )}

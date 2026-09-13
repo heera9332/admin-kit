@@ -23,6 +23,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { AppDialog } from "@/components/app-dialog";
+import { StatusBadge } from "@/components/status-badge";
 import { Label } from "@/components/ui/label";
 import {
   Select,
@@ -41,13 +42,6 @@ const roleBadges: Record<
   admin: { label: "Admin", variant: "secondary" },
   manager: { label: "Manager", variant: "outline" },
   cashier: { label: "Cashier", variant: "outline" },
-};
-
-const statusColors: Record<UserItem["status"], string> = {
-  active: "bg-emerald-500/10 text-emerald-600 border-emerald-500/20",
-  inactive: "bg-muted text-muted-foreground border-border",
-  invited: "bg-blue-500/10 text-blue-600 border-blue-500/20",
-  suspended: "bg-red-500/10 text-red-600 border-red-500/20",
 };
 
 export function UsersFeature() {
@@ -223,13 +217,7 @@ export function UsersFeature() {
                   </TableCell>
 
                   <TableCell>
-                    <span
-                      className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium border capitalize ${
-                        statusColors[user.status]
-                      }`}
-                    >
-                      {user.status}
-                    </span>
+                    <StatusBadge status={user.status} size="sm" dot />
                   </TableCell>
 
                   <TableCell className="hidden md:table-cell text-xs text-muted-foreground font-mono">

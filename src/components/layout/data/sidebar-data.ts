@@ -1,5 +1,6 @@
 import {
   LayoutDashboard,
+  FolderKanban,
   ListTodo,
   Package,
   MessagesSquare,
@@ -47,6 +48,12 @@ export const sidebarData: SidebarData = {
           titleKey: "dashboard",
           url: "/dashboard",
           icon: LayoutDashboard,
+        },
+        {
+          title: "Projects",
+          titleKey: "projects",
+          url: "/dashboard/projects",
+          icon: FolderKanban,
         },
         {
           title: "Tasks",
