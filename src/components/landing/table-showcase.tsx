@@ -311,10 +311,10 @@ export function TableShowcase() {
                             <DropdownMenuContent align="end">
                               <DropdownMenuItem className="text-xs cursor-pointer">
                                 <UserCheck className="size-3.5 mr-2" />
-                                <span>View Details</span>
+                                <span>View</span>
                               </DropdownMenuItem>
                               <DropdownMenuItem className="text-xs cursor-pointer">
-                                <span>Edit Permissions</span>
+                                <span>Edit</span>
                               </DropdownMenuItem>
                               <DropdownMenuSeparator />
                               <DropdownMenuItem className="text-xs text-destructive cursor-pointer">
