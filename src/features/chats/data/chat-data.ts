@@ -13,6 +13,10 @@ export interface ChatContact {
   status: "online" | "offline"
   unread: number
   lastActive: string
+  phone: string
+  about: string
+  role: string
+  location: string
   messages: ChatMessage[]
 }
 
@@ -25,6 +29,10 @@ export const chatContacts: ChatContact[] = [
     status: "online",
     unread: 3,
     lastActive: "Just now",
+    phone: "+1 (555) 234-5678",
+    about: "Building scalable web products 🚀 | Available for quick syncs",
+    role: "Lead Product Designer",
+    location: "San Francisco, CA",
     messages: [
       { id: "m1", sender: "contact", text: "Hey adminkit! Did you check the latest pull request on the tasks dashboard?", time: "10:14 AM" },
       { id: "m2", sender: "user", text: "Hey Sarah! Yes, I just reviewed the TanStack table filters and pagination.", time: "10:15 AM" },
@@ -40,6 +48,10 @@ export const chatContacts: ChatContact[] = [
     status: "online",
     unread: 0,
     lastActive: "15m ago",
+    phone: "+1 (555) 890-1234",
+    about: "Full stack engineering & distributed systems architect",
+    role: "Senior Backend Engineer",
+    location: "Austin, TX",
     messages: [
       { id: "m1", sender: "contact", text: "The Stripe webhook events are now synchronizing seamlessly.", time: "Yesterday" },
       { id: "m2", sender: "user", text: "Great news. Make sure the idempotency keys are handled properly.", time: "Yesterday" },
@@ -54,6 +66,10 @@ export const chatContacts: ChatContact[] = [
     status: "offline",
     unread: 0,
     lastActive: "2h ago",
+    phone: "+44 20 7946 0912",
+    about: "Design system enthusiast & typography geek 🎨",
+    role: "UI/UX Specialist",
+    location: "London, UK",
     messages: [
       { id: "m1", sender: "contact", text: "I uploaded the updated dark mode tokens in Figma.", time: "2 days ago" },
       { id: "m2", sender: "user", text: "Looks clean! The contrast ratios meet WCAG AAA standards.", time: "2 days ago" },
@@ -67,6 +83,10 @@ export const chatContacts: ChatContact[] = [
     status: "online",
     unread: 1,
     lastActive: "5m ago",
+    phone: "+1 (555) 432-8765",
+    about: "DevOps & Cloud Infrastructure. SRE on call ⚡",
+    role: "DevOps Lead",
+    location: "Seattle, WA",
     messages: [
       { id: "m1", sender: "contact", text: "Are we deploying the database migrations tonight?", time: "9:30 AM" },
       { id: "m2", sender: "user", text: "Yes, scheduled for 11 PM UTC during the low-traffic window.", time: "9:45 AM" },
@@ -81,6 +101,10 @@ export const chatContacts: ChatContact[] = [
     status: "offline",
     unread: 0,
     lastActive: "1d ago",
+    phone: "+1 (555) 321-9876",
+    about: "AI / ML product researcher & prompt engineer",
+    role: "Product Manager",
+    location: "New York, NY",
     messages: [
       { id: "m1", sender: "contact", text: "Thanks for approving the invitation. Looking forward to using the template!", time: "Aug 31" },
     ],
