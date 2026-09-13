@@ -22,14 +22,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
+import { AppDialog } from "@/components/app-dialog";
 import { Label } from "@/components/ui/label";
 import {
   Select,
@@ -151,7 +144,7 @@ export function UsersFeature() {
               if (val) setRoleFilter(val);
             }}
           >
-            <SelectTrigger className="h-8 text-xs">
+            <SelectTrigger className="h-8 text-xs w-32">
               <SelectValue placeholder="Role" />
             </SelectTrigger>
             <SelectContent>
@@ -296,87 +289,81 @@ export function UsersFeature() {
       </div>
 
       {/* Invite User Dialog */}
-      <Dialog open={inviteOpen} onOpenChange={setInviteOpen}>
-        <DialogContent className="sm:max-w-md">
-          <form onSubmit={handleInvite}>
-            <DialogHeader>
-              <DialogTitle>Invite Team Member</DialogTitle>
-              <DialogDescription>
-                Send an invitation email with a secure link to join your
-                workspace.
-              </DialogDescription>
-            </DialogHeader>
-
-            <div className="grid gap-4 py-4">
-              <div className="grid grid-cols-2 gap-3">
-                <div className="space-y-1.5">
-                  <Label htmlFor="firstName">First Name</Label>
-                  <Input
-                    id="firstName"
-                    placeholder="Jane"
-                    value={newFirstName}
-                    onChange={(e) => setNewFirstName(e.target.value)}
-                    required
-                  />
-                </div>
-                <div className="space-y-1.5">
-                  <Label htmlFor="lastName">Last Name</Label>
-                  <Input
-                    id="lastName"
-                    placeholder="Doe"
-                    value={newLastName}
-                    onChange={(e) => setNewLastName(e.target.value)}
-                  />
-                </div>
-              </div>
-
-              <div className="space-y-1.5">
-                <Label htmlFor="email">Email Address</Label>
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="jane.doe@company.com"
-                  value={newEmail}
-                  onChange={(e) => setNewEmail(e.target.value)}
-                  required
-                />
-              </div>
-
-              <div className="space-y-1.5">
-                <Label htmlFor="role">Role</Label>
-
-                <Select
-                  value={newRole}
-                  onValueChange={(val) => {
-                    if (val) setNewRole(val as UserItem["role"]);
-                  }}
-                >
-                  <SelectTrigger id="role" className="h-8 w-full text-xs">
-                    <SelectValue placeholder="Select role" />
-                  </SelectTrigger>
-
-                  <SelectContent>
-                    <SelectItem value="admin">Admin</SelectItem>
-                    <SelectItem value="manager">Manager</SelectItem>
-                    <SelectItem value="cashier">Cashier</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
+      <AppDialog
+        open={inviteOpen}
+        onOpenChange={setInviteOpen}
+        title="Invite Team Member"
+        description="Send an invitation email with a secure link to join your workspace."
+        onSubmit={handleInvite}
+        size="md"
+        footer={
+          <>
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => setInviteOpen(false)}
+            >
+              Cancel
+            </Button>
+            <Button type="submit">Send Invitation</Button>
+          </>
+        }
+      >
+        <div className="grid gap-4 py-2">
+          <div className="grid grid-cols-2 gap-3">
+            <div className="space-y-1.5">
+              <Label htmlFor="firstName">First Name</Label>
+              <Input
+                id="firstName"
+                placeholder="Jane"
+                value={newFirstName}
+                onChange={(e) => setNewFirstName(e.target.value)}
+                required
+              />
             </div>
+            <div className="space-y-1.5">
+              <Label htmlFor="lastName">Last Name</Label>
+              <Input
+                id="lastName"
+                placeholder="Doe"
+                value={newLastName}
+                onChange={(e) => setNewLastName(e.target.value)}
+              />
+            </div>
+          </div>
 
-            <DialogFooter>
-              <Button
-                type="button"
-                variant="outline"
-                onClick={() => setInviteOpen(false)}
-              >
-                Cancel
-              </Button>
-              <Button type="submit">Send Invitation</Button>
-            </DialogFooter>
-          </form>
-        </DialogContent>
-      </Dialog>
+          <div className="space-y-1.5">
+            <Label htmlFor="email">Email Address</Label>
+            <Input
+              id="email"
+              type="email"
+              placeholder="jane.doe@company.com"
+              value={newEmail}
+              onChange={(e) => setNewEmail(e.target.value)}
+              required
+            />
+          </div>
+
+          <div className="space-y-1.5">
+            <Label htmlFor="role">Role</Label>
+            <Select
+              value={newRole}
+              onValueChange={(val) => {
+                if (val) setNewRole(val as UserItem["role"]);
+              }}
+            >
+              <SelectTrigger id="role" className="h-8 w-full text-xs">
+                <SelectValue placeholder="Select role" />
+              </SelectTrigger>
+              <SelectContent className="w-full">
+                <SelectItem value="admin">Admin</SelectItem>
+                <SelectItem value="manager">Manager</SelectItem>
+                <SelectItem value="cashier">Cashier</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+        </div>
+      </AppDialog>
     </div>
   );
 }

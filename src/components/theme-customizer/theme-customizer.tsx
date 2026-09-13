@@ -30,14 +30,7 @@ import {
   type ThemeFont,
 } from "@/config/themes"
 import { Button } from "@/components/ui/button"
-import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet"
+import { AppSheet } from "@/components/app-sheet"
 import {
   Select,
   SelectContent,
@@ -94,26 +87,27 @@ export function ThemeCustomizer({ className }: ThemeCustomizerProps) {
       : currentColorConfig.activeColor.light
 
   return (
-    <Sheet open={open} onOpenChange={setOpen}>
-      <SheetTrigger
-        render={
-          <Button
-            variant="ghost"
-            size="icon-sm"
-            className={cn("relative", className)}
-            aria-label="Customize theme"
-          />
-        }
-      >
-        <Palette className="size-4 text-muted-foreground transition-transform hover:scale-110" />
-      </SheetTrigger>
-      <SheetContent
-        side="right"
-        className="w-full sm:max-w-md flex flex-col p-6 overflow-y-auto"
-      >
-        <SheetHeader className="p-0 text-left border-b pb-4">
+    <AppSheet
+      open={open}
+      onOpenChange={setOpen}
+      side="right"
+      size="md"
+      scrollable
+      className="p-6"
+      trigger={
+        <Button
+          variant="ghost"
+          size="icon-sm"
+          className={cn("relative", className)}
+          aria-label="Customize theme"
+        >
+          <Palette className="size-4 text-muted-foreground transition-transform hover:scale-110" />
+        </Button>
+      }
+      header={
+        <div className="flex flex-col gap-0.5 border-b pb-4">
           <div className="flex items-center justify-between pr-6">
-            <SheetTitle className="text-base font-semibold">Theme Settings</SheetTitle>
+            <AppSheet.Title className="text-base font-semibold">Theme Settings</AppSheet.Title>
             <div className="flex items-center gap-1">
               <Button
                 variant="ghost"
@@ -126,10 +120,12 @@ export function ThemeCustomizer({ className }: ThemeCustomizerProps) {
               </Button>
             </div>
           </div>
-          <SheetDescription className="text-xs text-muted-foreground mt-1">
+          <AppSheet.Description className="text-xs text-muted-foreground mt-1">
             Adjust appearance, colors, and layout. All changes apply live and save automatically.
-          </SheetDescription>
-        </SheetHeader>
+          </AppSheet.Description>
+        </div>
+      }
+    >
 
         <div className="flex flex-col gap-5 py-5 flex-1">
           {/* Mode */}
@@ -397,7 +393,6 @@ export function ThemeCustomizer({ className }: ThemeCustomizerProps) {
             <ExternalLink className="size-3" />
           </Link>
         </div>
-      </SheetContent>
-    </Sheet>
+    </AppSheet>
   )
 }

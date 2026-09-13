@@ -10,14 +10,7 @@ import { ThemeToggle } from "@/components/theme-toggle"
 import { ThemeCustomizer } from "@/components/theme-customizer"
 import { LocaleSwitcher } from "@/components/locale-switcher"
 import { GithubIcon } from "@/components/icons"
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-  SheetClose,
-} from "@/components/ui/sheet"
+import { AppSheet } from "@/components/app-sheet"
 
 export function Navbar() {
   const [isOpen, setIsOpen] = React.useState(false)
@@ -83,81 +76,84 @@ export function Navbar() {
           <ThemeCustomizer />
           <ThemeToggle />
 
-          <Sheet open={isOpen} onOpenChange={setIsOpen}>
-            <SheetTrigger
-              render={
-                <Button
-                  variant="ghost"
-                  size="icon-sm"
-                  aria-label="Toggle navigation menu"
-                />
-              }
-            >
-              <Menu className="size-5" />
-            </SheetTrigger>
-            <SheetContent side="right" className="w-[80vw] max-w-sm flex flex-col p-6">
-              <SheetHeader className="p-0 text-left border-b border-border/50 pb-4">
-                <SheetTitle className="flex items-center gap-2.5">
+          <AppSheet
+            open={isOpen}
+            onOpenChange={setIsOpen}
+            side="right"
+            size="sm"
+            className="w-[80vw] p-6"
+            trigger={
+              <Button
+                variant="ghost"
+                size="icon-sm"
+                aria-label="Toggle navigation menu"
+              >
+                <Menu className="size-5" />
+              </Button>
+            }
+            header={
+              <div className="border-b border-border/50 pb-4">
+                <AppSheet.Title className="flex items-center gap-2.5">
                   <span className="flex size-7 items-center justify-center rounded-md bg-primary text-primary-foreground">
                     <LayoutDashboard className="size-4" />
                   </span>
                   <span className="font-heading text-lg font-semibold">
                     {siteConfig.name}
                   </span>
-                </SheetTitle>
-              </SheetHeader>
-
-              <div className="flex flex-col gap-2 py-6 flex-1">
-                {marketingNav.map((item) => (
-                  <SheetClose
-                    key={item.title}
-                    render={
-                      <Link
-                        href={item.href}
-                        onClick={() => setIsOpen(false)}
-                        className="flex items-center py-2 text-base font-medium text-foreground hover:text-primary transition-colors"
-                      />
-                    }
-                  >
-                    {item.title}
-                  </SheetClose>
-                ))}
+                </AppSheet.Title>
               </div>
-
-              <div className="flex flex-col gap-3 pt-4 border-t border-border/50">
-                <a
-                  href={siteConfig.links.github}
-                  target="_blank"
-                  rel="noreferrer"
-                  className={buttonVariants({
-                    variant: "outline",
-                    size: "default",
-                    className: "w-full justify-center gap-2",
-                  })}
-                >
-                        <GithubIcon className="size-4" />
-                  <span>GitHub Repository</span>
-                </a>
-
-                <SheetClose
+            }
+          >
+            <div className="flex flex-col gap-2 py-6 flex-1">
+              {marketingNav.map((item) => (
+                <AppSheet.Close
+                  key={item.title}
                   render={
                     <Link
-                      href="/dashboard"
+                      href={item.href}
                       onClick={() => setIsOpen(false)}
-                      className={buttonVariants({
-                        variant: "default",
-                        size: "default",
-                        className: "w-full justify-center gap-2",
-                      })}
+                      className="flex items-center py-2 text-base font-medium text-foreground hover:text-primary transition-colors"
                     />
                   }
                 >
-                  <span>Get Started</span>
-                  <ArrowRight className="size-4" />
-                </SheetClose>
-              </div>
-            </SheetContent>
-          </Sheet>
+                  {item.title}
+                </AppSheet.Close>
+              ))}
+            </div>
+
+            <div className="flex flex-col gap-3 pt-4 border-t border-border/50">
+              <a
+                href={siteConfig.links.github}
+                target="_blank"
+                rel="noreferrer"
+                className={buttonVariants({
+                  variant: "outline",
+                  size: "default",
+                  className: "w-full justify-center gap-2",
+                })}
+              >
+                <GithubIcon className="size-4" />
+                <span>GitHub Repository</span>
+              </a>
+
+              <AppSheet.Close
+                render={
+                  <Link
+                    href="/dashboard"
+                    onClick={() => setIsOpen(false)}
+                    className={buttonVariants({
+                      variant: "default",
+                      size: "default",
+                      className: "w-full justify-center gap-2",
+                    })}
+                  />
+                }
+              >
+                <span>Get Started</span>
+                <ArrowRight className="size-4" />
+              </AppSheet.Close>
+            </div>
+          </AppSheet>
         </div>
       </div>
     </header>

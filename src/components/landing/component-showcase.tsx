@@ -21,16 +21,7 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { Switch } from "@/components/ui/switch"
 import { Checkbox } from "@/components/ui/checkbox"
 import { NativeSelect, NativeSelectOption } from "@/components/ui/native-select"
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-  DialogFooter,
-  DialogClose,
-} from "@/components/ui/dialog"
+import { AppDialog } from "@/components/app-dialog"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -192,43 +183,38 @@ export function ComponentShowcase() {
             </CardHeader>
             <CardContent className="flex items-center gap-3 pt-2">
               {/* Dialog Example */}
-              <Dialog>
-                <DialogTrigger
-                  render={
-                    <Button variant="outline" size="sm" className="text-xs gap-1.5" />
-                  }
-                >
-                  <Layers className="size-3.5" />
-                  <span>Open Modal</span>
-                </DialogTrigger>
-                <DialogContent className="sm:max-w-md">
-                  <DialogHeader>
-                    <DialogTitle>AdminKit Dialog</DialogTitle>
-                    <DialogDescription>
-                      Accessible modal dialog with backdrop blur and focus trapping.
-                    </DialogDescription>
-                  </DialogHeader>
-                  <div className="py-2 text-xs text-muted-foreground">
-                    This modal dialog uses the project&apos;s native shadcn/ui dialog component.
-                  </div>
-                  <DialogFooter className="gap-2 sm:justify-end">
-                    <DialogClose
+              <AppDialog
+                trigger={
+                  <Button variant="outline" size="sm" className="text-xs gap-1.5">
+                    <Layers className="size-3.5" />
+                    <span>Open Modal</span>
+                  </Button>
+                }
+                title="AdminKit Dialog"
+                description="Accessible modal dialog with backdrop blur and focus trapping."
+                footer={
+                  <>
+                    <AppDialog.Close
                       render={
                         <Button variant="outline" size="sm" />
                       }
                     >
                       Cancel
-                    </DialogClose>
-                    <DialogClose
+                    </AppDialog.Close>
+                    <AppDialog.Close
                       render={
                         <Button variant="default" size="sm" />
                       }
                     >
                       Confirm Action
-                    </DialogClose>
-                  </DialogFooter>
-                </DialogContent>
-              </Dialog>
+                    </AppDialog.Close>
+                  </>
+                }
+              >
+                <div className="py-2 text-xs text-muted-foreground">
+                  This modal dialog uses the project&apos;s reusable AppDialog component.
+                </div>
+              </AppDialog>
 
               {/* Dropdown Menu Example */}
               <DropdownMenu>
