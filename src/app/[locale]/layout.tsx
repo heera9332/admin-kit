@@ -9,7 +9,7 @@ import {
   Outfit,
   DM_Sans,
 } from "next/font/google"
-import "@/app/globals.css"
+import "@/styles/globals.css"
 import { TooltipProvider } from "@/components/ui/tooltip"
 import { ThemeProvider } from "@/providers/theme-provider"
 import { siteConfig } from "@/config/site"

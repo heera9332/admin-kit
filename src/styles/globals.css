@@ -1,0 +1,69 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+@import "../styles/theme.css";
+
+
+/* Sidebar Variants */
+html[data-sidebar-variant="inset"] [data-slot="sidebar-wrapper"] {
+  background-color: var(--sidebar);
+}
+
+@media (min-width: 768px) {
+  html[data-sidebar-variant="inset"] [data-slot="sidebar-inset"] {
+    margin: 0.5rem;
+    margin-left: 0;
+    border-radius: var(--radius-xl, 0.75rem);
+    box-shadow:
+      0 1px 3px 0 rgb(0 0 0 / 0.1),
+      0 1px 2px -1px rgb(0 0 0 / 0.1);
+    border: 1px solid var(--border);
+    overflow: hidden;
+  }
+
+  html[data-sidebar-variant="inset"]
+    [data-slot="sidebar"][data-state="collapsed"]
+    ~ [data-slot="sidebar-inset"] {
+    margin-left: 0.5rem;
+  }
+}
+
+html[data-sidebar-variant="floating"] [data-slot="sidebar-container"] {
+  padding: 0.5rem;
+}
+
+html[data-sidebar-variant="floating"] [data-slot="sidebar-inner"] {
+  border-radius: var(--radius-lg, 0.5rem);
+  box-shadow:
+    0 1px 3px 0 rgb(0 0 0 / 0.1),
+    0 1px 2px -1px rgb(0 0 0 / 0.1);
+  border: 1px solid var(--sidebar-border);
+}
+
+/* Boxed Layout Variant */
+html[data-layout="boxed"] [data-slot="sidebar-inset"] > div:last-child {
+  max-width: 80rem;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

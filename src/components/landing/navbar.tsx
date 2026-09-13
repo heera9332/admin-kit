@@ -55,7 +55,6 @@ export function Navbar() {
 
         {/* Right CTA Actions (Desktop) */}
         <div className="hidden md:flex items-center gap-2">
-          <LocaleSwitcher />
           <ThemeCustomizer />
           <ThemeToggle />
 
