@@ -1,0 +1,19 @@
+{
+  "title": "Help Center",
+  "description": "Find answers to frequently asked questions, product guides, and support resources.",
+  "searchPlaceholder": "Search help articles, guides, tutorials...",
+  "categories": {
+    "gettingStarted": "Getting Started",
+    "accountBilling": "Account & Billing",
+    "features": "Features & Guides",
+    "security": "Security & Privacy",
+    "api": "API & Developers",
+    "faq": "Frequently Asked Questions"
+  },
+  "resources": {
+    "docs": "Documentation",
+    "support": "Contact Support",
+    "community": "Community Forum",
+    "status": "System Status"
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "title": "Settings",
+  "description": "Manage your account settings, preferences, appearance, and notifications.",
+  "sidebar": {
+    "profile": "Profile",
+    "account": "Account",
+    "appearance": "Appearance",
+    "notifications": "Notifications",
+    "display": "Display"
+  },
+  "appearance": {
+    "title": "Appearance & Theme",
+    "description": "Customize the look and feel of your dashboard. Changes apply live and save automatically.",
+    "themeMode": "Theme Mode",
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System",
+    "colorPalette": "Color Palette",
+    "sidebarVariant": "Sidebar Variant",
+    "typography": "Typography",
+    "radius": "Radius",
+    "layoutStyle": "Layout Style"
+  },
+  "account": {
+    "title": "Account Settings",
+    "description": "Update your profile details, email address, and language preferences.",
+    "personalInfo": "Personal Information",
+    "emailPreferences": "Email Preferences",
+    "deleteAccount": "Delete Account",
+    "deleteAccountWarning": "Permanently delete your account and all associated data."
+  },
+  "notifications": {
+    "title": "Notification Preferences",
+    "description": "Choose what alerts and notifications you receive.",
+    "email": "Email Notifications",
+    "push": "Push Notifications",
+    "security": "Security Alerts"
+  },
+  "display": {
+    "title": "Display Settings",
+    "description": "Configure visual density, fonts, and motion preferences.",
+    "compact": "Compact Mode",
+    "animations": "Reduce Motion",
+    "contrast": "High Contrast"
+  }
+}

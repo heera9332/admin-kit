@@ -1,0 +1,72 @@
+{
+  "title": "Projects",
+  "description": "Manage your projects, track progress, collaborate with teams, and deliver results.",
+  "newProject": "New Project",
+  "createProject": "Create Project",
+  "editProject": "Edit Project",
+  "deleteProject": "Delete Project",
+  "viewProject": "Project Details",
+  "searchPlaceholder": "Search projects by title, description or category...",
+  "filterStatus": "Filter Status",
+  "filterCategory": "Filter Category",
+  "allStatuses": "All Statuses",
+  "allCategories": "All Categories",
+  "stats": {
+    "total": "Total Projects",
+    "inProgress": "In Progress",
+    "completed": "Completed",
+    "onHold": "On Hold",
+    "planning": "In Planning"
+  },
+  "fields": {
+    "id": "ID",
+    "title": "Project Title",
+    "titlePlaceholder": "e.g. Next.js SaaS Platform Redesign",
+    "description": "Description",
+    "descriptionPlaceholder": "Describe the project scope, deliverables, and targets...",
+    "status": "Status",
+    "selectStatus": "Select status",
+    "category": "Category",
+    "selectCategory": "Select category",
+    "progress": "Progress",
+    "dueDate": "Due Date",
+    "createdAt": "Created At",
+    "actions": "Actions"
+  },
+  "statuses": {
+    "planning": "Planning",
+    "in_progress": "In Progress",
+    "completed": "Completed",
+    "on_hold": "On Hold"
+  },
+  "categories": {
+    "web": "Web Development",
+    "mobile": "Mobile App",
+    "design": "UI/UX Design",
+    "marketing": "Marketing",
+    "devops": "Cloud & DevOps"
+  },
+  "dialogs": {
+    "createTitle": "Create New Project",
+    "createDescription": "Fill in the project details below to initialize tracking and collaboration.",
+    "editTitle": "Edit Project",
+    "editDescription": "Update the title, category, status, and description for this project.",
+    "viewTitle": "Project Details",
+    "viewDescription": "Complete specification, current status, and metadata for this project.",
+    "deleteTitle": "Delete Project",
+    "deleteDescription": "Are you sure you want to delete this project? All associated tasks and records will be permanently removed.",
+    "confirmDelete": "Delete Project",
+    "cancel": "Cancel",
+    "save": "Save Changes",
+    "create": "Create Project"
+  },
+  "messages": {
+    "created": "Project created successfully.",
+    "updated": "Project updated successfully.",
+    "deleted": "Project deleted successfully."
+  },
+  "empty": {
+    "noProjects": "No projects found",
+    "noProjectsDesc": "Try adjusting your search or filters, or create a new project to get started."
+  }
+}

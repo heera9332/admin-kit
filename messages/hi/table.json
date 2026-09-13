@@ -1,0 +1,59 @@
+{
+  "search": "पंक्तियाँ फ़िल्टर करें...",
+  "searchPlaceholder": "तालिका में खोजें...",
+  "filter": "फ़िल्टर",
+  "filterBy": "फ़िल्टर द्वारा",
+  "all": "सभी",
+  "resetFilters": "फ़िल्टर रीसेट करें",
+  "clearFilters": "फ़िल्टर साफ़ करें",
+  "columns": "कॉलम",
+  "viewColumns": "कॉलम देखें",
+  "toggleColumns": "कॉलम टॉगल करें",
+  "selected": "{count} चयनित",
+  "selectedRows": "चयनित पंक्तियाँ",
+  "selectAll": "सभी चुनें",
+  "clearSelection": "चयन साफ़ करें",
+  "rowsSelected": "{total} में से {selected} पंक्ति(याँ) चयनित",
+  "pagination": {
+    "previous": "पिछला",
+    "next": "अगला",
+    "first": "पहला",
+    "last": "अंतिम",
+    "page": "पृष्ठ",
+    "of": "का",
+    "rowsPerPage": "प्रति पृष्ठ पंक्तियाँ",
+    "showing": "दिखा रहा है",
+    "to": "से",
+    "results": "परिणाम"
+  },
+  "sorting": {
+    "ascending": "आरोही",
+    "descending": "अवरोही",
+    "clearSort": "क्रमबद्ध साफ़ करें",
+    "sortBy": "क्रमबद्ध करें"
+  },
+  "bulk": {
+    "actions": "थोक क्रियाएं",
+    "deleteSelected": "चयनित हटाएं",
+    "exportSelected": "चयनित निर्यात करें",
+    "markActive": "सक्रिय के रूप में चिह्नित करें",
+    "markInactive": "निष्क्रिय के रूप में चिह्नित करें"
+  },
+  "empty": {
+    "noResults": "कोई परिणाम नहीं मिला।",
+    "noData": "तालिका में कोई डेटा उपलब्ध नहीं है।",
+    "tryDifferentSearch": "आप जो खोज रहे हैं उसे खोजने के लिए अपनी खोज या फ़िल्टर समायोजित करने का प्रयास करें।"
+  },
+  "headers": {
+    "id": "आईडी",
+    "name": "नाम",
+    "email": "ईमेल",
+    "role": "भूमिका",
+    "status": "स्थिति",
+    "date": "तारीख",
+    "joined": "शामिल हुए",
+    "createdAt": "बनाया गया",
+    "updatedAt": "अद्यतन किया गया",
+    "actions": "क्रियाएं"
+  }
+}

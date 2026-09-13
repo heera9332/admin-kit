@@ -10,16 +10,105 @@
     "settings": "Settings",
     "helpCenter": "Help Center",
     "search": "Search...",
+    "searchPlaceholder": "Search anywhere or type ⌘K...",
     "notifications": "Notifications",
     "profile": "Profile",
     "logout": "Log out",
     "save": "Save",
     "cancel": "Cancel",
     "reset": "Reset",
+    "delete": "Delete",
+    "edit": "Edit",
+    "create": "Create",
+    "add": "Add",
+    "new": "New",
+    "remove": "Remove",
+    "discard": "Discard",
+    "apply": "Apply",
+    "close": "Close",
+    "back": "Back",
+    "next": "Next",
+    "submit": "Submit",
+    "continue": "Continue",
+    "finish": "Finish",
+    "confirm": "Confirm",
+    "duplicate": "Duplicate",
+    "copy": "Copy",
+    "download": "Download",
+    "export": "Export",
+    "import": "Import",
+    "refresh": "Refresh",
+    "filter": "Filter",
+    "clear": "Clear",
+    "viewAll": "View all",
+    "showMore": "Show more",
+    "showLess": "Show less",
+    "viewDetails": "View details",
     "autoSaved": "Auto-saved",
+    "saving": "Saving...",
     "loading": "Loading...",
     "status": "Status",
-    "actions": "Actions"
+    "actions": "Actions",
+    "active": "Active",
+    "inactive": "Inactive",
+    "pending": "Pending",
+    "draft": "Draft",
+    "completed": "Completed",
+    "inProgress": "In Progress",
+    "failed": "Failed",
+    "success": "Success",
+    "warning": "Warning",
+    "error": "Error",
+    "info": "Info",
+    "noData": "No data available",
+    "nav": {
+      "general": "General",
+      "dashboard": "Dashboard",
+      "tasks": "Tasks",
+      "apps": "Apps",
+      "chats": "Chats",
+      "users": "Users",
+      "pages": "Pages",
+      "auth": "Authentication",
+      "signIn": "Sign In",
+      "signUp": "Sign Up",
+      "forgotPassword": "Forgot Password",
+      "otp": "2FA / OTP",
+      "errors": "Errors",
+      "unauthorized": "Unauthorized (401)",
+      "forbidden": "Forbidden (403)",
+      "notFound": "Not Found (404)",
+      "serverError": "Internal Error (500)",
+      "maintenance": "Maintenance (503)",
+      "other": "Other",
+      "settings": "Settings",
+      "profile": "Profile",
+      "account": "Account",
+      "appearance": "Appearance",
+      "notifications": "Notifications",
+      "display": "Display",
+      "helpCenter": "Help Center"
+    },
+    "header": {
+      "search": "Search dashboard...",
+      "searchShortcut": "⌘K",
+      "toggleTheme": "Toggle theme",
+      "customizeTheme": "Customize theme",
+      "switchLanguage": "Switch language",
+      "notifications": "Notifications",
+      "userMenu": "User menu"
+    },
+    "localeSwitcher": {
+      "title": "Language",
+      "selectLanguage": "Select language",
+      "currentLanguage": "Current language",
+      "en": "English",
+      "es": "Spanish",
+      "fr": "French",
+      "de": "German",
+      "ar": "Arabic",
+      "hi": "Hindi"
+    }
   },
   "nav": {
     "general": "General",
@@ -72,16 +161,304 @@
   "dashboard": {
     "title": "Dashboard",
     "description": "Welcome back, here is what is happening with your projects today.",
+    "downloadReport": "Download Report",
     "totalRevenue": "Total Revenue",
     "subscriptions": "Subscriptions",
     "sales": "Sales",
     "activeNow": "Active Now",
     "recentSales": "Recent Sales",
-    "overview": "Overview"
+    "recentSalesDescription": "You made 265 sales this month.",
+    "overview": "Overview",
+    "analytics": "Analytics",
+    "reports": "Reports",
+    "notifications": "Notifications",
+    "comparedToLastMonth": "from last month",
+    "monthlyRevenue": "Monthly Revenue",
+    "totalOrders": "Total Orders",
+    "conversionRate": "Conversion Rate",
+    "averageOrderValue": "Avg. Order Value",
+    "quickActions": "Quick Actions",
+    "inviteUser": "Invite User",
+    "createInvoice": "Create Invoice",
+    "viewAnalytics": "View Analytics",
+    "trafficSources": "Traffic Sources",
+    "topProducts": "Top Products"
+  },
+  "form": {
+    "title": "Form",
+    "fullName": "Full Name",
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "email": "Email",
+    "emailAddress": "Email Address",
+    "phone": "Phone Number",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "age": "Age",
+    "role": "Role",
+    "status": "Status",
+    "bio": "Bio",
+    "description": "Description",
+    "category": "Category",
+    "price": "Price",
+    "amount": "Amount",
+    "quantity": "Quantity",
+    "date": "Date",
+    "time": "Time",
+    "notes": "Notes",
+    "address": "Address",
+    "city": "City",
+    "state": "State",
+    "country": "Country",
+    "zipCode": "ZIP / Postal Code",
+    "isActive": "Is Active",
+    "activeUser": "Active User",
+    "activeUserDescription": "Enable or disable account access and permissions.",
+    "termsAndConditions": "I agree to the terms and conditions",
+    "placeholders": {
+      "enterFullName": "Enter full name",
+      "enterFirstName": "Enter first name",
+      "enterLastName": "Enter last name",
+      "enterEmail": "Enter email address",
+      "enterPhone": "Enter phone number",
+      "enterPassword": "Enter password",
+      "enterAge": "Enter age",
+      "selectRole": "Select a role",
+      "selectStatus": "Select status",
+      "selectCategory": "Select a category",
+      "pickDate": "Pick a date",
+      "writeSomething": "Write something here..."
+    },
+    "buttons": {
+      "submit": "Submit",
+      "submitting": "Submitting...",
+      "save": "Save",
+      "saving": "Saving...",
+      "saveChanges": "Save Changes",
+      "reset": "Reset",
+      "clear": "Clear",
+      "cancel": "Cancel",
+      "nextStep": "Next Step",
+      "previousStep": "Previous Step"
+    },
+    "validation": {
+      "required": "This field is required",
+      "invalidEmail": "Please enter a valid email address",
+      "minLength": "Must be at least {min} characters",
+      "maxLength": "Must be no more than {max} characters",
+      "passwordMismatch": "Passwords do not match",
+      "minAge": "Minimum age is 18",
+      "invalidNumber": "Please enter a valid number"
+    },
+    "roles": {
+      "superadmin": "Superadmin",
+      "admin": "Admin",
+      "manager": "Manager",
+      "cashier": "Cashier",
+      "editor": "Editor",
+      "viewer": "Viewer"
+    },
+    "statuses": {
+      "active": "Active",
+      "inactive": "Inactive",
+      "invited": "Invited",
+      "suspended": "Suspended"
+    }
+  },
+  "table": {
+    "search": "Filter rows...",
+    "searchPlaceholder": "Search across table...",
+    "filter": "Filter",
+    "filterBy": "Filter by",
+    "all": "All",
+    "resetFilters": "Reset Filters",
+    "clearFilters": "Clear Filters",
+    "columns": "Columns",
+    "viewColumns": "View Columns",
+    "toggleColumns": "Toggle columns",
+    "selected": "{count} selected",
+    "selectedRows": "Selected rows",
+    "selectAll": "Select all",
+    "clearSelection": "Clear selection",
+    "rowsSelected": "{selected} of {total} row(s) selected",
+    "pagination": {
+      "previous": "Previous",
+      "next": "Next",
+      "first": "First",
+      "last": "Last",
+      "page": "Page",
+      "of": "of",
+      "rowsPerPage": "Rows per page",
+      "showing": "Showing",
+      "to": "to",
+      "results": "results"
+    },
+    "sorting": {
+      "ascending": "Ascending",
+      "descending": "Descending",
+      "clearSort": "Clear sort",
+      "sortBy": "Sort by"
+    },
+    "bulk": {
+      "actions": "Bulk Actions",
+      "deleteSelected": "Delete Selected",
+      "exportSelected": "Export Selected",
+      "markActive": "Mark as Active",
+      "markInactive": "Mark as Inactive"
+    },
+    "empty": {
+      "noResults": "No results found.",
+      "noData": "No data available in table.",
+      "tryDifferentSearch": "Try adjusting your search or filter to find what you are looking for."
+    },
+    "headers": {
+      "id": "ID",
+      "name": "Name",
+      "email": "Email",
+      "role": "Role",
+      "status": "Status",
+      "date": "Date",
+      "joined": "Joined",
+      "createdAt": "Created At",
+      "updatedAt": "Updated At",
+      "actions": "Actions"
+    }
+  },
+  "users": {
+    "title": "Users",
+    "description": "Manage your team members, roles, permissions, and invitations.",
+    "inviteUser": "Invite User",
+    "exportUsers": "Export Users",
+    "searchPlaceholder": "Filter users by name or email...",
+    "stats": {
+      "total": "Total Users",
+      "active": "Active",
+      "invited": "Invited",
+      "suspended": "Suspended"
+    },
+    "inviteModal": {
+      "title": "Invite New User",
+      "description": "Send an invitation email with a secure link to join your organization.",
+      "emailLabel": "Email Address",
+      "emailPlaceholder": "colleague@company.com",
+      "roleLabel": "Role",
+      "selectRole": "Select role",
+      "sendInvite": "Send Invitation",
+      "sending": "Sending Invite...",
+      "cancel": "Cancel",
+      "successMessage": "Invitation email sent successfully."
+    },
+    "table": {
+      "user": "User",
+      "role": "Role",
+      "status": "Status",
+      "joined": "Joined",
+      "actions": "Actions"
+    },
+    "actions": {
+      "edit": "Edit User",
+      "viewProfile": "View Profile",
+      "resendInvite": "Resend Invitation",
+      "suspend": "Suspend User",
+      "activate": "Activate User",
+      "delete": "Delete User",
+      "confirmDelete": "Are you sure you want to delete this user? This action cannot be undone."
+    }
+  },
+  "tasks": {
+    "title": "Tasks",
+    "description": "Here's a list of your tasks for this month! Track progress and deadlines.",
+    "createTask": "Create Task",
+    "exportTasks": "Export Tasks",
+    "searchPlaceholder": "Filter tasks...",
+    "status": {
+      "title": "Status",
+      "todo": "Todo",
+      "inProgress": "In Progress",
+      "done": "Done",
+      "canceled": "Canceled",
+      "backlog": "Backlog"
+    },
+    "priority": {
+      "title": "Priority",
+      "low": "Low",
+      "medium": "Medium",
+      "high": "High",
+      "urgent": "Urgent"
+    },
+    "dialog": {
+      "createTitle": "Create New Task",
+      "createDescription": "Add a new task to your project board with priority and due date.",
+      "editTitle": "Edit Task",
+      "editDescription": "Make changes to the task details and status.",
+      "deleteTitle": "Delete Task",
+      "deleteDescription": "Are you sure you want to delete this task? This action cannot be undone.",
+      "titleLabel": "Task Title",
+      "titlePlaceholder": "e.g. Implement authentication flow",
+      "statusLabel": "Status",
+      "priorityLabel": "Priority",
+      "cancel": "Cancel",
+      "save": "Save Task",
+      "delete": "Delete"
+    }
+  },
+  "chats": {
+    "title": "Chats",
+    "description": "Real-time team communication, messaging, and group channels.",
+    "newChat": "New Chat",
+    "searchContacts": "Search contacts & conversations...",
+    "typeMessage": "Type a message...",
+    "send": "Send",
+    "online": "Online",
+    "offline": "Offline",
+    "typing": "typing...",
+    "lastSeen": "last seen {time}",
+    "contactDetails": {
+      "title": "Contact Info",
+      "phone": "Phone",
+      "about": "About",
+      "email": "Email",
+      "media": "Media, links and docs",
+      "mute": "Mute notifications",
+      "encryption": "Encryption",
+      "encryptionDesc": "Messages and calls are end-to-end encrypted.",
+      "block": "Block Contact",
+      "clearChat": "Clear Chat",
+      "deleteChat": "Delete Chat"
+    }
+  },
+  "apps": {
+    "title": "Apps & Integrations",
+    "description": "Connect your favorite third-party tools and services to streamline your workflow.",
+    "searchPlaceholder": "Search apps and integrations...",
+    "filterCategory": "Filter category",
+    "categories": {
+      "all": "All Apps",
+      "productivity": "Productivity",
+      "analytics": "Analytics",
+      "marketing": "Marketing",
+      "developer": "Developer Tools",
+      "finance": "Finance"
+    },
+    "status": {
+      "connected": "Connected",
+      "notConnected": "Not Connected",
+      "connect": "Connect",
+      "disconnect": "Disconnect",
+      "manage": "Manage",
+      "settings": "Settings"
+    }
   },
   "settings": {
     "title": "Settings",
-    "description": "Manage your account settings and set e-mail preferences.",
+    "description": "Manage your account settings, preferences, appearance, and notifications.",
+    "sidebar": {
+      "profile": "Profile",
+      "account": "Account",
+      "appearance": "Appearance",
+      "notifications": "Notifications",
+      "display": "Display"
+    },
     "appearance": {
       "title": "Appearance & Theme",
       "description": "Customize the look and feel of your dashboard. Changes apply live and save automatically.",
@@ -94,6 +471,183 @@
       "typography": "Typography",
       "radius": "Radius",
       "layoutStyle": "Layout Style"
+    },
+    "account": {
+      "title": "Account Settings",
+      "description": "Update your profile details, email address, and language preferences.",
+      "personalInfo": "Personal Information",
+      "emailPreferences": "Email Preferences",
+      "deleteAccount": "Delete Account",
+      "deleteAccountWarning": "Permanently delete your account and all associated data."
+    },
+    "notifications": {
+      "title": "Notification Preferences",
+      "description": "Choose what alerts and notifications you receive.",
+      "email": "Email Notifications",
+      "push": "Push Notifications",
+      "security": "Security Alerts"
+    },
+    "display": {
+      "title": "Display Settings",
+      "description": "Configure visual density, fonts, and motion preferences.",
+      "compact": "Compact Mode",
+      "animations": "Reduce Motion",
+      "contrast": "High Contrast"
+    }
+  },
+  "auth": {
+    "signIn": {
+      "title": "Welcome back",
+      "subtitle": "Sign in to your account to continue to your dashboard",
+      "emailLabel": "Email",
+      "passwordLabel": "Password",
+      "rememberMe": "Remember me",
+      "forgotPassword": "Forgot password?",
+      "submit": "Sign In",
+      "submitting": "Signing in...",
+      "noAccount": "Don't have an account?",
+      "signUpLink": "Sign up",
+      "orContinueWith": "Or continue with"
+    },
+    "signUp": {
+      "title": "Create an account",
+      "subtitle": "Enter your details to get started with AdminKit",
+      "nameLabel": "Full Name",
+      "emailLabel": "Email",
+      "passwordLabel": "Password",
+      "confirmPasswordLabel": "Confirm Password",
+      "agreeTerms": "I agree to the Terms of Service and Privacy Policy",
+      "submit": "Create Account",
+      "submitting": "Creating account...",
+      "haveAccount": "Already have an account?",
+      "signInLink": "Sign in"
+    },
+    "forgotPassword": {
+      "title": "Forgot your password?",
+      "subtitle": "No worries, enter your email and we'll send you reset instructions.",
+      "emailLabel": "Email",
+      "submit": "Send Reset Link",
+      "submitting": "Sending...",
+      "backToSignIn": "Back to Sign In",
+      "successMessage": "Check your inbox for password reset instructions."
+    },
+    "otp": {
+      "title": "Two-Factor Verification",
+      "subtitle": "Enter the 6-digit verification code sent to your registered email or authenticator app.",
+      "codeLabel": "Verification Code",
+      "verify": "Verify Code",
+      "verifying": "Verifying...",
+      "resend": "Resend Code",
+      "didNotReceive": "Didn't receive the code?"
+    }
+  },
+  "errors": {
+    "unauthorized": {
+      "code": "401",
+      "title": "Unauthorized Access",
+      "description": "You need to be authenticated to access this resource. Please sign in to your account.",
+      "action": "Sign In"
+    },
+    "forbidden": {
+      "code": "403",
+      "title": "Access Forbidden",
+      "description": "You do not have the necessary permissions to view or perform actions on this page.",
+      "action": "Back to Dashboard"
+    },
+    "notFound": {
+      "code": "404",
+      "title": "Page Not Found",
+      "description": "Sorry, we couldn't find the page you're looking for. It might have been removed or renamed.",
+      "action": "Back to Home"
+    },
+    "serverError": {
+      "code": "500",
+      "title": "Internal Server Error",
+      "description": "Oops! Something went wrong on our end. Please try again later or contact our technical support.",
+      "action": "Try Again"
+    },
+    "maintenance": {
+      "code": "503",
+      "title": "Under Scheduled Maintenance",
+      "description": "We are currently performing routine maintenance to improve our systems. We'll be back online shortly.",
+      "action": "Check Status"
+    },
+    "actions": {
+      "backToHome": "Back to Home",
+      "backToDashboard": "Back to Dashboard",
+      "tryAgain": "Try Again",
+      "contactSupport": "Contact Support"
+    }
+  },
+  "devices": {
+    "title": "Devices",
+    "description": "Manage devices and active browser sessions currently signed in to your account.",
+    "types": {
+      "desktop": "Desktop",
+      "laptop": "Laptop",
+      "tablet": "Tablet",
+      "mobile": "Mobile",
+      "smartwatch": "Smartwatch",
+      "unknown": "Unknown Device"
+    },
+    "status": {
+      "online": "Online",
+      "offline": "Offline",
+      "currentDevice": "This Device",
+      "trusted": "Trusted Device",
+      "activeNow": "Active Now",
+      "lastSeen": "Last seen {time}"
+    },
+    "info": {
+      "device": "Device",
+      "browser": "Browser",
+      "os": "Operating System",
+      "ipAddress": "IP Address",
+      "location": "Approximate Location",
+      "screenSize": "Screen Resolution",
+      "viewport": "Viewport"
+    },
+    "orientation": {
+      "title": "Orientation",
+      "portrait": "Portrait",
+      "landscape": "Landscape"
+    },
+    "management": {
+      "activeSessions": "Active Sessions",
+      "registeredDevices": "Registered Devices",
+      "logoutDevice": "Log out device",
+      "revokeAccess": "Revoke Access",
+      "revokeAllOther": "Sign out of all other devices",
+      "confirmRevokeTitle": "Revoke Device Access?",
+      "confirmRevokeDescription": "This session will be signed out immediately and will require authentication to reconnect.",
+      "deviceRevokedSuccess": "Device session was successfully terminated."
+    },
+    "preview": {
+      "title": "Device Preview",
+      "responsive": "Responsive",
+      "mobileView": "Mobile (375px)",
+      "tabletView": "Tablet (768px)",
+      "desktopView": "Desktop (1280px)",
+      "rotate": "Rotate Screen"
+    }
+  },
+  "helpCenter": {
+    "title": "Help Center",
+    "description": "Find answers to frequently asked questions, product guides, and support resources.",
+    "searchPlaceholder": "Search help articles, guides, tutorials...",
+    "categories": {
+      "gettingStarted": "Getting Started",
+      "accountBilling": "Account & Billing",
+      "features": "Features & Guides",
+      "security": "Security & Privacy",
+      "api": "API & Developers",
+      "faq": "Frequently Asked Questions"
+    },
+    "resources": {
+      "docs": "Documentation",
+      "support": "Contact Support",
+      "community": "Community Forum",
+      "status": "System Status"
     }
   }
 }

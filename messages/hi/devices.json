@@ -1,0 +1,52 @@
+{
+  "title": "उपकरण",
+  "description": "अपने खाते में वर्तमान में साइन इन किए गए उपकरणों और सक्रिय ब्राउज़र सत्रों को प्रबंधित करें।",
+  "types": {
+    "desktop": "डेस्कटॉप",
+    "laptop": "लैपटॉप",
+    "tablet": "टैबलेट",
+    "mobile": "मोबाइल",
+    "smartwatch": "स्मार्टवॉच",
+    "unknown": "अज्ञात उपकरण"
+  },
+  "status": {
+    "online": "ऑनलाइन",
+    "offline": "ऑफ़लाइन",
+    "currentDevice": "यह उपकरण",
+    "trusted": "विश्वसनीय उपकरण",
+    "activeNow": "अभी सक्रिय",
+    "lastSeen": "अंतिम बार देखा गया {time}"
+  },
+  "info": {
+    "device": "उपकरण",
+    "browser": "ब्राउज़र",
+    "os": "ऑपरेटिंग सिस्टम",
+    "ipAddress": "आईपी पता",
+    "location": "अनुमानित स्थान",
+    "screenSize": "स्क्रीन रिज़ॉल्यूशन",
+    "viewport": "व्यूपोर्ट"
+  },
+  "orientation": {
+    "title": "दिशा",
+    "portrait": "पोर्ट्रेट",
+    "landscape": "लैंडस्केप"
+  },
+  "management": {
+    "activeSessions": "सक्रिय सत्र",
+    "registeredDevices": "पंजीकृत उपकरण",
+    "logoutDevice": "उपकरण से लॉग आउट करें",
+    "revokeAccess": "पहुंच रद्द करें",
+    "revokeAllOther": "अन्य सभी उपकरणों से साइन आउट करें",
+    "confirmRevokeTitle": "उपकरण पहुंच रद्द करें?",
+    "confirmRevokeDescription": "यह सत्र तुरंत साइन आउट हो जाएगा और पुनः कनेक्ट करने के लिए प्रमाणीकरण की आवश्यकता होगी।",
+    "deviceRevokedSuccess": "उपकरण सत्र सफलतापूर्वक समाप्त कर दिया गया।"
+  },
+  "preview": {
+    "title": "उपकरण पूर्वावलोकन",
+    "responsive": "रिस्पॉन्सिव",
+    "mobileView": "मोबाइल (375px)",
+    "tabletView": "टैबलेट (768px)",
+    "desktopView": "डेस्कटॉप (1280px)",
+    "rotate": "स्क्रीन घुमाएँ"
+  }
+}

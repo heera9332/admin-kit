@@ -1,0 +1,22 @@
+{
+  "title": "Apps & Integrations",
+  "description": "Connect your favorite third-party tools and services to streamline your workflow.",
+  "searchPlaceholder": "Search apps and integrations...",
+  "filterCategory": "Filter category",
+  "categories": {
+    "all": "All Apps",
+    "productivity": "Productivity",
+    "analytics": "Analytics",
+    "marketing": "Marketing",
+    "developer": "Developer Tools",
+    "finance": "Finance"
+  },
+  "status": {
+    "connected": "Connected",
+    "notConnected": "Not Connected",
+    "connect": "Connect",
+    "disconnect": "Disconnect",
+    "manage": "Manage",
+    "settings": "Settings"
+  }
+}

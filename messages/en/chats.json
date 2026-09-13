@@ -1,0 +1,25 @@
+{
+  "title": "Chats",
+  "description": "Real-time team communication, messaging, and group channels.",
+  "newChat": "New Chat",
+  "searchContacts": "Search contacts & conversations...",
+  "typeMessage": "Type a message...",
+  "send": "Send",
+  "online": "Online",
+  "offline": "Offline",
+  "typing": "typing...",
+  "lastSeen": "last seen {time}",
+  "contactDetails": {
+    "title": "Contact Info",
+    "phone": "Phone",
+    "about": "About",
+    "email": "Email",
+    "media": "Media, links and docs",
+    "mute": "Mute notifications",
+    "encryption": "Encryption",
+    "encryptionDesc": "Messages and calls are end-to-end encrypted.",
+    "block": "Block Contact",
+    "clearChat": "Clear Chat",
+    "deleteChat": "Delete Chat"
+  }
+}

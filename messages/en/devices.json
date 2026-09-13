@@ -1,0 +1,52 @@
+{
+  "title": "Devices",
+  "description": "Manage devices and active browser sessions currently signed in to your account.",
+  "types": {
+    "desktop": "Desktop",
+    "laptop": "Laptop",
+    "tablet": "Tablet",
+    "mobile": "Mobile",
+    "smartwatch": "Smartwatch",
+    "unknown": "Unknown Device"
+  },
+  "status": {
+    "online": "Online",
+    "offline": "Offline",
+    "currentDevice": "This Device",
+    "trusted": "Trusted Device",
+    "activeNow": "Active Now",
+    "lastSeen": "Last seen {time}"
+  },
+  "info": {
+    "device": "Device",
+    "browser": "Browser",
+    "os": "Operating System",
+    "ipAddress": "IP Address",
+    "location": "Approximate Location",
+    "screenSize": "Screen Resolution",
+    "viewport": "Viewport"
+  },
+  "orientation": {
+    "title": "Orientation",
+    "portrait": "Portrait",
+    "landscape": "Landscape"
+  },
+  "management": {
+    "activeSessions": "Active Sessions",
+    "registeredDevices": "Registered Devices",
+    "logoutDevice": "Log out device",
+    "revokeAccess": "Revoke Access",
+    "revokeAllOther": "Sign out of all other devices",
+    "confirmRevokeTitle": "Revoke Device Access?",
+    "confirmRevokeDescription": "This session will be signed out immediately and will require authentication to reconnect.",
+    "deviceRevokedSuccess": "Device session was successfully terminated."
+  },
+  "preview": {
+    "title": "Device Preview",
+    "responsive": "Responsive",
+    "mobileView": "Mobile (375px)",
+    "tabletView": "Tablet (768px)",
+    "desktopView": "Desktop (1280px)",
+    "rotate": "Rotate Screen"
+  }
+}

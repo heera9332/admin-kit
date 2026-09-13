@@ -1,0 +1,38 @@
+{
+  "unauthorized": {
+    "code": "401",
+    "title": "Unauthorized Access",
+    "description": "You need to be authenticated to access this resource. Please sign in to your account.",
+    "action": "Sign In"
+  },
+  "forbidden": {
+    "code": "403",
+    "title": "Access Forbidden",
+    "description": "You do not have the necessary permissions to view or perform actions on this page.",
+    "action": "Back to Dashboard"
+  },
+  "notFound": {
+    "code": "404",
+    "title": "Page Not Found",
+    "description": "Sorry, we couldn't find the page you're looking for. It might have been removed or renamed.",
+    "action": "Back to Home"
+  },
+  "serverError": {
+    "code": "500",
+    "title": "Internal Server Error",
+    "description": "Oops! Something went wrong on our end. Please try again later or contact our technical support.",
+    "action": "Try Again"
+  },
+  "maintenance": {
+    "code": "503",
+    "title": "Under Scheduled Maintenance",
+    "description": "We are currently performing routine maintenance to improve our systems. We'll be back online shortly.",
+    "action": "Check Status"
+  },
+  "actions": {
+    "backToHome": "Back to Home",
+    "backToDashboard": "Back to Dashboard",
+    "tryAgain": "Try Again",
+    "contactSupport": "Contact Support"
+  }
+}

@@ -1,0 +1,59 @@
+{
+  "search": "Filter rows...",
+  "searchPlaceholder": "Search across table...",
+  "filter": "Filter",
+  "filterBy": "Filter by",
+  "all": "All",
+  "resetFilters": "Reset Filters",
+  "clearFilters": "Clear Filters",
+  "columns": "Columns",
+  "viewColumns": "View Columns",
+  "toggleColumns": "Toggle columns",
+  "selected": "{count} selected",
+  "selectedRows": "Selected rows",
+  "selectAll": "Select all",
+  "clearSelection": "Clear selection",
+  "rowsSelected": "{selected} of {total} row(s) selected",
+  "pagination": {
+    "previous": "Previous",
+    "next": "Next",
+    "first": "First",
+    "last": "Last",
+    "page": "Page",
+    "of": "of",
+    "rowsPerPage": "Rows per page",
+    "showing": "Showing",
+    "to": "to",
+    "results": "results"
+  },
+  "sorting": {
+    "ascending": "Ascending",
+    "descending": "Descending",
+    "clearSort": "Clear sort",
+    "sortBy": "Sort by"
+  },
+  "bulk": {
+    "actions": "Bulk Actions",
+    "deleteSelected": "Delete Selected",
+    "exportSelected": "Export Selected",
+    "markActive": "Mark as Active",
+    "markInactive": "Mark as Inactive"
+  },
+  "empty": {
+    "noResults": "No results found.",
+    "noData": "No data available in table.",
+    "tryDifferentSearch": "Try adjusting your search or filter to find what you are looking for."
+  },
+  "headers": {
+    "id": "ID",
+    "name": "Name",
+    "email": "Email",
+    "role": "Role",
+    "status": "Status",
+    "date": "Date",
+    "joined": "Joined",
+    "createdAt": "Created At",
+    "updatedAt": "Updated At",
+    "actions": "Actions"
+  }
+}

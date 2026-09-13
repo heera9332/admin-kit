@@ -1,0 +1,37 @@
+{
+  "title": "Tasks",
+  "description": "Here's a list of your tasks for this month! Track progress and deadlines.",
+  "createTask": "Create Task",
+  "exportTasks": "Export Tasks",
+  "searchPlaceholder": "Filter tasks...",
+  "status": {
+    "title": "Status",
+    "todo": "Todo",
+    "inProgress": "In Progress",
+    "done": "Done",
+    "canceled": "Canceled",
+    "backlog": "Backlog"
+  },
+  "priority": {
+    "title": "Priority",
+    "low": "Low",
+    "medium": "Medium",
+    "high": "High",
+    "urgent": "Urgent"
+  },
+  "dialog": {
+    "createTitle": "Create New Task",
+    "createDescription": "Add a new task to your project board with priority and due date.",
+    "editTitle": "Edit Task",
+    "editDescription": "Make changes to the task details and status.",
+    "deleteTitle": "Delete Task",
+    "deleteDescription": "Are you sure you want to delete this task? This action cannot be undone.",
+    "titleLabel": "Task Title",
+    "titlePlaceholder": "e.g. Implement authentication flow",
+    "statusLabel": "Status",
+    "priorityLabel": "Priority",
+    "cancel": "Cancel",
+    "save": "Save Task",
+    "delete": "Delete"
+  }
+}
