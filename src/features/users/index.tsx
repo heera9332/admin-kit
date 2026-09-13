@@ -1,15 +1,11 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import {
-  Search,
-  UserPlus,
-  MoreHorizontal,
-} from "lucide-react"
-import { Input } from "@/components/ui/input"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { Avatar, AvatarFallback } from "@/components/ui/avatar"
+import * as React from "react";
+import { Search, UserPlus, MoreHorizontal } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
   Table,
   TableBody,
@@ -17,7 +13,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table"
+} from "@/components/ui/table";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -25,7 +21,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+} from "@/components/ui/dropdown-menu";
 import {
   Dialog,
   DialogContent,
@@ -33,47 +29,50 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog"
-import { Label } from "@/components/ui/label"
+} from "@/components/ui/dialog";
+import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
-import { usersData, type UserItem } from "./data/users"
+} from "@/components/ui/select";
+import { usersData, type UserItem } from "./data/users";
 
-const roleBadges: Record<UserItem["role"], { label: string; variant: "default" | "secondary" | "outline" }> = {
+const roleBadges: Record<
+  UserItem["role"],
+  { label: string; variant: "default" | "secondary" | "outline" }
+> = {
   superadmin: { label: "Superadmin", variant: "default" },
   admin: { label: "Admin", variant: "secondary" },
   manager: { label: "Manager", variant: "outline" },
   cashier: { label: "Cashier", variant: "outline" },
-}
+};
 
 const statusColors: Record<UserItem["status"], string> = {
   active: "bg-emerald-500/10 text-emerald-600 border-emerald-500/20",
   inactive: "bg-muted text-muted-foreground border-border",
   invited: "bg-blue-500/10 text-blue-600 border-blue-500/20",
   suspended: "bg-red-500/10 text-red-600 border-red-500/20",
-}
+};
 
 export function UsersFeature() {
-  const [users, setUsers] = React.useState<UserItem[]>(usersData)
-  const [search, setSearch] = React.useState("")
-  const [roleFilter, setRoleFilter] = React.useState<string>("all")
-  const [statusFilter, setStatusFilter] = React.useState<string>("all")
-  const [inviteOpen, setInviteOpen] = React.useState(false)
+  const [users, setUsers] = React.useState<UserItem[]>(usersData);
+  const [search, setSearch] = React.useState("");
+  const [roleFilter, setRoleFilter] = React.useState<string>("all");
+  const [statusFilter, setStatusFilter] = React.useState<string>("all");
+  const [inviteOpen, setInviteOpen] = React.useState(false);
 
   // Invite form state
-  const [newEmail, setNewEmail] = React.useState("")
-  const [newFirstName, setNewFirstName] = React.useState("")
-  const [newLastName, setNewLastName] = React.useState("")
-  const [newRole, setNewRole] = React.useState<UserItem["role"]>("admin")
+  const [newEmail, setNewEmail] = React.useState("");
+  const [newFirstName, setNewFirstName] = React.useState("");
+  const [newLastName, setNewLastName] = React.useState("");
+  const [newRole, setNewRole] = React.useState<UserItem["role"]>("admin");
 
   const handleInvite = (e: React.FormEvent) => {
-    e.preventDefault()
-    if (!newEmail.trim() || !newFirstName.trim()) return
+    e.preventDefault();
+    if (!newEmail.trim() || !newFirstName.trim()) return;
 
     const created: UserItem = {
       id: `usr-${Date.now().toString().slice(-4)}`,
@@ -85,41 +84,49 @@ export function UsersFeature() {
       status: "invited",
       role: newRole,
       createdAt: new Date().toISOString().split("T")[0],
-    }
+    };
 
-    setUsers((prev) => [created, ...prev])
-    setNewEmail("")
-    setNewFirstName("")
-    setNewLastName("")
-    setInviteOpen(false)
-  }
+    setUsers((prev) => [created, ...prev]);
+    setNewEmail("");
+    setNewFirstName("");
+    setNewLastName("");
+    setInviteOpen(false);
+  };
 
   const handleDelete = (id: string) => {
-    setUsers((prev) => prev.filter((u) => u.id !== id))
-  }
+    setUsers((prev) => prev.filter((u) => u.id !== id));
+  };
 
   const filteredUsers = users.filter((u) => {
-    const fullName = `${u.firstName} ${u.lastName}`.toLowerCase()
+    const fullName = `${u.firstName} ${u.lastName}`.toLowerCase();
     const matchesSearch =
       fullName.includes(search.toLowerCase()) ||
       u.email.toLowerCase().includes(search.toLowerCase()) ||
-      u.username.toLowerCase().includes(search.toLowerCase())
-    const matchesRole = roleFilter === "all" ? true : u.role === roleFilter
-    const matchesStatus = statusFilter === "all" ? true : u.status === statusFilter
-    return matchesSearch && matchesRole && matchesStatus
-  })
+      u.username.toLowerCase().includes(search.toLowerCase());
+    const matchesRole = roleFilter === "all" ? true : u.role === roleFilter;
+    const matchesStatus =
+      statusFilter === "all" ? true : u.status === statusFilter;
+    return matchesSearch && matchesRole && matchesStatus;
+  });
 
   return (
     <div className="space-y-4">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">Users</h1>
+          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">
+            Users
+          </h1>
           <p className="text-xs sm:text-sm text-muted-foreground mt-0.5">
-            Manage your organization members, invite new administrators, and set permissions.
+            Manage your organization members, invite new administrators, and set
+            permissions.
           </p>
         </div>
 
-        <Button size="sm" className="h-8 gap-1.5 text-xs" onClick={() => setInviteOpen(true)}>
+        <Button
+          size="sm"
+          className="h-8 gap-1.5 text-xs"
+          onClick={() => setInviteOpen(true)}
+        >
           <UserPlus className="size-3.5" />
           <span>Invite User</span>
         </Button>
@@ -141,10 +148,10 @@ export function UsersFeature() {
           <Select
             value={roleFilter}
             onValueChange={(val) => {
-              if (val) setRoleFilter(val)
+              if (val) setRoleFilter(val);
             }}
           >
-            <SelectTrigger className="h-8 text-xs w-32.5">
+            <SelectTrigger className="h-8 text-xs">
               <SelectValue placeholder="Role" />
             </SelectTrigger>
             <SelectContent>
@@ -159,7 +166,7 @@ export function UsersFeature() {
           <Select
             value={statusFilter}
             onValueChange={(val) => {
-              if (val) setStatusFilter(val)
+              if (val) setStatusFilter(val);
             }}
           >
             <SelectTrigger className="h-8 text-xs w-32.5">
@@ -184,7 +191,9 @@ export function UsersFeature() {
               <TableHead className="text-xs">User</TableHead>
               <TableHead className="text-xs">Role</TableHead>
               <TableHead className="text-xs">Status</TableHead>
-              <TableHead className="text-xs hidden md:table-cell">Joined</TableHead>
+              <TableHead className="text-xs hidden md:table-cell">
+                Joined
+              </TableHead>
               <TableHead className="text-xs text-right">Actions</TableHead>
             </TableRow>
           </TableHeader>
@@ -204,7 +213,9 @@ export function UsersFeature() {
                         <p className="font-medium text-xs truncate">
                           {user.firstName} {user.lastName}
                         </p>
-                        <p className="text-[11px] text-muted-foreground truncate">{user.email}</p>
+                        <p className="text-[11px] text-muted-foreground truncate">
+                          {user.email}
+                        </p>
                       </div>
                     </div>
                   </TableCell>
@@ -236,15 +247,25 @@ export function UsersFeature() {
                     <DropdownMenu>
                       <DropdownMenuTrigger
                         render={
-                          <Button variant="ghost" size="icon" className="size-8" />
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            className="size-8"
+                          />
                         }
                       >
                         <MoreHorizontal className="size-4" />
                         <span className="sr-only">Open menu</span>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end" className="w-37.5">
-                        <DropdownMenuLabel className="text-xs">Actions</DropdownMenuLabel>
-                        <DropdownMenuItem onClick={() => navigator.clipboard.writeText(user.email)}>
+                        <DropdownMenuLabel className="text-xs">
+                          Actions
+                        </DropdownMenuLabel>
+                        <DropdownMenuItem
+                          onClick={() =>
+                            navigator.clipboard.writeText(user.email)
+                          }
+                        >
                           Copy Email
                         </DropdownMenuItem>
                         <DropdownMenuItem>Edit Details</DropdownMenuItem>
@@ -262,7 +283,10 @@ export function UsersFeature() {
               ))
             ) : (
               <TableRow>
-                <TableCell colSpan={5} className="h-24 text-center text-xs text-muted-foreground">
+                <TableCell
+                  colSpan={5}
+                  className="h-24 text-center text-xs text-muted-foreground"
+                >
                   No users found matching your search criteria.
                 </TableCell>
               </TableRow>
@@ -278,7 +302,8 @@ export function UsersFeature() {
             <DialogHeader>
               <DialogTitle>Invite Team Member</DialogTitle>
               <DialogDescription>
-                Send an invitation email with a secure link to join your workspace.
+                Send an invitation email with a secure link to join your
+                workspace.
               </DialogDescription>
             </DialogHeader>
 
@@ -319,15 +344,17 @@ export function UsersFeature() {
 
               <div className="space-y-1.5">
                 <Label htmlFor="role">Role</Label>
+
                 <Select
                   value={newRole}
                   onValueChange={(val) => {
-                    if (val) setNewRole(val as UserItem["role"])
+                    if (val) setNewRole(val as UserItem["role"]);
                   }}
                 >
-                  <SelectTrigger id="role">
+                  <SelectTrigger id="role" className="h-8 w-full text-xs">
                     <SelectValue placeholder="Select role" />
                   </SelectTrigger>
+
                   <SelectContent>
                     <SelectItem value="admin">Admin</SelectItem>
                     <SelectItem value="manager">Manager</SelectItem>
@@ -338,7 +365,11 @@ export function UsersFeature() {
             </div>
 
             <DialogFooter>
-              <Button type="button" variant="outline" onClick={() => setInviteOpen(false)}>
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => setInviteOpen(false)}
+              >
                 Cancel
               </Button>
               <Button type="submit">Send Invitation</Button>
@@ -347,5 +378,5 @@ export function UsersFeature() {
         </DialogContent>
       </Dialog>
     </div>
-  )
+  );
 }
