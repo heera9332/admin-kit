@@ -1,29 +1,10 @@
 "use client";
 
 import * as React from "react";
-import { Search, UserPlus, MoreHorizontal } from "lucide-react";
-import { Input } from "@/components/ui/input";
+import { UserPlus } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+import { Input } from "@/components/ui/input";
 import { AppDialog } from "@/components/app-dialog";
-import { StatusBadge } from "@/components/status-badge";
 import { Label } from "@/components/ui/label";
 import {
   Select,
@@ -32,45 +13,38 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { usersData, type UserItem } from "./data/users";
+import { DataTable } from "@/components/shared/data-table";
+import { userColumns, type User } from "./user-columns";
+import { usersData } from "./data/users";
 
-const roleBadges: Record<
-  UserItem["role"],
-  { label: string; variant: "default" | "secondary" | "outline" }
-> = {
-  superadmin: { label: "Superadmin", variant: "default" },
-  admin: { label: "Admin", variant: "secondary" },
-  manager: { label: "Manager", variant: "outline" },
-  cashier: { label: "Cashier", variant: "outline" },
-};
+const initialUsers: User[] = usersData.map((u) => ({
+  id: u.id,
+  name: `${u.firstName} ${u.lastName}`,
+  email: u.email,
+  role: (u.role === "superadmin" ? "admin" : u.role) as User["role"],
+  status: (u.status === "active" ? "active" : "inactive") as User["status"],
+}));
 
 export function UsersFeature() {
-  const [users, setUsers] = React.useState<UserItem[]>(usersData);
-  const [search, setSearch] = React.useState("");
-  const [roleFilter, setRoleFilter] = React.useState<string>("all");
-  const [statusFilter, setStatusFilter] = React.useState<string>("all");
+  const [users, setUsers] = React.useState<User[]>(initialUsers);
   const [inviteOpen, setInviteOpen] = React.useState(false);
 
   // Invite form state
   const [newEmail, setNewEmail] = React.useState("");
   const [newFirstName, setNewFirstName] = React.useState("");
   const [newLastName, setNewLastName] = React.useState("");
-  const [newRole, setNewRole] = React.useState<UserItem["role"]>("admin");
+  const [newRole, setNewRole] = React.useState<User["role"]>("admin");
 
   const handleInvite = (e: React.FormEvent) => {
     e.preventDefault();
     if (!newEmail.trim() || !newFirstName.trim()) return;
 
-    const created: UserItem = {
+    const created: User = {
       id: `usr-${Date.now().toString().slice(-4)}`,
-      firstName: newFirstName.trim(),
-      lastName: newLastName.trim(),
-      username: newEmail.split("@")[0],
+      name: `${newFirstName.trim()} ${newLastName.trim()}`,
       email: newEmail.trim(),
-      phoneNumber: "+1 (555) 000-0000",
-      status: "invited",
       role: newRole,
-      createdAt: new Date().toISOString().split("T")[0],
+      status: "active",
     };
 
     setUsers((prev) => [created, ...prev]);
@@ -79,22 +53,6 @@ export function UsersFeature() {
     setNewLastName("");
     setInviteOpen(false);
   };
-
-  const handleDelete = (id: string) => {
-    setUsers((prev) => prev.filter((u) => u.id !== id));
-  };
-
-  const filteredUsers = users.filter((u) => {
-    const fullName = `${u.firstName} ${u.lastName}`.toLowerCase();
-    const matchesSearch =
-      fullName.includes(search.toLowerCase()) ||
-      u.email.toLowerCase().includes(search.toLowerCase()) ||
-      u.username.toLowerCase().includes(search.toLowerCase());
-    const matchesRole = roleFilter === "all" ? true : u.role === roleFilter;
-    const matchesStatus =
-      statusFilter === "all" ? true : u.status === statusFilter;
-    return matchesSearch && matchesRole && matchesStatus;
-  });
 
   return (
     <div className="space-y-4">
@@ -119,164 +77,39 @@ export function UsersFeature() {
         </Button>
       </div>
 
-      {/* Filter and Search Bar */}
-      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2.5">
-        <div className="flex flex-1 items-center gap-2">
-          <div className="relative flex-1 sm:max-w-xs">
-            <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 size-3.5 text-muted-foreground" />
-            <Input
-              placeholder="Search users..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              className="pl-8 h-8 text-xs"
-            />
-          </div>
+      <DataTable
+        data={users}
+        columns={userColumns}
+        search={{
+          column: "name",
+          placeholder: "Search users...",
+        }}
+        filters={[
+          {
+            column: "role",
+            title: "Role",
+            options: [
+              { label: "Admin", value: "admin" },
+              { label: "Manager", value: "manager" },
+              { label: "Cashier", value: "cashier" },
+            ],
+          },
+          {
+            column: "status",
+            title: "Status",
+            options: [
+              { label: "Active", value: "active" },
+              { label: "Inactive", value: "inactive" },
+            ],
+          },
+        ]}
+        sorting
+        pagination={{
+          pageSize: 10,
+          pageSizeOptions: [5, 10, 20, 50],
+        }}
+      />
 
-          <Select
-            value={roleFilter}
-            onValueChange={(val) => {
-              if (val) setRoleFilter(val);
-            }}
-          >
-            <SelectTrigger className="h-8 text-xs w-32">
-              <SelectValue placeholder="Role" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">All Roles</SelectItem>
-              <SelectItem value="superadmin">Superadmin</SelectItem>
-              <SelectItem value="admin">Admin</SelectItem>
-              <SelectItem value="manager">Manager</SelectItem>
-              <SelectItem value="cashier">Cashier</SelectItem>
-            </SelectContent>
-          </Select>
-
-          <Select
-            value={statusFilter}
-            onValueChange={(val) => {
-              if (val) setStatusFilter(val);
-            }}
-          >
-            <SelectTrigger className="h-8 text-xs w-32.5">
-              <SelectValue placeholder="Status" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">All Statuses</SelectItem>
-              <SelectItem value="active">Active</SelectItem>
-              <SelectItem value="inactive">Inactive</SelectItem>
-              <SelectItem value="invited">Invited</SelectItem>
-              <SelectItem value="suspended">Suspended</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
-      </div>
-
-      {/* Users Table */}
-      <div className="rounded-md border bg-card overflow-hidden">
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead className="text-xs">User</TableHead>
-              <TableHead className="text-xs">Role</TableHead>
-              <TableHead className="text-xs">Status</TableHead>
-              <TableHead className="text-xs hidden md:table-cell">
-                Joined
-              </TableHead>
-              <TableHead className="text-xs text-right">Actions</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {filteredUsers.length ? (
-              filteredUsers.map((user) => (
-                <TableRow key={user.id} className="text-xs sm:text-sm">
-                  <TableCell>
-                    <div className="flex items-center gap-3">
-                      <Avatar className="size-8">
-                        <AvatarFallback className="text-[10px] font-medium">
-                          {user.firstName[0]}
-                          {user.lastName[0]}
-                        </AvatarFallback>
-                      </Avatar>
-                      <div className="min-w-0">
-                        <p className="font-medium text-xs truncate">
-                          {user.firstName} {user.lastName}
-                        </p>
-                        <p className="text-[11px] text-muted-foreground truncate">
-                          {user.email}
-                        </p>
-                      </div>
-                    </div>
-                  </TableCell>
-
-                  <TableCell>
-                    <Badge
-                      variant={roleBadges[user.role].variant}
-                      className="text-[10px] font-normal capitalize"
-                    >
-                      {roleBadges[user.role].label}
-                    </Badge>
-                  </TableCell>
-
-                  <TableCell>
-                    <StatusBadge status={user.status} size="sm" dot />
-                  </TableCell>
-
-                  <TableCell className="hidden md:table-cell text-xs text-muted-foreground font-mono">
-                    {user.createdAt}
-                  </TableCell>
-
-                  <TableCell className="text-right">
-                    <DropdownMenu>
-                      <DropdownMenuTrigger
-                        render={
-                          <Button
-                            variant="ghost"
-                            size="icon"
-                            className="size-8"
-                          />
-                        }
-                      >
-                        <MoreHorizontal className="size-4" />
-                        <span className="sr-only">Open menu</span>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent align="end" className="w-37.5">
-                        <DropdownMenuLabel className="text-xs">
-                          Actions
-                        </DropdownMenuLabel>
-                        <DropdownMenuItem
-                          onClick={() =>
-                            navigator.clipboard.writeText(user.email)
-                          }
-                        >
-                          Copy Email
-                        </DropdownMenuItem>
-                        <DropdownMenuItem>Edit Details</DropdownMenuItem>
-                        <DropdownMenuSeparator />
-                        <DropdownMenuItem
-                          variant="destructive"
-                          onClick={() => handleDelete(user.id)}
-                        >
-                          Delete User
-                        </DropdownMenuItem>
-                      </DropdownMenuContent>
-                    </DropdownMenu>
-                  </TableCell>
-                </TableRow>
-              ))
-            ) : (
-              <TableRow>
-                <TableCell
-                  colSpan={5}
-                  className="h-24 text-center text-xs text-muted-foreground"
-                >
-                  No users found matching your search criteria.
-                </TableCell>
-              </TableRow>
-            )}
-          </TableBody>
-        </Table>
-      </div>
-
-      {/* Invite User Dialog */}
       <AppDialog
         open={inviteOpen}
         onOpenChange={setInviteOpen}
@@ -337,7 +170,7 @@ export function UsersFeature() {
             <Select
               value={newRole}
               onValueChange={(val) => {
-                if (val) setNewRole(val as UserItem["role"]);
+                if (val) setNewRole(val as User["role"]);
               }}
             >
               <SelectTrigger id="role" className="h-8 w-full text-xs">
