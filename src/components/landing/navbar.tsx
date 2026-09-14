@@ -17,9 +17,9 @@ export function Navbar() {
 
   return (
     <header className="sticky top-0 z-40 w-full border-b border-border/40 bg-background/85 backdrop-blur-md transition-colors">
-      <div className="container mx-auto flex h-14 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+      <div className="container mx-auto flex h-14 max-w-7xl items-center justify-between px-3 sm:px-6 lg:px-8">
         {/* Brand Logo */}
-        <div className="flex items-center gap-6">
+        <div className="flex items-center gap-4 sm:gap-6 min-w-0">
           <Link
             href="/"
             className="flex items-center gap-2.5 font-bold tracking-tight text-foreground group"
@@ -71,7 +71,7 @@ export function Navbar() {
         </div>
 
         {/* Mobile Navigation */}
-        <div className="flex items-center gap-2 md:hidden">
+        <div className="flex items-center gap-1 sm:gap-2 shrink-0 md:hidden">
           <LocaleSwitcher />
           <ThemeCustomizer />
           <ThemeToggle />

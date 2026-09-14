@@ -100,7 +100,7 @@ export function ChatsFeature() {
       {/* Left Contacts Pane */}
       <div
         className={cn(
-          "w-full sm:w-80 md:w-96 border-r flex flex-col bg-background/50 shrink-0",
+          "w-full sm:w-80 border-r flex flex-col bg-background/50 shrink-0",
           mobileViewChat ? "hidden sm:flex" : "flex"
         )}
       >
@@ -354,7 +354,7 @@ export function ChatsFeature() {
       >
         <div className="divide-y divide-border/60 pb-8">
           {/* Hero Profile Section */}
-          <div className="p-6 flex flex-col items-center text-center bg-muted/20">
+          <div className="p-4 flex flex-col items-center text-center bg-muted/20">
             <div className="relative mb-3.5">
               <Avatar className="size-24 border-4 border-background shadow-md">
                 <AvatarImage src={activeContact.avatar} alt={activeContact.name} />
@@ -428,7 +428,7 @@ export function ChatsFeature() {
           </div>
 
           {/* About Section */}
-          <div className="p-5 space-y-1.5">
+          <div className="p-4 space-y-1.5">
             <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
               About
             </span>
@@ -441,7 +441,7 @@ export function ChatsFeature() {
           </div>
 
           {/* Contact Details Section */}
-          <div className="p-5 space-y-3.5">
+          <div className="p-4 space-y-3.5">
             <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
               Contact Details
             </span>
@@ -475,7 +475,7 @@ export function ChatsFeature() {
           </div>
 
           {/* Media, Links and Docs */}
-          <div className="p-5 space-y-3">
+          <div className="p-4 space-y-3">
             <div className="flex items-center justify-between">
               <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
                 Media, links and docs
@@ -502,7 +502,7 @@ export function ChatsFeature() {
           </div>
 
           {/* Privacy & Settings */}
-          <div className="p-5 space-y-3.5">
+          <div className="p-4 space-y-3.5">
             <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
               Chat Settings
             </span>
@@ -532,7 +532,7 @@ export function ChatsFeature() {
           </div>
 
           {/* Danger Zone Actions */}
-          <div className="p-5 space-y-2">
+          <div className="p-4 space-y-2">
             <button
               type="button"
               className="w-full flex items-center gap-2.5 py-2 px-3 rounded-lg text-xs font-medium text-destructive hover:bg-destructive/10 transition-colors cursor-pointer text-left"

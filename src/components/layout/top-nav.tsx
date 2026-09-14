@@ -57,7 +57,7 @@ export function TopNav({ className, ...props }: React.HTMLAttributes<HTMLElement
             <Button
               size="icon"
               variant="outline"
-              className={cn("size-8 lg:hidden", className)}
+              className={cn("hidden size-8 md:flex lg:hidden", className)}
             />
           }
         >
