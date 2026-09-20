@@ -2,7 +2,6 @@
 
 import { Separator } from "@/components/ui/separator"
 import { SidebarTrigger } from "@/components/ui/sidebar"
-import { TopNav } from "@/components/layout/top-nav"
 import { SearchButton } from "@/components/layout/search-button"
 import { ProfileDropdown } from "@/components/layout/profile-dropdown"
 import { ThemeToggle } from "@/components/theme-toggle"
@@ -18,7 +17,6 @@ export function SiteHeader() {
           orientation="vertical"
           className="hidden h-4 data-vertical:h-4 data-vertical:self-auto md:block"
         />
-        <TopNav />
       </div>
 
       <div className="flex items-center gap-1 sm:gap-2 shrink-0">
