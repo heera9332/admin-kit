@@ -396,8 +396,8 @@ export function ViewProjectSheet({
           </StatusBadge>
         </div>
 
-        <div className="space-y-1.5">
-          <span className="text-xs font-medium text-muted-foreground">
+        <div className="space-y-2">
+          <span className="text-xs font-medium text-muted-foreground mb-2">
             {t("fields.description")}
           </span>
           <p className="text-sm leading-relaxed text-foreground/90 bg-card p-3 rounded-lg border">

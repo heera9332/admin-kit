@@ -1,11 +1,11 @@
-"use client"
+"use client";
 
-import type { ColumnDef } from "@tanstack/react-table"
-import { MoreHorizontal } from "lucide-react"
+import type { ColumnDef } from "@tanstack/react-table";
+import { Eye, MoreHorizontal, Pencil, Trash2 } from "lucide-react";
 
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import { Checkbox } from "@/components/ui/checkbox"
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -13,16 +13,16 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { DataTableColumnHeader } from "@/components/shared/data-table/data-table-column-header"
+} from "@/components/ui/dropdown-menu";
+import { DataTableColumnHeader } from "@/components/shared/data-table/data-table-column-header";
 
 export type User = {
-  id: string
-  name: string
-  email: string
-  role: "admin" | "manager" | "cashier"
-  status: "active" | "inactive"
-}
+  id: string;
+  name: string;
+  email: string;
+  role: "admin" | "manager" | "cashier";
+  status: "active" | "inactive";
+};
 
 export const userColumns: ColumnDef<User>[] = [
   {
@@ -65,15 +65,15 @@ export const userColumns: ColumnDef<User>[] = [
       <DataTableColumnHeader column={column} title="Role" />
     ),
     cell: ({ row }) => {
-      const role = row.getValue<User["role"]>("role")
+      const role = row.getValue<User["role"]>("role");
       return (
         <Badge variant="outline" className="capitalize text-xs font-normal">
           {role}
         </Badge>
-      )
+      );
     },
     filterFn: (row, id, value) => {
-      return value.includes(row.getValue(id))
+      return value.includes(row.getValue(id));
     },
   },
   {
@@ -82,7 +82,7 @@ export const userColumns: ColumnDef<User>[] = [
       <DataTableColumnHeader column={column} title="Status" />
     ),
     cell: ({ row }) => {
-      const status = row.getValue<User["status"]>("status")
+      const status = row.getValue<User["status"]>("status");
       return (
         <Badge
           variant={status === "active" ? "default" : "secondary"}
@@ -90,46 +90,48 @@ export const userColumns: ColumnDef<User>[] = [
         >
           {status}
         </Badge>
-      )
+      );
     },
     filterFn: (row, id, value) => {
-      return value.includes(row.getValue(id))
+      return value.includes(row.getValue(id));
     },
   },
   {
     id: "actions",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Actions" />
+    ),
     cell: ({ row }) => {
-      const user = row.original
+      const user = row.original;
 
       return (
         <DropdownMenu>
           <DropdownMenuTrigger
             render={
-              <Button
-                variant="ghost"
-                className="flex size-8 p-0 data-[state=open]:bg-muted ml-auto"
-              />
+              <Button variant="ghost" size="icon" className="size-8 ml-auto" />
             }
           >
             <MoreHorizontal className="size-4" />
             <span className="sr-only">Open menu</span>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="w-40">
-            <DropdownMenuLabel className="text-xs">Actions</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(user.id)}
-            >
-              Copy user ID
-            </DropdownMenuItem>
+          <DropdownMenuContent align="end" className="text-xs w-36">
+            <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>View details</DropdownMenuItem>
-            <DropdownMenuItem>Edit user</DropdownMenuItem>
-            <DropdownMenuItem className="text-destructive">
-              Delete user
+            <DropdownMenuItem className="justify-between gap-2 cursor-pointer">
+              <span>View</span>
+              <Eye className="size-3.5" />
+            </DropdownMenuItem>
+            <DropdownMenuItem className="justify-between gap-2 cursor-pointer">
+              <span>Edit</span>
+              <Pencil className="size-3.5" />
+            </DropdownMenuItem>
+            <DropdownMenuItem className="justify-between gap-2 text-destructive cursor-pointer">
+              <span>Delete</span>
+              <Trash2 className="size-3.5" />
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
-      )
+      );
     },
   },
-]
+];

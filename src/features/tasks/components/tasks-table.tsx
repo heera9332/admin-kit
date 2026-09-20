@@ -1,6 +1,6 @@
-"use client"
+"use client";
 
-import * as React from "react"
+import * as React from "react";
 import {
   ArrowDown,
   ArrowRight,
@@ -11,34 +11,34 @@ import {
   HelpCircle,
   Plus,
   XCircle,
-} from "lucide-react"
+} from "lucide-react";
 
-import { Button } from "@/components/ui/button"
-import { DataTable } from "@/components/shared/data-table"
-import { CreateTaskDialog } from "./tasks-dialogs"
-import { getTaskColumns } from "../task-columns"
-import type { Task } from "../data/tasks"
+import { Button } from "@/components/ui/button";
+import { DataTable } from "@/components/shared/data-table";
+import { CreateTaskDialog } from "./tasks-dialogs";
+import { getTaskColumns } from "../task-columns";
+import type { Task } from "../data/tasks";
 
 interface TasksTableProps {
-  initialData: Task[]
+  initialData: Task[];
 }
 
 export function TasksTable({ initialData }: TasksTableProps) {
-  const [data, setData] = React.useState<Task[]>(initialData)
-  const [createOpen, setCreateOpen] = React.useState(false)
+  const [data, setData] = React.useState<Task[]>(initialData);
+  const [createOpen, setCreateOpen] = React.useState(false);
 
   const handleCreate = (newTask: Task) => {
-    setData((prev) => [newTask, ...prev])
-  }
+    setData((prev) => [newTask, ...prev]);
+  };
 
   const handleDelete = (id: string) => {
-    setData((prev) => prev.filter((t) => t.id !== id))
-  }
+    setData((prev) => prev.filter((t) => t.id !== id));
+  };
 
   const columns = React.useMemo(
     () => getTaskColumns({ onDelete: handleDelete }),
-    []
-  )
+    [],
+  );
 
   return (
     <div className="space-y-4">
@@ -94,5 +94,5 @@ export function TasksTable({ initialData }: TasksTableProps) {
         onCreate={handleCreate}
       />
     </div>
-  )
+  );
 }

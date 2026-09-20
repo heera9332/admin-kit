@@ -55,5 +55,26 @@
     "createdAt": "बनाया गया",
     "updatedAt": "अद्यतन किया गया",
     "actions": "क्रियाएं"
+  },
+  "filters": {
+    "status": {
+      "active": "सक्रिय",
+      "inactive": "निष्क्रिय",
+      "pending": "लंबित",
+      "suspended": "निलंबित"
+    },
+    "role": {
+      "admin": "Admin",
+      "user": "User",
+      "editor": "Editor",
+      "viewer": "Viewer"
+    }
+  },
+  "actions": {
+    "edit": "Edit",
+    "delete": "Delete",
+    "view": "View",
+    "details": "Details",
+    "more": "More"
   }
 }

@@ -55,5 +55,26 @@
     "createdAt": "Created At",
     "updatedAt": "Updated At",
     "actions": "Actions"
+  },
+  "filters": {
+    "status": {
+      "active": "Active",
+      "inactive": "Inactive",
+      "pending": "Pending",
+      "suspended": "Suspended"
+    },
+    "role": {
+      "admin": "Admin",
+      "user": "User",
+      "editor": "Editor",
+      "viewer": "Viewer"
+    }
+  },
+  "actions": {
+    "edit": "Edit",
+    "delete": "Delete",
+    "view": "View",
+    "details": "Details",
+    "more": "More"
   }
 }

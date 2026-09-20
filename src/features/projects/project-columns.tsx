@@ -1,6 +1,6 @@
-"use client"
+"use client";
 
-import type { ColumnDef } from "@tanstack/react-table"
+import type { ColumnDef } from "@tanstack/react-table";
 import {
   Eye,
   FolderKanban,
@@ -8,11 +8,11 @@ import {
   Pencil,
   Tag,
   Trash2,
-} from "lucide-react"
+} from "lucide-react";
 
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import { Checkbox } from "@/components/ui/checkbox"
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -20,17 +20,17 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { Progress } from "@/components/ui/progress"
-import { StatusBadge } from "@/components/status-badge"
-import { DataTableColumnHeader } from "@/components/shared/data-table/data-table-column-header"
-import type { Project } from "./types"
+} from "@/components/ui/dropdown-menu";
+import { Progress } from "@/components/ui/progress";
+import { StatusBadge } from "@/components/status-badge";
+import { DataTableColumnHeader } from "@/components/shared/data-table/data-table-column-header";
+import type { Project } from "./types";
 
 interface GetProjectColumnsOptions {
-  onView: (project: Project) => void
-  onEdit: (project: Project) => void
-  onDelete: (project: Project) => void
-  t?: (key: string) => string
+  onView: (project: Project) => void;
+  onEdit: (project: Project) => void;
+  onDelete: (project: Project) => void;
+  t?: (key: string) => string;
 }
 
 export function getProjectColumns({
@@ -68,7 +68,7 @@ export function getProjectColumns({
         <DataTableColumnHeader column={column} title={t("fields.title")} />
       ),
       cell: ({ row }) => {
-        const project = row.original
+        const project = row.original;
         return (
           <div className="flex items-start gap-2.5 max-w-[320px]">
             <div className="size-8 rounded-lg bg-primary/10 text-primary flex items-center justify-center shrink-0 mt-0.5">
@@ -88,7 +88,7 @@ export function getProjectColumns({
               </p>
             </div>
           </div>
-        )
+        );
       },
     },
     {
@@ -97,16 +97,16 @@ export function getProjectColumns({
         <DataTableColumnHeader column={column} title={t("fields.category")} />
       ),
       cell: ({ row }) => {
-        const category = row.getValue<string>("category")
+        const category = row.getValue<string>("category");
         return (
           <Badge variant="outline" className="text-[10px] font-normal gap-1">
             <Tag className="size-2.5" />
             <span>{t(`categories.${category}`)}</span>
           </Badge>
-        )
+        );
       },
       filterFn: (row, id, value) => {
-        return value.includes(row.getValue(id))
+        return value.includes(row.getValue(id));
       },
     },
     {
@@ -115,15 +115,15 @@ export function getProjectColumns({
         <DataTableColumnHeader column={column} title={t("fields.status")} />
       ),
       cell: ({ row }) => {
-        const status = row.getValue<Project["status"]>("status")
+        const status = row.getValue<Project["status"]>("status");
         return (
           <StatusBadge status={status} size="sm" dot>
             {t(`statuses.${status}`)}
           </StatusBadge>
-        )
+        );
       },
       filterFn: (row, id, value) => {
-        return value.includes(row.getValue(id))
+        return value.includes(row.getValue(id));
       },
     },
     {
@@ -132,9 +132,9 @@ export function getProjectColumns({
         <DataTableColumnHeader column={column} title={t("fields.progress")} />
       ),
       cell: ({ row }) => {
-        const progress = row.getValue<number | undefined>("progress")
+        const progress = row.getValue<number | undefined>("progress");
         if (progress === undefined) {
-          return <span className="text-xs text-muted-foreground">—</span>
+          return <span className="text-xs text-muted-foreground">—</span>;
         }
         return (
           <div className="w-[120px] space-y-1">
@@ -143,7 +143,7 @@ export function getProjectColumns({
             </div>
             <Progress value={progress} className="h-1.5" />
           </div>
-        )
+        );
       },
     },
     {
@@ -152,18 +152,21 @@ export function getProjectColumns({
         <DataTableColumnHeader column={column} title={t("fields.dueDate")} />
       ),
       cell: ({ row }) => {
-        const dueDate = row.getValue<string | undefined>("dueDate")
+        const dueDate = row.getValue<string | undefined>("dueDate");
         return (
           <span className="text-xs text-muted-foreground">
             {dueDate ?? "—"}
           </span>
-        )
+        );
       },
     },
     {
       id: "actions",
+      header: ({ column }) => (
+        <DataTableColumnHeader column={column} title="Actions" />
+      ),
       cell: ({ row }) => {
-        const project = row.original
+        const project = row.original;
         return (
           <DropdownMenu>
             <DropdownMenuTrigger
@@ -179,33 +182,24 @@ export function getProjectColumns({
               <span className="sr-only">Open menu</span>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="text-xs w-36">
-              <DropdownMenuLabel>{t("fields.actions")}</DropdownMenuLabel>
-              <DropdownMenuItem
-                onClick={() => onView(project)}
-                className="gap-2 cursor-pointer"
-              >
-                <Eye className="size-3.5" />
-                <span>{t("viewProject")}</span>
-              </DropdownMenuItem>
-              <DropdownMenuItem
-                onClick={() => onEdit(project)}
-                className="gap-2 cursor-pointer"
-              >
-                <Pencil className="size-3.5" />
-                <span>{t("editProject")}</span>
-              </DropdownMenuItem>
+              <DropdownMenuLabel>Actions</DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DropdownMenuItem
-                onClick={() => onDelete(project)}
-                className="gap-2 text-destructive cursor-pointer"
-              >
+              <DropdownMenuItem className="justify-between gap-2 cursor-pointer">
+                <span>View</span>
+                <Eye className="size-3.5" />
+              </DropdownMenuItem>
+              <DropdownMenuItem className="justify-between gap-2 cursor-pointer">
+                <span>Edit</span>
+                <Pencil className="size-3.5" />
+              </DropdownMenuItem>
+              <DropdownMenuItem className="justify-between gap-2 text-destructive cursor-pointer">
+                <span>Delete</span>
                 <Trash2 className="size-3.5" />
-                <span>{t("deleteProject")}</span>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
-        )
+        );
       },
     },
-  ]
+  ];
 }

@@ -1,6 +1,6 @@
-"use client"
+"use client";
 
-import type { ColumnDef } from "@tanstack/react-table"
+import type { ColumnDef } from "@tanstack/react-table";
 import {
   ArrowDown,
   ArrowRight,
@@ -8,14 +8,18 @@ import {
   CheckCircle2,
   Circle,
   Clock,
+  Eye,
   HelpCircle,
   MoreHorizontal,
+  Pencil,
+  Trash,
+  Trash2,
   XCircle,
-} from "lucide-react"
+} from "lucide-react";
 
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import { Checkbox } from "@/components/ui/checkbox"
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -23,9 +27,9 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { DataTableColumnHeader } from "@/components/shared/data-table/data-table-column-header"
-import type { Task } from "./data/tasks"
+} from "@/components/ui/dropdown-menu";
+import { DataTableColumnHeader } from "@/components/shared/data-table/data-table-column-header";
+import type { Task } from "./data/tasks";
 
 export const statusIcons: Record<Task["status"], React.ReactNode> = {
   backlog: <HelpCircle className="size-3.5 text-muted-foreground" />,
@@ -33,19 +37,21 @@ export const statusIcons: Record<Task["status"], React.ReactNode> = {
   "in progress": <Clock className="size-3.5 text-amber-500" />,
   done: <CheckCircle2 className="size-3.5 text-emerald-500" />,
   canceled: <XCircle className="size-3.5 text-red-500" />,
-}
+};
 
 export const priorityIcons: Record<Task["priority"], React.ReactNode> = {
   low: <ArrowDown className="size-3.5 text-muted-foreground" />,
   medium: <ArrowRight className="size-3.5 text-blue-500" />,
   high: <ArrowUp className="size-3.5 text-red-500" />,
-}
+};
 
 interface GetTaskColumnsOptions {
-  onDelete?: (id: string) => void
+  onDelete?: (id: string) => void;
 }
 
-export function getTaskColumns({ onDelete }: GetTaskColumnsOptions = {}): ColumnDef<Task>[] {
+export function getTaskColumns({
+  onDelete,
+}: GetTaskColumnsOptions = {}): ColumnDef<Task>[] {
   return [
     {
       id: "select",
@@ -88,7 +94,7 @@ export function getTaskColumns({ onDelete }: GetTaskColumnsOptions = {}): Column
         <DataTableColumnHeader column={column} title="Title" />
       ),
       cell: ({ row }) => {
-        const label = row.original.label
+        const label = row.original.label;
         return (
           <div className="flex items-center space-x-2">
             <Badge
@@ -101,7 +107,7 @@ export function getTaskColumns({ onDelete }: GetTaskColumnsOptions = {}): Column
               {row.getValue("title")}
             </span>
           </div>
-        )
+        );
       },
     },
     {
@@ -110,16 +116,16 @@ export function getTaskColumns({ onDelete }: GetTaskColumnsOptions = {}): Column
         <DataTableColumnHeader column={column} title="Status" />
       ),
       cell: ({ row }) => {
-        const status = row.original.status
+        const status = row.original.status;
         return (
           <div className="flex items-center gap-1.5 text-xs capitalize text-muted-foreground">
             {statusIcons[status]}
             <span>{status}</span>
           </div>
-        )
+        );
       },
       filterFn: (row, id, value) => {
-        return value.includes(row.getValue(id))
+        return value.includes(row.getValue(id));
       },
     },
     {
@@ -128,22 +134,25 @@ export function getTaskColumns({ onDelete }: GetTaskColumnsOptions = {}): Column
         <DataTableColumnHeader column={column} title="Priority" />
       ),
       cell: ({ row }) => {
-        const priority = row.original.priority
+        const priority = row.original.priority;
         return (
           <div className="flex items-center gap-1.5 text-xs capitalize text-muted-foreground">
             {priorityIcons[priority]}
             <span>{priority}</span>
           </div>
-        )
+        );
       },
       filterFn: (row, id, value) => {
-        return value.includes(row.getValue(id))
+        return value.includes(row.getValue(id));
       },
     },
     {
       id: "actions",
+      header: ({ column }) => (
+        <DataTableColumnHeader column={column} title="Actions" />
+      ),
       cell: ({ row }) => {
-        const task = row.original
+        const task = row.original;
         return (
           <DropdownMenu>
             <DropdownMenuTrigger
@@ -158,24 +167,25 @@ export function getTaskColumns({ onDelete }: GetTaskColumnsOptions = {}): Column
               <MoreHorizontal className="size-4" />
               <span className="sr-only">Open menu</span>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-40">
-              <DropdownMenuLabel className="text-xs">Actions</DropdownMenuLabel>
-              <DropdownMenuItem
-                onClick={() => navigator.clipboard.writeText(task.id)}
-              >
-                Copy Task ID
-              </DropdownMenuItem>
+            <DropdownMenuContent align="end" className="text-xs w-36">
+              <DropdownMenuLabel>Actions</DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DropdownMenuItem
-                variant="destructive"
-                onClick={() => onDelete?.(task.id)}
-              >
-                Delete
+              <DropdownMenuItem className="justify-between gap-2 cursor-pointer">
+                <span>View</span>
+                <Eye className="size-3.5" />
+              </DropdownMenuItem>
+              <DropdownMenuItem className="justify-between gap-2 cursor-pointer">
+                <span>Edit</span>
+                <Pencil className="size-3.5" />
+              </DropdownMenuItem>
+              <DropdownMenuItem className="justify-between gap-2 text-destructive cursor-pointer">
+                <span>Delete</span>
+                <Trash2 className="size-3.5" />
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
-        )
+        );
       },
     },
-  ]
+  ];
 }
