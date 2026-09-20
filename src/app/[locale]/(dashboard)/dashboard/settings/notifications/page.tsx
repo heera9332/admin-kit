@@ -1,11 +1,13 @@
 "use client"
 
 import * as React from "react"
+import { useTranslations } from "next-intl"
 import { Button } from "@/components/ui/button"
 import { Switch } from "@/components/ui/switch"
 import { Separator } from "@/components/ui/separator"
 
 export default function NotificationsSettingsPage() {
+  const t = useTranslations("settings.notifications")
   const [saved, setSaved] = React.useState(false)
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -17,9 +19,9 @@ export default function NotificationsSettingsPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h3 className="text-base font-semibold">Notifications</h3>
+        <h3 className="text-base font-semibold">{t("title")}</h3>
         <p className="text-xs text-muted-foreground">
-          Configure how you receive activity notifications and operational digests.
+          {t("description")}
         </p>
       </div>
 
@@ -29,9 +31,9 @@ export default function NotificationsSettingsPage() {
         <div className="space-y-4 max-w-xl">
           <div className="flex items-center justify-between rounded-lg border p-3.5 shadow-2xs">
             <div className="space-y-0.5">
-              <span className="text-xs font-medium">Communication emails</span>
+              <span className="text-xs font-medium">{t("communicationEmails")}</span>
               <p className="text-[11px] text-muted-foreground">
-                Receive emails about your account activity and project mentions.
+                {t("communicationEmailsDesc")}
               </p>
             </div>
             <Switch defaultChecked />
@@ -39,9 +41,9 @@ export default function NotificationsSettingsPage() {
 
           <div className="flex items-center justify-between rounded-lg border p-3.5 shadow-2xs">
             <div className="space-y-0.5">
-              <span className="text-xs font-medium">Marketing emails</span>
+              <span className="text-xs font-medium">{t("marketingEmails")}</span>
               <p className="text-[11px] text-muted-foreground">
-                Receive promotional messages about new features, updates, and releases.
+                {t("marketingEmailsDesc")}
               </p>
             </div>
             <Switch />
@@ -49,9 +51,9 @@ export default function NotificationsSettingsPage() {
 
           <div className="flex items-center justify-between rounded-lg border p-3.5 shadow-2xs">
             <div className="space-y-0.5">
-              <span className="text-xs font-medium">Social notifications</span>
+              <span className="text-xs font-medium">{t("socialNotifications")}</span>
               <p className="text-[11px] text-muted-foreground">
-                Get notified when contacts message you or add you to workspace teams.
+                {t("socialNotificationsDesc")}
               </p>
             </div>
             <Switch defaultChecked />
@@ -59,9 +61,9 @@ export default function NotificationsSettingsPage() {
 
           <div className="flex items-center justify-between rounded-lg border p-3.5 shadow-2xs">
             <div className="space-y-0.5">
-              <span className="text-xs font-medium">Security alerts</span>
+              <span className="text-xs font-medium">{t("securityAlerts")}</span>
               <p className="text-[11px] text-muted-foreground">
-                Critical notifications about unrecognized login sessions or API key changes.
+                {t("securityAlertsDesc")}
               </p>
             </div>
             <Switch defaultChecked disabled />
@@ -70,11 +72,11 @@ export default function NotificationsSettingsPage() {
 
         <div className="pt-2 flex items-center gap-3">
           <Button type="submit" size="sm" className="text-xs">
-            Update notifications
+            {t("updateNotifications")}
           </Button>
           {saved && (
             <span className="text-xs text-emerald-500 font-medium">
-              Notification preferences saved!
+              {t("success")}
             </span>
           )}
         </div>

@@ -2,6 +2,7 @@
 
 import type { ColumnDef } from "@tanstack/react-table";
 import {
+  Copy,
   Eye,
   FolderKanban,
   MoreHorizontal,
@@ -182,19 +183,35 @@ export function getProjectColumns({
               <span className="sr-only">Open menu</span>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="text-xs w-36">
-              <DropdownMenuLabel>Actions</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem className="justify-between gap-2 cursor-pointer">
-                <span>View</span>
+              <DropdownMenuLabel className="text-xs font-semibold">{t("fields.actions")}</DropdownMenuLabel>
+              <DropdownMenuItem
+                onClick={() => onView(project)}
+                className="gap-2 cursor-pointer"
+              >
                 <Eye className="size-3.5" />
+                <span>{t("view")}</span>
               </DropdownMenuItem>
-              <DropdownMenuItem className="justify-between gap-2 cursor-pointer">
-                <span>Edit</span>
+              <DropdownMenuItem
+                onClick={() => onEdit(project)}
+                className="gap-2 cursor-pointer"
+              >
                 <Pencil className="size-3.5" />
+                <span>{t("edit")}</span>
               </DropdownMenuItem>
-              <DropdownMenuItem className="justify-between gap-2 text-destructive cursor-pointer">
-                <span>Delete</span>
+              <DropdownMenuItem
+                onClick={() => navigator.clipboard.writeText(project.id)}
+                className="gap-2 cursor-pointer"
+              >
+                <Copy className="size-3.5" />
+                <span>{t("copyId") || "Copy ID"}</span>
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem
+                onClick={() => onDelete(project)}
+                className="gap-2 text-destructive focus:text-destructive cursor-pointer"
+              >
                 <Trash2 className="size-3.5" />
+                <span>{t("delete")}</span>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

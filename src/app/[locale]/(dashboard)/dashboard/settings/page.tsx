@@ -1,6 +1,7 @@
 "use client"
 
 import * as React from "react"
+import { useTranslations } from "next-intl"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -8,6 +9,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { Separator } from "@/components/ui/separator"
 
 export default function ProfileSettingsPage() {
+  const t = useTranslations("settings.profile")
   const [saved, setSaved] = React.useState(false)
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -19,9 +21,9 @@ export default function ProfileSettingsPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h3 className="text-base font-semibold">Profile</h3>
+        <h3 className="text-base font-semibold">{t("title")}</h3>
         <p className="text-xs text-muted-foreground">
-          This is how others will see you on the site.
+          {t("description")}
         </p>
       </div>
 
@@ -29,23 +31,23 @@ export default function ProfileSettingsPage() {
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="space-y-1.5">
-          <Label htmlFor="username">Username</Label>
+          <Label htmlFor="username">{t("username")}</Label>
           <Input id="username" defaultValue="adminkit" className="text-xs max-w-md" />
           <p className="text-[11px] text-muted-foreground">
-            This is your public display name. It can be your real name or a pseudonym.
+            {t("usernameHelp")}
           </p>
         </div>
 
         <div className="space-y-1.5">
-          <Label htmlFor="email">Email</Label>
+          <Label htmlFor="email">{t("email")}</Label>
           <Input id="email" type="email" defaultValue="heera-singh@zoro-dev.com" className="text-xs max-w-md" />
           <p className="text-[11px] text-muted-foreground">
-            Your verified email address used for system security and recovery.
+            {t("emailHelp")}
           </p>
         </div>
 
         <div className="space-y-1.5">
-          <Label htmlFor="bio">Bio</Label>
+          <Label htmlFor="bio">{t("bio")}</Label>
           <Textarea
             id="bio"
             rows={3}
@@ -53,17 +55,17 @@ export default function ProfileSettingsPage() {
             className="text-xs max-w-md"
           />
           <p className="text-[11px] text-muted-foreground">
-            Brief description about yourself for your public workspace card.
+            {t("bioHelp")}
           </p>
         </div>
 
         <div className="pt-2 flex items-center gap-3">
           <Button type="submit" size="sm" className="text-xs">
-            Update profile
+            {t("updateProfile")}
           </Button>
           {saved && (
             <span className="text-xs text-emerald-500 font-medium">
-              Profile updated successfully!
+              {t("success")}
             </span>
           )}
         </div>

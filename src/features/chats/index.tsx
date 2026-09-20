@@ -1,6 +1,7 @@
 "use client"
 
 import * as React from "react"
+import { useTranslations } from "next-intl"
 import {
   Search,
   Send,
@@ -41,6 +42,7 @@ import { cn } from "@/lib/utils"
 import { chatContacts, type ChatContact, type ChatMessage } from "./data/chat-data"
 
 export function ChatsFeature() {
+  const t = useTranslations("chats")
   const [contacts, setContacts] = React.useState<ChatContact[]>(chatContacts)
   const [selectedId, setSelectedId] = React.useState<string>(chatContacts[0].id)
   const [search, setSearch] = React.useState("")
@@ -108,17 +110,17 @@ export function ChatsFeature() {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <MessagesSquare className="size-4 text-primary" />
-              <h2 className="font-semibold text-sm">Inbox</h2>
+              <h2 className="font-semibold text-sm">{t("inbox")}</h2>
             </div>
             <Badge variant="secondary" className="text-[10px]">
-              {contacts.reduce((acc, c) => acc + c.unread, 0)} new
+              {contacts.reduce((acc, c) => acc + c.unread, 0)} {t("new")}
             </Badge>
           </div>
 
           <div className="relative">
             <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 size-3.5 text-muted-foreground" />
             <Input
-              placeholder="Search conversations..."
+              placeholder={t("searchPlaceholder")}
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               className="h-8 pl-8 text-xs"
@@ -169,7 +171,7 @@ export function ChatsFeature() {
                     </span>
                   </div>
                   <p className="text-[11px] text-muted-foreground truncate mt-0.5">
-                    {lastMsg ? lastMsg.text : "No messages yet"}
+                    {lastMsg ? lastMsg.text : t("noMessages")}
                   </p>
                 </div>
 
@@ -228,24 +230,24 @@ export function ChatsFeature() {
                   {activeContact.name}
                 </h3>
                 <p className="text-[10px] text-muted-foreground mt-0.5">
-                  {activeContact.status === "online" ? "online" : `last seen ${activeContact.lastActive}`}
+                  {activeContact.status === "online" ? t("online") : t("lastSeen", { time: activeContact.lastActive })}
                 </p>
               </div>
             </button>
           </div>
 
           <div className="flex items-center gap-1">
-            <Button variant="ghost" size="icon" className="size-8 text-muted-foreground" title="Audio call">
+            <Button variant="ghost" size="icon" className="size-8 text-muted-foreground" title={t("audio")}>
               <Phone className="size-4" />
             </Button>
-            <Button variant="ghost" size="icon" className="size-8 text-muted-foreground" title="Video call">
+            <Button variant="ghost" size="icon" className="size-8 text-muted-foreground" title={t("video")}>
               <Video className="size-4" />
             </Button>
             <Button
               variant="ghost"
               size="icon"
               className="size-8 text-muted-foreground"
-              title="Contact info"
+              title={t("contactInfo")}
               onClick={() => setDetailsOpen(true)}
             >
               <Info className="size-4" />
@@ -263,15 +265,15 @@ export function ChatsFeature() {
               <DropdownMenuContent align="end" className="w-44">
                 <DropdownMenuItem onClick={() => setDetailsOpen(true)}>
                   <Info className="size-3.5 mr-2" />
-                  <span>Contact info</span>
+                  <span>{t("contactInfo")}</span>
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => setMuted((prev) => !prev)}>
-                  <span>{muted ? "Unmute notifications" : "Mute notifications"}</span>
+                  <span>{muted ? t("unmute") : t("mute")}</span>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem variant="destructive" onClick={handleClearChat}>
                   <Trash2 className="size-3.5 mr-2" />
-                  <span>Clear messages</span>
+                  <span>{t("clearMessages")}</span>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
@@ -282,7 +284,7 @@ export function ChatsFeature() {
         <div className="flex-1 overflow-y-auto p-4 space-y-3">
           <div className="flex items-center justify-center my-2">
             <span className="text-[10px] text-muted-foreground px-2 py-0.5 rounded-full bg-muted/60 font-mono">
-              Today
+              {t("today")}
             </span>
           </div>
 
@@ -320,7 +322,7 @@ export function ChatsFeature() {
             </Button>
 
             <Input
-              placeholder={`Message ${activeContact.name}...`}
+              placeholder={t("messagePlaceholder", { name: activeContact.name })}
               value={inputText}
               onChange={(e) => setInputText(e.target.value)}
               className="h-9 text-xs flex-1 bg-background"
@@ -331,7 +333,7 @@ export function ChatsFeature() {
             </Button>
 
             <Button type="submit" size="sm" className="h-9 px-3 gap-1.5 text-xs shrink-0">
-              <span className="hidden sm:inline">Send</span>
+              <span className="hidden sm:inline">{t("send")}</span>
               <Send className="size-3.5" />
             </Button>
           </form>
@@ -347,7 +349,7 @@ export function ChatsFeature() {
         contentClassName="p-0"
         header={
           <AppSheet.Header className="h-14 flex-row items-center justify-between py-0">
-            <AppSheet.Title className="text-base font-semibold">Contact Info</AppSheet.Title>
+            <AppSheet.Title className="text-base font-semibold">{t("contactInfo")}</AppSheet.Title>
           </AppSheet.Header>
         }
       >
@@ -388,7 +390,7 @@ export function ChatsFeature() {
                     activeContact.status === "online" ? "bg-emerald-500" : "bg-muted-foreground/50"
                   )}
                 />
-                {activeContact.status === "online" ? "Online" : `Last seen ${activeContact.lastActive}`}
+                {activeContact.status === "online" ? t("online") : t("lastSeen", { time: activeContact.lastActive })}
               </span>
             </div>
 
@@ -401,7 +403,7 @@ export function ChatsFeature() {
                 <div className="size-9 rounded-full bg-primary/10 text-primary flex items-center justify-center transition-transform group-hover:scale-110">
                   <Phone className="size-4" />
                 </div>
-                <span className="text-[11px] font-medium text-foreground">Audio</span>
+                <span className="text-[11px] font-medium text-foreground">{t("audio")}</span>
               </button>
 
               <button
@@ -411,7 +413,7 @@ export function ChatsFeature() {
                 <div className="size-9 rounded-full bg-primary/10 text-primary flex items-center justify-center transition-transform group-hover:scale-110">
                   <Video className="size-4" />
                 </div>
-                <span className="text-[11px] font-medium text-foreground">Video</span>
+                <span className="text-[11px] font-medium text-foreground">{t("video")}</span>
               </button>
 
               <button
@@ -421,7 +423,7 @@ export function ChatsFeature() {
                 <div className="size-9 rounded-full bg-primary/10 text-primary flex items-center justify-center transition-transform group-hover:scale-110">
                   <Search className="size-4" />
                 </div>
-                <span className="text-[11px] font-medium text-foreground">Search</span>
+                <span className="text-[11px] font-medium text-foreground">{t("search")}</span>
               </button>
             </div>
           </div>
@@ -429,20 +431,20 @@ export function ChatsFeature() {
           {/* About Section */}
           <div className="p-4 space-y-1.5">
             <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-              About
+              {t("about")}
             </span>
             <p className="text-sm text-foreground leading-relaxed">
               {activeContact.about}
             </p>
             <p className="text-[10px] text-muted-foreground pt-1">
-              Member of workspace organization
+              {t("memberOfOrg")}
             </p>
           </div>
 
           {/* Contact Details Section */}
           <div className="p-4 space-y-3.5">
             <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-              Contact Details
+              {t("contactDetails")}
             </span>
 
             <div className="space-y-3">
@@ -477,10 +479,10 @@ export function ChatsFeature() {
           <div className="p-4 space-y-3">
             <div className="flex items-center justify-between">
               <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-                Media, links and docs
+                {t("media")}
               </span>
               <span className="text-xs font-medium text-primary hover:underline cursor-pointer">
-                3 items
+                {t("items", { count: 3 })}
               </span>
             </div>
 
@@ -503,14 +505,14 @@ export function ChatsFeature() {
           {/* Privacy & Settings */}
           <div className="p-4 space-y-3.5">
             <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-              Chat Settings
+              {t("chatSettings")}
             </span>
 
             <div className="space-y-3">
               <div className="flex items-center justify-between">
                 <div className="space-y-0.5">
-                  <p className="text-xs font-medium text-foreground">Mute notifications</p>
-                  <p className="text-[11px] text-muted-foreground">Silence notifications from this chat</p>
+                  <p className="text-xs font-medium text-foreground">{t("mute")}</p>
+                  <p className="text-[11px] text-muted-foreground">{t("muteDesc")}</p>
                 </div>
                 <Switch checked={muted} onCheckedChange={setMuted} />
               </div>
@@ -518,14 +520,14 @@ export function ChatsFeature() {
               <div className="flex items-center justify-between py-1 hover:bg-muted/30 -mx-2 px-2 rounded-lg cursor-pointer">
                 <div className="flex items-center gap-2.5">
                   <Star className="size-4 text-muted-foreground" />
-                  <span className="text-xs font-medium text-foreground">Starred messages</span>
+                  <span className="text-xs font-medium text-foreground">{t("starredMessages")}</span>
                 </div>
-                <span className="text-xs text-muted-foreground">None</span>
+                <span className="text-xs text-muted-foreground">{t("none")}</span>
               </div>
 
               <div className="flex items-start gap-2.5 pt-2 text-[11px] text-muted-foreground leading-relaxed">
                 <Lock className="size-3.5 text-primary shrink-0 mt-0.5" />
-                <span>Messages and calls are end-to-end encrypted. No one outside of this chat can read them.</span>
+                <span>{t("encryptionNotice")}</span>
               </div>
             </div>
           </div>
@@ -537,7 +539,7 @@ export function ChatsFeature() {
               className="w-full flex items-center gap-2.5 py-2 px-3 rounded-lg text-xs font-medium text-destructive hover:bg-destructive/10 transition-colors cursor-pointer text-left"
             >
               <Ban className="size-4" />
-              <span>Block {activeContact.name}</span>
+              <span>{t("blockContact", { name: activeContact.name })}</span>
             </button>
 
             <button
@@ -546,7 +548,7 @@ export function ChatsFeature() {
               className="w-full flex items-center gap-2.5 py-2 px-3 rounded-lg text-xs font-medium text-destructive hover:bg-destructive/10 transition-colors cursor-pointer text-left"
             >
               <Trash2 className="size-4" />
-              <span>Clear chat history</span>
+              <span>{t("clearChat")}</span>
             </button>
           </div>
         </div>

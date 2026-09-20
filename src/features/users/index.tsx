@@ -1,20 +1,17 @@
 "use client";
 
 import * as React from "react";
+import { useTranslations } from "next-intl";
 import { UserPlus } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { AppDialog } from "@/components/app-dialog";
-import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { DataTable } from "@/components/shared/data-table";
-import { userColumns, type User } from "./user-columns";
+import { getUserColumns, type User } from "./user-columns";
+import {
+  InviteUserDialog,
+  EditUserDialog,
+  ViewUserSheet,
+  DeleteUserDialog,
+} from "./components/user-dialogs";
 import { usersData } from "./data/users";
 
 const initialUsers: User[] = usersData.map((u) => ({
@@ -26,44 +23,54 @@ const initialUsers: User[] = usersData.map((u) => ({
 }));
 
 export function UsersFeature() {
+  const t = useTranslations("users");
+
   const [users, setUsers] = React.useState<User[]>(initialUsers);
   const [inviteOpen, setInviteOpen] = React.useState(false);
+  const [selectedUser, setSelectedUser] = React.useState<User | null>(null);
+  const [editingUser, setEditingUser] = React.useState<User | null>(null);
+  const [deletingUser, setDeletingUser] = React.useState<User | null>(null);
 
-  // Invite form state
-  const [newEmail, setNewEmail] = React.useState("");
-  const [newFirstName, setNewFirstName] = React.useState("");
-  const [newLastName, setNewLastName] = React.useState("");
-  const [newRole, setNewRole] = React.useState<User["role"]>("admin");
-
-  const handleInvite = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!newEmail.trim() || !newFirstName.trim()) return;
-
-    const created: User = {
-      id: `usr-${Date.now().toString().slice(-4)}`,
-      name: `${newFirstName.trim()} ${newLastName.trim()}`,
-      email: newEmail.trim(),
-      role: newRole,
-      status: "active",
-    };
-
+  const handleInvite = (created: User) => {
     setUsers((prev) => [created, ...prev]);
-    setNewEmail("");
-    setNewFirstName("");
-    setNewLastName("");
-    setInviteOpen(false);
   };
+
+  const handleUpdate = (updated: User) => {
+    setUsers((prev) =>
+      prev.map((u) => (u.id === updated.id ? updated : u))
+    );
+    if (selectedUser?.id === updated.id) {
+      setSelectedUser(updated);
+    }
+  };
+
+  const handleDelete = (userId: string) => {
+    setUsers((prev) => prev.filter((u) => u.id !== userId));
+    if (selectedUser?.id === userId) {
+      setSelectedUser(null);
+    }
+  };
+
+  const columns = React.useMemo(
+    () =>
+      getUserColumns({
+        onView: (user) => setSelectedUser(user),
+        onEdit: (user) => setEditingUser(user),
+        onDelete: (user) => setDeletingUser(user),
+        t,
+      }),
+    [t]
+  );
 
   return (
     <div className="space-y-4">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">
-            Users
+            {t("title")}
           </h1>
           <p className="text-xs sm:text-sm text-muted-foreground mt-0.5">
-            Manage your organization members, invite new administrators, and set
-            permissions.
+            {t("description")}
           </p>
         </div>
 
@@ -73,33 +80,33 @@ export function UsersFeature() {
           onClick={() => setInviteOpen(true)}
         >
           <UserPlus className="size-3.5" />
-          <span>Invite User</span>
+          <span>{t("inviteUser")}</span>
         </Button>
       </div>
 
       <DataTable
         data={users}
-        columns={userColumns}
+        columns={columns}
         search={{
           column: "name",
-          placeholder: "Search users...",
+          placeholder: t("searchPlaceholder"),
         }}
         filters={[
           {
             column: "role",
-            title: "Role",
+            title: t("roles.title"),
             options: [
-              { label: "Admin", value: "admin" },
-              { label: "Manager", value: "manager" },
-              { label: "Cashier", value: "cashier" },
+              { label: t("roles.admin"), value: "admin" },
+              { label: t("roles.manager"), value: "manager" },
+              { label: t("roles.cashier"), value: "cashier" },
             ],
           },
           {
             column: "status",
-            title: "Status",
+            title: t("statuses.title"),
             options: [
-              { label: "Active", value: "active" },
-              { label: "Inactive", value: "inactive" },
+              { label: t("statuses.active"), value: "active" },
+              { label: t("statuses.inactive"), value: "inactive" },
             ],
           },
         ]}
@@ -110,81 +117,33 @@ export function UsersFeature() {
         }}
       />
 
-      <AppDialog
+      <InviteUserDialog
         open={inviteOpen}
         onOpenChange={setInviteOpen}
-        title="Invite Team Member"
-        description="Send an invitation email with a secure link to join your workspace."
-        onSubmit={handleInvite}
-        size="md"
-        footer={
-          <>
-            <Button
-              type="button"
-              variant="outline"
-              onClick={() => setInviteOpen(false)}
-            >
-              Cancel
-            </Button>
-            <Button type="submit">Send Invitation</Button>
-          </>
-        }
-      >
-        <div className="grid gap-4 py-2">
-          <div className="grid grid-cols-2 gap-3">
-            <div className="space-y-1.5">
-              <Label htmlFor="firstName">First Name</Label>
-              <Input
-                id="firstName"
-                placeholder="Jane"
-                value={newFirstName}
-                onChange={(e) => setNewFirstName(e.target.value)}
-                required
-              />
-            </div>
-            <div className="space-y-1.5">
-              <Label htmlFor="lastName">Last Name</Label>
-              <Input
-                id="lastName"
-                placeholder="Doe"
-                value={newLastName}
-                onChange={(e) => setNewLastName(e.target.value)}
-              />
-            </div>
-          </div>
+        onInvite={handleInvite}
+      />
 
-          <div className="space-y-1.5">
-            <Label htmlFor="email">Email Address</Label>
-            <Input
-              id="email"
-              type="email"
-              placeholder="jane.doe@company.com"
-              value={newEmail}
-              onChange={(e) => setNewEmail(e.target.value)}
-              required
-            />
-          </div>
+      <EditUserDialog
+        user={editingUser}
+        open={!!editingUser}
+        onOpenChange={(open) => !open && setEditingUser(null)}
+        onUpdate={handleUpdate}
+      />
 
-          <div className="space-y-1.5">
-            <Label htmlFor="role">Role</Label>
-            <Select
-              value={newRole}
-              onValueChange={(val) => {
-                if (val) setNewRole(val as User["role"]);
-              }}
-            >
-              <SelectTrigger id="role" className="h-8 w-full text-xs">
-                <SelectValue placeholder="Select role" />
-              </SelectTrigger>
-              <SelectContent className="w-full">
-                <SelectItem value="admin">Admin</SelectItem>
-                <SelectItem value="manager">Manager</SelectItem>
-                <SelectItem value="cashier">Cashier</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-        </div>
-      </AppDialog>
+      <ViewUserSheet
+        user={selectedUser}
+        open={!!selectedUser}
+        onOpenChange={(open) => !open && setSelectedUser(null)}
+        onEdit={(user) => setEditingUser(user)}
+        onDelete={(user) => setDeletingUser(user)}
+      />
+
+      <DeleteUserDialog
+        user={deletingUser}
+        open={!!deletingUser}
+        onOpenChange={(open) => !open && setDeletingUser(null)}
+        onConfirm={handleDelete}
+      />
     </div>
   );
 }

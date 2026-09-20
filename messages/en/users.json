@@ -1,41 +1,82 @@
 {
   "title": "Users",
-  "description": "Manage your team members, roles, permissions, and invitations.",
+  "description": "Manage your organization members, invite new administrators, and set permissions.",
   "inviteUser": "Invite User",
   "exportUsers": "Export Users",
-  "searchPlaceholder": "Filter users by name or email...",
+  "searchPlaceholder": "Search users...",
   "stats": {
     "total": "Total Users",
     "active": "Active",
     "invited": "Invited",
     "suspended": "Suspended"
   },
+  "roles": {
+    "title": "Role",
+    "admin": "Admin",
+    "manager": "Manager",
+    "cashier": "Cashier"
+  },
+  "statuses": {
+    "title": "Status",
+    "active": "Active",
+    "inactive": "Inactive"
+  },
+  "fields": {
+    "name": "Name",
+    "email": "Email",
+    "role": "Role",
+    "status": "Status",
+    "actions": "Actions",
+    "firstName": "First Name",
+    "lastName": "Last Name"
+  },
+  "actions": {
+    "title": "Actions",
+    "view": "View",
+    "edit": "Edit",
+    "delete": "Delete",
+    "copyId": "Copy ID",
+    "viewProfile": "View",
+    "editUser": "Edit",
+    "deleteUser": "Delete",
+    "confirmDelete": "Are you sure you want to delete this user? This action cannot be undone."
+  },
   "inviteModal": {
-    "title": "Invite New User",
-    "description": "Send an invitation email with a secure link to join your organization.",
+    "title": "Invite Team Member",
+    "description": "Send an invitation email with a secure link to join your workspace.",
+    "firstNameLabel": "First Name",
+    "lastNameLabel": "Last Name",
     "emailLabel": "Email Address",
-    "emailPlaceholder": "colleague@company.com",
     "roleLabel": "Role",
     "selectRole": "Select role",
     "sendInvite": "Send Invitation",
-    "sending": "Sending Invite...",
-    "cancel": "Cancel",
-    "successMessage": "Invitation email sent successfully."
+    "cancel": "Cancel"
   },
-  "table": {
-    "user": "User",
+  "editDialog": {
+    "title": "Edit User",
+    "description": "Update personal details, assign workspace roles, and toggle user active status.",
+    "nameLabel": "Full Name",
+    "emailLabel": "Email Address",
+    "roleLabel": "Role",
+    "statusLabel": "Status",
+    "cancel": "Cancel",
+    "save": "Save Changes"
+  },
+  "viewSheet": {
+    "title": "User Profile",
+    "description": "Personal details, role permissions, and workspace access status.",
+    "id": "User ID",
+    "name": "Full Name",
+    "email": "Email Address",
     "role": "Role",
     "status": "Status",
-    "joined": "Joined",
-    "actions": "Actions"
+    "edit": "Edit",
+    "delete": "Delete"
   },
-  "actions": {
-    "edit": "Edit User",
-    "viewProfile": "View Profile",
-    "resendInvite": "Resend Invitation",
-    "suspend": "Suspend User",
-    "activate": "Activate User",
-    "delete": "Delete User",
-    "confirmDelete": "Are you sure you want to delete this user? This action cannot be undone."
+  "deleteDialog": {
+    "title": "Delete User",
+    "description": "Are you sure you want to delete this user? All access and privileges will be revoked permanently.",
+    "cancel": "Cancel",
+    "delete": "Delete"
   }
 }

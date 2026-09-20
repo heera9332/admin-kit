@@ -8,6 +8,34 @@
     "notifications": "Notifications",
     "display": "Display"
   },
+  "profile": {
+    "title": "Profile",
+    "description": "This is how others will see you on the site.",
+    "username": "Username",
+    "usernameHelp": "This is your public display name. It can be your real name or a pseudonym.",
+    "email": "Email",
+    "emailHelp": "Your verified email address used for system security and recovery.",
+    "bio": "Bio",
+    "bioHelp": "Brief description about yourself for your public workspace card.",
+    "updateProfile": "Update profile",
+    "success": "Profile updated successfully!"
+  },
+  "account": {
+    "title": "Account",
+    "description": "Update your account preferences, preferred language, and regional formats.",
+    "fullName": "Full Name",
+    "dob": "Date of birth",
+    "dobHelp": "Your date of birth is used to calculate age eligibility.",
+    "language": "Language",
+    "languageHelp": "This will be the default language across all your dashboards and reports.",
+    "selectLanguage": "Select language",
+    "updateAccount": "Update account",
+    "success": "Account updated successfully!",
+    "personalInfo": "Personal Information",
+    "emailPreferences": "Email Preferences",
+    "deleteAccount": "Delete Account",
+    "deleteAccountWarning": "Permanently delete your account and all associated data."
+  },
   "appearance": {
     "title": "Appearance & Theme",
     "description": "Customize the look and feel of your dashboard. Changes apply live and save automatically.",
@@ -26,24 +54,37 @@
     "layout": "Layout Style",
     "livePreview": "Interactive Live Preview"
   },
-  "account": {
-    "title": "Account Settings",
-    "description": "Update your profile details, email address, and language preferences.",
-    "personalInfo": "Personal Information",
-    "emailPreferences": "Email Preferences",
-    "deleteAccount": "Delete Account",
-    "deleteAccountWarning": "Permanently delete your account and all associated data."
-  },
   "notifications": {
-    "title": "Notification Preferences",
-    "description": "Choose what alerts and notifications you receive.",
+    "title": "Notifications",
+    "description": "Configure how you receive activity notifications and operational digests.",
+    "communicationEmails": "Communication emails",
+    "communicationEmailsDesc": "Receive emails about your account activity and project mentions.",
+    "marketingEmails": "Marketing emails",
+    "marketingEmailsDesc": "Receive promotional messages about new features, updates, and releases.",
+    "socialNotifications": "Social notifications",
+    "socialNotificationsDesc": "Get notified when contacts message you or add you to workspace teams.",
+    "securityAlerts": "Security alerts",
+    "securityAlertsDesc": "Critical notifications about unrecognized login sessions or API key changes.",
+    "updateNotifications": "Update notifications",
+    "success": "Notification preferences saved!",
     "email": "Email Notifications",
     "push": "Push Notifications",
     "security": "Security Alerts"
   },
   "display": {
-    "title": "Display Settings",
-    "description": "Configure visual density, fonts, and motion preferences.",
+    "title": "Display",
+    "description": "Turn items on or off to control what's displayed in the sidebar navigation.",
+    "sidebarItems": "Sidebar Items",
+    "sidebarItemsDesc": "Select the sections you want visible in the primary navigation rail.",
+    "items": {
+      "dashboard": "Dashboard Overview",
+      "tasks": "Tasks & Backlog",
+      "apps": "App Integrations",
+      "chats": "Chats Messenger",
+      "users": "Users & Roles"
+    },
+    "updateDisplay": "Update display",
+    "success": "Display settings updated!",
     "compact": "Compact Mode",
     "animations": "Reduce Motion",
     "contrast": "High Contrast"

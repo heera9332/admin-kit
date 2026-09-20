@@ -1,6 +1,7 @@
 "use client"
 
 import * as React from "react"
+import { useTranslations } from "next-intl"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -14,6 +15,7 @@ import {
 } from "@/components/ui/select"
 
 export default function AccountSettingsPage() {
+  const t = useTranslations("settings.account")
   const [saved, setSaved] = React.useState(false)
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -25,9 +27,9 @@ export default function AccountSettingsPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h3 className="text-base font-semibold">Account</h3>
+        <h3 className="text-base font-semibold">{t("title")}</h3>
         <p className="text-xs text-muted-foreground">
-          Update your account preferences, preferred language, and regional formats.
+          {t("description")}
         </p>
       </div>
 
@@ -35,23 +37,23 @@ export default function AccountSettingsPage() {
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="space-y-1.5">
-          <Label htmlFor="fullName">Full Name</Label>
-          <Input id="fullName" defaultValue="Sat Naing" className="text-xs max-w-md" />
+          <Label htmlFor="fullName">{t("fullName")}</Label>
+          <Input id="fullName" defaultValue="Adminkit" className="text-xs max-w-md" />
         </div>
 
         <div className="space-y-1.5">
-          <Label htmlFor="dob">Date of birth</Label>
+          <Label htmlFor="dob">{t("dob")}</Label>
           <Input id="dob" type="date" defaultValue="1996-05-18" className="text-xs max-w-md" />
           <p className="text-[11px] text-muted-foreground">
-            Your date of birth is used to calculate age eligibility.
+            {t("dobHelp")}
           </p>
         </div>
 
         <div className="space-y-1.5 max-w-md">
-          <Label htmlFor="language">Language</Label>
+          <Label htmlFor="language">{t("language")}</Label>
           <Select defaultValue="en">
             <SelectTrigger id="language" className="text-xs">
-              <SelectValue placeholder="Select language" />
+              <SelectValue placeholder={t("selectLanguage")} />
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="en">English (US)</SelectItem>
@@ -60,20 +62,21 @@ export default function AccountSettingsPage() {
               <SelectItem value="fr">French</SelectItem>
               <SelectItem value="es">Spanish</SelectItem>
               <SelectItem value="ja">Japanese</SelectItem>
+              <SelectItem value="hi">हिन्दी (Hindi)</SelectItem>
             </SelectContent>
           </Select>
           <p className="text-[11px] text-muted-foreground">
-            This will be the default language across all your dashboards and reports.
+            {t("languageHelp")}
           </p>
         </div>
 
         <div className="pt-2 flex items-center gap-3">
           <Button type="submit" size="sm" className="text-xs">
-            Update account
+            {t("updateAccount")}
           </Button>
           {saved && (
             <span className="text-xs text-emerald-500 font-medium">
-              Account updated successfully!
+              {t("success")}
             </span>
           )}
         </div>

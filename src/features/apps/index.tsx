@@ -1,6 +1,7 @@
 "use client"
 
 import * as React from "react"
+import { useTranslations } from "next-intl"
 import {
   Layers,
   Search,
@@ -29,6 +30,8 @@ import {
 import { appsData, type AppItem } from "./data/apps"
 
 export function AppsFeature() {
+  const t = useTranslations("apps")
+
   const [apps, setApps] = React.useState<AppItem[]>(appsData)
   const [search, setSearch] = React.useState("")
   const [filterType, setFilterType] = React.useState<"all" | "connected" | "notConnected">("all")
@@ -65,9 +68,9 @@ export function AppsFeature() {
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">App Integrations</h1>
+          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">{t("title")}</h1>
           <p className="text-xs sm:text-sm text-muted-foreground mt-0.5">
-            Connect and manage external platforms and webhook services.
+            {t("description")}
           </p>
         </div>
       </div>
@@ -77,7 +80,7 @@ export function AppsFeature() {
         <div className="relative flex-1 max-w-sm">
           <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 size-3.5 text-muted-foreground" />
           <Input
-            placeholder="Search integrations..."
+            placeholder={t("searchPlaceholder")}
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             className="pl-8 h-8 text-xs"
@@ -92,12 +95,12 @@ export function AppsFeature() {
             }}
           >
             <SelectTrigger className="h-8 w-[140px] text-xs">
-              <SelectValue placeholder="Filter" />
+              <SelectValue placeholder={t("filterCategory")} />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">All Apps</SelectItem>
-              <SelectItem value="connected">Connected</SelectItem>
-              <SelectItem value="notConnected">Not Connected</SelectItem>
+              <SelectItem value="all">{t("categories.all")}</SelectItem>
+              <SelectItem value="connected">{t("status.connected")}</SelectItem>
+              <SelectItem value="notConnected">{t("status.notConnected")}</SelectItem>
             </SelectContent>
           </Select>
 
@@ -112,7 +115,7 @@ export function AppsFeature() {
             ) : (
               <ArrowUpAZ className="size-3.5" />
             )}
-            <span className="hidden sm:inline">Sort</span>
+            <span className="hidden sm:inline">{t("sort")}</span>
           </Button>
         </div>
       </div>
@@ -133,10 +136,10 @@ export function AppsFeature() {
                   {app.connected ? (
                     <span className="flex items-center gap-1">
                       <CheckCircle2 className="size-3" />
-                      Connected
+                      {t("status.connected")}
                     </span>
                   ) : (
-                    "Available"
+                    t("status.available")
                   )}
                 </Badge>
               </div>
@@ -156,7 +159,7 @@ export function AppsFeature() {
                 className="h-7 text-xs"
                 onClick={() => toggleConnect(app.id)}
               >
-                {app.connected ? "Disconnect" : "Connect"}
+                {app.connected ? t("status.disconnect") : t("status.connect")}
               </Button>
             </CardFooter>
           </Card>
@@ -166,9 +169,9 @@ export function AppsFeature() {
       {filteredApps.length === 0 && (
         <div className="flex flex-col items-center justify-center py-16 text-center border rounded-lg border-dashed">
           <Layers className="size-8 text-muted-foreground/60 mb-2" />
-          <h3 className="text-sm font-semibold">No integrations found</h3>
+          <h3 className="text-sm font-semibold">{t("noApps")}</h3>
           <p className="text-xs text-muted-foreground mt-1">
-            Try adjusting your search query or filter settings.
+            {t("noAppsDesc")}
           </p>
         </div>
       )}

@@ -1,7 +1,7 @@
 {
   "title": "Apps & Integrations",
   "description": "Connect your favorite third-party tools and services to streamline your workflow.",
-  "searchPlaceholder": "Search apps and integrations...",
+  "searchPlaceholder": "Search integrations...",
   "filterCategory": "Filter category",
   "categories": {
     "all": "All Apps",
@@ -14,9 +14,13 @@
   "status": {
     "connected": "Connected",
     "notConnected": "Not Connected",
+    "available": "Available",
     "connect": "Connect",
     "disconnect": "Disconnect",
     "manage": "Manage",
     "settings": "Settings"
-  }
+  },
+  "sort": "Sort",
+  "noApps": "No integrations found",
+  "noAppsDesc": "Try adjusting your search query or filter settings."
 }

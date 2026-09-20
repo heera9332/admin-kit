@@ -1,5 +1,6 @@
 "use client";
 
+import * as React from "react";
 import type { ColumnDef } from "@tanstack/react-table";
 import {
   ArrowDown,
@@ -8,11 +9,11 @@ import {
   CheckCircle2,
   Circle,
   Clock,
+  Copy,
   Eye,
   HelpCircle,
   MoreHorizontal,
   Pencil,
-  Trash,
   Trash2,
   XCircle,
 } from "lucide-react";
@@ -45,13 +46,62 @@ export const priorityIcons: Record<Task["priority"], React.ReactNode> = {
   high: <ArrowUp className="size-3.5 text-red-500" />,
 };
 
-interface GetTaskColumnsOptions {
-  onDelete?: (id: string) => void;
+export interface GetTaskColumnsOptions {
+  onView?: (task: Task) => void;
+  onEdit?: (task: Task) => void;
+  onDelete?: (task: Task) => void;
+  t?: (key: string) => string;
 }
 
 export function getTaskColumns({
+  onView,
+  onEdit,
   onDelete,
+  t = (key) => key,
 }: GetTaskColumnsOptions = {}): ColumnDef<Task>[] {
+  const getStatusLabel = (status: Task["status"]) => {
+    switch (status) {
+      case "backlog":
+        return t("status.backlog");
+      case "todo":
+        return t("status.todo");
+      case "in progress":
+        return t("status.inProgress");
+      case "done":
+        return t("status.done");
+      case "canceled":
+        return t("status.canceled");
+      default:
+        return status;
+    }
+  };
+
+  const getPriorityLabel = (priority: Task["priority"]) => {
+    switch (priority) {
+      case "low":
+        return t("priority.low");
+      case "medium":
+        return t("priority.medium");
+      case "high":
+        return t("priority.high");
+      default:
+        return priority;
+    }
+  };
+
+  const getLabelText = (label: Task["label"]) => {
+    switch (label) {
+      case "bug":
+        return t("labels.bug");
+      case "feature":
+        return t("labels.feature");
+      case "documentation":
+        return t("labels.documentation");
+      default:
+        return label;
+    }
+  };
+
   return [
     {
       id: "select",
@@ -78,7 +128,7 @@ export function getTaskColumns({
     {
       accessorKey: "id",
       header: ({ column }) => (
-        <DataTableColumnHeader column={column} title="Task" />
+        <DataTableColumnHeader column={column} title={t("fields.id")} />
       ),
       cell: ({ row }) => (
         <span className="w-20 font-mono text-xs font-medium">
@@ -91,7 +141,7 @@ export function getTaskColumns({
     {
       accessorKey: "title",
       header: ({ column }) => (
-        <DataTableColumnHeader column={column} title="Title" />
+        <DataTableColumnHeader column={column} title={t("fields.title")} />
       ),
       cell: ({ row }) => {
         const label = row.original.label;
@@ -101,7 +151,7 @@ export function getTaskColumns({
               variant="outline"
               className="text-[10px] font-normal capitalize"
             >
-              {label}
+              {getLabelText(label)}
             </Badge>
             <span className="max-w-112.5 truncate font-medium text-xs sm:text-sm">
               {row.getValue("title")}
@@ -113,14 +163,14 @@ export function getTaskColumns({
     {
       accessorKey: "status",
       header: ({ column }) => (
-        <DataTableColumnHeader column={column} title="Status" />
+        <DataTableColumnHeader column={column} title={t("fields.status")} />
       ),
       cell: ({ row }) => {
         const status = row.original.status;
         return (
           <div className="flex items-center gap-1.5 text-xs capitalize text-muted-foreground">
             {statusIcons[status]}
-            <span>{status}</span>
+            <span>{getStatusLabel(status)}</span>
           </div>
         );
       },
@@ -131,14 +181,14 @@ export function getTaskColumns({
     {
       accessorKey: "priority",
       header: ({ column }) => (
-        <DataTableColumnHeader column={column} title="Priority" />
+        <DataTableColumnHeader column={column} title={t("fields.priority")} />
       ),
       cell: ({ row }) => {
         const priority = row.original.priority;
         return (
           <div className="flex items-center gap-1.5 text-xs capitalize text-muted-foreground">
             {priorityIcons[priority]}
-            <span>{priority}</span>
+            <span>{getPriorityLabel(priority)}</span>
           </div>
         );
       },
@@ -149,7 +199,7 @@ export function getTaskColumns({
     {
       id: "actions",
       header: ({ column }) => (
-        <DataTableColumnHeader column={column} title="Actions" />
+        <DataTableColumnHeader column={column} title={t("fields.actions")} />
       ),
       cell: ({ row }) => {
         const task = row.original;
@@ -168,20 +218,44 @@ export function getTaskColumns({
               <span className="sr-only">Open menu</span>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="text-xs w-36">
-              <DropdownMenuLabel>Actions</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem className="justify-between gap-2 cursor-pointer">
-                <span>View</span>
-                <Eye className="size-3.5" />
+              <DropdownMenuLabel className="text-xs font-semibold">{t("fields.actions")}</DropdownMenuLabel>
+              {onView && (
+                <DropdownMenuItem
+                  onClick={() => onView(task)}
+                  className="gap-2 cursor-pointer"
+                >
+                  <Eye className="size-3.5" />
+                  <span>{t("actions.view")}</span>
+                </DropdownMenuItem>
+              )}
+              {onEdit && (
+                <DropdownMenuItem
+                  onClick={() => onEdit(task)}
+                  className="gap-2 cursor-pointer"
+                >
+                  <Pencil className="size-3.5" />
+                  <span>{t("actions.edit")}</span>
+                </DropdownMenuItem>
+              )}
+              <DropdownMenuItem
+                onClick={() => navigator.clipboard.writeText(task.id)}
+                className="gap-2 cursor-pointer"
+              >
+                <Copy className="size-3.5" />
+                <span>{t("actions.copyId")}</span>
               </DropdownMenuItem>
-              <DropdownMenuItem className="justify-between gap-2 cursor-pointer">
-                <span>Edit</span>
-                <Pencil className="size-3.5" />
-              </DropdownMenuItem>
-              <DropdownMenuItem className="justify-between gap-2 text-destructive cursor-pointer">
-                <span>Delete</span>
-                <Trash2 className="size-3.5" />
-              </DropdownMenuItem>
+              {onDelete && (
+                <>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem
+                    onClick={() => onDelete(task)}
+                    className="gap-2 text-destructive focus:text-destructive cursor-pointer"
+                  >
+                    <Trash2 className="size-3.5" />
+                    <span>{t("actions.delete")}</span>
+                  </DropdownMenuItem>
+                </>
+              )}
             </DropdownMenuContent>
           </DropdownMenu>
         );

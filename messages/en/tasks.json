@@ -1,9 +1,24 @@
 {
   "title": "Tasks",
-  "description": "Here's a list of your tasks for this month! Track progress and deadlines.",
+  "description": "Here's a list of your tasks for this month! Track progress, manage backlog items and monitor completion.",
   "createTask": "Create Task",
   "exportTasks": "Export Tasks",
   "searchPlaceholder": "Filter tasks...",
+  "fields": {
+    "id": "Task",
+    "title": "Title",
+    "status": "Status",
+    "priority": "Priority",
+    "label": "Label",
+    "actions": "Actions"
+  },
+  "actions": {
+    "title": "Actions",
+    "view": "View",
+    "edit": "Edit",
+    "delete": "Delete",
+    "copyId": "Copy ID"
+  },
   "status": {
     "title": "Status",
     "todo": "Todo",
@@ -19,19 +34,29 @@
     "high": "High",
     "urgent": "Urgent"
   },
+  "labels": {
+    "title": "Label",
+    "bug": "Bug",
+    "feature": "Feature",
+    "documentation": "Docs"
+  },
   "dialog": {
     "createTitle": "Create New Task",
-    "createDescription": "Add a new task to your project board with priority and due date.",
+    "createDescription": "Add a new task to your backlog or sprint board.",
     "editTitle": "Edit Task",
-    "editDescription": "Make changes to the task details and status.",
+    "editDescription": "Make changes to the task details, workflow status, and priority.",
+    "viewTitle": "Task Details",
+    "viewDescription": "Complete specifications, priority level, and workflow state.",
     "deleteTitle": "Delete Task",
     "deleteDescription": "Are you sure you want to delete this task? This action cannot be undone.",
     "titleLabel": "Task Title",
-    "titlePlaceholder": "e.g. Implement authentication flow",
+    "titlePlaceholder": "Brief description of the issue or feature",
     "statusLabel": "Status",
     "priorityLabel": "Priority",
+    "labelLabel": "Label",
     "cancel": "Cancel",
-    "save": "Save Task",
+    "save": "Save Changes",
+    "create": "Create Task",
     "delete": "Delete"
   }
 }

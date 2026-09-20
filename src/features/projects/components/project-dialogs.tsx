@@ -365,7 +365,7 @@ export function ViewProjectSheet({
             className="gap-1.5"
           >
             <Trash2 className="size-3.5" />
-            <span>{t("dialogs.confirmDelete")}</span>
+            <span>{t("delete")}</span>
           </Button>
 
           <Button
@@ -378,7 +378,7 @@ export function ViewProjectSheet({
             className="gap-1.5"
           >
             <Pencil className="size-3.5" />
-            <span>{t("editProject")}</span>
+            <span>{t("edit")}</span>
           </Button>
         </div>
       }
