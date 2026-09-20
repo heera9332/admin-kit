@@ -90,9 +90,9 @@ export function DataTableFacetedFilter<TData, TValue>({
       </PopoverTrigger>
       <PopoverContent className="w-[200px] p-0" align="start">
         <Command>
-          <CommandInput placeholder={title} />
+          <CommandInput placeholder={title} className="text-xs" />
           <CommandList>
-            <CommandEmpty>No results found.</CommandEmpty>
+            <CommandEmpty className="text-xs py-4">No results found.</CommandEmpty>
             <CommandGroup>
               {options.map((option) => {
                 const isSelected = selectedValues.has(option.value)
@@ -100,6 +100,7 @@ export function DataTableFacetedFilter<TData, TValue>({
                   <CommandItem
                     key={option.value}
                     value={option.label}
+                    className="text-xs"
                     onSelect={() => {
                       if (isSelected) {
                         selectedValues.delete(option.value)
@@ -127,7 +128,7 @@ export function DataTableFacetedFilter<TData, TValue>({
                     )}
                     <span>{option.label}</span>
                     {facets?.get(option.value) !== undefined && (
-                      <span className="ml-auto flex size-4 items-center justify-center font-mono text-xs text-muted-foreground">
+                      <span className="ml-auto flex size-4 items-center justify-center font-mono text-[10px] text-muted-foreground">
                         {facets.get(option.value)}
                       </span>
                     )}
@@ -141,7 +142,7 @@ export function DataTableFacetedFilter<TData, TValue>({
                 <CommandGroup>
                   <CommandItem
                     onSelect={() => column?.setFilterValue(undefined)}
-                    className="justify-center text-center font-medium"
+                    className="justify-center text-center font-medium text-xs"
                   >
                     Clear filters
                   </CommandItem>
