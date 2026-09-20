@@ -39,6 +39,7 @@ import {
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
+import { Label } from "../ui/label";
 
 interface ThemeCustomizerProps {
   className?: string;
@@ -137,9 +138,9 @@ export function ThemeCustomizer({ className }: ThemeCustomizerProps) {
       <div className="flex flex-col gap-5">
         {/* Mode */}
         <div className="space-y-2.5">
-          <span className="text-xs font-semibold text-foreground">
+          <Label className="text-xs font-semibold text-foreground mb-2">
             Theme Mode
-          </span>
+          </Label>
           <div className="grid grid-cols-3 gap-2">
             <Button
               variant={theme === "light" ? "default" : "outline"}
@@ -176,9 +177,9 @@ export function ThemeCustomizer({ className }: ThemeCustomizerProps) {
         {/* Color Palette with Dropdown */}
         <div className="space-y-2.5">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-foreground">
+            <Label className="text-xs font-semibold text-foreground">
               Color Palette
-            </span>
+            </Label>
           </div>
           <Select
             value={themeColor}
@@ -217,9 +218,9 @@ export function ThemeCustomizer({ className }: ThemeCustomizerProps) {
 
         {/* Sidebar Variant (inset, floating, default) */}
         <div className="space-y-2.5">
-          <span className="text-xs font-semibold text-foreground">
+          <Label className="text-xs font-semibold text-foreground mb-2">
             Sidebar Variant
-          </span>
+          </Label>
           <div className="grid grid-cols-3 gap-2">
             {SIDEBAR_VARIANTS.map((item) => {
               const isSelected = sidebarVariant === item.value;
@@ -258,9 +259,9 @@ export function ThemeCustomizer({ className }: ThemeCustomizerProps) {
 
         {/* Typography: Font and Display Font */}
         <div className="space-y-3">
-          <span className="text-xs font-semibold text-foreground">
+          <Label className="text-xs font-semibold text-foreground mb-2">
             Typography
-          </span>
+          </Label>
           <div className="grid grid-cols-2 gap-2.5">
             <div className="space-y-1">
               <span className="text-[11px] text-muted-foreground font-medium">
@@ -319,9 +320,9 @@ export function ThemeCustomizer({ className }: ThemeCustomizerProps) {
         {/* Radius */}
         <div className="space-y-2.5">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-foreground">
+            <Label className="text-xs font-semibold text-foreground mb-2">
               Radius
-            </span>
+            </Label>
             <span className="text-[11px] font-mono text-muted-foreground">
               {radius}rem
             </span>
@@ -353,9 +354,9 @@ export function ThemeCustomizer({ className }: ThemeCustomizerProps) {
 
         {/* Layout Mode */}
         <div className="space-y-2.5">
-          <span className="text-xs font-semibold text-foreground">
+          <Label className="text-xs font-semibold text-foreground mb-2">
             Layout Style
-          </span>
+          </Label>
           <div className="grid grid-cols-2 gap-2">
             {THEME_LAYOUTS.map((item) => {
               const isSelected = layout === item.value;
