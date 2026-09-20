@@ -211,7 +211,7 @@ export function getThemeFormFields({
                   if (val) onChange(val as ThemeColor)
                 }}
               >
-                <SelectTrigger className="h-8 text-xs w-48">
+                <SelectTrigger className="h-8 text-xs">
                   <SelectValue placeholder="Select Palette" />
                 </SelectTrigger>
                 <SelectContent>
@@ -232,42 +232,6 @@ export function getThemeFormFields({
                   ))}
                 </SelectContent>
               </Select>
-            </div>
-
-            {/* Swatches Grid */}
-            <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-2 max-w-2xl">
-              {THEME_COLORS.map((colorItem) => {
-                const isSelected = selected === colorItem.name
-                const hexColor = isDark
-                  ? colorItem.activeColor.dark
-                  : colorItem.activeColor.light
-
-                return (
-                  <button
-                    key={colorItem.name}
-                    type="button"
-                    onClick={() => onChange(colorItem.name)}
-                    className={cn(
-                      "flex items-center gap-2 rounded-lg border px-2.5 py-2 text-left transition-all cursor-pointer",
-                      isSelected
-                        ? "border-primary bg-primary/5 ring-1 ring-primary"
-                        : "border-border/80 bg-card hover:border-primary/40"
-                    )}
-                  >
-                    <span
-                      className="size-4 shrink-0 rounded-full flex items-center justify-center shadow-xs"
-                      style={{ backgroundColor: hexColor }}
-                    >
-                      {isSelected && (
-                        <Check className="size-2.5 text-white stroke-3" />
-                      )}
-                    </span>
-                    <span className="text-xs font-medium truncate">
-                      {colorItem.label}
-                    </span>
-                  </button>
-                )
-              })}
             </div>
           </div>
         )

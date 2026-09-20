@@ -3,6 +3,7 @@
 import * as React from "react"
 import {
   Sheet,
+  SheetBody,
   SheetClose,
   SheetContent,
   SheetDescription,
@@ -73,7 +74,7 @@ export function AppSheet({
   contentClassName,
   footerClassName,
   showCloseButton = true,
-  scrollable = false,
+  scrollable = true,
   onSubmit,
   formProps,
 }: AppSheetProps) {
@@ -96,7 +97,7 @@ export function AppSheet({
       {children && (
         <div
           className={cn(
-            "flex-1 px-2",
+            "flex-1 p-4",
             scrollable && "overflow-y-auto",
             contentClassName
           )}
@@ -122,7 +123,7 @@ export function AppSheet({
         showCloseButton={showCloseButton}
       >
         {onSubmit ? (
-          <form onSubmit={onSubmit} {...formProps} className="flex h-full flex-col gap-4">
+          <form onSubmit={onSubmit} {...formProps} className="flex h-full min-h-0 flex-col">
             {contentBody}
           </form>
         ) : (
@@ -136,6 +137,7 @@ export function AppSheet({
 AppSheet.Header = SheetHeader
 AppSheet.Title = SheetTitle
 AppSheet.Description = SheetDescription
+AppSheet.Body = SheetBody
 AppSheet.Footer = SheetFooter
 AppSheet.Close = SheetClose
 AppSheet.Trigger = SheetTrigger

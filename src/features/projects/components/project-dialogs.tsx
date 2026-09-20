@@ -354,7 +354,7 @@ export function ViewProjectSheet({
       title={project.title}
       description={`${project.id} • ${t(`categories.${project.category}`)}`}
       footer={
-        <div className="flex items-center justify-between w-full gap-2 pt-2 border-t">
+        <div className="flex items-center justify-between w-full gap-2">
           <Button
             variant="destructive"
             size="sm"
@@ -383,7 +383,7 @@ export function ViewProjectSheet({
         </div>
       }
     >
-      <div className="flex flex-col gap-5 py-3">
+      <div className="flex flex-col gap-5">
         <div className="flex items-center justify-between gap-3 p-3.5 rounded-lg border bg-muted/20">
           <div>
             <span className="text-[11px] font-mono text-muted-foreground uppercase block">

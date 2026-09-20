@@ -81,7 +81,7 @@ export function Navbar() {
             onOpenChange={setIsOpen}
             side="right"
             size="sm"
-            className="w-[80vw] p-6"
+            className="w-[80vw]"
             trigger={
               <Button
                 variant="ghost"
@@ -92,7 +92,7 @@ export function Navbar() {
               </Button>
             }
             header={
-              <div className="border-b border-border/50 pb-4">
+              <AppSheet.Header>
                 <AppSheet.Title className="flex items-center gap-2.5">
                   <span className="flex size-7 items-center justify-center rounded-md bg-primary text-primary-foreground">
                     <LayoutDashboard className="size-4" />
@@ -101,10 +101,44 @@ export function Navbar() {
                     {siteConfig.name}
                   </span>
                 </AppSheet.Title>
+              </AppSheet.Header>
+            }
+            footer={
+              <div className="flex flex-col gap-3 w-full">
+                <a
+                  href={siteConfig.links.github}
+                  target="_blank"
+                  rel="noreferrer"
+                  className={buttonVariants({
+                    variant: "outline",
+                    size: "default",
+                    className: "w-full justify-center gap-2",
+                  })}
+                >
+                  <GithubIcon className="size-4" />
+                  <span>GitHub Repository</span>
+                </a>
+
+                <AppSheet.Close
+                  render={
+                    <Link
+                      href="/dashboard"
+                      onClick={() => setIsOpen(false)}
+                      className={buttonVariants({
+                        variant: "default",
+                        size: "default",
+                        className: "w-full justify-center gap-2",
+                      })}
+                    />
+                  }
+                >
+                  <span>Get Started</span>
+                  <ArrowRight className="size-4" />
+                </AppSheet.Close>
               </div>
             }
           >
-            <div className="flex flex-col gap-2 py-6 flex-1">
+            <div className="flex flex-col gap-2">
               {marketingNav.map((item) => (
                 <AppSheet.Close
                   key={item.title}
@@ -119,39 +153,6 @@ export function Navbar() {
                   {item.title}
                 </AppSheet.Close>
               ))}
-            </div>
-
-            <div className="flex flex-col gap-3 pt-4 border-t border-border/50">
-              <a
-                href={siteConfig.links.github}
-                target="_blank"
-                rel="noreferrer"
-                className={buttonVariants({
-                  variant: "outline",
-                  size: "default",
-                  className: "w-full justify-center gap-2",
-                })}
-              >
-                <GithubIcon className="size-4" />
-                <span>GitHub Repository</span>
-              </a>
-
-              <AppSheet.Close
-                render={
-                  <Link
-                    href="/dashboard"
-                    onClick={() => setIsOpen(false)}
-                    className={buttonVariants({
-                      variant: "default",
-                      size: "default",
-                      className: "w-full justify-center gap-2",
-                    })}
-                  />
-                }
-              >
-                <span>Get Started</span>
-                <ArrowRight className="size-4" />
-              </AppSheet.Close>
             </div>
           </AppSheet>
         </div>

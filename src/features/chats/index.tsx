@@ -344,12 +344,11 @@ export function ChatsFeature() {
         onOpenChange={setDetailsOpen}
         side="right"
         size="md"
-        scrollable
-        className="p-0 flex flex-col"
+        contentClassName="p-0"
         header={
-          <div className="h-14 border-b px-6 flex items-center justify-between shrink-0">
+          <AppSheet.Header className="h-14 flex-row items-center justify-between py-0">
             <AppSheet.Title className="text-base font-semibold">Contact Info</AppSheet.Title>
-          </div>
+          </AppSheet.Header>
         }
       >
         <div className="divide-y divide-border/60 pb-8">
