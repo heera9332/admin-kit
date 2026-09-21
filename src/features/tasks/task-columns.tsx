@@ -222,37 +222,37 @@ export function getTaskColumns({
               {onView && (
                 <DropdownMenuItem
                   onClick={() => onView(task)}
-                  className="gap-2 cursor-pointer"
+                  className="justify-between gap-2 cursor-pointer"
                 >
-                  <Eye className="size-3.5" />
                   <span>{t("actions.view")}</span>
+                  <Eye className="size-3.5" />
                 </DropdownMenuItem>
               )}
               {onEdit && (
                 <DropdownMenuItem
                   onClick={() => onEdit(task)}
-                  className="gap-2 cursor-pointer"
+                  className="justify-between gap-2 cursor-pointer"
                 >
-                  <Pencil className="size-3.5" />
                   <span>{t("actions.edit")}</span>
+                  <Pencil className="size-3.5" />
                 </DropdownMenuItem>
               )}
               <DropdownMenuItem
                 onClick={() => navigator.clipboard.writeText(task.id)}
-                className="gap-2 cursor-pointer"
+                className="justify-between gap-2 cursor-pointer"
               >
-                <Copy className="size-3.5" />
                 <span>{t("actions.copyId")}</span>
+                <Copy className="size-3.5" />
               </DropdownMenuItem>
               {onDelete && (
                 <>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem
                     onClick={() => onDelete(task)}
-                    className="gap-2 text-destructive focus:text-destructive cursor-pointer"
+                    className="justify-between gap-2 text-destructive focus:text-destructive cursor-pointer"
                   >
-                    <Trash2 className="size-3.5" />
                     <span>{t("actions.delete")}</span>
+                    <Trash2 className="size-3.5" />
                   </DropdownMenuItem>
                 </>
               )}

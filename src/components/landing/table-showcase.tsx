@@ -308,16 +308,16 @@ export function TableShowcase() {
                             >
                               <MoreHorizontal className="size-4 text-muted-foreground" />
                             </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end">
-                              <DropdownMenuItem className="text-xs cursor-pointer">
-                                <UserCheck className="size-3.5 mr-2" />
+                            <DropdownMenuContent align="end" className="text-xs w-36">
+                              <DropdownMenuItem className="justify-between gap-2 cursor-pointer">
                                 <span>View</span>
+                                <UserCheck className="size-3.5" />
                               </DropdownMenuItem>
-                              <DropdownMenuItem className="text-xs cursor-pointer">
+                              <DropdownMenuItem className="justify-between gap-2 cursor-pointer">
                                 <span>Edit</span>
                               </DropdownMenuItem>
                               <DropdownMenuSeparator />
-                              <DropdownMenuItem className="text-xs text-destructive cursor-pointer">
+                              <DropdownMenuItem className="justify-between gap-2 text-destructive cursor-pointer">
                                 <span>Suspend Account</span>
                               </DropdownMenuItem>
                             </DropdownMenuContent>

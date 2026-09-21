@@ -1,6 +1,7 @@
 "use client"
 
 import * as React from "react"
+import { useTranslations } from "next-intl"
 import { Link } from "@/i18n/routing"
 import { ArrowLeft, CheckCircle2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -9,6 +10,7 @@ import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 
 export default function ForgotPasswordPage() {
+  const t = useTranslations("auth.forgotPassword")
   const [email, setEmail] = React.useState("")
   const [submitted, setSubmitted] = React.useState(false)
   const [isLoading, setIsLoading] = React.useState(false)
@@ -25,9 +27,9 @@ export default function ForgotPasswordPage() {
   return (
     <Card className="border-border/80 shadow-sm">
       <CardHeader className="space-y-1 text-center">
-        <CardTitle className="text-xl font-bold">Forgot password</CardTitle>
+        <CardTitle className="text-xl font-bold">{t("title")}</CardTitle>
         <CardDescription className="text-xs">
-          Enter your registered email address and we will send you a reset link
+          {t("subtitle")}
         </CardDescription>
       </CardHeader>
 
@@ -39,9 +41,9 @@ export default function ForgotPasswordPage() {
             </div>
           </div>
           <div className="space-y-1">
-            <h4 className="text-sm font-semibold">Check your inbox</h4>
+            <h4 className="text-sm font-semibold">{t("checkInboxTitle")}</h4>
             <p className="text-xs text-muted-foreground">
-              We have sent password reset instructions to <span className="font-medium text-foreground">{email}</span>.
+              {t("checkInboxDescription", { email })}
             </p>
           </div>
         </CardContent>
@@ -49,11 +51,11 @@ export default function ForgotPasswordPage() {
         <form onSubmit={handleSubmit}>
           <CardContent className="space-y-4">
             <div className="space-y-1.5">
-              <Label htmlFor="email">Email</Label>
+              <Label htmlFor="email">{t("emailLabel")}</Label>
               <Input
                 id="email"
                 type="email"
-                placeholder="name@example.com"
+                placeholder={t("emailPlaceholder")}
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="text-xs"
@@ -62,7 +64,7 @@ export default function ForgotPasswordPage() {
             </div>
 
             <Button type="submit" className="w-full text-xs font-semibold" disabled={isLoading}>
-              {isLoading ? "Sending link..." : "Send Reset Link"}
+              {isLoading ? t("submitting") : t("submit")}
             </Button>
           </CardContent>
         </form>
@@ -74,7 +76,7 @@ export default function ForgotPasswordPage() {
           className="inline-flex items-center gap-1.5 text-muted-foreground hover:text-primary transition-colors"
         >
           <ArrowLeft className="size-3.5" />
-          <span>Back to sign in</span>
+          <span>{t("backToSignIn")}</span>
         </Link>
       </CardFooter>
     </Card>

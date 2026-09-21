@@ -1,6 +1,7 @@
 "use client"
 
 import * as React from "react"
+import { useTranslations } from "next-intl"
 import { Link, useRouter } from "@/i18n/routing"
 import { ArrowLeft } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -12,6 +13,7 @@ import {
 } from "@/components/ui/input-otp"
 
 export default function OtpPage() {
+  const t = useTranslations("auth.otp")
   const router = useRouter()
   const [value, setValue] = React.useState("")
   const [isLoading, setIsLoading] = React.useState(false)
@@ -30,9 +32,9 @@ export default function OtpPage() {
   return (
     <Card className="border-border/80 shadow-sm">
       <CardHeader className="space-y-1 text-center">
-        <CardTitle className="text-xl font-bold">Two-Factor Authentication</CardTitle>
+        <CardTitle className="text-xl font-bold">{t("title")}</CardTitle>
         <CardDescription className="text-xs">
-          Please enter the 6-digit authentication code sent to your registered device.
+          {t("subtitle")}
         </CardDescription>
       </CardHeader>
 
@@ -58,19 +60,19 @@ export default function OtpPage() {
             className="w-full text-xs font-semibold"
             disabled={value.length < 6 || isLoading}
           >
-            {isLoading ? "Verifying..." : "Verify & Continue"}
+            {isLoading ? t("verifying") : t("verify")}
           </Button>
         </CardContent>
 
         <CardFooter className="flex flex-col space-y-2 border-t pt-4 text-center text-xs text-muted-foreground">
           <p className="text-[11px]">
-            Haven&apos;t received a code?{" "}
+            {t("didNotReceive")}{" "}
             <button
               type="button"
               className="text-primary font-medium hover:underline cursor-pointer"
-              onClick={() => alert("New code sent!")}
+              onClick={() => alert(t("codeResent"))}
             >
-              Resend code
+              {t("resend")}
             </button>
           </p>
           <Link
@@ -78,7 +80,7 @@ export default function OtpPage() {
             className="inline-flex items-center gap-1.5 text-muted-foreground hover:text-primary transition-colors mt-2"
           >
             <ArrowLeft className="size-3.5" />
-            <span>Back to sign in</span>
+            <span>{t("backToSignIn")}</span>
           </Link>
         </CardFooter>
       </form>

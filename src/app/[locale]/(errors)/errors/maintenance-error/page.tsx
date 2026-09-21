@@ -1,26 +1,29 @@
 "use client"
 
+import { useTranslations } from "next-intl"
 import { Link, useRouter } from "@/i18n/routing"
 import { Button } from "@/components/ui/button"
 
 export default function MaintenanceErrorPage() {
   const router = useRouter()
+  const t = useTranslations("errors.maintenance")
+  const tActions = useTranslations("errors.actions")
 
   return (
     <div className="flex flex-col items-center justify-center text-center gap-2">
       <span className="text-7xl sm:text-8xl font-black tracking-tighter text-purple-500/80 font-mono">
-        503
+        {t("code")}
       </span>
-      <h1 className="text-xl font-bold tracking-tight">System Under Maintenance</h1>
+      <h1 className="text-xl font-bold tracking-tight">{t("title")}</h1>
       <p className="text-xs sm:text-sm text-muted-foreground max-w-xs leading-relaxed">
-        We are performing scheduled maintenance upgrades. Services will be restored shortly.
+        {t("description")}
       </p>
       <div className="mt-6 flex items-center gap-3">
         <Button variant="outline" size="sm" onClick={() => router.refresh()} className="text-xs">
-          Refresh
+          {tActions("refresh")}
         </Button>
         <Button size="sm" render={<Link href="/dashboard" />} className="text-xs">
-          <span>Back to Dashboard</span>
+          <span>{tActions("backToDashboard")}</span>
         </Button>
       </div>
     </div>

@@ -2,37 +2,39 @@
   "unauthorized": {
     "code": "401",
     "title": "Unauthorized Access",
-    "description": "You need to be authenticated to access this resource. Please sign in to your account.",
-    "action": "Sign In"
+    "description": "Please log in with the appropriate administrative credentials to access this resource.",
+    "action": "Back to Dashboard"
   },
   "forbidden": {
     "code": "403",
     "title": "Access Forbidden",
-    "description": "You do not have the necessary permissions to view or perform actions on this page.",
+    "description": "You do not have sufficient permissions to view this protected view. Contact your team admin.",
     "action": "Back to Dashboard"
   },
   "notFound": {
     "code": "404",
     "title": "Page Not Found",
-    "description": "Sorry, we couldn't find the page you're looking for. It might have been removed or renamed.",
-    "action": "Back to Home"
+    "description": "The route or resource you were looking for doesn't exist or has been migrated.",
+    "action": "Back to Dashboard"
   },
   "serverError": {
     "code": "500",
     "title": "Internal Server Error",
-    "description": "Oops! Something went wrong on our end. Please try again later or contact our technical support.",
-    "action": "Try Again"
+    "description": "Something went wrong on our servers. Our telemetry engineers have been notified.",
+    "action": "Back to Dashboard"
   },
   "maintenance": {
     "code": "503",
-    "title": "Under Scheduled Maintenance",
-    "description": "We are currently performing routine maintenance to improve our systems. We'll be back online shortly.",
-    "action": "Check Status"
+    "title": "System Under Maintenance",
+    "description": "We are performing scheduled maintenance upgrades. Services will be restored shortly.",
+    "action": "Back to Dashboard"
   },
   "actions": {
+    "goBack": "Go Back",
     "backToHome": "Back to Home",
     "backToDashboard": "Back to Dashboard",
     "tryAgain": "Try Again",
+    "refresh": "Refresh",
     "contactSupport": "Contact Support"
   }
 }

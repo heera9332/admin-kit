@@ -1,6 +1,7 @@
 "use client"
 
 import * as React from "react"
+import { useTranslations } from "next-intl"
 import { Link, useRouter } from "@/i18n/routing"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -9,6 +10,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Checkbox } from "@/components/ui/checkbox"
 
 export default function SignInPage() {
+  const t = useTranslations("auth.signIn")
   const router = useRouter()
   const [email, setEmail] = React.useState("heera-singh@zoro-dev.com")
   const [password, setPassword] = React.useState("password123")
@@ -26,20 +28,20 @@ export default function SignInPage() {
   return (
     <Card className="border-border/80 shadow-sm">
       <CardHeader className="space-y-1 text-center">
-        <CardTitle className="text-xl font-bold">Sign in</CardTitle>
+        <CardTitle className="text-xl font-bold">{t("title")}</CardTitle>
         <CardDescription className="text-xs">
-          Enter your email and password below to log into your account
+          {t("subtitle")}
         </CardDescription>
       </CardHeader>
 
       <form onSubmit={handleSubmit}>
         <CardContent className="space-y-4">
           <div className="space-y-1.5">
-            <Label htmlFor="email">Email</Label>
+            <Label htmlFor="email">{t("emailLabel")}</Label>
             <Input
               id="email"
               type="email"
-              placeholder="name@example.com"
+              placeholder={t("emailPlaceholder")}
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className="text-xs"
@@ -49,17 +51,18 @@ export default function SignInPage() {
 
           <div className="space-y-1.5">
             <div className="flex items-center justify-between">
-              <Label htmlFor="password">Password</Label>
+              <Label htmlFor="password">{t("passwordLabel")}</Label>
               <Link
                 href="/forgot-password"
                 className="text-[11px] text-muted-foreground hover:text-primary underline-offset-4 hover:underline"
               >
-                Forgot password?
+                {t("forgotPassword")}
               </Link>
             </div>
             <Input
               id="password"
               type="password"
+              placeholder={t("passwordPlaceholder")}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className="text-xs"
@@ -73,20 +76,20 @@ export default function SignInPage() {
               htmlFor="remember"
               className="text-xs text-muted-foreground leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer"
             >
-              Remember me for 30 days
+              {t("rememberMe")}
             </label>
           </div>
 
           <Button type="submit" className="w-full text-xs font-semibold" disabled={isLoading}>
-            {isLoading ? "Signing in..." : "Sign In"}
+            {isLoading ? t("submitting") : t("submit")}
           </Button>
         </CardContent>
 
         <CardFooter className="flex flex-col space-y-2 border-t pt-4 text-center text-xs text-muted-foreground">
           <div>
-            Don&apos;t have an account?{" "}
+            {t("noAccount")}{" "}
             <Link href="/sign-up" className="font-semibold text-primary underline-offset-4 hover:underline">
-              Sign up
+              {t("signUpLink")}
             </Link>
           </div>
         </CardFooter>

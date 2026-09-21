@@ -1,6 +1,7 @@
 "use client"
 
 import * as React from "react"
+import { useTranslations } from "next-intl"
 import { Link, useRouter } from "@/i18n/routing"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -8,6 +9,7 @@ import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 
 export default function SignUpPage() {
+  const t = useTranslations("auth.signUp")
   const router = useRouter()
   const [name, setName] = React.useState("")
   const [email, setEmail] = React.useState("")
@@ -26,19 +28,19 @@ export default function SignUpPage() {
   return (
     <Card className="border-border/80 shadow-sm">
       <CardHeader className="space-y-1 text-center">
-        <CardTitle className="text-xl font-bold">Create an account</CardTitle>
+        <CardTitle className="text-xl font-bold">{t("title")}</CardTitle>
         <CardDescription className="text-xs">
-          Enter your information below to create your workspace account
+          {t("subtitle")}
         </CardDescription>
       </CardHeader>
 
       <form onSubmit={handleSubmit}>
         <CardContent className="space-y-4">
           <div className="space-y-1.5">
-            <Label htmlFor="name">Full Name</Label>
+            <Label htmlFor="name">{t("nameLabel")}</Label>
             <Input
               id="name"
-              placeholder="John Doe"
+              placeholder={t("namePlaceholder")}
               value={name}
               onChange={(e) => setName(e.target.value)}
               className="text-xs"
@@ -47,11 +49,11 @@ export default function SignUpPage() {
           </div>
 
           <div className="space-y-1.5">
-            <Label htmlFor="email">Email</Label>
+            <Label htmlFor="email">{t("emailLabel")}</Label>
             <Input
               id="email"
               type="email"
-              placeholder="name@example.com"
+              placeholder={t("emailPlaceholder")}
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className="text-xs"
@@ -60,11 +62,11 @@ export default function SignUpPage() {
           </div>
 
           <div className="space-y-1.5">
-            <Label htmlFor="password">Password</Label>
+            <Label htmlFor="password">{t("passwordLabel")}</Label>
             <Input
               id="password"
               type="password"
-              placeholder="••••••••"
+              placeholder={t("passwordPlaceholder")}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className="text-xs"
@@ -73,19 +75,19 @@ export default function SignUpPage() {
           </div>
 
           <p className="text-[11px] text-muted-foreground leading-relaxed">
-            By clicking create account, you agree to our Terms of Service and Privacy Policy.
+            {t("termsNotice")}
           </p>
 
           <Button type="submit" className="w-full text-xs font-semibold" disabled={isLoading}>
-            {isLoading ? "Creating account..." : "Create Account"}
+            {isLoading ? t("submitting") : t("submit")}
           </Button>
         </CardContent>
 
         <CardFooter className="flex flex-col space-y-2 border-t pt-4 text-center text-xs text-muted-foreground">
           <div>
-            Already have an account?{" "}
+            {t("haveAccount")}{" "}
             <Link href="/sign-in" className="font-semibold text-primary underline-offset-4 hover:underline">
-              Sign in
+              {t("signInLink")}
             </Link>
           </div>
         </CardFooter>

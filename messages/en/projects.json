@@ -9,6 +9,13 @@
   "view": "View",
   "edit": "Edit",
   "delete": "Delete",
+  "copyId": "Copy ID",
+  "actions": {
+    "view": "View",
+    "edit": "Edit",
+    "delete": "Delete",
+    "copyId": "Copy ID"
+  },
   "searchPlaceholder": "Search projects by title, description or category...",
   "filterStatus": "Filter Status",
   "filterCategory": "Filter Category",
