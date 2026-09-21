@@ -22,8 +22,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Progress } from "@/components/ui/progress";
 import { StatusBadge } from "@/components/status-badge";
+import { Progress } from "@/components/ui/progress";
 import { DataTableColumnHeader } from "@/components/shared/data-table/data-table-column-header";
 import type { Project } from "./types";
 

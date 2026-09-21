@@ -17,6 +17,8 @@ import {
   SidebarMenuSubItem,
 } from "@/components/ui/sidebar"
 import { ChevronRightIcon } from "lucide-react"
+import { cn } from "@/lib/utils"
+import { getSidebarIconColor } from "@/lib/icon-colors"
 
 export function NavMain({
   items,
@@ -46,7 +48,11 @@ export function NavMain({
             <CollapsibleTrigger
               render={<SidebarMenuButton tooltip={item.title} />}
             >
-              {item.icon}
+              {item.icon && (
+                <span className={cn("inline-flex shrink-0 transition-colors", getSidebarIconColor(item.title || item.url))}>
+                  {item.icon}
+                </span>
+              )}
               <span>{item.title}</span>
               <ChevronRightIcon className="ml-auto transition-transform duration-200 group-data-open/collapsible:rotate-90" />
             </CollapsibleTrigger>

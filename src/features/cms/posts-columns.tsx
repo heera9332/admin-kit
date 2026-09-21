@@ -1,7 +1,7 @@
 "use client"
 
 import type { ColumnDef } from "@tanstack/react-table"
-import { Eye, MoreHorizontal, Pencil, Trash2, FileText } from "lucide-react"
+import { Copy, Eye, MoreHorizontal, Pencil, Trash2, FileText } from "lucide-react"
 
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -168,6 +168,13 @@ export function getPostsColumns({
                   <Pencil className="size-3.5" />
                 </DropdownMenuItem>
               )}
+              <DropdownMenuItem
+                onClick={() => navigator.clipboard.writeText(post.id)}
+                className="justify-between gap-2 cursor-pointer"
+              >
+                <span>{t("actions.copyId")}</span>
+                <Copy className="size-3.5" />
+              </DropdownMenuItem>
               {onDelete && (
                 <>
                   <DropdownMenuSeparator />

@@ -21,6 +21,8 @@ import {
 } from "@/components/ui/sidebar"
 import { useTranslations } from "next-intl"
 import { Badge } from "@/components/ui/badge"
+import { cn } from "@/lib/utils"
+import { getSidebarIconColor } from "@/lib/icon-colors"
 import type { NavGroup as NavGroupType } from "./types"
 
 export function NavGroup({ title, titleKey, items }: NavGroupType) {
@@ -49,6 +51,7 @@ export function NavGroup({ title, titleKey, items }: NavGroupType) {
 
           if (!item.items) {
             const Icon = item.icon
+            const iconColor = getSidebarIconColor(item.titleKey || item.title || item.url)
             const isActive =
               item.url === "/dashboard"
                 ? pathname === "/dashboard"
@@ -61,7 +64,11 @@ export function NavGroup({ title, titleKey, items }: NavGroupType) {
                   isActive={isActive}
                   tooltip={itemLabel}
                 >
-                  {Icon && <Icon className="size-4" />}
+                  {Icon && (
+                    <Icon
+                      className={cn("size-4 shrink-0 transition-colors", iconColor)}
+                    />
+                  )}
                   <span>{itemLabel}</span>
                   {item.badge && (
                     <Badge variant="secondary" className="ml-auto px-1.5 py-0 text-[10px] font-mono">
@@ -75,6 +82,7 @@ export function NavGroup({ title, titleKey, items }: NavGroupType) {
 
           // Collapsible group
           const Icon = item.icon
+          const iconColor = getSidebarIconColor(item.titleKey || item.title)
           const isGroupActive = item.items.some((sub) =>
             pathname === sub.url || pathname.startsWith(`${sub.url}/`)
           )
@@ -89,7 +97,11 @@ export function NavGroup({ title, titleKey, items }: NavGroupType) {
               <CollapsibleTrigger
                 render={<SidebarMenuButton tooltip={itemLabel} />}
               >
-                {Icon && <Icon className="size-4" />}
+                {Icon && (
+                  <Icon
+                    className={cn("size-4 shrink-0 transition-colors", iconColor)}
+                  />
+                )}
                 <span>{itemLabel}</span>
                 <ChevronRight className="ml-auto size-4 transition-transform duration-200 group-data-open/collapsible:rotate-90" />
               </CollapsibleTrigger>
@@ -99,6 +111,9 @@ export function NavGroup({ title, titleKey, items }: NavGroupType) {
                     const isSubActive = pathname === subItem.url
                     const subLabel = getLabel(subItem.titleKey, subItem.title)
                     const SubIcon = subItem.icon
+                    const subIconColor = getSidebarIconColor(
+                      subItem.titleKey || subItem.title || subItem.url
+                    )
 
                     return (
                       <SidebarMenuSubItem key={subItem.title}>
@@ -111,7 +126,14 @@ export function NavGroup({ title, titleKey, items }: NavGroupType) {
                           }
                           isActive={isSubActive}
                         >
-                          {SubIcon && <SubIcon className="size-4" />}
+                          {SubIcon && (
+                            <SubIcon
+                              className={cn(
+                                "size-4 shrink-0 transition-colors",
+                                subIconColor
+                              )}
+                            />
+                          )}
                           <span>{subLabel}</span>
                           {subItem.badge && (
                             <Badge variant="secondary" className="ml-auto px-1.5 py-0 text-[10px] font-mono">

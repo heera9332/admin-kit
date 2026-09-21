@@ -61,19 +61,16 @@ export function NavProjects({
                 align={isMobile ? "end" : "start"}
               >
                 <DropdownMenuItem>
-                  <FolderIcon
-                  />
+                  <FolderIcon />
                   <span>{t("view")}</span>
                 </DropdownMenuItem>
                 <DropdownMenuItem>
-                  <ArrowRightIcon
-                  />
+                  <ArrowRightIcon />
                   <span>Share</span>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem variant="destructive">
-                  <Trash2Icon
-                  />
+                  <Trash2Icon />
                   <span>{t("delete")}</span>
                 </DropdownMenuItem>
               </DropdownMenuContent>

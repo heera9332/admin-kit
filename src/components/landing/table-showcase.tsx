@@ -11,6 +11,7 @@ import {
   UserCheck,
   Download,
   Trash2,
+  Pencil,
 } from "lucide-react"
 import {
   Table,
@@ -315,10 +316,12 @@ export function TableShowcase() {
                               </DropdownMenuItem>
                               <DropdownMenuItem className="justify-between gap-2 cursor-pointer">
                                 <span>Edit</span>
+                                <Pencil className="size-3.5" />
                               </DropdownMenuItem>
                               <DropdownMenuSeparator />
                               <DropdownMenuItem className="justify-between gap-2 text-destructive cursor-pointer">
                                 <span>Suspend Account</span>
+                                <Trash2 className="size-3.5" />
                               </DropdownMenuItem>
                             </DropdownMenuContent>
                           </DropdownMenu>
