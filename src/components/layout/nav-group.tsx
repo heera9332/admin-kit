@@ -98,6 +98,7 @@ export function NavGroup({ title, titleKey, items }: NavGroupType) {
                   {item.items.map((subItem) => {
                     const isSubActive = pathname === subItem.url
                     const subLabel = getLabel(subItem.titleKey, subItem.title)
+                    const SubIcon = subItem.icon
 
                     return (
                       <SidebarMenuSubItem key={subItem.title}>
@@ -110,7 +111,13 @@ export function NavGroup({ title, titleKey, items }: NavGroupType) {
                           }
                           isActive={isSubActive}
                         >
+                          {SubIcon && <SubIcon className="size-4" />}
                           <span>{subLabel}</span>
+                          {subItem.badge && (
+                            <Badge variant="secondary" className="ml-auto px-1.5 py-0 text-[10px] font-mono">
+                              {subItem.badge}
+                            </Badge>
+                          )}
                         </SidebarMenuSubButton>
                       </SidebarMenuSubItem>
                     )

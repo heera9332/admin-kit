@@ -25,6 +25,7 @@ export default getRequestConfig(async ({ requestLocale }) => {
       devices,
       helpCenter,
       projects,
+      cms,
     ] = await Promise.all([
       import(`../../messages/${locale}/common.json`),
       import(`../../messages/${locale}/dashboard.json`),
@@ -40,6 +41,7 @@ export default getRequestConfig(async ({ requestLocale }) => {
       import(`../../messages/${locale}/devices.json`),
       import(`../../messages/${locale}/help-center.json`),
       import(`../../messages/${locale}/projects.json`),
+      import(`../../messages/${locale}/cms.json`),
     ]);
 
     return {
@@ -62,6 +64,7 @@ export default getRequestConfig(async ({ requestLocale }) => {
         devices: devices.default,
         helpCenter: helpCenter.default,
         projects: projects.default,
+        cms: cms.default,
       },
     };
   } catch {

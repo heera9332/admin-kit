@@ -12,6 +12,10 @@ import {
   Command,
   GalleryVerticalEnd,
   AudioWaveform,
+  Newspaper,
+  FileText,
+  FolderTree,
+  Tag,
 } from "lucide-react"
 import type { SidebarData } from "../types"
 
@@ -79,6 +83,31 @@ export const sidebarData: SidebarData = {
           titleKey: "users",
           url: "/dashboard/users",
           icon: Users,
+        },
+        {
+          title: "CMS",
+          titleKey: "cms",
+          icon: Newspaper,
+          items: [
+            {
+              title: "Posts",
+              titleKey: "posts",
+              url: "/dashboard/cms/posts",
+              icon: FileText,
+            },
+            {
+              title: "Categories",
+              titleKey: "categories",
+              url: "/dashboard/cms/categories",
+              icon: FolderTree,
+            },
+            {
+              title: "Tags",
+              titleKey: "tags",
+              url: "/dashboard/cms/tags",
+              icon: Tag,
+            },
+          ],
         },
       ],
     },

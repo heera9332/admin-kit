@@ -1,0 +1,66 @@
+{
+  "posts": {
+    "title": "Posts",
+    "description": "Manage blog articles, announcements, and rich media publications.",
+    "newPost": "New Post",
+    "searchPlaceholder": "Search posts by title, excerpt or author...",
+    "fields": {
+      "title": "Title",
+      "author": "Author",
+      "category": "Category",
+      "status": "Status",
+      "publishedAt": "Published At",
+      "actions": "Actions"
+    },
+    "statuses": {
+      "published": "Published",
+      "draft": "Draft",
+      "archived": "Archived"
+    },
+    "actions": {
+      "view": "View",
+      "edit": "Edit",
+      "copyId": "Copy ID",
+      "delete": "Delete"
+    },
+    "empty": "No posts found",
+    "emptyDesc": "Get started by creating your first blog or news publication."
+  },
+  "categories": {
+    "title": "Categories",
+    "description": "Organize your articles and content taxonomy into structured topics.",
+    "newCategory": "New Category",
+    "searchPlaceholder": "Search categories...",
+    "fields": {
+      "name": "Name",
+      "slug": "Slug",
+      "postCount": "Posts",
+      "description": "Description",
+      "actions": "Actions"
+    },
+    "actions": {
+      "edit": "Edit",
+      "delete": "Delete"
+    },
+    "empty": "No categories found",
+    "emptyDesc": "Create topic categories to classify your published articles."
+  },
+  "tags": {
+    "title": "Tags",
+    "description": "Granular keywords and labels to optimize search and article discovery.",
+    "newTag": "New Tag",
+    "searchPlaceholder": "Search tags...",
+    "fields": {
+      "name": "Tag Name",
+      "slug": "Slug",
+      "count": "Tagged Posts",
+      "actions": "Actions"
+    },
+    "actions": {
+      "edit": "Edit",
+      "delete": "Delete"
+    },
+    "empty": "No tags found",
+    "emptyDesc": "Add tags to help readers discover related stories and guides."
+  }
+}
