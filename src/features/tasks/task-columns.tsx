@@ -21,6 +21,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
+import { StatusBadge } from "@/components/status-badge";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -168,10 +169,9 @@ export function getTaskColumns({
       cell: ({ row }) => {
         const status = row.original.status;
         return (
-          <div className="flex items-center gap-1.5 text-xs capitalize text-muted-foreground">
-            {statusIcons[status]}
-            <span>{getStatusLabel(status)}</span>
-          </div>
+          <StatusBadge status={status} size="default" dot>
+            {getStatusLabel(status)}
+          </StatusBadge>
         );
       },
       filterFn: (row, id, value) => {

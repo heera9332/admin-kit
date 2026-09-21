@@ -6,6 +6,7 @@ import { Copy, Eye, MoreHorizontal, Pencil, Trash2 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
+import { StatusBadge } from "@/components/status-badge";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -121,12 +122,9 @@ export function getUserColumns({
       cell: ({ row }) => {
         const status = row.getValue<User["status"]>("status");
         return (
-          <Badge
-            variant={status === "active" ? "default" : "secondary"}
-            className="capitalize text-xs font-normal"
-          >
+          <StatusBadge status={status} size="default" dot>
             {getStatusLabel(status)}
-          </Badge>
+          </StatusBadge>
         );
       },
       filterFn: (row, id, value) => {

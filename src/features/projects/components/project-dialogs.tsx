@@ -391,7 +391,7 @@ export function ViewProjectSheet({
             </span>
             <span className="text-sm font-semibold">{project.id}</span>
           </div>
-          <StatusBadge status={project.status} size="sm" dot>
+          <StatusBadge status={project.status} size="default" dot>
             {t(`statuses.${project.status}`)}
           </StatusBadge>
         </div>

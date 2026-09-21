@@ -118,7 +118,7 @@ export function getProjectColumns({
       cell: ({ row }) => {
         const status = row.getValue<Project["status"]>("status");
         return (
-          <StatusBadge status={status} size="sm" dot>
+          <StatusBadge status={status} size="default" dot>
             {t(`statuses.${status}`)}
           </StatusBadge>
         );
