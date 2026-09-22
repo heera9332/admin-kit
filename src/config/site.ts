@@ -8,6 +8,8 @@ export const siteConfig = {
     github: "https://github.com/heera9332/admin-kit",
     docs: "#documentation",
     dashboard: "/dashboard",
+    store: "https://store.zoro-dev.com",
+    download: "https://store.zoro-dev.com",
   },
   author: {
     name: "AdminKit",

@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import { Link } from "@/i18n/routing"
-import { Menu, ArrowRight, LayoutDashboard } from "lucide-react"
+import { Menu, ArrowRight, LayoutDashboard, Download } from "lucide-react"
 import { siteConfig } from "@/config/site"
 import { marketingNav } from "@/config/navigation"
 import { Button, buttonVariants } from "@/components/ui/button"
@@ -58,7 +58,17 @@ export function Navbar() {
             className={buttonVariants({ variant: "ghost", size: "icon-sm" })}
             aria-label="View on GitHub"
           >
-                  <GithubIcon className="size-4" />
+            <GithubIcon className="size-4" />
+          </a>
+
+          <a
+            href={siteConfig.links.store}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={buttonVariants({ variant: "outline", size: "sm" })}
+          >
+            <Download className="size-3.5" />
+            <span>Download</span>
           </a>
 
           <Link
@@ -106,6 +116,20 @@ export function Navbar() {
             footer={
               <div className="flex flex-col gap-3 w-full">
                 <a
+                  href={siteConfig.links.store}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={buttonVariants({
+                    variant: "default",
+                    size: "default",
+                    className: "w-full justify-center gap-2",
+                  })}
+                >
+                  <Download className="size-4" />
+                  <span>Download Template</span>
+                </a>
+
+                <a
                   href={siteConfig.links.github}
                   target="_blank"
                   rel="noreferrer"
@@ -125,7 +149,7 @@ export function Navbar() {
                       href="/dashboard"
                       onClick={() => setIsOpen(false)}
                       className={buttonVariants({
-                        variant: "default",
+                        variant: "outline",
                         size: "default",
                         className: "w-full justify-center gap-2",
                       })}
