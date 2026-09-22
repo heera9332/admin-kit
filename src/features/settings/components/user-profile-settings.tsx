@@ -156,12 +156,12 @@ export function UserProfileSettings() {
         onValueChange={handleTabChange}
         className="w-full space-y-6"
       >
-        {/* Modern Segmented Navigation Tabs */}
-        <div className="overflow-x-auto pb-1">
-          <TabsList className="h-10 p-1 bg-muted/60 border rounded-xl gap-1 inline-flex min-w-full sm:min-w-fit">
+        {/* Navigation Tabs */}
+        <div className="w-full overflow-x-auto pb-1">
+          <TabsList className="inline-flex h-9 w-full sm:w-auto items-center justify-start gap-1 rounded-lg bg-muted p-1 text-muted-foreground border px-0">
             <TabsTrigger
               value="profile"
-              className="text-xs h-8 px-3 gap-2 font-medium"
+              className="text-xs h-7 px-3 gap-2 font-medium"
             >
               <User className="size-3.5" />
               <span>{t("profile")}</span>
@@ -169,29 +169,23 @@ export function UserProfileSettings() {
 
             <TabsTrigger
               value="billing"
-              className="text-xs h-8 px-3 gap-2 font-medium"
+              className="text-xs h-7 px-3 gap-2 font-medium"
             >
               <CreditCard className="size-3.5" />
               <span>{t("billing")}</span>
-              <span className="hidden sm:inline-flex text-[10px] bg-primary/10 text-primary px-1.5 py-0.2 rounded font-mono">
-                Woo
-              </span>
             </TabsTrigger>
 
             <TabsTrigger
               value="shipping"
-              className="text-xs h-8 px-3 gap-2 font-medium"
+              className="text-xs h-7 px-3 gap-2 font-medium"
             >
               <Truck className="size-3.5" />
               <span>{t("shipping")}</span>
-              <span className="hidden sm:inline-flex text-[10px] bg-primary/10 text-primary px-1.5 py-0.2 rounded font-mono">
-                Woo
-              </span>
             </TabsTrigger>
 
             <TabsTrigger
               value="overview"
-              className="text-xs h-8 px-3 gap-2 font-medium"
+              className="text-xs h-7 px-3 gap-2 font-medium"
             >
               <BookOpen className="size-3.5" />
               <span>{t("overview")}</span>
@@ -207,7 +201,7 @@ export function UserProfileSettings() {
           />
         </TabsContent>
 
-        {/* Tab 2: WooCommerce Billing Address */}
+        {/* Tab 2: eCommerce Billing Address */}
         <TabsContent value="billing" className="mt-0 outline-none">
           <BillingAddressForm
             initialData={billingAddress}
@@ -215,7 +209,7 @@ export function UserProfileSettings() {
           />
         </TabsContent>
 
-        {/* Tab 3: WooCommerce Shipping Address */}
+        {/* Tab 3: eCommerce Shipping Address */}
         <TabsContent value="shipping" className="mt-0 outline-none">
           <ShippingAddressForm
             initialData={shippingAddress}
@@ -224,7 +218,7 @@ export function UserProfileSettings() {
           />
         </TabsContent>
 
-        {/* Tab 4: WooCommerce Address Book Overview */}
+        {/* Tab 4: eCommerce Address Book Overview */}
         <TabsContent value="overview" className="mt-0 outline-none">
           <AddressOverviewCards
             billingAddress={billingAddress}

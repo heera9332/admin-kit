@@ -28,7 +28,7 @@
   },
   "billing": {
     "title": "बिलिंग पता",
-    "badge": "WooCommerce",
+    "badge": "eCommerce",
     "subtitle": "चालान, कर गणना और भुगतान सत्यापन के लिए ग्राहक बिलिंग विवरण।",
     "firstName": "पहला नाम",
     "lastName": "अंतिम नाम",
@@ -61,7 +61,7 @@
   },
   "shipping": {
     "title": "शिपिंग पता",
-    "badge": "WooCommerce",
+    "badge": "eCommerce",
     "subtitle": "कूरियर प्रेषण और भौतिक शिपमेंट के लिए डिलीवरी गंतव्य पता।",
     "sameAsBilling": "बिलिंग पते के समान",
     "sameAsBillingDesc": "अपने बिलिंग पते के साथ शिपिंग विवरण स्वचालित रूप से सिंक्रनाइज़ करें।",
@@ -94,7 +94,7 @@
   },
   "addresses": {
     "title": "पते का अवलोकन",
-    "badge": "WooCommerce एड्रेस बुक",
+    "badge": "eCommerce एड्रेस बुक",
     "description": "निम्नलिखित पते डिफ़ॉल्ट रूप से चेकआउट पृष्ठ पर उपयोग किए जाएंगे।",
     "billingCardTitle": "बिलिंग पता",
     "billingCardDesc": "चालान और भुगतान गेटवे सत्यापन के लिए उपयोग किया जाता है।",

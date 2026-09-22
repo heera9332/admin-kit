@@ -104,7 +104,7 @@ export function AddressOverviewCards({
                   </div>
                 </div>
                 <Badge variant="outline" className="text-[10px] h-5 font-normal">
-                  WooCommerce
+                  eCommerce
                 </Badge>
               </div>
             </CardHeader>

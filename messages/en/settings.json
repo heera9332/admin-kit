@@ -28,7 +28,7 @@
   },
   "billing": {
     "title": "Billing Address",
-    "badge": "WooCommerce",
+    "badge": "eCommerce",
     "subtitle": "Customer billing details for invoices, tax computation, and payment verification.",
     "firstName": "First name",
     "lastName": "Last name",
@@ -61,7 +61,7 @@
   },
   "shipping": {
     "title": "Shipping Address",
-    "badge": "WooCommerce",
+    "badge": "eCommerce",
     "subtitle": "Delivery destination address for courier dispatches and physical shipments.",
     "sameAsBilling": "Same as billing address",
     "sameAsBillingDesc": "Automatically synchronize shipping details with your billing address.",
@@ -94,7 +94,7 @@
   },
   "addresses": {
     "title": "Addresses Overview",
-    "badge": "WooCommerce Book",
+    "badge": "eCommerce Book",
     "description": "The following addresses will be used on the checkout page by default.",
     "billingCardTitle": "Billing Address",
     "billingCardDesc": "Used for invoices and payment gateway validation.",

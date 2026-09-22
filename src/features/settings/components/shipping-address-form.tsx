@@ -213,7 +213,7 @@ export function ShippingAddressForm({
 
       <Separator />
 
-      {/* WooCommerce Sync Toolbar: Same as billing & Copy Button */}
+      {/* eCommerce Sync Toolbar: Same as billing & Copy Button */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3.5 rounded-xl border bg-muted/30">
         <div className="flex items-center space-x-2.5">
           <Switch
