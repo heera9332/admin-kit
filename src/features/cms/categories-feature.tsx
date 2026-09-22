@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import { useTranslations } from "next-intl"
-import { FolderTree, Plus, Search, MoreHorizontal, Pencil, Trash2 } from "lucide-react"
+import { FolderTree, Plus, Search, MoreHorizontal, Pencil, Trash2, Eye } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import {
@@ -20,17 +20,30 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { initialCategories, type Category } from "./data/cms-data"
+import { CreateCategoryDialog, ViewCategorySheet } from "./components/category-dialogs"
 
 export function CategoriesFeature() {
   const t = useTranslations("cms.categories")
   const [categories, setCategories] = React.useState<Category[]>(initialCategories)
   const [search, setSearch] = React.useState("")
+  const [createOpen, setCreateOpen] = React.useState(false)
+  const [viewOpen, setViewOpen] = React.useState(false)
+  const [selectedCategory, setSelectedCategory] = React.useState<Category | null>(null)
 
   const filteredCategories = categories.filter(
     (c) =>
       c.name.toLowerCase().includes(search.toLowerCase()) ||
       c.description.toLowerCase().includes(search.toLowerCase())
   )
+
+  const handleCreate = (newCategory: Category) => {
+    setCategories((prev) => [newCategory, ...prev])
+  }
+
+  const handleView = (category: Category) => {
+    setSelectedCategory(category)
+    setViewOpen(true)
+  }
 
   const handleDelete = (id: string) => {
     setCategories((prev) => prev.filter((c) => c.id !== id))
@@ -48,9 +61,9 @@ export function CategoriesFeature() {
           </p>
         </div>
         <Button
-          onClick={() => alert("Create category modal / action")}
+          onClick={() => setCreateOpen(true)}
           size="sm"
-          className="gap-1.5 text-xs self-start sm:self-auto"
+          className="gap-1.5 text-xs self-start sm:self-auto cursor-pointer"
         >
           <Plus className="size-3.5" />
           <span>{t("newCategory")}</span>
@@ -72,7 +85,10 @@ export function CategoriesFeature() {
           <Card key={category.id} className="flex flex-col justify-between">
             <CardHeader className="pb-3">
               <div className="flex items-start justify-between gap-2">
-                <div className="flex size-9 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                <div
+                  onClick={() => handleView(category)}
+                  className="flex size-9 items-center justify-center rounded-lg bg-primary/10 text-primary cursor-pointer hover:bg-primary/20 transition-colors"
+                >
                   <FolderTree className="size-4.5" />
                 </div>
                 <DropdownMenu>
@@ -90,6 +106,13 @@ export function CategoriesFeature() {
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end" className="text-xs w-32">
                     <DropdownMenuItem
+                      onClick={() => handleView(category)}
+                      className="justify-between gap-2 cursor-pointer"
+                    >
+                      <span>{t("actions.view")}</span>
+                      <Eye className="size-3.5" />
+                    </DropdownMenuItem>
+                    <DropdownMenuItem
                       onClick={() => alert(`Edit ${category.name}`)}
                       className="justify-between gap-2 cursor-pointer"
                     >
@@ -106,7 +129,10 @@ export function CategoriesFeature() {
                   </DropdownMenuContent>
                 </DropdownMenu>
               </div>
-              <CardTitle className="text-sm font-semibold mt-2">
+              <CardTitle
+                onClick={() => handleView(category)}
+                className="text-sm font-semibold mt-2 cursor-pointer hover:text-primary transition-colors"
+              >
                 {category.name}
               </CardTitle>
               <CardDescription className="text-xs line-clamp-2">
@@ -130,6 +156,19 @@ export function CategoriesFeature() {
           <p className="text-xs text-muted-foreground mt-1">{t("emptyDesc")}</p>
         </div>
       )}
+
+      <CreateCategoryDialog
+        open={createOpen}
+        onOpenChange={setCreateOpen}
+        onCreate={handleCreate}
+      />
+
+      <ViewCategorySheet
+        category={selectedCategory}
+        open={viewOpen}
+        onOpenChange={setViewOpen}
+        onDelete={handleDelete}
+      />
     </div>
   )
 }

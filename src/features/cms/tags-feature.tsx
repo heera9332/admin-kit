@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import { useTranslations } from "next-intl"
-import { Tag as TagIcon, Plus, Search, MoreHorizontal, Pencil, Trash2 } from "lucide-react"
+import { Tag as TagIcon, Plus, Search, MoreHorizontal, Pencil, Trash2, Eye } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import {
@@ -19,17 +19,30 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { initialTags, type Tag } from "./data/cms-data"
+import { CreateTagDialog, ViewTagSheet } from "./components/tag-dialogs"
 
 export function TagsFeature() {
   const t = useTranslations("cms.tags")
   const [tags, setTags] = React.useState<Tag[]>(initialTags)
   const [search, setSearch] = React.useState("")
+  const [createOpen, setCreateOpen] = React.useState(false)
+  const [viewOpen, setViewOpen] = React.useState(false)
+  const [selectedTag, setSelectedTag] = React.useState<Tag | null>(null)
 
   const filteredTags = tags.filter(
     (tag) =>
       tag.name.toLowerCase().includes(search.toLowerCase()) ||
       tag.slug.toLowerCase().includes(search.toLowerCase())
   )
+
+  const handleCreate = (newTag: Tag) => {
+    setTags((prev) => [newTag, ...prev])
+  }
+
+  const handleView = (tag: Tag) => {
+    setSelectedTag(tag)
+    setViewOpen(true)
+  }
 
   const handleDelete = (id: string) => {
     setTags((prev) => prev.filter((tag) => tag.id !== id))
@@ -47,9 +60,9 @@ export function TagsFeature() {
           </p>
         </div>
         <Button
-          onClick={() => alert("Create tag modal / action")}
+          onClick={() => setCreateOpen(true)}
           size="sm"
-          className="gap-1.5 text-xs self-start sm:self-auto"
+          className="gap-1.5 text-xs self-start sm:self-auto cursor-pointer"
         >
           <Plus className="size-3.5" />
           <span>{t("newTag")}</span>
@@ -71,12 +84,15 @@ export function TagsFeature() {
           <Card key={tag.id} className="flex flex-col justify-between">
             <CardHeader className="p-3.5 pb-2">
               <div className="flex items-center justify-between gap-2">
-                <div className="flex items-center gap-2">
-                  <div className="flex size-7 items-center justify-center rounded-md bg-primary/10 text-primary">
+                <div
+                  onClick={() => handleView(tag)}
+                  className="flex items-center gap-2 cursor-pointer group"
+                >
+                  <div className="flex size-7 items-center justify-center rounded-md bg-primary/10 text-primary group-hover:bg-primary/20 transition-colors">
                     <TagIcon className="size-3.5" />
                   </div>
                   <div>
-                    <CardTitle className="text-xs font-semibold">
+                    <CardTitle className="text-xs font-semibold group-hover:text-primary transition-colors">
                       {tag.name}
                     </CardTitle>
                     <span className="font-mono text-[10px] text-muted-foreground">
@@ -99,6 +115,13 @@ export function TagsFeature() {
                     <span className="sr-only">Actions</span>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end" className="text-xs w-28">
+                    <DropdownMenuItem
+                      onClick={() => handleView(tag)}
+                      className="justify-between gap-2 cursor-pointer"
+                    >
+                      <span>{t("actions.view")}</span>
+                      <Eye className="size-3" />
+                    </DropdownMenuItem>
                     <DropdownMenuItem
                       onClick={() => alert(`Edit ${tag.name}`)}
                       className="justify-between gap-2 cursor-pointer"
@@ -134,6 +157,19 @@ export function TagsFeature() {
           <p className="text-xs text-muted-foreground mt-1">{t("emptyDesc")}</p>
         </div>
       )}
+
+      <CreateTagDialog
+        open={createOpen}
+        onOpenChange={setCreateOpen}
+        onCreate={handleCreate}
+      />
+
+      <ViewTagSheet
+        tag={selectedTag}
+        open={viewOpen}
+        onOpenChange={setViewOpen}
+        onDelete={handleDelete}
+      />
     </div>
   )
 }

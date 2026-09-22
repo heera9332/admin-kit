@@ -39,8 +39,22 @@
       "actions": "Actions"
     },
     "actions": {
+      "view": "View",
       "edit": "Edit",
       "delete": "Delete"
+    },
+    "dialog": {
+      "createTitle": "Create Category",
+      "createDescription": "Add a new content category to organize your articles.",
+      "namePlaceholder": "e.g., Engineering, Design, Tutorials",
+      "slugPlaceholder": "e.g., engineering",
+      "descPlaceholder": "Describe the scope and topic of this category...",
+      "create": "Create Category"
+    },
+    "sheet": {
+      "title": "Category Details",
+      "description": "View details and content metrics for this category.",
+      "postsCount": "Associated Posts"
     },
     "empty": "No categories found",
     "emptyDesc": "Create topic categories to classify your published articles."
@@ -57,8 +71,21 @@
       "actions": "Actions"
     },
     "actions": {
+      "view": "View",
       "edit": "Edit",
       "delete": "Delete"
+    },
+    "dialog": {
+      "createTitle": "Create Tag",
+      "createDescription": "Add a new granular keyword tag for article classification.",
+      "namePlaceholder": "e.g., React, TypeScript, Performance",
+      "slugPlaceholder": "e.g., react",
+      "create": "Create Tag"
+    },
+    "sheet": {
+      "title": "Tag Details",
+      "description": "View details and usage statistics for this tag.",
+      "taggedCount": "Tagged Posts"
     },
     "empty": "No tags found",
     "emptyDesc": "Add tags to help readers discover related stories and guides."

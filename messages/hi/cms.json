@@ -39,8 +39,22 @@
       "actions": "क्रियाएं"
     },
     "actions": {
+      "view": "देखें",
       "edit": "संपादित करें",
       "delete": "हटाएं"
+    },
+    "dialog": {
+      "createTitle": "नई श्रेणी बनाएं",
+      "createDescription": "अपने लेखों को व्यवस्थित करने के लिए एक नई सामग्री श्रेणी जोड़ें।",
+      "namePlaceholder": "उदा., इंजीनियरिंग, डिज़ाइन, ट्यूटोरियल",
+      "slugPlaceholder": "उदा., engineering",
+      "descPlaceholder": "इस श्रेणी के विषय का वर्णन करें...",
+      "create": "श्रेणी बनाएं"
+    },
+    "sheet": {
+      "title": "श्रेणी विवरण",
+      "description": "इस श्रेणी के लिए विवरण और सामग्री मेट्रिक्स देखें।",
+      "postsCount": "संबंधित पोस्ट"
     },
     "empty": "कोई श्रेणी नहीं मिली",
     "emptyDesc": "अपने प्रकाशित लेखों को वर्गीकृत करने के लिए विषय श्रेणियां बनाएं।"
@@ -57,8 +71,21 @@
       "actions": "क्रियाएं"
     },
     "actions": {
+      "view": "देखें",
       "edit": "संपादित करें",
       "delete": "हटाएं"
+    },
+    "dialog": {
+      "createTitle": "नया टैग बनाएं",
+      "createDescription": "लेख वर्गीकरण के लिए एक नया कीवर्ड टैग जोड़ें।",
+      "namePlaceholder": "उदा., React, TypeScript, Performance",
+      "slugPlaceholder": "उदा., react",
+      "create": "टैग बनाएं"
+    },
+    "sheet": {
+      "title": "टैग विवरण",
+      "description": "इस टैग के लिए विवरण और उपयोग आँकड़े देखें।",
+      "taggedCount": "टैग की गई पोस्ट"
     },
     "empty": "कोई टैग नहीं मिला",
     "emptyDesc": "पाठकों को संबंधित कहानियां और गाइड खोजने में सहायता करने के लिए टैग जोड़ें।"

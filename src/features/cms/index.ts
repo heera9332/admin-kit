@@ -1,3 +1,5 @@
 export { PostsFeature } from "./posts-feature"
 export { CategoriesFeature } from "./categories-feature"
 export { TagsFeature } from "./tags-feature"
+export * from "./components/category-dialogs"
+export * from "./components/tag-dialogs"
