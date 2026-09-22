@@ -1,75 +1,35 @@
-"use client"
-
 import * as React from "react"
-import { useTranslations } from "next-intl"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
-import { Separator } from "@/components/ui/separator"
+import { UserProfileSettings } from "@/features/settings/components/user-profile-settings"
+import { Skeleton } from "@/components/ui/skeleton"
 
 export default function ProfileSettingsPage() {
-  const t = useTranslations("settings.profile")
-  const [saved, setSaved] = React.useState(false)
+  return (
+    <React.Suspense fallback={<ProfileSettingsSkeleton />}>
+      <UserProfileSettings />
+    </React.Suspense>
+  )
+}
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    setSaved(true)
-    setTimeout(() => setSaved(false), 3000)
-  }
-
+function ProfileSettingsSkeleton() {
   return (
     <div className="space-y-6">
-      <div>
-        <h3 className="text-base font-semibold">{t("title")}</h3>
-        <p className="text-xs text-muted-foreground">
-          {t("description")}
-        </p>
+      <div className="flex gap-2">
+        <Skeleton className="h-9 w-24 rounded-lg" />
+        <Skeleton className="h-9 w-32 rounded-lg" />
+        <Skeleton className="h-9 w-32 rounded-lg" />
+        <Skeleton className="h-9 w-28 rounded-lg" />
       </div>
-
-      <Separator />
-
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div className="space-y-1.5">
-          <Label htmlFor="username">{t("username")}</Label>
-          <Input id="username" defaultValue="adminkit" className="text-xs max-w-md" />
-          <p className="text-[11px] text-muted-foreground">
-            {t("usernameHelp")}
-          </p>
-        </div>
-
-        <div className="space-y-1.5">
-          <Label htmlFor="email">{t("email")}</Label>
-          <Input id="email" type="email" defaultValue="heera-singh@zoro-dev.com" className="text-xs max-w-md" />
-          <p className="text-[11px] text-muted-foreground">
-            {t("emailHelp")}
-          </p>
-        </div>
-
-        <div className="space-y-1.5">
-          <Label htmlFor="bio">{t("bio")}</Label>
-          <Textarea
-            id="bio"
-            rows={3}
-            defaultValue="Software engineer & creator of Shadcn Admin. Building accessible web templates."
-            className="text-xs max-w-md"
-          />
-          <p className="text-[11px] text-muted-foreground">
-            {t("bioHelp")}
-          </p>
-        </div>
-
-        <div className="pt-2 flex items-center gap-3">
-          <Button type="submit" size="sm" className="text-xs">
-            {t("updateProfile")}
-          </Button>
-          {saved && (
-            <span className="text-xs text-emerald-500 font-medium">
-              {t("success")}
-            </span>
-          )}
-        </div>
-      </form>
+      <div className="space-y-2">
+        <Skeleton className="h-6 w-48" />
+        <Skeleton className="h-4 w-72" />
+      </div>
+      <Skeleton className="h-px w-full" />
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <Skeleton className="h-10 w-full" />
+        <Skeleton className="h-10 w-full" />
+      </div>
+      <Skeleton className="h-24 w-full" />
+      <Skeleton className="h-9 w-28" />
     </div>
   )
 }
