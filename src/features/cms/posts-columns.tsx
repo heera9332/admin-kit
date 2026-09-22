@@ -107,7 +107,7 @@ export function getPostsColumns({
       cell: ({ row }) => {
         const status = row.getValue<Post["status"]>("status")
         return (
-          <StatusBadge status={status} size="sm" dot>
+          <StatusBadge status={status} size="default" dot>
             {t(`statuses.${status}`)}
           </StatusBadge>
         )

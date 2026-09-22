@@ -1,9 +1,9 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { Link } from "@/i18n/routing"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Button } from "@/components/ui/button"
+import * as React from "react";
+import { Link } from "@/i18n/routing";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -13,14 +13,14 @@ import {
   DropdownMenuSeparator,
   DropdownMenuShortcut,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { useTranslations } from "next-intl"
-import { SignOutDialog } from "./sign-out-dialog"
+} from "@/components/ui/dropdown-menu";
+import { useTranslations } from "next-intl";
+import { SignOutDialog } from "./sign-out-dialog";
 
 export function ProfileDropdown() {
-  const [openSignOut, setOpenSignOut] = React.useState(false)
-  const tNav = useTranslations("nav")
-  const tCommon = useTranslations("common")
+  const [openSignOut, setOpenSignOut] = React.useState(false);
+  const tNav = useTranslations("nav");
+  const tCommon = useTranslations("common");
 
   return (
     <>
@@ -36,12 +36,17 @@ export function ProfileDropdown() {
           </Avatar>
         </DropdownMenuTrigger>
         <DropdownMenuContent className="w-56" align="end">
-          <DropdownMenuGroup>
+          <Avatar className="size-16 mx-auto my-4">
+            <AvatarImage src="/avatars/01.png" alt="@adminkit" />
+            <AvatarFallback>SN</AvatarFallback>
+          </Avatar>
+
+          <DropdownMenuGroup className="pb-4">
             <DropdownMenuLabel className="font-normal">
               <div className="flex flex-col space-y-1">
-                <p className="text-sm font-medium leading-none">adminkit</p>
-                <p className="text-xs leading-none text-muted-foreground">
-                  heera-singh@zoro-dev.com 
+                <p className="text-sm font-medium leading-none text-center">adminkit</p>
+                <p className="text-xs leading-none text-muted-foreground text-center">
+                  heera-singh@zoro-dev.com
                 </p>
               </div>
             </DropdownMenuLabel>
@@ -52,7 +57,9 @@ export function ProfileDropdown() {
               <span>{tNav("profile")}</span>
               <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
             </DropdownMenuItem>
-            <DropdownMenuItem render={<Link href="/dashboard/settings/account" />}>
+            <DropdownMenuItem
+              render={<Link href="/dashboard/settings/account" />}
+            >
               <span>{tNav("account")}</span>
               <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
             </DropdownMenuItem>
@@ -74,5 +81,5 @@ export function ProfileDropdown() {
 
       <SignOutDialog open={openSignOut} onOpenChange={setOpenSignOut} />
     </>
-  )
+  );
 }
