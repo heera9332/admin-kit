@@ -54,6 +54,13 @@ export interface AppBreadcrumbsProps {
   showHomeLabel?: boolean
 
   /**
+   * Whether to display icons on other route segments/pages.
+   * When false (default), only the leading Home icon is shown, and other pages display text only.
+   * @default false
+   */
+  showSegmentIcons?: boolean
+
+  /**
    * Icon component for root/home.
    * Set to `false` to hide icon.
    * @default Home

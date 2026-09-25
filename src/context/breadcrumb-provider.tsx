@@ -11,6 +11,7 @@ interface BreadcrumbContextType {
   isHidden: boolean
   maxItems?: number
   showHome?: boolean
+  showSegmentIcons?: boolean
   setBreadcrumbs: (items: BreadcrumbItem[] | null) => void
   setAppendItems: (items: BreadcrumbItem[]) => void
   setPrependItems: (items: BreadcrumbItem[]) => void
@@ -18,6 +19,7 @@ interface BreadcrumbContextType {
   setIsHidden: (hidden: boolean) => void
   setMaxItems: (maxItems?: number) => void
   setShowHome: (show?: boolean) => void
+  setShowSegmentIcons: (show?: boolean) => void
   resetBreadcrumbs: () => void
 }
 
@@ -31,6 +33,7 @@ export function BreadcrumbProvider({ children }: { children: React.ReactNode }) 
   const [isHidden, setIsHidden] = React.useState<boolean>(false)
   const [maxItems, setMaxItems] = React.useState<number | undefined>(undefined)
   const [showHome, setShowHome] = React.useState<boolean | undefined>(undefined)
+  const [showSegmentIcons, setShowSegmentIcons] = React.useState<boolean | undefined>(undefined)
 
   const resetBreadcrumbs = React.useCallback(() => {
     setCustomItems(null)
@@ -40,6 +43,7 @@ export function BreadcrumbProvider({ children }: { children: React.ReactNode }) 
     setIsHidden(false)
     setMaxItems(undefined)
     setShowHome(undefined)
+    setShowSegmentIcons(undefined)
   }, [])
 
   const value = React.useMemo(
@@ -51,6 +55,7 @@ export function BreadcrumbProvider({ children }: { children: React.ReactNode }) 
       isHidden,
       maxItems,
       showHome,
+      showSegmentIcons,
       setBreadcrumbs: setCustomItems,
       setAppendItems,
       setPrependItems,
@@ -58,6 +63,7 @@ export function BreadcrumbProvider({ children }: { children: React.ReactNode }) 
       setIsHidden,
       setMaxItems,
       setShowHome,
+      setShowSegmentIcons,
       resetBreadcrumbs,
     }),
     [
@@ -68,6 +74,7 @@ export function BreadcrumbProvider({ children }: { children: React.ReactNode }) 
       isHidden,
       maxItems,
       showHome,
+      showSegmentIcons,
       resetBreadcrumbs,
     ]
   )
@@ -89,6 +96,7 @@ const defaultContextValue: BreadcrumbContextType = {
   isHidden: false,
   maxItems: undefined,
   showHome: undefined,
+  showSegmentIcons: undefined,
   setBreadcrumbs: noop,
   setAppendItems: noop,
   setPrependItems: noop,
@@ -96,6 +104,7 @@ const defaultContextValue: BreadcrumbContextType = {
   setIsHidden: noop,
   setMaxItems: noop,
   setShowHome: noop,
+  setShowSegmentIcons: noop,
   resetBreadcrumbs: noop,
 }
 
@@ -173,6 +182,7 @@ export function PageBreadcrumbs({
   hidden,
   maxItems,
   showHome,
+  showSegmentIcons,
 }: {
   items?: BreadcrumbItem[]
   append?: BreadcrumbItem[]
@@ -181,6 +191,7 @@ export function PageBreadcrumbs({
   hidden?: boolean
   maxItems?: number
   showHome?: boolean
+  showSegmentIcons?: boolean
 }) {
   const {
     setBreadcrumbs,
@@ -190,6 +201,7 @@ export function PageBreadcrumbs({
     setIsHidden,
     setMaxItems,
     setShowHome,
+    setShowSegmentIcons,
     resetBreadcrumbs,
   } = useBreadcrumbs()
 
@@ -201,6 +213,7 @@ export function PageBreadcrumbs({
     if (typeof hidden === "boolean") setIsHidden(hidden)
     if (typeof maxItems === "number") setMaxItems(maxItems)
     if (typeof showHome === "boolean") setShowHome(showHome)
+    if (typeof showSegmentIcons === "boolean") setShowSegmentIcons(showSegmentIcons)
 
     return () => {
       resetBreadcrumbs()
@@ -213,6 +226,7 @@ export function PageBreadcrumbs({
     hidden,
     maxItems,
     showHome,
+    showSegmentIcons,
     setBreadcrumbs,
     setAppendItems,
     setPrependItems,
@@ -220,6 +234,7 @@ export function PageBreadcrumbs({
     setIsHidden,
     setMaxItems,
     setShowHome,
+    setShowSegmentIcons,
     resetBreadcrumbs,
   ])
 

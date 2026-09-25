@@ -61,6 +61,7 @@ export function AppBreadcrumbs({
   homeLabel,
   homeIcon = Home,
   showHomeLabel = false,
+  showSegmentIcons: propsShowSegmentIcons,
   showCurrentPage = true,
   separator = "chevron",
   maxItems: propsMaxItems,
@@ -78,13 +79,20 @@ export function AppBreadcrumbs({
   const tNav = useTranslations("nav")
   const context = useBreadcrumbs()
 
-  // Determine showHome and maxItems with context fallbacks and defaults
+  // Determine showHome, showSegmentIcons, and maxItems with context fallbacks and defaults
   const showHome =
     typeof propsShowHome === "boolean"
       ? propsShowHome
       : typeof context.showHome === "boolean"
       ? context.showHome
       : true
+
+  const showSegmentIcons =
+    typeof propsShowSegmentIcons === "boolean"
+      ? propsShowSegmentIcons
+      : typeof context.showSegmentIcons === "boolean"
+      ? context.showSegmentIcons
+      : false // Only show the main pre-icon Home; do not show icons for subsequent pages
 
   const maxItems =
     typeof propsMaxItems === "number"
@@ -289,7 +297,7 @@ export function AppBreadcrumbs({
           return (
             <React.Fragment key={`start-${idx}-${item.href || idx}`}>
               <UIBreadcrumbItem className={item.className}>
-                {renderItemContent(item, idx, isLast, renderItem, isHome, showHomeLabel)}
+                {renderItemContent(item, idx, isLast, renderItem, isHome, showHomeLabel, showSegmentIcons)}
               </UIBreadcrumbItem>
               {(!isLast || shouldCollapse) && (
                 <BreadcrumbSeparator className="text-muted-foreground/40">
@@ -316,7 +324,7 @@ export function AppBreadcrumbs({
                 >
                   <BreadcrumbEllipsis />
                 </DropdownMenuTrigger>
-                <DropdownMenuContent align="start" className="w-auto min-w-44 p-1">
+                <DropdownMenuContent align="start" className="w-auto min-w-40 p-1">
                   {collapsedItems.map((cItem, cIdx) => (
                     <DropdownMenuItem
                       key={`collapsed-${cIdx}-${cItem.href || cIdx}`}
@@ -329,10 +337,8 @@ export function AppBreadcrumbs({
                         ) : undefined
                       }
                     >
-                      {cItem.icon ? (
+                      {showSegmentIcons && cItem.icon && (
                         <cItem.icon className="size-4 shrink-0 opacity-70" />
-                      ) : (
-                        <ChevronRight className="size-3.5 shrink-0 opacity-40" />
                       )}
                       <span className="truncate">{cItem.label}</span>
                     </DropdownMenuItem>
@@ -353,7 +359,7 @@ export function AppBreadcrumbs({
           return (
             <React.Fragment key={`end-${idx}-${item.href || idx}`}>
               <UIBreadcrumbItem className={item.className}>
-                {renderItemContent(item, originalIndex, isLast, renderItem, false, false)}
+                {renderItemContent(item, originalIndex, isLast, renderItem, false, false, showSegmentIcons)}
               </UIBreadcrumbItem>
               {!isLast && (
                 <BreadcrumbSeparator className="text-muted-foreground/40">
@@ -374,22 +380,20 @@ function renderItemContent(
   isLast: boolean,
   renderItem?: AppBreadcrumbsProps["renderItem"],
   isHome: boolean = false,
-  showHomeLabel: boolean = false
+  showHomeLabel: boolean = false,
+  showSegmentIcons: boolean = false
 ) {
   if (renderItem) {
     return renderItem(item, index, isLast)
   }
 
-  const Icon = item.icon
+  const Icon = showSegmentIcons ? item.icon : undefined
   const labelText = typeof item.label === "string" ? item.label : "Home"
 
-  // Special rendering for the initial Home item
+  // Special rendering for the initial Home icon (pre-icon)
   if (isHome) {
-    const HomeIconEl = Icon ? (
-      <Icon className="size-4 shrink-0" />
-    ) : (
-      <Home className="size-4 shrink-0" />
-    )
+    const HomeIconComponent = item.icon || Home
+    const HomeIconEl = <HomeIconComponent className="size-4 shrink-0" />
 
     if (isLast || !item.href) {
       return (
