@@ -10,6 +10,7 @@ import { ProfileDropdown } from "@/components/layout/profile-dropdown"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { ThemeCustomizer } from "@/components/theme-customizer"
 import { LocaleSwitcher } from "@/components/locale-switcher"
+import { RolePreviewSwitcher } from "@/components/rbac/role-preview-switcher"
 import { siteConfig } from "@/config/site"
 import { cn } from "@/lib/utils"
 
@@ -27,6 +28,7 @@ export function SiteHeader() {
       </div>
 
       <div className="flex items-center gap-1 sm:gap-2 shrink-0">
+        <RolePreviewSwitcher />
         <SearchButton />
         <LocaleSwitcher />
         <ThemeCustomizer />

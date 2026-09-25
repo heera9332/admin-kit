@@ -5,6 +5,7 @@ export interface BaseNavItem {
   titleKey?: string
   badge?: string
   icon?: LucideIcon
+  permission?: string
 }
 
 export interface NavLink extends BaseNavItem {
@@ -13,7 +14,7 @@ export interface NavLink extends BaseNavItem {
 }
 
 export interface NavCollapsible extends BaseNavItem {
-  items: (BaseNavItem & { url: string; titleKey?: string })[]
+  items: (BaseNavItem & { url: string; titleKey?: string; permission?: string })[]
   url?: never
 }
 
@@ -35,6 +36,7 @@ export interface User {
   name: string
   email: string
   avatar: string
+  role?: string
 }
 
 export interface SidebarData {

@@ -18,6 +18,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { PermissionGate } from "@/components/rbac/permission-gate";
+import { RoleBadge } from "@/components/rbac/role-badge";
 import type { User } from "../user-columns";
 
 interface InviteUserDialogProps {
@@ -127,9 +129,11 @@ export function InviteUserDialog({
               <SelectValue placeholder={t("inviteModal.selectRole")} />
             </SelectTrigger>
             <SelectContent className="w-full">
+              <SelectItem value="superadmin">Super Admin</SelectItem>
               <SelectItem value="admin">{t("roles.admin")}</SelectItem>
               <SelectItem value="manager">{t("roles.manager")}</SelectItem>
               <SelectItem value="cashier">{t("roles.cashier")}</SelectItem>
+              <SelectItem value="viewer">Viewer</SelectItem>
             </SelectContent>
           </Select>
         </div>
@@ -204,9 +208,11 @@ function EditUserForm({ user, onOpenChange, onUpdate }: EditUserFormProps) {
                 <SelectValue />
               </SelectTrigger>
               <SelectContent className="w-full">
+                <SelectItem value="superadmin">Super Admin</SelectItem>
                 <SelectItem value="admin">{t("roles.admin")}</SelectItem>
                 <SelectItem value="manager">{t("roles.manager")}</SelectItem>
                 <SelectItem value="cashier">{t("roles.cashier")}</SelectItem>
+                <SelectItem value="viewer">Viewer</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -317,31 +323,35 @@ export function ViewUserSheet({
       description={user.email}
       footer={
         <div className="flex items-center justify-between w-full gap-2">
-          <Button
-            variant="destructive"
-            size="sm"
-            onClick={() => {
-              onOpenChange(false);
-              onDelete(user);
-            }}
-            className="gap-1.5"
-          >
-            <Trash2 className="size-3.5" />
-            <span>{tCommon("delete")}</span>
-          </Button>
+          <PermissionGate permission="users:delete">
+            <Button
+              variant="destructive"
+              size="sm"
+              onClick={() => {
+                onOpenChange(false);
+                onDelete(user);
+              }}
+              className="gap-1.5"
+            >
+              <Trash2 className="size-3.5" />
+              <span>{tCommon("delete")}</span>
+            </Button>
+          </PermissionGate>
 
-          <Button
-            variant="default"
-            size="sm"
-            onClick={() => {
-              onOpenChange(false);
-              onEdit(user);
-            }}
-            className="gap-1.5"
-          >
-            <Pencil className="size-3.5" />
-            <span>{tCommon("edit")}</span>
-          </Button>
+          <PermissionGate permission="users:update">
+            <Button
+              variant="default"
+              size="sm"
+              onClick={() => {
+                onOpenChange(false);
+                onEdit(user);
+              }}
+              className="gap-1.5 ml-auto"
+            >
+              <Pencil className="size-3.5" />
+              <span>{tCommon("edit")}</span>
+            </Button>
+          </PermissionGate>
         </div>
       }
     >
@@ -382,9 +392,9 @@ export function ViewUserSheet({
               <Shield className="size-3" />
               <span>{t("viewSheet.role")}</span>
             </span>
-            <span className="font-medium text-foreground block capitalize">
-              {t(`roles.${user.role}`)}
-            </span>
+            <div className="pt-0.5">
+              <RoleBadge role={user.role} />
+            </div>
           </div>
         </div>
 

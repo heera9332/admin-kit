@@ -14,7 +14,7 @@ export const userSchema = z.object({
     .number({ invalid_type_error: "Age is required" })
     .min(18, "Minimum age is 18"),
 
-  role: z.enum(["admin", "manager", "cashier"], {
+  role: z.enum(["superadmin", "admin", "manager", "cashier", "viewer"], {
     errorMap: () => ({ message: "Please select a valid role" }),
   }),
 

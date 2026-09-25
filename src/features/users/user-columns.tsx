@@ -3,10 +3,10 @@
 import type { ColumnDef } from "@tanstack/react-table";
 import { Copy, Eye, MoreHorizontal, Pencil, Trash2 } from "lucide-react";
 
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { StatusBadge } from "@/components/status-badge";
+import { RoleBadge } from "@/components/rbac/role-badge";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -21,14 +21,17 @@ export type User = {
   id: string;
   name: string;
   email: string;
-  role: "admin" | "manager" | "cashier";
-  status: "active" | "inactive";
+  role: "superadmin" | "admin" | "manager" | "cashier" | "viewer" | string;
+  status: "active" | "inactive" | "invited" | "suspended" | string;
 };
 
 export interface GetUserColumnsOptions {
   onView?: (user: User) => void;
   onEdit?: (user: User) => void;
   onDelete?: (user: User) => void;
+  canView?: boolean;
+  canEdit?: boolean;
+  canDelete?: boolean;
   t?: (key: string) => string;
 }
 
@@ -36,22 +39,12 @@ export function getUserColumns({
   onView,
   onEdit,
   onDelete,
+  canView = true,
+  canEdit = true,
+  canDelete = true,
   t = (key) => key,
 }: GetUserColumnsOptions = {}): ColumnDef<User>[] {
-  const getRoleLabel = (role: User["role"]) => {
-    switch (role) {
-      case "admin":
-        return t("roles.admin");
-      case "manager":
-        return t("roles.manager");
-      case "cashier":
-        return t("roles.cashier");
-      default:
-        return role;
-    }
-  };
-
-  const getStatusLabel = (status: User["status"]) => {
+  const getStatusLabel = (status: string) => {
     switch (status) {
       case "active":
         return t("statuses.active");
@@ -103,12 +96,8 @@ export function getUserColumns({
         <DataTableColumnHeader column={column} title={t("fields.role")} />
       ),
       cell: ({ row }) => {
-        const role = row.getValue<User["role"]>("role");
-        return (
-          <Badge variant="outline" className="capitalize text-xs font-normal">
-            {getRoleLabel(role)}
-          </Badge>
-        );
+        const role = row.getValue<string>("role");
+        return <RoleBadge role={role} />;
       },
       filterFn: (row, id, value) => {
         return value.includes(row.getValue(id));
@@ -120,7 +109,7 @@ export function getUserColumns({
         <DataTableColumnHeader column={column} title={t("fields.status")} />
       ),
       cell: ({ row }) => {
-        const status = row.getValue<User["status"]>("status");
+        const status = row.getValue<string>("status");
         return (
           <StatusBadge status={status} size="default" dot>
             {getStatusLabel(status)}
@@ -151,7 +140,7 @@ export function getUserColumns({
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="text-xs w-36">
               <DropdownMenuLabel className="text-xs font-semibold">{t("fields.actions")}</DropdownMenuLabel>
-              {onView && (
+              {onView && canView && (
                 <DropdownMenuItem
                   onClick={() => onView(user)}
                   className="justify-between gap-2 cursor-pointer"
@@ -160,7 +149,7 @@ export function getUserColumns({
                   <Eye className="size-3.5" />
                 </DropdownMenuItem>
               )}
-              {onEdit && (
+              {onEdit && canEdit && (
                 <DropdownMenuItem
                   onClick={() => onEdit(user)}
                   className="justify-between gap-2 cursor-pointer"
@@ -176,7 +165,7 @@ export function getUserColumns({
                 <span>{t("actions.copyId")}</span>
                 <Copy className="size-3.5" />
               </DropdownMenuItem>
-              {onDelete && (
+              {onDelete && canDelete && (
                 <>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem

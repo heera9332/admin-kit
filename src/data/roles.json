@@ -1,0 +1,101 @@
+{
+  "roles": [
+    {
+      "id": "superadmin",
+      "name": "Super Admin",
+      "description": "Unrestricted administrative access to all workspace resources, user roles, billing, and system configurations.",
+      "permissions": ["*"],
+      "badgeVariant": "destructive",
+      "isSystem": true
+    },
+    {
+      "id": "admin",
+      "name": "Admin",
+      "description": "Comprehensive access to user management, projects, tasks, CMS publishing, and external integrations.",
+      "permissions": [
+        "users:read",
+        "users:create",
+        "users:update",
+        "users:delete",
+        "roles:read",
+        "projects:read",
+        "projects:create",
+        "projects:update",
+        "projects:delete",
+        "tasks:read",
+        "tasks:create",
+        "tasks:update",
+        "tasks:delete",
+        "apps:read",
+        "apps:connect",
+        "apps:manage",
+        "chats:read",
+        "chats:send",
+        "cms:read",
+        "cms:create",
+        "cms:update",
+        "cms:delete",
+        "settings:read",
+        "settings:update",
+        "analytics:read",
+        "analytics:export"
+      ],
+      "badgeVariant": "default",
+      "isSystem": true
+    },
+    {
+      "id": "manager",
+      "name": "Manager",
+      "description": "Operational oversight to manage and coordinate projects, tasks, and CMS content without access to user deletion or critical settings.",
+      "permissions": [
+        "users:read",
+        "users:create",
+        "roles:read",
+        "projects:read",
+        "projects:create",
+        "projects:update",
+        "tasks:read",
+        "tasks:create",
+        "tasks:update",
+        "apps:read",
+        "chats:read",
+        "chats:send",
+        "cms:read",
+        "cms:create",
+        "cms:update",
+        "settings:read",
+        "analytics:read"
+      ],
+      "badgeVariant": "secondary",
+      "isSystem": true
+    },
+    {
+      "id": "cashier",
+      "name": "Cashier",
+      "description": "Frontline operations role focused on order processing, task fulfillment, and team communication.",
+      "permissions": [
+        "projects:read",
+        "tasks:read",
+        "tasks:update",
+        "apps:read",
+        "chats:read",
+        "chats:send"
+      ],
+      "badgeVariant": "outline",
+      "isSystem": true
+    },
+    {
+      "id": "viewer",
+      "name": "Viewer",
+      "description": "Read-only audit access across dashboards, projects, tasks, and published CMS articles.",
+      "permissions": [
+        "projects:read",
+        "tasks:read",
+        "cms:read",
+        "analytics:read"
+      ],
+      "badgeVariant": "outline",
+      "isSystem": true
+    }
+  ]
+}

@@ -23,7 +23,8 @@ export const sidebarData: SidebarData = {
   user: {
     name: "adminkit",
     email: "heera-singh@zoro-dev.com",
-    avatar: "/avatars/shadcn.jpg",
+    avatar: "/avatars/01.png",
+    role: "superadmin",
   },
   teams: [
     {
@@ -58,18 +59,21 @@ export const sidebarData: SidebarData = {
           titleKey: "projects",
           url: "/dashboard/projects",
           icon: FolderKanban,
+          permission: "projects:read",
         },
         {
           title: "Tasks",
           titleKey: "tasks",
           url: "/dashboard/tasks",
           icon: ListTodo,
+          permission: "tasks:read",
         },
         {
           title: "Apps",
           titleKey: "apps",
           url: "/dashboard/apps",
           icon: Package,
+          permission: "apps:read",
         },
         {
           title: "Chats",
@@ -77,35 +81,41 @@ export const sidebarData: SidebarData = {
           url: "/dashboard/chats",
           badge: "3",
           icon: MessagesSquare,
+          permission: "chats:read",
         },
         {
           title: "Users",
           titleKey: "users",
           url: "/dashboard/users",
           icon: Users,
+          permission: "users:read",
         },
         {
           title: "CMS",
           titleKey: "cms",
           icon: Newspaper,
+          permission: "cms:read",
           items: [
             {
               title: "Posts",
               titleKey: "posts",
               url: "/dashboard/cms/posts",
               icon: FileText,
+              permission: "cms:read",
             },
             {
               title: "Categories",
               titleKey: "categories",
               url: "/dashboard/cms/categories",
               icon: FolderTree,
+              permission: "cms:read",
             },
             {
               title: "Tags",
               titleKey: "tags",
               url: "/dashboard/cms/tags",
               icon: Tag,
+              permission: "cms:read",
             },
           ],
         },
@@ -184,6 +194,7 @@ export const sidebarData: SidebarData = {
           title: "Settings",
           titleKey: "settings",
           icon: Settings,
+          permission: "settings:read",
           items: [
             {
               title: "Profile",

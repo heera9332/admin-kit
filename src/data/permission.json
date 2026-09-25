@@ -1,0 +1,193 @@
+{
+  "permissions": [
+    {
+      "id": "users:read",
+      "name": "View Users",
+      "resource": "users",
+      "action": "read",
+      "description": "View team members, user directory, and profiles"
+    },
+    {
+      "id": "users:create",
+      "name": "Create Users",
+      "resource": "users",
+      "action": "create",
+      "description": "Create or invite new users to the organization"
+    },
+    {
+      "id": "users:update",
+      "name": "Edit Users",
+      "resource": "users",
+      "action": "update",
+      "description": "Update user profiles, roles, and statuses"
+    },
+    {
+      "id": "users:delete",
+      "name": "Delete Users",
+      "resource": "users",
+      "action": "delete",
+      "description": "Remove users and revoke their access permanently"
+    },
+    {
+      "id": "roles:read",
+      "name": "View Roles",
+      "resource": "roles",
+      "action": "read",
+      "description": "View roles and assigned permissions"
+    },
+    {
+      "id": "roles:manage",
+      "name": "Manage Roles",
+      "resource": "roles",
+      "action": "manage",
+      "description": "Create, modify, and assign permissions to roles"
+    },
+    {
+      "id": "projects:read",
+      "name": "View Projects",
+      "resource": "projects",
+      "action": "read",
+      "description": "View projects list, details, and roadmaps"
+    },
+    {
+      "id": "projects:create",
+      "name": "Create Projects",
+      "resource": "projects",
+      "action": "create",
+      "description": "Create new projects and milestones"
+    },
+    {
+      "id": "projects:update",
+      "name": "Edit Projects",
+      "resource": "projects",
+      "action": "update",
+      "description": "Update project details, assignees, and progress"
+    },
+    {
+      "id": "projects:delete",
+      "name": "Delete Projects",
+      "resource": "projects",
+      "action": "delete",
+      "description": "Delete projects and archived workspaces"
+    },
+    {
+      "id": "tasks:read",
+      "name": "View Tasks",
+      "resource": "tasks",
+      "action": "read",
+      "description": "View task board, sprint backlog, and task lists"
+    },
+    {
+      "id": "tasks:create",
+      "name": "Create Tasks",
+      "resource": "tasks",
+      "action": "create",
+      "description": "Create tasks and assign them to team members"
+    },
+    {
+      "id": "tasks:update",
+      "name": "Edit Tasks",
+      "resource": "tasks",
+      "action": "update",
+      "description": "Update task statuses, labels, and priorities"
+    },
+    {
+      "id": "tasks:delete",
+      "name": "Delete Tasks",
+      "resource": "tasks",
+      "action": "delete",
+      "description": "Delete tasks permanently"
+    },
+    {
+      "id": "apps:read",
+      "name": "View Integrations",
+      "resource": "apps",
+      "action": "read",
+      "description": "View connected external apps and services"
+    },
+    {
+      "id": "apps:connect",
+      "name": "Connect Apps",
+      "resource": "apps",
+      "action": "connect",
+      "description": "Connect new third-party integrations"
+    },
+    {
+      "id": "apps:manage",
+      "name": "Manage Apps",
+      "resource": "apps",
+      "action": "manage",
+      "description": "Configure API keys, webhooks, and revoke apps"
+    },
+    {
+      "id": "chats:read",
+      "name": "View Chats",
+      "resource": "chats",
+      "action": "read",
+      "description": "View conversations and direct messages"
+    },
+    {
+      "id": "chats:send",
+      "name": "Send Messages",
+      "resource": "chats",
+      "action": "send",
+      "description": "Send chat messages and reply in channels"
+    },
+    {
+      "id": "cms:read",
+      "name": "View CMS",
+      "resource": "cms",
+      "action": "read",
+      "description": "View published posts, categories, and tags"
+    },
+    {
+      "id": "cms:create",
+      "name": "Create Content",
+      "resource": "cms",
+      "action": "create",
+      "description": "Author new articles, categories, and tags"
+    },
+    {
+      "id": "cms:update",
+      "name": "Edit Content",
+      "resource": "cms",
+      "action": "update",
+      "description": "Edit and publish CMS posts and taxonomies"
+    },
+    {
+      "id": "cms:delete",
+      "name": "Delete Content",
+      "resource": "cms",
+      "action": "delete",
+      "description": "Delete CMS articles and taxonomies"
+    },
+    {
+      "id": "settings:read",
+      "name": "View Settings",
+      "resource": "settings",
+      "action": "read",
+      "description": "View workspace settings and preferences"
+    },
+    {
+      "id": "settings:update",
+      "name": "Update Settings",
+      "resource": "settings",
+      "action": "update",
+      "description": "Update workspace organization settings"
+    },
+    {
+      "id": "analytics:read",
+      "name": "View Analytics",
+      "resource": "analytics",
+      "action": "read",
+      "description": "View revenue metrics, sales charts, and visitor cohorts"
+    },
+    {
+      "id": "analytics:export",
+      "name": "Export Analytics",
+      "resource": "analytics",
+      "action": "export",
+      "description": "Download reports and financial data exports"
+    }
+  ]
+}

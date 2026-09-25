@@ -23,12 +23,21 @@ import { useTranslations } from "next-intl"
 import { Badge } from "@/components/ui/badge"
 import { cn } from "@/lib/utils"
 import { getSidebarIconColor } from "@/lib/icon-colors"
+import { useRBAC } from "@/context/rbac-provider"
 import type { NavGroup as NavGroupType } from "./types"
 
 export function NavGroup({ title, titleKey, items }: NavGroupType) {
   const pathname = usePathname()
   const { setOpenMobile } = useSidebar()
   const t = useTranslations("nav")
+
+  let rbac: ReturnType<typeof useRBAC> | null = null
+  try {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    rbac = useRBAC()
+  } catch {
+    rbac = null
+  }
 
   const getLabel = (key?: string, fallback = "") => {
     if (!key) return fallback
@@ -42,11 +51,26 @@ export function NavGroup({ title, titleKey, items }: NavGroupType) {
 
   const groupLabel = getLabel(titleKey, title)
 
+  const visibleItems = items.filter((item) => {
+    if (item.permission && rbac && !rbac.hasPermission(item.permission)) {
+      return false
+    }
+    if (item.items) {
+      const allowedSubs = item.items.filter((sub) =>
+        sub.permission ? (rbac ? rbac.hasPermission(sub.permission) : true) : true
+      )
+      return allowedSubs.length > 0
+    }
+    return true
+  })
+
+  if (visibleItems.length === 0) return null
+
   return (
     <SidebarGroup>
       <SidebarGroupLabel>{groupLabel}</SidebarGroupLabel>
       <SidebarMenu>
-        {items.map((item) => {
+        {visibleItems.map((item) => {
           const itemLabel = getLabel(item.titleKey, item.title)
 
           if (!item.items) {
@@ -83,7 +107,10 @@ export function NavGroup({ title, titleKey, items }: NavGroupType) {
           // Collapsible group
           const Icon = item.icon
           const iconColor = getSidebarIconColor(item.titleKey || item.title)
-          const isGroupActive = item.items.some((sub) =>
+          const visibleSubItems = item.items.filter((sub) =>
+            sub.permission ? (rbac ? rbac.hasPermission(sub.permission) : true) : true
+          )
+          const isGroupActive = visibleSubItems.some((sub) =>
             pathname === sub.url || pathname.startsWith(`${sub.url}/`)
           )
 
@@ -107,7 +134,7 @@ export function NavGroup({ title, titleKey, items }: NavGroupType) {
               </CollapsibleTrigger>
               <CollapsibleContent>
                 <SidebarMenuSub>
-                  {item.items.map((subItem) => {
+                  {visibleSubItems.map((subItem) => {
                     const isSubActive = pathname === subItem.url
                     const subLabel = getLabel(subItem.titleKey, subItem.title)
                     const SubIcon = subItem.icon

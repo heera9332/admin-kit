@@ -12,9 +12,11 @@
   },
   "roles": {
     "title": "भूमिका",
+    "superadmin": "मुख्य व्यवस्थापक",
     "admin": "व्यवस्थापक",
     "manager": "प्रबंधक",
-    "cashier": "कैशियर"
+    "cashier": "कैशियर",
+    "viewer": "दर्शक"
   },
   "statuses": {
     "title": "स्थिति",

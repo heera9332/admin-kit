@@ -12,9 +12,11 @@
   },
   "roles": {
     "title": "Role",
+    "superadmin": "Super Admin",
     "admin": "Admin",
     "manager": "Manager",
-    "cashier": "Cashier"
+    "cashier": "Cashier",
+    "viewer": "Viewer"
   },
   "statuses": {
     "title": "Status",
