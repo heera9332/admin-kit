@@ -26,6 +26,7 @@ export default getRequestConfig(async ({ requestLocale }) => {
       helpCenter,
       projects,
       cms,
+      media,
     ] = await Promise.all([
       import(`../../messages/${locale}/common.json`),
       import(`../../messages/${locale}/dashboard.json`),
@@ -42,6 +43,7 @@ export default getRequestConfig(async ({ requestLocale }) => {
       import(`../../messages/${locale}/help-center.json`),
       import(`../../messages/${locale}/projects.json`),
       import(`../../messages/${locale}/cms.json`),
+      import(`../../messages/${locale}/media.json`),
     ]);
 
     return {
@@ -65,6 +67,7 @@ export default getRequestConfig(async ({ requestLocale }) => {
         helpCenter: helpCenter.default,
         projects: projects.default,
         cms: cms.default,
+        media: media.default,
       },
     };
   } catch {

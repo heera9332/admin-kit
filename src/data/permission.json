@@ -188,6 +188,34 @@
       "resource": "analytics",
       "action": "export",
       "description": "Download reports and financial data exports"
+    },
+    {
+      "id": "media:read",
+      "name": "View Media",
+      "resource": "media",
+      "action": "read",
+      "description": "Browse files, documents, and media library assets"
+    },
+    {
+      "id": "media:create",
+      "name": "Upload Media",
+      "resource": "media",
+      "action": "create",
+      "description": "Upload new files, documents, and images to media library"
+    },
+    {
+      "id": "media:update",
+      "name": "Edit Media",
+      "resource": "media",
+      "action": "update",
+      "description": "Update media titles, captions, and accessibility alt text"
+    },
+    {
+      "id": "media:delete",
+      "name": "Delete Media",
+      "resource": "media",
+      "action": "delete",
+      "description": "Permanently remove files and assets from media library"
     }
   ]
 }

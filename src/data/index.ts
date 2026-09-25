@@ -6,3 +6,4 @@ export * from "./tasks";
 export * from "./apps";
 export * from "./chats";
 export * from "./cms";
+export * from "./media";

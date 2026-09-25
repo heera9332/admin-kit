@@ -10,6 +10,7 @@ import {
   HelpCircle,
   ShieldCheck,
   Bug,
+  Image,
 } from "lucide-react"
 import type { LucideIcon } from "lucide-react"
 
@@ -60,6 +61,12 @@ export const routeConfigMap: Record<string, RouteConfig> = {
     defaultTitle: "Users",
     href: "/dashboard/users",
     icon: Users,
+  },
+  media: {
+    titleKey: "media",
+    defaultTitle: "Media",
+    href: "/dashboard/media",
+    icon: Image,
   },
   cms: {
     titleKey: "cms",

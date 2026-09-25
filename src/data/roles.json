@@ -38,7 +38,11 @@
         "settings:read",
         "settings:update",
         "analytics:read",
-        "analytics:export"
+        "analytics:export",
+        "media:read",
+        "media:create",
+        "media:update",
+        "media:delete"
       ],
       "badgeVariant": "default",
       "isSystem": true
@@ -64,7 +68,10 @@
         "cms:create",
         "cms:update",
         "settings:read",
-        "analytics:read"
+        "analytics:read",
+        "media:read",
+        "media:create",
+        "media:update"
       ],
       "badgeVariant": "secondary",
       "isSystem": true

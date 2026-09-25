@@ -1,0 +1,78 @@
+{
+  "title": "Media Library",
+  "description": "Upload and manage images, documents, PDFs, and multimedia assets.",
+  "uploadButton": "Upload Files",
+  "dropzone": {
+    "title": "Drop files here to upload",
+    "subtitle": "or click to browse from your device",
+    "supportedFormats": "Supports PNG, JPG, WebP, SVG, PDF, DOCX, XLSX, MP4, and ZIP (up to 50MB)"
+  },
+  "searchPlaceholder": "Search media by name or title...",
+  "filter": {
+    "all": "All Media",
+    "image": "Images",
+    "document": "Documents & PDF",
+    "video": "Videos",
+    "audio": "Audio",
+    "archive": "Archives"
+  },
+  "sort": {
+    "newest": "Newest First",
+    "oldest": "Oldest First",
+    "nameAsc": "Name (A-Z)",
+    "nameDesc": "Name (Z-A)",
+    "sizeDesc": "Size (Largest)",
+    "sizeAsc": "Size (Smallest)"
+  },
+  "stats": {
+    "totalFiles": "Total Assets",
+    "images": "Images",
+    "documents": "Documents & PDFs",
+    "storage": "Storage Used"
+  },
+  "fields": {
+    "name": "File Name",
+    "title": "Title",
+    "altText": "Alternative Text (Alt)",
+    "caption": "Caption",
+    "description": "Description",
+    "type": "Type",
+    "size": "Size",
+    "dimensions": "Dimensions",
+    "uploadedAt": "Uploaded",
+    "author": "Uploaded By",
+    "url": "File URL",
+    "actions": "Actions"
+  },
+  "details": {
+    "sheetTitle": "Attachment Details",
+    "sheetDescription": "View and update metadata for this asset.",
+    "copyUrl": "Copy URL",
+    "copied": "Copied to clipboard!",
+    "download": "Download File",
+    "delete": "Delete Permanently",
+    "save": "Save Changes"
+  },
+  "selector": {
+    "title": "Select Media Asset",
+    "tabUpload": "Upload Files",
+    "tabLibrary": "Media Library",
+    "insert": "Select Asset",
+    "insertMultiple": "Select {count} Assets",
+    "selected": "Selected",
+    "clearSelection": "Clear",
+    "noFileSelected": "No file selected yet. Choose one from the library or upload.",
+    "dragDropOrBrowse": "Drag & drop files here to upload instantly to your library."
+  },
+  "empty": "No media files found",
+  "emptyDesc": "Drag & drop or upload files to start populating your media library.",
+  "pagination": {
+    "showing": "Showing {start} to {end} of {total} assets",
+    "itemsPerPage": "Per page",
+    "page": "Page {page} of {pages}",
+    "previous": "Previous",
+    "next": "Next",
+    "first": "First",
+    "last": "Last"
+  }
+}

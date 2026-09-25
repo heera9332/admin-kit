@@ -16,8 +16,9 @@ import {
   FileText,
   FolderTree,
   Tag,
-} from "lucide-react"
-import type { SidebarData } from "../types"
+  Image as ImageIcon,
+} from "lucide-react";
+import type { SidebarData } from "../types";
 
 export const sidebarData: SidebarData = {
   user: {
@@ -96,6 +97,13 @@ export const sidebarData: SidebarData = {
           icon: Newspaper,
           permission: "cms:read",
           items: [
+            {
+              title: "Media",
+              titleKey: "media",
+              url: "/dashboard/media",
+              icon: ImageIcon,
+              permission: "media:read",
+            },
             {
               title: "Posts",
               titleKey: "posts",
@@ -232,4 +240,4 @@ export const sidebarData: SidebarData = {
       ],
     },
   ],
-}
+};

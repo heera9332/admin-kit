@@ -1,0 +1,78 @@
+{
+  "title": "मीडिया लाइब्रेरी",
+  "description": "छवियां, दस्तावेज, पीडीएफ और मल्टीमीडिया फाइलें अपलोड और प्रबंधित करें।",
+  "uploadButton": "फाइलें अपलोड करें",
+  "dropzone": {
+    "title": "अपलोड करने के लिए फाइलें यहां छोड़ें",
+    "subtitle": "या अपने डिवाइस से ब्राउज़ करने के लिए क्लिक करें",
+    "supportedFormats": "PNG, JPG, WebP, SVG, PDF, DOCX, XLSX, MP4, और ZIP (50MB तक) समर्थित हैं"
+  },
+  "searchPlaceholder": "नाम या शीर्षक से मीडिया खोजें...",
+  "filter": {
+    "all": "सभी मीडिया",
+    "image": "छवियां",
+    "document": "दस्तावेज और पीडीएफ",
+    "video": "वीडियो",
+    "audio": "ऑडियो",
+    "archive": "ज़िप संग्रह"
+  },
+  "sort": {
+    "newest": "नवीनतम पहले",
+    "oldest": "पुरातन पहले",
+    "nameAsc": "नाम (A-Z)",
+    "nameDesc": "नाम (Z-A)",
+    "sizeDesc": "आकार (बड़ा)",
+    "sizeAsc": "आकार (छोटा)"
+  },
+  "stats": {
+    "totalFiles": "कुल फाइलें",
+    "images": "छवियां",
+    "documents": "दस्तावेज और पीडीएफ",
+    "storage": "उपयोग किया गया स्थान"
+  },
+  "fields": {
+    "name": "फ़ाइल का नाम",
+    "title": "शीर्षक",
+    "altText": "वैकल्पिक पाठ (Alt)",
+    "caption": "कैप्शन",
+    "description": "विवरण",
+    "type": "प्रकार",
+    "size": "आकार",
+    "dimensions": "आयाम",
+    "uploadedAt": "अपलोड तिथि",
+    "author": "अपलोडकर्ता",
+    "url": "फ़ाइल URL",
+    "actions": "कार्रवाइयां"
+  },
+  "details": {
+    "sheetTitle": "संलग्नक विवरण",
+    "sheetDescription": "इस फ़ाइल का मेटाडेटा देखें और अपडेट करें।",
+    "copyUrl": "URL कॉपी करें",
+    "copied": "क्लिपबोर्ड पर कॉपी किया गया!",
+    "download": "फ़ाइल डाउनलोड करें",
+    "delete": "स्थायी रूप से हटाएं",
+    "save": "परिवर्तन सहेजें"
+  },
+  "selector": {
+    "title": "मीडिया फ़ाइल चुनें",
+    "tabUpload": "फ़ाइलें अपलोड करें",
+    "tabLibrary": "मीडिया लाइब्रेरी",
+    "insert": "फ़ाइल चुनें",
+    "insertMultiple": "{count} फ़ाइलें चुनें",
+    "selected": "चयनित",
+    "clearSelection": "साफ़ करें",
+    "noFileSelected": "अभी तक कोई फ़ाइल नहीं चुनी गई।",
+    "dragDropOrBrowse": "फ़ाइलें तुरंत अपलोड करने के लिए यहां खींचें और छोड़ें।"
+  },
+  "empty": "कोई मीडिया फ़ाइल नहीं मिली",
+  "emptyDesc": "अपनी मीडिया लाइब्रेरी शुरू करने के लिए फ़ाइलें अपलोड करें।",
+  "pagination": {
+    "showing": "{total} में से {start} से {end} एसेट दिखाए जा रहे हैं",
+    "itemsPerPage": "प्रति पृष्ठ",
+    "page": "पृष्ठ {page} / {pages}",
+    "previous": "पिछला",
+    "next": "अगला",
+    "first": "पहला",
+    "last": "अंतिम"
+  }
+}
