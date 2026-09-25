@@ -53,6 +53,21 @@ export function ProjectsFeature() {
     }
   }
 
+  const handleBulkStatusChange = (
+    projectIds: string[],
+    newStatus: Project["status"]
+  ) => {
+    setProjects((prev) =>
+      prev.map((p) =>
+        projectIds.includes(p.id) ? { ...p, status: newStatus } : p
+      )
+    )
+
+    if (selectedProject && projectIds.includes(selectedProject.id)) {
+      setSelectedProject((prev) => (prev ? { ...prev, status: newStatus } : null))
+    }
+  }
+
   return (
     <div className="space-y-4">
       <div>
@@ -70,6 +85,7 @@ export function ProjectsFeature() {
         onEdit={(project) => setEditingProject(project)}
         onDelete={(project) => setDeletingProject(project)}
         onOpenCreate={() => setIsCreateOpen(true)}
+        onBulkStatusChange={handleBulkStatusChange}
       />
 
       <CreateProjectDialog

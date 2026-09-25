@@ -38,6 +38,7 @@ export function DataTable<TData, TValue = unknown>({
   emptyMessage = "No results found.",
   toolbarActions,
   onRowClick,
+  floatingBar,
 }: DataTableProps<TData, TValue>) {
   const [rowSelection, setRowSelection] = React.useState({})
   const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({})
@@ -167,6 +168,7 @@ export function DataTable<TData, TValue = unknown>({
           pageSizeOptions={pageSizeOptions}
         />
       )}
+      {typeof floatingBar === "function" ? floatingBar(table) : floatingBar}
     </div>
   )
 }

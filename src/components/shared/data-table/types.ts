@@ -1,4 +1,4 @@
-import type { ColumnDef } from "@tanstack/react-table"
+import type { ColumnDef, Table } from "@tanstack/react-table"
 import type * as React from "react"
 
 export interface DataTableFilterOption {
@@ -33,4 +33,5 @@ export interface DataTableProps<TData, TValue = unknown> {
   emptyMessage?: string
   toolbarActions?: React.ReactNode
   onRowClick?: (row: TData) => void
+  floatingBar?: React.ReactNode | ((table: Table<TData>) => React.ReactNode)
 }

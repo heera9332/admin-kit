@@ -7,6 +7,7 @@ import {
   ArrowRight,
   ArrowUp,
   CheckCircle2,
+  ChevronDown,
   Circle,
   Clock,
   HelpCircle,
@@ -15,7 +16,17 @@ import {
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { DataTable } from "@/components/shared/data-table";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { DataTable, DataTableFloatingBar } from "@/components/shared/data-table";
+import { toast } from "@/components/ui/toast";
+import { cn } from "@/lib/utils";
 import {
   CreateTaskDialog,
   EditTaskDialog,
@@ -57,6 +68,31 @@ export function TasksTable({ initialData }: TasksTableProps) {
       setSelectedTask(null);
     }
   };
+
+  const handleBulkStatusChange = (
+    taskIds: string[],
+    newStatus: Task["status"]
+  ) => {
+    setData((prev) =>
+      prev.map((t) => (taskIds.includes(t.id) ? { ...t, status: newStatus } : t))
+    );
+    if (selectedTask && taskIds.includes(selectedTask.id)) {
+      setSelectedTask((prev) => (prev ? { ...prev, status: newStatus } : null));
+    }
+  };
+
+  const taskStatuses: {
+    value: Task["status"];
+    labelKey: string;
+    icon: React.ComponentType<{ className?: string }>;
+    color: string;
+  }[] = [
+    { value: "backlog", labelKey: "status.backlog", icon: HelpCircle, color: "text-muted-foreground" },
+    { value: "todo", labelKey: "status.todo", icon: Circle, color: "text-muted-foreground" },
+    { value: "in progress", labelKey: "status.inProgress", icon: Clock, color: "text-amber-500" },
+    { value: "done", labelKey: "status.done", icon: CheckCircle2, color: "text-emerald-500" },
+    { value: "canceled", labelKey: "status.canceled", icon: XCircle, color: "text-red-500" },
+  ];
 
   const columns = React.useMemo(
     () =>
@@ -116,6 +152,56 @@ export function TasksTable({ initialData }: TasksTableProps) {
             <span>{t("createTask")}</span>
           </Button>
         }
+        floatingBar={(table) => (
+          <DataTableFloatingBar table={table} entityName="task">
+            <DropdownMenu>
+              <DropdownMenuTrigger
+                render={
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    className="h-8 gap-1.5 rounded-full text-xs font-medium cursor-pointer shadow-xs"
+                  >
+                    <CheckCircle2 className="size-3.5 text-primary" />
+                    <span>{t("bulk.changeStatus")}</span>
+                    <ChevronDown className="size-3.5 opacity-60" />
+                  </Button>
+                }
+              />
+              <DropdownMenuContent align="center" side="top" className="text-xs w-44 mb-2">
+                <DropdownMenuLabel className="text-[11px] text-muted-foreground uppercase tracking-wider font-semibold">
+                  {t("bulk.changeStatus")}
+                </DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                {taskStatuses.map((st) => {
+                  const Icon = st.icon
+                  return (
+                    <DropdownMenuItem
+                      key={st.value}
+                      onClick={() => {
+                        const selectedRows = table.getFilteredSelectedRowModel().rows
+                        const ids = selectedRows.map((r) => r.original.id)
+                        if (ids.length === 0) return
+
+                        handleBulkStatusChange(ids, st.value)
+                        table.resetRowSelection()
+
+                        toast.add({
+                          title: t("bulk.statusUpdated", { count: ids.length }),
+                          description: `${ids.length} task(s) updated to "${t(st.labelKey)}"`,
+                        })
+                      }}
+                      className="gap-2 cursor-pointer"
+                    >
+                      <Icon className={cn("size-3.5", st.color)} />
+                      <span>{t(st.labelKey)}</span>
+                    </DropdownMenuItem>
+                  )
+                })}
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </DataTableFloatingBar>
+        )}
       />
 
       <CreateTaskDialog

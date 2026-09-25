@@ -75,6 +75,10 @@
     "updated": "Project updated successfully.",
     "deleted": "Project deleted successfully."
   },
+  "bulk": {
+    "changeStatus": "Change Status",
+    "statusUpdated": "{count} project(s) updated"
+  },
   "empty": {
     "noProjects": "No projects found",
     "noProjectsDesc": "Try adjusting your search or filters, or create a new project to get started."

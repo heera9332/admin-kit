@@ -11,6 +11,7 @@ import {
 } from "next/font/google"
 import "@/styles/globals.css"
 import { TooltipProvider } from "@/components/ui/tooltip"
+import { Toaster } from "@/components/ui/toast"
 import { ThemeProvider } from "@/providers/theme-provider"
 import { siteConfig } from "@/config/site"
 import { NextIntlClientProvider } from "next-intl"
@@ -120,7 +121,10 @@ export default async function RootLayout({
           disableTransitionOnChange
         >
           <NextIntlClientProvider messages={messages} locale={locale}>
-            <TooltipProvider>{children}</TooltipProvider>
+            <TooltipProvider>
+              {children}
+              <Toaster />
+            </TooltipProvider>
           </NextIntlClientProvider>
         </ThemeProvider>
       </body>

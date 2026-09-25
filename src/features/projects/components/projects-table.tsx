@@ -4,6 +4,7 @@ import * as React from "react"
 import { useTranslations } from "next-intl"
 import {
   CheckCircle2,
+  ChevronDown,
   Clock,
   FolderKanban,
   PauseCircle,
@@ -12,9 +13,19 @@ import {
 
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { DataTable } from "@/components/shared/data-table"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { DataTable, DataTableFloatingBar } from "@/components/shared/data-table"
+import { toast } from "@/components/ui/toast"
+import { cn } from "@/lib/utils"
 import { getProjectColumns } from "../project-columns"
-import type { Project } from "../types"
+import type { Project, ProjectStatus } from "../types"
 
 interface ProjectsTableProps {
   projects: Project[]
@@ -22,6 +33,7 @@ interface ProjectsTableProps {
   onEdit: (project: Project) => void
   onDelete: (project: Project) => void
   onOpenCreate: () => void
+  onBulkStatusChange?: (projectIds: string[], newStatus: ProjectStatus) => void
 }
 
 export function ProjectsTable({
@@ -30,6 +42,7 @@ export function ProjectsTable({
   onEdit,
   onDelete,
   onOpenCreate,
+  onBulkStatusChange,
 }: ProjectsTableProps) {
   const t = useTranslations("projects")
 
@@ -49,6 +62,18 @@ export function ProjectsTable({
       }),
     [onView, onEdit, onDelete, t]
   )
+
+  const projectStatuses: {
+    value: ProjectStatus
+    labelKey: string
+    icon: React.ComponentType<{ className?: string }>
+    color: string
+  }[] = [
+    { value: "planning", labelKey: "statuses.planning", icon: PauseCircle, color: "text-amber-500" },
+    { value: "in_progress", labelKey: "statuses.in_progress", icon: Clock, color: "text-blue-500" },
+    { value: "completed", labelKey: "statuses.completed", icon: CheckCircle2, color: "text-emerald-500" },
+    { value: "on_hold", labelKey: "statuses.on_hold", icon: PauseCircle, color: "text-rose-500" },
+  ]
 
   return (
     <div className="space-y-4">
@@ -168,6 +193,56 @@ export function ProjectsTable({
             <span>{t("newProject")}</span>
           </Button>
         }
+        floatingBar={(table) => (
+          <DataTableFloatingBar table={table} entityName="project">
+            <DropdownMenu>
+              <DropdownMenuTrigger
+                render={
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    className="h-8 gap-1.5 rounded-full text-xs font-medium cursor-pointer shadow-xs"
+                  >
+                    <FolderKanban className="size-3.5 text-primary" />
+                    <span>{t("bulk.changeStatus")}</span>
+                    <ChevronDown className="size-3.5 opacity-60" />
+                  </Button>
+                }
+              />
+              <DropdownMenuContent align="center" side="top" className="text-xs w-44 mb-2">
+                <DropdownMenuLabel className="text-[11px] text-muted-foreground uppercase tracking-wider font-semibold">
+                  {t("bulk.changeStatus")}
+                </DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                {projectStatuses.map((st) => {
+                  const Icon = st.icon
+                  return (
+                    <DropdownMenuItem
+                      key={st.value}
+                      onClick={() => {
+                        const selectedRows = table.getFilteredSelectedRowModel().rows
+                        const ids = selectedRows.map((r) => r.original.id)
+                        if (ids.length === 0) return
+
+                        onBulkStatusChange?.(ids, st.value)
+                        table.resetRowSelection()
+
+                        toast.add({
+                          title: t("bulk.statusUpdated", { count: ids.length }),
+                          description: `${ids.length} project(s) updated to "${t(st.labelKey)}"`,
+                        })
+                      }}
+                      className="gap-2 cursor-pointer"
+                    >
+                      <Icon className={cn("size-3.5", st.color)} />
+                      <span>{t(st.labelKey)}</span>
+                    </DropdownMenuItem>
+                  )
+                })}
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </DataTableFloatingBar>
+        )}
       />
     </div>
   )

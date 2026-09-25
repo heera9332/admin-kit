@@ -58,5 +58,9 @@
     "save": "परिवर्तन सहेजें",
     "create": "कार्य बनाएं",
     "delete": "हटाएं"
+  },
+  "bulk": {
+    "changeStatus": "स्थिति बदलें",
+    "statusUpdated": "{count} कार्य अपडेट किए गए"
   }
 }
