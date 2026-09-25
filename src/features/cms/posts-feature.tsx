@@ -8,19 +8,24 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { DataTable } from "@/components/shared/data-table"
 import { getPostsColumns } from "./posts-columns"
 import { initialPosts, type Post } from "./data/cms-data"
+import { ViewPostSheet } from "./components/post-dialogs"
 
 export function PostsFeature() {
   const t = useTranslations("cms.posts")
   const [posts, setPosts] = React.useState<Post[]>(initialPosts)
+  const [selectedPost, setSelectedPost] = React.useState<Post | null>(null)
 
   const handleDelete = React.useCallback((post: Post) => {
     setPosts((prev) => prev.filter((p) => p.id !== post.id))
-  }, [])
+    if (selectedPost?.id === post.id) {
+      setSelectedPost(null)
+    }
+  }, [selectedPost])
 
   const columns = React.useMemo(
     () =>
       getPostsColumns({
-        onView: (p) => alert(`Viewing: ${p.title}`),
+        onView: (p) => setSelectedPost(p),
         onEdit: (p) => alert(`Editing: ${p.title}`),
         onDelete: handleDelete,
         t,
@@ -122,6 +127,7 @@ export function PostsFeature() {
           pageSize: 6,
           pageSizeOptions: [6, 10, 20],
         }}
+        onRowClick={(post) => setSelectedPost(post)}
         toolbarActions={
           <Button
             onClick={() => alert("Create post modal / action")}
@@ -132,6 +138,13 @@ export function PostsFeature() {
             <span>{t("newPost")}</span>
           </Button>
         }
+      />
+
+      <ViewPostSheet
+        post={selectedPost}
+        open={Boolean(selectedPost)}
+        onOpenChange={(open) => !open && setSelectedPost(null)}
+        onDelete={handleDelete}
       />
     </div>
   )

@@ -2,9 +2,18 @@
 
 import * as React from "react"
 import { useTranslations } from "next-intl"
-import { Tag as TagIcon, Plus, Search, MoreHorizontal, Pencil, Trash2, Eye } from "lucide-react"
+import type { ColumnDef } from "@tanstack/react-table"
+import {
+  Tag as TagIcon,
+  Plus,
+  MoreHorizontal,
+  Pencil,
+  Trash2,
+  Eye,
+  LayoutGrid,
+  List,
+} from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
 import {
   Card,
   CardFooter,
@@ -18,35 +27,129 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { DataTable } from "@/components/shared/data-table"
+import { DataTableColumnHeader } from "@/components/shared/data-table/data-table-column-header"
 import { initialTags, type Tag } from "./data/cms-data"
 import { CreateTagDialog, ViewTagSheet } from "./components/tag-dialogs"
 
 export function TagsFeature() {
   const t = useTranslations("cms.tags")
   const [tags, setTags] = React.useState<Tag[]>(initialTags)
-  const [search, setSearch] = React.useState("")
   const [createOpen, setCreateOpen] = React.useState(false)
   const [viewOpen, setViewOpen] = React.useState(false)
   const [selectedTag, setSelectedTag] = React.useState<Tag | null>(null)
-
-  const filteredTags = tags.filter(
-    (tag) =>
-      tag.name.toLowerCase().includes(search.toLowerCase()) ||
-      tag.slug.toLowerCase().includes(search.toLowerCase())
-  )
+  const [viewMode, setViewMode] = React.useState<"table" | "grid">("table")
 
   const handleCreate = (newTag: Tag) => {
     setTags((prev) => [newTag, ...prev])
   }
 
-  const handleView = (tag: Tag) => {
+  const handleView = React.useCallback((tag: Tag) => {
     setSelectedTag(tag)
     setViewOpen(true)
-  }
+  }, [])
 
-  const handleDelete = (id: string) => {
+  const handleDelete = React.useCallback((id: string) => {
     setTags((prev) => prev.filter((tag) => tag.id !== id))
-  }
+    setSelectedTag((prev) => (prev?.id === id ? null : prev))
+  }, [])
+
+  const columns = React.useMemo<ColumnDef<Tag>[]>(
+    () => [
+      {
+        accessorKey: "name",
+        header: ({ column }) => (
+          <DataTableColumnHeader column={column} title={t("fields.name")} />
+        ),
+        cell: ({ row }) => {
+          const tag = row.original
+          return (
+            <div className="flex items-center gap-2.5 max-w-[280px]">
+              <div className="size-8 rounded-lg bg-primary/10 text-primary flex items-center justify-center shrink-0">
+                <TagIcon className="size-4" />
+              </div>
+              <div className="space-y-0.5 min-w-0">
+                <div className="font-semibold text-xs truncate">{tag.name}</div>
+                <div className="text-[11px] text-muted-foreground font-mono truncate">
+                  #{tag.slug}
+                </div>
+              </div>
+            </div>
+          )
+        },
+      },
+      {
+        accessorKey: "count",
+        header: ({ column }) => (
+          <DataTableColumnHeader column={column} title={t("fields.count")} />
+        ),
+        cell: ({ row }) => (
+          <Badge variant="secondary" className="text-[11px] font-mono">
+            {row.getValue("count")} {t("fields.count").toLowerCase()}
+          </Badge>
+        ),
+      },
+      {
+        id: "actions",
+        header: ({ column }) => (
+          <DataTableColumnHeader column={column} title={t("fields.actions")} />
+        ),
+        cell: ({ row }) => {
+          const tag = row.original
+          return (
+            <DropdownMenu>
+              <DropdownMenuTrigger
+                render={
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="size-7 text-muted-foreground ml-auto"
+                    onClick={(e) => e.stopPropagation()}
+                  />
+                }
+              >
+                <MoreHorizontal className="size-3.5" />
+                <span className="sr-only">Actions</span>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="text-xs w-32">
+                <DropdownMenuItem
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    handleView(tag)
+                  }}
+                  className="justify-between gap-2 cursor-pointer"
+                >
+                  <span>{t("actions.view")}</span>
+                  <Eye className="size-3.5" />
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    alert(`Edit ${tag.name}`)
+                  }}
+                  className="justify-between gap-2 cursor-pointer"
+                >
+                  <span>{t("actions.edit")}</span>
+                  <Pencil className="size-3.5" />
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    handleDelete(tag.id)
+                  }}
+                  className="justify-between gap-2 text-destructive focus:text-destructive cursor-pointer"
+                >
+                  <span>{t("actions.delete")}</span>
+                  <Trash2 className="size-3.5" />
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          )
+        },
+      },
+    ],
+    [handleView, handleDelete, t]
+  )
 
   return (
     <div className="space-y-6">
@@ -59,98 +162,138 @@ export function TagsFeature() {
             {t("description")}
           </p>
         </div>
-        <Button
-          onClick={() => setCreateOpen(true)}
-          size="sm"
-          className="gap-1.5 text-xs self-start sm:self-auto cursor-pointer"
-        >
-          <Plus className="size-3.5" />
-          <span>{t("newTag")}</span>
-        </Button>
+        <div className="flex items-center gap-2 self-start sm:self-auto">
+          <div className="flex items-center border rounded-md p-0.5 bg-muted/40">
+            <Button
+              variant={viewMode === "table" ? "secondary" : "ghost"}
+              size="icon"
+              className="size-7 cursor-pointer"
+              onClick={() => setViewMode("table")}
+              title="Table view"
+            >
+              <List className="size-3.5" />
+            </Button>
+            <Button
+              variant={viewMode === "grid" ? "secondary" : "ghost"}
+              size="icon"
+              className="size-7 cursor-pointer"
+              onClick={() => setViewMode("grid")}
+              title="Grid view"
+            >
+              <LayoutGrid className="size-3.5" />
+            </Button>
+          </div>
+          <Button
+            onClick={() => setCreateOpen(true)}
+            size="sm"
+            className="gap-1.5 text-xs h-8 cursor-pointer"
+          >
+            <Plus className="size-3.5" />
+            <span>{t("newTag")}</span>
+          </Button>
+        </div>
       </div>
 
-      <div className="relative max-w-sm">
-        <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 size-3.5 text-muted-foreground" />
-        <Input
-          placeholder={t("searchPlaceholder")}
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          className="pl-8 h-8 text-xs"
+      {viewMode === "table" ? (
+        <DataTable
+          data={tags}
+          columns={columns}
+          sorting
+          pagination={{
+            pageSize: 8,
+            pageSizeOptions: [8, 16, 24, 48],
+          }}
+          onRowClick={handleView}
+          search={{
+            column: "name",
+            placeholder: t("searchPlaceholder"),
+          }}
         />
-      </div>
+      ) : (
+        <div className="grid gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+          {tags.map((tag) => (
+            <Card
+              key={tag.id}
+              className="flex flex-col justify-between cursor-pointer hover:border-primary/50 hover:shadow-xs transition-all select-none"
+              onClick={() => handleView(tag)}
+            >
+              <CardHeader className="p-3.5 pb-2">
+                <div className="flex items-center justify-between gap-2">
+                  <div className="flex items-center gap-2 min-w-0">
+                    <div className="flex size-7 items-center justify-center rounded-md bg-primary/10 text-primary shrink-0">
+                      <TagIcon className="size-3.5" />
+                    </div>
+                    <div className="min-w-0">
+                      <CardTitle className="text-xs font-semibold truncate">
+                        {tag.name}
+                      </CardTitle>
+                      <span className="font-mono text-[10px] text-muted-foreground block truncate">
+                        #{tag.slug}
+                      </span>
+                    </div>
+                  </div>
 
-      <div className="grid gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-        {filteredTags.map((tag) => (
-          <Card key={tag.id} className="flex flex-col justify-between">
-            <CardHeader className="p-3.5 pb-2">
-              <div className="flex items-center justify-between gap-2">
-                <div
-                  onClick={() => handleView(tag)}
-                  className="flex items-center gap-2 cursor-pointer group"
-                >
-                  <div className="flex size-7 items-center justify-center rounded-md bg-primary/10 text-primary group-hover:bg-primary/20 transition-colors">
-                    <TagIcon className="size-3.5" />
-                  </div>
-                  <div>
-                    <CardTitle className="text-xs font-semibold group-hover:text-primary transition-colors">
-                      {tag.name}
-                    </CardTitle>
-                    <span className="font-mono text-[10px] text-muted-foreground">
-                      #{tag.slug}
-                    </span>
-                  </div>
+                  <DropdownMenu>
+                    <DropdownMenuTrigger
+                      render={
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="size-6 text-muted-foreground shrink-0"
+                          onClick={(e) => e.stopPropagation()}
+                        />
+                      }
+                    >
+                      <MoreHorizontal className="size-3" />
+                      <span className="sr-only">Actions</span>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end" className="text-xs w-28">
+                      <DropdownMenuItem
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          handleView(tag)
+                        }}
+                        className="justify-between gap-2 cursor-pointer"
+                      >
+                        <span>{t("actions.view")}</span>
+                        <Eye className="size-3" />
+                      </DropdownMenuItem>
+                      <DropdownMenuItem
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          alert(`Edit ${tag.name}`)
+                        }}
+                        className="justify-between gap-2 cursor-pointer"
+                      >
+                        <span>{t("actions.edit")}</span>
+                        <Pencil className="size-3" />
+                      </DropdownMenuItem>
+                      <DropdownMenuItem
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          handleDelete(tag.id)
+                        }}
+                        className="justify-between gap-2 text-destructive focus:text-destructive cursor-pointer"
+                      >
+                        <span>{t("actions.delete")}</span>
+                        <Trash2 className="size-3" />
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
                 </div>
+              </CardHeader>
+              <CardFooter className="p-3.5 pt-2 border-t flex items-center justify-between text-[11px] text-muted-foreground">
+                <span>{t("fields.count")}</span>
+                <Badge variant="secondary" className="text-[10px] font-mono px-1.5 py-0">
+                  {tag.count}
+                </Badge>
+              </CardFooter>
+            </Card>
+          ))}
+        </div>
+      )}
 
-                <DropdownMenu>
-                  <DropdownMenuTrigger
-                    render={
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        className="size-6 text-muted-foreground"
-                      />
-                    }
-                  >
-                    <MoreHorizontal className="size-3" />
-                    <span className="sr-only">Actions</span>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end" className="text-xs w-28">
-                    <DropdownMenuItem
-                      onClick={() => handleView(tag)}
-                      className="justify-between gap-2 cursor-pointer"
-                    >
-                      <span>{t("actions.view")}</span>
-                      <Eye className="size-3" />
-                    </DropdownMenuItem>
-                    <DropdownMenuItem
-                      onClick={() => alert(`Edit ${tag.name}`)}
-                      className="justify-between gap-2 cursor-pointer"
-                    >
-                      <span>{t("actions.edit")}</span>
-                      <Pencil className="size-3" />
-                    </DropdownMenuItem>
-                    <DropdownMenuItem
-                      onClick={() => handleDelete(tag.id)}
-                      className="justify-between gap-2 text-destructive focus:text-destructive cursor-pointer"
-                    >
-                      <span>{t("actions.delete")}</span>
-                      <Trash2 className="size-3" />
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              </div>
-            </CardHeader>
-            <CardFooter className="p-3.5 pt-2 border-t flex items-center justify-between text-[11px] text-muted-foreground">
-              <span>{t("fields.count")}</span>
-              <Badge variant="secondary" className="text-[10px] font-mono px-1.5 py-0">
-                {tag.count}
-              </Badge>
-            </CardFooter>
-          </Card>
-        ))}
-      </div>
-
-      {filteredTags.length === 0 && (
+      {tags.length === 0 && (
         <div className="flex flex-col items-center justify-center py-16 text-center border rounded-lg border-dashed">
           <TagIcon className="size-8 text-muted-foreground/60 mb-2" />
           <h3 className="text-sm font-semibold">{t("empty")}</h3>

@@ -105,6 +105,7 @@ export function TasksTable({ initialData }: TasksTableProps) {
           pageSize: 10,
           pageSizeOptions: [10, 20, 30, 40, 50],
         }}
+        onRowClick={(task) => setSelectedTask(task)}
         toolbarActions={
           <Button
             size="sm"
