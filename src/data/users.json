@@ -1,6 +1,19 @@
 {
   "users": [
     {
+      "id": "usr-00",
+      "firstName": "Admin",
+      "lastName": "User",
+      "username": "admin",
+      "email": "admin@gmail.com",
+      "phoneNumber": "+1 (555) 123-4567",
+      "status": "active",
+      "role": "admin",
+      "createdAt": "2025-01-01",
+      "avatar": "/avatars/01.png",
+      "password": "password"
+    },
+    {
       "id": "usr-01",
       "firstName": "Sarah",
       "lastName": "Jenkins",
@@ -10,7 +23,8 @@
       "status": "active",
       "role": "superadmin",
       "createdAt": "2025-01-14",
-      "avatar": "/avatars/01.png"
+      "avatar": "/avatars/01.png",
+      "password": "password"
     },
     {
       "id": "usr-02",
@@ -22,7 +36,8 @@
       "status": "active",
       "role": "admin",
       "createdAt": "2025-03-22",
-      "avatar": "/avatars/02.png"
+      "avatar": "/avatars/02.png",
+      "password": "password"
     },
     {
       "id": "usr-03",
@@ -34,7 +49,8 @@
       "status": "active",
       "role": "manager",
       "createdAt": "2025-04-10",
-      "avatar": "/avatars/03.png"
+      "avatar": "/avatars/03.png",
+      "password": "password"
     },
     {
       "id": "usr-04",
@@ -46,7 +62,8 @@
       "status": "invited",
       "role": "manager",
       "createdAt": "2025-08-01",
-      "avatar": "/avatars/04.png"
+      "avatar": "/avatars/04.png",
+      "password": "password"
     },
     {
       "id": "usr-05",
@@ -58,7 +75,8 @@
       "status": "active",
       "role": "cashier",
       "createdAt": "2025-09-18",
-      "avatar": "/avatars/05.png"
+      "avatar": "/avatars/05.png",
+      "password": "password"
     },
     {
       "id": "usr-06",
@@ -70,7 +88,8 @@
       "status": "inactive",
       "role": "cashier",
       "createdAt": "2025-10-05",
-      "avatar": "/avatars/01.png"
+      "avatar": "/avatars/01.png",
+      "password": "password"
     },
     {
       "id": "usr-07",
@@ -82,7 +101,8 @@
       "status": "suspended",
       "role": "admin",
       "createdAt": "2025-11-12",
-      "avatar": "/avatars/02.png"
+      "avatar": "/avatars/02.png",
+      "password": "password"
     },
     {
       "id": "usr-08",
@@ -94,7 +114,8 @@
       "status": "active",
       "role": "viewer",
       "createdAt": "2025-12-01",
-      "avatar": "/avatars/03.png"
+      "avatar": "/avatars/03.png",
+      "password": "password"
     }
   ]
 }

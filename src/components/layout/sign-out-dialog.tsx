@@ -36,6 +36,12 @@ export function SignOutDialog({ open, onOpenChange }: SignOutDialogProps) {
           <AlertDialogCancel>{t("cancel")}</AlertDialogCancel>
           <AlertDialogAction
             onClick={() => {
+              try {
+                localStorage.removeItem("admin_template_active_user")
+                localStorage.removeItem("admin_template_active_role")
+              } catch {
+                // ignore
+              }
               onOpenChange(false)
               router.push("/sign-in")
             }}

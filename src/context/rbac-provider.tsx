@@ -32,13 +32,14 @@ interface RBACContextType {
   setUser: (user: RBACUser) => void;
 }
 
-const STORAGE_KEY = "admin_template_active_role";
+export const AUTH_ROLE_STORAGE_KEY = "admin_template_active_role";
+export const AUTH_USER_STORAGE_KEY = "admin_template_active_user";
 
 const defaultUser: RBACUser = {
-  id: "usr-01",
-  name: "Sarah Jenkins",
-  email: "sarah.jenkins@acme.com",
-  role: "superadmin",
+  id: "usr-00",
+  name: "Admin User",
+  email: "admin@gmail.com",
+  role: "admin",
   avatar: "/avatars/01.png",
   status: "active",
 };
@@ -69,22 +70,42 @@ export function RBACProvider({
     []
   );
 
-  const [currentUser, setCurrentUser] = React.useState<RBACUser>(
-    initialUser || defaultUser
-  );
+  const [currentUser, setCurrentUser] = React.useState<RBACUser>(() => {
+    if (initialUser) return initialUser;
+    if (typeof window !== "undefined") {
+      try {
+        const savedUserStr = localStorage.getItem(AUTH_USER_STORAGE_KEY);
+        if (savedUserStr) {
+          const parsed = JSON.parse(savedUserStr);
+          if (parsed && parsed.email) {
+            return parsed;
+          }
+        }
+      } catch {
+        // ignore
+      }
+    }
+    return defaultUser;
+  });
+
   const [activeRoleId, setActiveRoleId] = React.useState<string>(() => {
     if (initialRole) return initialRole;
     if (typeof window !== "undefined") {
       try {
-        const savedRole = localStorage.getItem(STORAGE_KEY);
+        const savedRole = localStorage.getItem(AUTH_ROLE_STORAGE_KEY);
         if (savedRole && allRoles.some((r) => r.id === savedRole)) {
           return savedRole;
+        }
+        const savedUserStr = localStorage.getItem(AUTH_USER_STORAGE_KEY);
+        if (savedUserStr) {
+          const parsed = JSON.parse(savedUserStr);
+          if (parsed?.role) return parsed.role;
         }
       } catch {
         // localStorage may fail in restricted environments
       }
     }
-    return initialUser?.role || defaultUser.role || "superadmin";
+    return initialUser?.role || defaultUser.role || "admin";
   });
 
   const currentRole = React.useMemo(
@@ -100,12 +121,17 @@ export function RBACProvider({
   const setRole = React.useCallback(
     (newRoleId: string) => {
       setActiveRoleId(newRoleId);
-      setCurrentUser((prev) => ({
-        ...prev,
-        role: newRoleId,
-      }));
+      setCurrentUser((prev) => {
+        const updated = { ...prev, role: newRoleId };
+        try {
+          localStorage.setItem(AUTH_USER_STORAGE_KEY, JSON.stringify(updated));
+        } catch {
+          // ignore
+        }
+        return updated;
+      });
       try {
-        localStorage.setItem(STORAGE_KEY, newRoleId);
+        localStorage.setItem(AUTH_ROLE_STORAGE_KEY, newRoleId);
       } catch {
         // ignore
       }
@@ -117,7 +143,8 @@ export function RBACProvider({
     setCurrentUser(user);
     setActiveRoleId(user.role);
     try {
-      localStorage.setItem(STORAGE_KEY, user.role);
+      localStorage.setItem(AUTH_USER_STORAGE_KEY, JSON.stringify(user));
+      localStorage.setItem(AUTH_ROLE_STORAGE_KEY, user.role);
     } catch {
       // ignore
     }

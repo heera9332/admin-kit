@@ -13,6 +13,7 @@ export interface UserItem {
   role: "superadmin" | "admin" | "manager" | "cashier" | "viewer";
   createdAt: string;
   avatar?: string;
+  password?: string;
 }
 
 export type UserData = UserItem;

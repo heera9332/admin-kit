@@ -21,8 +21,10 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar"
 import { ChevronsUpDownIcon, SparklesIcon, BadgeCheckIcon, CreditCardIcon, BellIcon, LogOutIcon } from "lucide-react"
+import * as React from "react"
 import { useRBAC } from "@/context/rbac-provider"
 import { RoleBadge } from "@/components/rbac/role-badge"
+import { SignOutDialog } from "@/components/layout/sign-out-dialog"
 
 export function NavUser({
   user,
@@ -34,9 +36,10 @@ export function NavUser({
   }
 }) {
   const { isMobile } = useSidebar()
+  const [openSignOut, setOpenSignOut] = React.useState(false)
   const rbac = useRBAC()
   const displayUser = rbac?.currentUser || user
-  const displayRole = rbac?.role || "superadmin"
+  const displayRole = rbac?.role || "admin"
 
   const initials = displayUser.name
     .split(" ")
@@ -110,13 +113,19 @@ export function NavUser({
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
+            <DropdownMenuItem
+              variant="destructive"
+              onClick={() => setOpenSignOut(true)}
+              className="cursor-pointer"
+            >
               <LogOutIcon />
               Log out
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </SidebarMenuItem>
+
+      <SignOutDialog open={openSignOut} onOpenChange={setOpenSignOut} />
     </SidebarMenu>
   )
 }

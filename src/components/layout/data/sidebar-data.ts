@@ -21,10 +21,10 @@ import type { SidebarData } from "../types"
 
 export const sidebarData: SidebarData = {
   user: {
-    name: "adminkit",
-    email: "heera-singh@zoro-dev.com",
+    name: "Admin User",
+    email: "admin@gmail.com",
     avatar: "/avatars/01.png",
-    role: "superadmin",
+    role: "admin",
   },
   teams: [
     {
