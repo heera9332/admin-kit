@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <defs>
+    <linearGradient id="adminKitBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0b0f19" />
+      <stop offset="100%" stop-color="#020617" />
+    </linearGradient>
+    <linearGradient id="adminKitBorder" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.4" />
+      <stop offset="100%" stop-color="#6366f1" stop-opacity="0.15" />
+    </linearGradient>
+    <linearGradient id="tileTopLeft" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8" />
+      <stop offset="100%" stop-color="#2563eb" />
+    </linearGradient>
+    <linearGradient id="tileBottomLeft" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#06b6d4" />
+      <stop offset="100%" stop-color="#0284c7" />
+    </linearGradient>
+    <linearGradient id="tileTopRight" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#818cf8" />
+      <stop offset="100%" stop-color="#6366f1" />
+    </linearGradient>
+    <linearGradient id="tileBottomRight" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#a855f7" />
+      <stop offset="100%" stop-color="#4f46e5" />
+    </linearGradient>
+  </defs>
+
+  <!-- Background Card -->
+  <rect width="128" height="128" rx="28" fill="url(#adminKitBg)" />
+  <rect width="126" height="126" x="1" y="1" rx="27" fill="none" stroke="url(#adminKitBorder)" stroke-width="1.5" />
+
+  <!-- Dashboard Grid Tiles -->
+  <!-- Top Left: Tall (w:36, h:48) -->
+  <rect x="24" y="24" width="36" height="48" rx="8" fill="url(#tileTopLeft)" />
+
+  <!-- Bottom Left: Short (w:36, h:24) -->
+  <rect x="24" y="80" width="36" height="24" rx="8" fill="url(#tileBottomLeft)" />
+
+  <!-- Top Right: Short (w:36, h:24) -->
+  <rect x="68" y="24" width="36" height="24" rx="8" fill="url(#tileTopRight)" />
+
+  <!-- Bottom Right: Tall (w:36, h:48) -->
+  <rect x="68" y="56" width="36" height="48" rx="8" fill="url(#tileBottomRight)" />
+</svg>
