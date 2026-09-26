@@ -8,6 +8,10 @@
     "notifications": "सूचनाएं",
     "display": "डिस्प्ले"
   },
+  "groups": {
+    "personal": "खाता और पहचान",
+    "preferences": "प्राथमिकताएं"
+  },
   "profile": {
     "title": "प्रोफ़ाइल",
     "description": "साइट पर अन्य लोग आपको इस रूप में देखेंगे।",

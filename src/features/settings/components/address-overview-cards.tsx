@@ -13,16 +13,8 @@ import {
 } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
+import { CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Separator } from "@/components/ui/separator"
 import type { BillingAddress, ShippingAddress } from "../types/address"
 import { formatAddress } from "../data/initial-addresses"
 import { getCountryByCode } from "../data/countries"
@@ -71,45 +63,31 @@ export function AddressOverviewCards({
     getCountryByCode(shippingAddress.country)?.name || shippingAddress.country
 
   return (
-    <div className="space-y-6">
-      <div>
-        <div className="flex items-center gap-2">
-          <h3 className="text-base font-semibold">{t("title")}</h3>
-          <Badge variant="secondary" className="text-[10px] h-5 px-1.5 font-normal">
-            {t("badge")}
-          </Badge>
-        </div>
-        <p className="text-xs text-muted-foreground mt-0.5">{t("description")}</p>
-      </div>
-
-      <Separator />
-
+    <CardContent className="pt-6">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {/* Billing Address Card */}
-        <Card className="rounded-xl border shadow-none bg-card hover:border-primary/30 transition-colors flex flex-col justify-between">
+        {/* Billing Address Panel */}
+        <div className="rounded-xl border bg-muted/10 hover:border-primary/30 transition-colors flex flex-col justify-between overflow-hidden">
           <div>
-            <CardHeader className="pb-3 border-b bg-muted/15">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <div className="p-1.5 rounded-lg bg-primary/10 text-primary">
-                    <CreditCard className="size-4" />
-                  </div>
-                  <div>
-                    <CardTitle className="text-sm font-semibold">
-                      {t("billingCardTitle")}
-                    </CardTitle>
-                    <CardDescription className="text-[11px]">
-                      {t("billingCardDesc")}
-                    </CardDescription>
-                  </div>
+            <div className="px-4 py-3 border-b bg-muted/15 flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <div className="p-1.5 rounded-lg bg-primary/10 text-primary">
+                  <CreditCard className="size-4" />
                 </div>
-                <Badge variant="outline" className="text-[10px] h-5 font-normal">
-                  eCommerce
-                </Badge>
+                <div>
+                  <h4 className="text-sm font-semibold text-foreground">
+                    {t("billingCardTitle")}
+                  </h4>
+                  <p className="text-[11px] text-muted-foreground">
+                    {t("billingCardDesc")}
+                  </p>
+                </div>
               </div>
-            </CardHeader>
+              <Badge variant="outline" className="text-[10px] h-5 font-normal">
+                eCommerce
+              </Badge>
+            </div>
 
-            <CardContent className="pt-4 text-xs space-y-3 leading-relaxed">
+            <div className="p-4 text-xs space-y-3 leading-relaxed">
               <div>
                 <p className="font-semibold text-foreground text-sm">
                   {billingAddress.firstName} {billingAddress.lastName}
@@ -148,10 +126,10 @@ export function AddressOverviewCards({
                   </div>
                 )}
               </div>
-            </CardContent>
+            </div>
           </div>
 
-          <CardFooter className="pt-3 pb-3 border-t bg-muted/10 flex items-center justify-between gap-2">
+          <div className="pt-3 pb-3 px-4 border-t bg-muted/10 flex items-center justify-between gap-2">
             <Button
               type="button"
               variant="outline"
@@ -182,40 +160,38 @@ export function AddressOverviewCards({
               <Edit3 className="size-3" />
               <span>{t("editBilling")}</span>
             </Button>
-          </CardFooter>
-        </Card>
+          </div>
+        </div>
 
-        {/* Shipping Address Card */}
-        <Card className="rounded-xl border shadow-none bg-card hover:border-primary/30 transition-colors flex flex-col justify-between">
+        {/* Shipping Address Panel */}
+        <div className="rounded-xl border bg-muted/10 hover:border-primary/30 transition-colors flex flex-col justify-between overflow-hidden">
           <div>
-            <CardHeader className="pb-3 border-b bg-muted/15">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <div className="p-1.5 rounded-lg bg-primary/10 text-primary">
-                    <Truck className="size-4" />
-                  </div>
-                  <div>
-                    <CardTitle className="text-sm font-semibold">
-                      {t("shippingCardTitle")}
-                    </CardTitle>
-                    <CardDescription className="text-[11px]">
-                      {t("shippingCardDesc")}
-                    </CardDescription>
-                  </div>
+            <div className="px-4 py-3 border-b bg-muted/15 flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <div className="p-1.5 rounded-lg bg-primary/10 text-primary">
+                  <Truck className="size-4" />
                 </div>
-                {shippingAddress.sameAsBilling ? (
-                  <Badge variant="secondary" className="text-[10px] h-5 font-normal text-emerald-600 dark:text-emerald-400 bg-emerald-500/10">
-                    {t("syncedBadge")}
-                  </Badge>
-                ) : (
-                  <Badge variant="outline" className="text-[10px] h-5 font-normal">
-                    {t("customBadge")}
-                  </Badge>
-                )}
+                <div>
+                  <h4 className="text-sm font-semibold text-foreground">
+                    {t("shippingCardTitle")}
+                  </h4>
+                  <p className="text-[11px] text-muted-foreground">
+                    {t("shippingCardDesc")}
+                  </p>
+                </div>
               </div>
-            </CardHeader>
+              {shippingAddress.sameAsBilling ? (
+                <Badge variant="secondary" className="text-[10px] h-5 font-normal text-emerald-600 dark:text-emerald-400 bg-emerald-500/10">
+                  {t("syncedBadge")}
+                </Badge>
+              ) : (
+                <Badge variant="outline" className="text-[10px] h-5 font-normal">
+                  {t("customBadge")}
+                </Badge>
+              )}
+            </div>
 
-            <CardContent className="pt-4 text-xs space-y-3 leading-relaxed">
+            <div className="p-4 text-xs space-y-3 leading-relaxed">
               <div>
                 <p className="font-semibold text-foreground text-sm">
                   {shippingAddress.firstName} {shippingAddress.lastName}
@@ -251,10 +227,10 @@ export function AddressOverviewCards({
                   No delivery instructions provided.
                 </div>
               )}
-            </CardContent>
+            </div>
           </div>
 
-          <CardFooter className="pt-3 pb-3 border-t bg-muted/10 flex items-center justify-between gap-2">
+          <div className="pt-3 pb-3 px-4 border-t bg-muted/10 flex items-center justify-between gap-2">
             <Button
               type="button"
               variant="outline"
@@ -285,9 +261,9 @@ export function AddressOverviewCards({
               <Edit3 className="size-3" />
               <span>{t("editShipping")}</span>
             </Button>
-          </CardFooter>
-        </Card>
+          </div>
+        </div>
       </div>
-    </div>
+    </CardContent>
   )
 }

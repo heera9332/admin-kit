@@ -5,7 +5,14 @@ import { useTranslations } from "next-intl"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Separator } from "@/components/ui/separator"
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
 import {
   Select,
   SelectContent,
@@ -25,62 +32,70 @@ export default function AccountSettingsPage() {
   }
 
   return (
-    <div className="space-y-6">
-      <div>
-        <h3 className="text-base font-semibold">{t("title")}</h3>
-        <p className="text-xs text-muted-foreground">
+    <Card className="border shadow-xs bg-card">
+      <CardHeader className="border-b pb-4">
+        <CardTitle className="text-base font-semibold">{t("title")}</CardTitle>
+        <CardDescription className="text-xs text-muted-foreground">
           {t("description")}
-        </p>
-      </div>
+        </CardDescription>
+      </CardHeader>
 
-      <Separator />
+      <CardContent className="pt-6">
+        <form id="account-form" onSubmit={handleSubmit} className="space-y-4 max-w-md">
+          <div className="space-y-1.5">
+            <Label htmlFor="fullName" className="text-xs font-medium">
+              {t("fullName")}
+            </Label>
+            <Input id="fullName" defaultValue="Adminkit" className="text-xs" />
+          </div>
 
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div className="space-y-1.5">
-          <Label htmlFor="fullName">{t("fullName")}</Label>
-          <Input id="fullName" defaultValue="Adminkit" className="text-xs max-w-md" />
-        </div>
+          <div className="space-y-1.5">
+            <Label htmlFor="dob" className="text-xs font-medium">
+              {t("dob")}
+            </Label>
+            <Input id="dob" type="date" defaultValue="1996-05-18" className="text-xs" />
+            <p className="text-[11px] text-muted-foreground">
+              {t("dobHelp")}
+            </p>
+          </div>
 
-        <div className="space-y-1.5">
-          <Label htmlFor="dob">{t("dob")}</Label>
-          <Input id="dob" type="date" defaultValue="1996-05-18" className="text-xs max-w-md" />
-          <p className="text-[11px] text-muted-foreground">
-            {t("dobHelp")}
-          </p>
-        </div>
+          <div className="space-y-1.5">
+            <Label htmlFor="language" className="text-xs font-medium">
+              {t("language")}
+            </Label>
+            <Select defaultValue="en">
+              <SelectTrigger id="language" className="text-xs">
+                <SelectValue placeholder={t("selectLanguage")} />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="en">English (US)</SelectItem>
+                <SelectItem value="uk">English (UK)</SelectItem>
+                <SelectItem value="de">German</SelectItem>
+                <SelectItem value="fr">French</SelectItem>
+                <SelectItem value="es">Spanish</SelectItem>
+                <SelectItem value="ja">Japanese</SelectItem>
+                <SelectItem value="hi">हिन्दी (Hindi)</SelectItem>
+              </SelectContent>
+            </Select>
+            <p className="text-[11px] text-muted-foreground">
+              {t("languageHelp")}
+            </p>
+          </div>
+        </form>
+      </CardContent>
 
-        <div className="space-y-1.5 max-w-md">
-          <Label htmlFor="language">{t("language")}</Label>
-          <Select defaultValue="en">
-            <SelectTrigger id="language" className="text-xs">
-              <SelectValue placeholder={t("selectLanguage")} />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="en">English (US)</SelectItem>
-              <SelectItem value="uk">English (UK)</SelectItem>
-              <SelectItem value="de">German</SelectItem>
-              <SelectItem value="fr">French</SelectItem>
-              <SelectItem value="es">Spanish</SelectItem>
-              <SelectItem value="ja">Japanese</SelectItem>
-              <SelectItem value="hi">हिन्दी (Hindi)</SelectItem>
-            </SelectContent>
-          </Select>
-          <p className="text-[11px] text-muted-foreground">
-            {t("languageHelp")}
-          </p>
-        </div>
-
-        <div className="pt-2 flex items-center gap-3">
-          <Button type="submit" size="sm" className="text-xs">
+      <CardFooter className="flex items-center justify-between border-t px-6 py-3.5 bg-muted/20">
+        <div className="flex items-center gap-3">
+          <Button type="submit" form="account-form" size="sm" className="text-xs font-medium">
             {t("updateAccount")}
           </Button>
           {saved && (
-            <span className="text-xs text-emerald-500 font-medium">
+            <span className="text-xs text-emerald-500 font-medium animate-in fade-in">
               {t("success")}
             </span>
           )}
         </div>
-      </form>
-    </div>
+      </CardFooter>
+    </Card>
   )
 }

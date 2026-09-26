@@ -9,6 +9,13 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useThemeSettings } from "@/context/theme-settings-provider"
 import { DynamicForm } from "@/components/forms/dynamic-form"
 import { Button } from "@/components/ui/button"
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
 import { ThemePreviewCard } from "./theme-preview-card"
 import {
@@ -134,26 +141,26 @@ export function ThemeSettingsForm() {
 
   if (!isMounted) {
     return (
-      <div className="space-y-6 animate-pulse">
-        <div className="space-y-2">
-          <div className="h-6 w-40 rounded bg-muted" />
-          <div className="h-4 w-72 rounded bg-muted" />
+      <Card className="border shadow-xs bg-card animate-pulse">
+        <div className="p-6 border-b space-y-2">
+          <div className="h-5 w-40 rounded bg-muted" />
+          <div className="h-3.5 w-72 rounded bg-muted" />
         </div>
-        <Separator />
-        <div className="h-32 rounded-lg bg-muted" />
-      </div>
+        <div className="p-6 space-y-4">
+          <div className="h-32 rounded-lg bg-muted" />
+        </div>
+      </Card>
     )
   }
 
   return (
-    <div className="space-y-8">
-      {/* Header Section */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+    <Card className="border shadow-xs bg-card">
+      <CardHeader className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b pb-4">
         <div>
-          <h3 className="text-base font-semibold">{tAppearance("title")}</h3>
-          <p className="text-xs text-muted-foreground">
+          <CardTitle className="text-base font-semibold">{tAppearance("title")}</CardTitle>
+          <CardDescription className="text-xs text-muted-foreground">
             {tAppearance("description")}
-          </p>
+          </CardDescription>
         </div>
 
         <div className="flex items-center gap-2">
@@ -180,34 +187,22 @@ export function ThemeSettingsForm() {
             <span>{tCommon("reset")}</span>
           </Button>
         </div>
-      </div>
+      </CardHeader>
 
-      <Separator />
+      <CardContent className="space-y-8 pt-6">
+        <DynamicForm<ThemeFormValues>
+          form={form}
+          fields={fields}
+          onSubmit={() => {}}
+          showSubmitButton={false}
+          columns={2}
+        />
 
-      {/* Config-Driven Dynamic Form */}
-      <DynamicForm<ThemeFormValues>
-        form={form}
-        fields={fields}
-        onSubmit={() => {}}
-        showSubmitButton={false}
-        columns={2}
-      />
+        <Separator />
 
-      <Separator />
-
-      {/* Live Preview Card */}
-      <div className="space-y-3.5">
-        <div>
-          <h4 className="text-xs font-semibold text-foreground">
-            Interactive Live Preview
-          </h4>
-          <p className="text-xs text-muted-foreground">
-            Real-time preview of how your theme configuration appears in application components.
-          </p>
-        </div>
-
+        {/* Live Preview Section */}
         <ThemePreviewCard />
-      </div>
-    </div>
+      </CardContent>
+    </Card>
   )
 }

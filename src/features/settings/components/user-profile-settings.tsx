@@ -11,6 +11,12 @@ import {
 } from "lucide-react"
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import {
+  Card,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
 import { ProfileInfoForm } from "./profile-info-form"
 import { BillingAddressForm } from "./billing-address-form"
 import { ShippingAddressForm } from "./shipping-address-form"
@@ -31,7 +37,11 @@ export function UserProfileSettings() {
   const searchParams = useSearchParams()
   const router = useRouter()
   const pathname = usePathname()
-  const t = useTranslations("settings.addresses.tabs")
+  const tTabs = useTranslations("settings.addresses.tabs")
+  const tProfile = useTranslations("settings.profile")
+  const tBilling = useTranslations("settings.billing")
+  const tShipping = useTranslations("settings.shipping")
+  const tOverview = useTranslations("settings.addresses")
 
   // Determine active tab from URL search params or fallback to "profile"
   const urlTab = searchParams.get("tab") as AddressSettingsTab | null
@@ -150,48 +160,65 @@ export function UserProfileSettings() {
   }
 
   return (
-    <div className="space-y-6">
+    <Card className="border shadow-xs bg-card">
       <Tabs
         value={activeTab}
         onValueChange={handleTabChange}
-        className="w-full space-y-6"
+        className="w-full"
       >
-        {/* Navigation Tabs */}
-        <div className="w-full overflow-x-auto pb-1">
-          <TabsList className="inline-flex h-9 w-full sm:w-auto items-center justify-start gap-1 rounded-lg bg-muted p-1 text-muted-foreground border px-0">
-            <TabsTrigger
-              value="profile"
-              className="text-xs h-7 px-3 gap-2 font-medium"
-            >
-              <User className="size-3.5" />
-              <span>{t("profile")}</span>
-            </TabsTrigger>
+        {/* Card Header with Sub-Page Title, Description & Tabs */}
+        <CardHeader className="border-b pb-4 space-y-4">
+          <div>
+            <CardTitle className="text-base font-semibold">
+              {activeTab === "profile" && tProfile("title")}
+              {activeTab === "billing" && tBilling("title")}
+              {activeTab === "shipping" && tShipping("title")}
+              {activeTab === "overview" && tOverview("title")}
+            </CardTitle>
+            <CardDescription className="text-xs text-muted-foreground mt-0.5">
+              {activeTab === "profile" && tProfile("description")}
+              {activeTab === "billing" && tBilling("subtitle")}
+              {activeTab === "shipping" && tShipping("subtitle")}
+              {activeTab === "overview" && tOverview("description")}
+            </CardDescription>
+          </div>
 
-            <TabsTrigger
-              value="billing"
-              className="text-xs h-7 px-3 gap-2 font-medium"
-            >
-              <CreditCard className="size-3.5" />
-              <span>{t("billing")}</span>
-            </TabsTrigger>
+          <div className="w-full overflow-x-auto">
+            <TabsList className="inline-flex h-9 w-full sm:w-auto items-center justify-start gap-1 rounded-lg bg-muted/60 p-1 text-muted-foreground border">
+              <TabsTrigger
+                value="profile"
+                className="text-xs h-7 px-3 gap-2 font-medium"
+              >
+                <User className="size-3.5" />
+                <span>{tTabs("profile")}</span>
+              </TabsTrigger>
 
-            <TabsTrigger
-              value="shipping"
-              className="text-xs h-7 px-3 gap-2 font-medium"
-            >
-              <Truck className="size-3.5" />
-              <span>{t("shipping")}</span>
-            </TabsTrigger>
+              <TabsTrigger
+                value="billing"
+                className="text-xs h-7 px-3 gap-2 font-medium"
+              >
+                <CreditCard className="size-3.5" />
+                <span>{tTabs("billing")}</span>
+              </TabsTrigger>
 
-            <TabsTrigger
-              value="overview"
-              className="text-xs h-7 px-3 gap-2 font-medium"
-            >
-              <BookOpen className="size-3.5" />
-              <span>{t("overview")}</span>
-            </TabsTrigger>
-          </TabsList>
-        </div>
+              <TabsTrigger
+                value="shipping"
+                className="text-xs h-7 px-3 gap-2 font-medium"
+              >
+                <Truck className="size-3.5" />
+                <span>{tTabs("shipping")}</span>
+              </TabsTrigger>
+
+              <TabsTrigger
+                value="overview"
+                className="text-xs h-7 px-3 gap-2 font-medium"
+              >
+                <BookOpen className="size-3.5" />
+                <span>{tTabs("overview")}</span>
+              </TabsTrigger>
+            </TabsList>
+          </div>
+        </CardHeader>
 
         {/* Tab 1: Profile Information */}
         <TabsContent value="profile" className="mt-0 outline-none">
@@ -228,6 +255,6 @@ export function UserProfileSettings() {
           />
         </TabsContent>
       </Tabs>
-    </div>
+    </Card>
   )
 }

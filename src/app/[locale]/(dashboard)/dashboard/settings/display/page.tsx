@@ -4,7 +4,14 @@ import * as React from "react"
 import { useTranslations } from "next-intl"
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
-import { Separator } from "@/components/ui/separator"
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
 
 export default function DisplaySettingsPage() {
   const t = useTranslations("settings.display")
@@ -39,53 +46,60 @@ export default function DisplaySettingsPage() {
   }
 
   return (
-    <div className="space-y-6">
-      <div>
-        <h3 className="text-base font-semibold">{t("title")}</h3>
-        <p className="text-xs text-muted-foreground">
+    <Card className="border shadow-xs bg-card">
+      <CardHeader className="border-b pb-4">
+        <CardTitle className="text-base font-semibold">{t("title")}</CardTitle>
+        <CardDescription className="text-xs text-muted-foreground">
           {t("description")}
-        </p>
-      </div>
+        </CardDescription>
+      </CardHeader>
 
-      <Separator />
-
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div className="space-y-3 max-w-md">
-          <div className="space-y-1 mb-3">
-            <span className="text-xs font-semibold">{t("sidebarItems")}</span>
-            <p className="text-[11px] text-muted-foreground">
-              {t("sidebarItemsDesc")}
-            </p>
-          </div>
-
-          {sidebarDisplayItems.map((item) => (
-            <div key={item.id} className="flex items-center space-x-2">
-              <Checkbox
-                id={item.id}
-                checked={selectedItems.includes(item.id)}
-                onCheckedChange={() => toggleItem(item.id)}
-              />
-              <label
-                htmlFor={item.id}
-                className="text-xs font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer"
-              >
-                {item.label}
-              </label>
+      <CardContent className="pt-6">
+        <form id="display-form" onSubmit={handleSubmit} className="space-y-4">
+          <div className="space-y-3 max-w-md">
+            <div className="space-y-1 mb-3">
+              <span className="text-xs font-semibold text-foreground">{t("sidebarItems")}</span>
+              <p className="text-[11px] text-muted-foreground">
+                {t("sidebarItemsDesc")}
+              </p>
             </div>
-          ))}
-        </div>
 
-        <div className="pt-2 flex items-center gap-3">
-          <Button type="submit" size="sm" className="text-xs">
+            <div className="space-y-2.5">
+              {sidebarDisplayItems.map((item) => (
+                <div
+                  key={item.id}
+                  className="flex items-center space-x-2.5 p-2 rounded-lg border border-border/50 hover:bg-muted/40 transition-colors"
+                >
+                  <Checkbox
+                    id={item.id}
+                    checked={selectedItems.includes(item.id)}
+                    onCheckedChange={() => toggleItem(item.id)}
+                  />
+                  <label
+                    htmlFor={item.id}
+                    className="text-xs font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer flex-1"
+                  >
+                    {item.label}
+                  </label>
+                </div>
+              ))}
+            </div>
+          </div>
+        </form>
+      </CardContent>
+
+      <CardFooter className="flex items-center justify-between border-t px-6 py-3.5 bg-muted/20">
+        <div className="flex items-center gap-3">
+          <Button type="submit" form="display-form" size="sm" className="text-xs font-medium">
             {t("updateDisplay")}
           </Button>
           {saved && (
-            <span className="text-xs text-emerald-500 font-medium">
+            <span className="text-xs text-emerald-500 font-medium animate-in fade-in">
               {t("success")}
             </span>
           )}
         </div>
-      </form>
-    </div>
+      </CardFooter>
+    </Card>
   )
 }

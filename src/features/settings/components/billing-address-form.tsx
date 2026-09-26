@@ -15,7 +15,7 @@ import {
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Separator } from "@/components/ui/separator"
+import { CardContent, CardFooter } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import {
   Select,
@@ -147,46 +147,8 @@ export function BillingAddressForm({
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-      {/* Header with Title and Badges */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-        <div>
-          <div className="flex items-center gap-2">
-            <h3 className="text-base font-semibold">{t("title")}</h3>
-            <Badge variant="secondary" className="text-[10px] h-5 px-1.5 font-normal">
-              {t("badge")}
-            </Badge>
-          </div>
-          <p className="text-xs text-muted-foreground mt-0.5">{t("subtitle")}</p>
-        </div>
-
-        <div className="flex items-center gap-2">
-          <Button
-            type="button"
-            variant="outline"
-            size="sm"
-            onClick={handleCopyFormatted}
-            className="text-xs h-8 gap-1.5 shrink-0"
-          >
-            {copied ? (
-              <>
-                <Check className="size-3.5 text-emerald-500" />
-                <span>{t("copied")}</span>
-              </>
-            ) : (
-              <>
-                <Copy className="size-3.5" />
-                <span>{t("copyAddress")}</span>
-              </>
-            )}
-          </Button>
-        </div>
-      </div>
-
-      <Separator />
-
-      {/* Form Fields */}
-      <div className="space-y-4">
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <CardContent className="space-y-4 pt-6">
         {/* Name Fields: First Name & Last Name (2 cols) */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div className="space-y-1.5">
@@ -483,49 +445,71 @@ export function BillingAddressForm({
             <p className="text-[11px] text-muted-foreground">{t("vatIdHelp")}</p>
           )}
         </div>
-      </div>
+      </CardContent>
 
       {/* Action Buttons */}
-      <div className="pt-2 flex flex-wrap items-center gap-3">
+      <CardFooter className="border-t pt-4 flex flex-wrap items-center justify-between gap-3">
+        <div className="flex flex-wrap items-center gap-3">
+          <Button
+            type="submit"
+            size="sm"
+            disabled={isPending}
+            className="text-xs gap-1.5 min-w-32"
+          >
+            {isPending ? (
+              <>
+                <Loader2 className="size-3.5 animate-spin" />
+                <span>{t("saving")}</span>
+              </>
+            ) : (
+              <>
+                <CreditCard className="size-3.5" />
+                <span>{t("save")}</span>
+              </>
+            )}
+          </Button>
+
+          {isDirty && (
+            <Button
+              type="button"
+              variant="ghost"
+              size="sm"
+              onClick={handleReset}
+              className="text-xs gap-1 text-muted-foreground"
+            >
+              <RotateCcw className="size-3.5" />
+              {t("reset")}
+            </Button>
+          )}
+
+          {saved && (
+            <span className="inline-flex items-center gap-1.5 text-xs text-emerald-600 dark:text-emerald-400 font-medium animate-in fade-in duration-200">
+              <Check className="size-4" />
+              {t("success")}
+            </span>
+          )}
+        </div>
+
         <Button
-          type="submit"
+          type="button"
+          variant="outline"
           size="sm"
-          disabled={isPending}
-          className="text-xs gap-1.5 min-w-32"
+          onClick={handleCopyFormatted}
+          className="text-xs h-8 gap-1.5 shrink-0"
         >
-          {isPending ? (
+          {copied ? (
             <>
-              <Loader2 className="size-3.5 animate-spin" />
-              <span>{t("saving")}</span>
+              <Check className="size-3.5 text-emerald-500" />
+              <span>{t("copied")}</span>
             </>
           ) : (
             <>
-              <CreditCard className="size-3.5" />
-              <span>{t("save")}</span>
+              <Copy className="size-3.5" />
+              <span>{t("copyAddress")}</span>
             </>
           )}
         </Button>
-
-        {isDirty && (
-          <Button
-            type="button"
-            variant="ghost"
-            size="sm"
-            onClick={handleReset}
-            className="text-xs gap-1 text-muted-foreground"
-          >
-            <RotateCcw className="size-3.5" />
-            {t("reset")}
-          </Button>
-        )}
-
-        {saved && (
-          <span className="inline-flex items-center gap-1.5 text-xs text-emerald-600 dark:text-emerald-400 font-medium animate-in fade-in duration-200">
-            <Check className="size-4" />
-            {t("success")}
-          </span>
-        )}
-      </div>
+      </CardFooter>
     </form>
   )
 }

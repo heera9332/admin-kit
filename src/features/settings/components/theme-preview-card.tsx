@@ -7,7 +7,6 @@ import { Badge } from "@/components/ui/badge"
 import { Switch } from "@/components/ui/switch"
 import { Slider } from "@/components/ui/slider"
 import { Input } from "@/components/ui/input"
-import { Card } from "@/components/ui/card"
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
 export function ThemePreviewCard() {
@@ -15,18 +14,18 @@ export function ThemePreviewCard() {
   const [switchChecked, setSwitchChecked] = React.useState(true)
 
   return (
-    <div className="space-y-3">
-      <div className="flex items-center justify-between">
-        <h4 className="text-xs font-semibold text-foreground flex items-center gap-1.5">
-          <Sparkles className="size-3.5 text-primary" />
+    <div className="space-y-4">
+      <div>
+        <h4 className="text-sm font-semibold text-foreground flex items-center gap-1.5">
+          <Sparkles className="size-4 text-primary" />
           <span>Interactive Live Preview</span>
         </h4>
-        <span className="text-[11px] text-muted-foreground">
+        <p className="text-xs text-muted-foreground mt-0.5">
           Adapts in real-time to selected theme and radius
-        </span>
+        </p>
       </div>
 
-      <Card className="border border-border/80 bg-card/60 backdrop-blur-xs p-4 sm:p-5 shadow-xs">
+      <div className="rounded-xl border bg-muted/20 p-4 sm:p-5">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           {/* Left Column: Interactive Controls */}
           <div className="space-y-4">
@@ -131,7 +130,7 @@ export function ThemePreviewCard() {
             </div>
           </div>
         </div>
-      </Card>
+      </div>
     </div>
   )
 }

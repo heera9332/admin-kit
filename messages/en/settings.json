@@ -8,6 +8,10 @@
     "notifications": "Notifications",
     "display": "Display"
   },
+  "groups": {
+    "personal": "Account & Identity",
+    "preferences": "Preferences"
+  },
   "profile": {
     "title": "Profile",
     "description": "This is how others will see you on the site.",

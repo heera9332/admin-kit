@@ -4,7 +4,14 @@ import * as React from "react"
 import { useTranslations } from "next-intl"
 import { Button } from "@/components/ui/button"
 import { Switch } from "@/components/ui/switch"
-import { Separator } from "@/components/ui/separator"
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
 
 export default function NotificationsSettingsPage() {
   const t = useTranslations("settings.notifications")
@@ -17,70 +24,72 @@ export default function NotificationsSettingsPage() {
   }
 
   return (
-    <div className="space-y-6">
-      <div>
-        <h3 className="text-base font-semibold">{t("title")}</h3>
-        <p className="text-xs text-muted-foreground">
+    <Card className="border shadow-xs bg-card">
+      <CardHeader className="border-b pb-4">
+        <CardTitle className="text-base font-semibold">{t("title")}</CardTitle>
+        <CardDescription className="text-xs text-muted-foreground">
           {t("description")}
-        </p>
-      </div>
+        </CardDescription>
+      </CardHeader>
 
-      <Separator />
-
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div className="space-y-4 max-w-xl">
-          <div className="flex items-center justify-between rounded-lg border p-3.5 shadow-2xs">
-            <div className="space-y-0.5">
-              <span className="text-xs font-medium">{t("communicationEmails")}</span>
-              <p className="text-[11px] text-muted-foreground">
-                {t("communicationEmailsDesc")}
-              </p>
+      <CardContent className="pt-6">
+        <form id="notifications-form" onSubmit={handleSubmit} className="space-y-4">
+          <div className="space-y-3 max-w-xl">
+            <div className="flex items-center justify-between rounded-lg border p-3.5 shadow-2xs">
+              <div className="space-y-0.5">
+                <span className="text-xs font-medium">{t("communicationEmails")}</span>
+                <p className="text-[11px] text-muted-foreground">
+                  {t("communicationEmailsDesc")}
+                </p>
+              </div>
+              <Switch defaultChecked />
             </div>
-            <Switch defaultChecked />
-          </div>
 
-          <div className="flex items-center justify-between rounded-lg border p-3.5 shadow-2xs">
-            <div className="space-y-0.5">
-              <span className="text-xs font-medium">{t("marketingEmails")}</span>
-              <p className="text-[11px] text-muted-foreground">
-                {t("marketingEmailsDesc")}
-              </p>
+            <div className="flex items-center justify-between rounded-lg border p-3.5 shadow-2xs">
+              <div className="space-y-0.5">
+                <span className="text-xs font-medium">{t("marketingEmails")}</span>
+                <p className="text-[11px] text-muted-foreground">
+                  {t("marketingEmailsDesc")}
+                </p>
+              </div>
+              <Switch />
             </div>
-            <Switch />
-          </div>
 
-          <div className="flex items-center justify-between rounded-lg border p-3.5 shadow-2xs">
-            <div className="space-y-0.5">
-              <span className="text-xs font-medium">{t("socialNotifications")}</span>
-              <p className="text-[11px] text-muted-foreground">
-                {t("socialNotificationsDesc")}
-              </p>
+            <div className="flex items-center justify-between rounded-lg border p-3.5 shadow-2xs">
+              <div className="space-y-0.5">
+                <span className="text-xs font-medium">{t("socialNotifications")}</span>
+                <p className="text-[11px] text-muted-foreground">
+                  {t("socialNotificationsDesc")}
+                </p>
+              </div>
+              <Switch defaultChecked />
             </div>
-            <Switch defaultChecked />
-          </div>
 
-          <div className="flex items-center justify-between rounded-lg border p-3.5 shadow-2xs">
-            <div className="space-y-0.5">
-              <span className="text-xs font-medium">{t("securityAlerts")}</span>
-              <p className="text-[11px] text-muted-foreground">
-                {t("securityAlertsDesc")}
-              </p>
+            <div className="flex items-center justify-between rounded-lg border p-3.5 shadow-2xs">
+              <div className="space-y-0.5">
+                <span className="text-xs font-medium">{t("securityAlerts")}</span>
+                <p className="text-[11px] text-muted-foreground">
+                  {t("securityAlertsDesc")}
+                </p>
+              </div>
+              <Switch defaultChecked disabled />
             </div>
-            <Switch defaultChecked disabled />
           </div>
-        </div>
+        </form>
+      </CardContent>
 
-        <div className="pt-2 flex items-center gap-3">
-          <Button type="submit" size="sm" className="text-xs">
+      <CardFooter className="flex items-center justify-between border-t px-6 py-3.5 bg-muted/20">
+        <div className="flex items-center gap-3">
+          <Button type="submit" form="notifications-form" size="sm" className="text-xs font-medium">
             {t("updateNotifications")}
           </Button>
           {saved && (
-            <span className="text-xs text-emerald-500 font-medium">
+            <span className="text-xs text-emerald-500 font-medium animate-in fade-in">
               {t("success")}
             </span>
           )}
         </div>
-      </form>
-    </div>
+      </CardFooter>
+    </Card>
   )
 }
