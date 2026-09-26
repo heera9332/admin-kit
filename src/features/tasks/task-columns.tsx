@@ -9,7 +9,6 @@ import {
   CheckCircle2,
   Circle,
   Clock,
-  Copy,
   Eye,
   HelpCircle,
   MoreHorizontal,
@@ -237,13 +236,6 @@ export function getTaskColumns({
                   <Pencil className="size-3.5" />
                 </DropdownMenuItem>
               )}
-              <DropdownMenuItem
-                onClick={() => navigator.clipboard.writeText(task.id)}
-                className="justify-between gap-2 cursor-pointer"
-              >
-                <span>{t("actions.copyId")}</span>
-                <Copy className="size-3.5" />
-              </DropdownMenuItem>
               {onDelete && (
                 <>
                   <DropdownMenuSeparator />

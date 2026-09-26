@@ -2,7 +2,6 @@
 
 import type { ColumnDef } from "@tanstack/react-table";
 import {
-  Copy,
   Eye,
   FolderKanban,
   MoreHorizontal,
@@ -202,13 +201,6 @@ export function getProjectColumns({
                   <Pencil className="size-3.5" />
                 </DropdownMenuItem>
               )}
-              <DropdownMenuItem
-                onClick={() => navigator.clipboard.writeText(project.id)}
-                className="justify-between gap-2 cursor-pointer"
-              >
-                <span>{t("copyId")}</span>
-                <Copy className="size-3.5" />
-              </DropdownMenuItem>
               {onDelete && (
                 <>
                   <DropdownMenuSeparator />
