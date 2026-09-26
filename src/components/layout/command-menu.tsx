@@ -64,6 +64,7 @@ export function CommandMenu() {
               <CommandGroup key={group.title} heading={groupTitle}>
                 {group.items.map((navItem, i) => {
                   const itemTitle = getLabel(navItem.titleKey, navItem.title)
+                  const ItemIcon = navItem.icon
 
                   if (navItem.url) {
                     return (
@@ -75,7 +76,11 @@ export function CommandMenu() {
                         }}
                       >
                         <div className="flex size-4 items-center justify-center mr-2">
-                          <ArrowRight className="size-3 text-muted-foreground/80" />
+                          {ItemIcon ? (
+                            <ItemIcon className="size-3 text-muted-foreground/80" />
+                          ) : (
+                            <ArrowRight className="size-3 text-muted-foreground/80" />
+                          )}
                         </div>
                         <span>{itemTitle}</span>
                       </CommandItem>
@@ -84,6 +89,7 @@ export function CommandMenu() {
 
                   return navItem.items?.map((subItem, j) => {
                     const subTitle = getLabel(subItem.titleKey, subItem.title)
+                    const SubIcon = subItem.icon || ItemIcon
 
                     return (
                       <CommandItem
@@ -94,7 +100,11 @@ export function CommandMenu() {
                         }}
                       >
                         <div className="flex size-4 items-center justify-center mr-2">
-                          <ArrowRight className="size-3 text-muted-foreground/80" />
+                          {SubIcon ? (
+                            <SubIcon className="size-3 text-muted-foreground/80" />
+                          ) : (
+                            <ArrowRight className="size-3 text-muted-foreground/80" />
+                          )}
                         </div>
                         <span className="text-muted-foreground">{itemTitle}</span>
                         <ChevronRight className="size-3 mx-1 text-muted-foreground" />

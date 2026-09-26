@@ -180,6 +180,8 @@ export function resolveSidebarItemMeaning(input?: string): SidebarMenuMeaning {
     normalized.includes("bug") ||
     normalized.includes("unauthorized") ||
     normalized.includes("forbidden") ||
+    normalized.includes("notfound") ||
+    normalized.includes("maintenance") ||
     normalized.includes("fault") ||
     normalized.includes("त्रुटि")
   ) {
@@ -191,6 +193,11 @@ export function resolveSidebarItemMeaning(input?: string): SidebarMenuMeaning {
     normalized.includes("setting") ||
     normalized.includes("config") ||
     normalized.includes("preference") ||
+    normalized.includes("profile") ||
+    normalized.includes("account") ||
+    normalized.includes("appearance") ||
+    normalized.includes("notification") ||
+    normalized.includes("display") ||
     normalized.includes("सेटिंग")
   ) {
     return "settings"
