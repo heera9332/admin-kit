@@ -159,7 +159,7 @@ export function ChatsFeature() {
                     </AvatarFallback>
                   </Avatar>
                   {contact.status === "online" && (
-                    <span className="absolute bottom-0 right-0 size-2.5 rounded-full bg-emerald-500 ring-2 ring-background" />
+                    <span className="absolute bottom-0 right-0 size-2.5 rounded-full bg-emerald-500   ring-background" />
                   )}
                 </div>
 
@@ -221,7 +221,7 @@ export function ChatsFeature() {
                   </AvatarFallback>
                 </Avatar>
                 {activeContact.status === "online" && (
-                  <span className="absolute bottom-0 right-0 size-2 rounded-full bg-emerald-500 ring-2 ring-background" />
+                  <span className="absolute bottom-0 right-0 size-2 rounded-full bg-emerald-500   ring-background" />
                 )}
               </div>
 

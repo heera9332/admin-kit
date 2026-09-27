@@ -350,7 +350,7 @@ export function MediaPickerDialog({
                             className={cn(
                               "group relative rounded-xl border aspect-square overflow-hidden cursor-pointer bg-card transition-all flex flex-col justify-between",
                               isSelected
-                                ? "ring-2 ring-primary ring-offset-2 border-primary bg-primary/5"
+                                ? "  ring-primary ring-offset-2 border-primary bg-primary/5"
                                 : isFocused
                                 ? "ring-1 ring-muted-foreground/40 border-muted-foreground/40"
                                 : "hover:border-primary/40 hover:shadow-xs"

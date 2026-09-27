@@ -57,7 +57,7 @@ export function ThemeSettingsForm() {
   const [notification, setNotification] = React.useState<string | null>(null)
 
   const showFeedback = (msg: string) => {
-    setNotification(msg)
+    setNotification("")
     setTimeout(() => setNotification(null), 2500)
   }
 
@@ -96,25 +96,18 @@ export function ThemeSettingsForm() {
 
       if (name === "theme" && values.theme) {
         setTheme(values.theme)
-        showFeedback(`Switched to ${values.theme} mode`)
       } else if (name === "color" && values.color) {
         setThemeColor(values.color as ThemeColor)
-        showFeedback(`Theme color updated to ${values.color}`)
       } else if (name === "radius" && values.radius !== undefined) {
         setRadius(Number(values.radius) as ThemeRadius)
-        showFeedback(`Border radius updated to ${values.radius}rem`)
       } else if (name === "layout" && values.layout) {
         setLayout(values.layout as ThemeLayout)
-        showFeedback(`Layout set to ${values.layout}`)
       } else if (name === "sidebarVariant" && values.sidebarVariant) {
         setSidebarVariant(values.sidebarVariant as SidebarVariant)
-        showFeedback(`Sidebar style set to ${values.sidebarVariant}`)
       } else if (name === "font" && values.font) {
         setFont(values.font as ThemeFont)
-        showFeedback(`Font updated to ${values.font}`)
       } else if (name === "displayFont" && values.displayFont) {
         setDisplayFont(values.displayFont as ThemeFont)
-        showFeedback(`Heading font updated to ${values.displayFont}`)
       }
     })
 
@@ -141,7 +134,7 @@ export function ThemeSettingsForm() {
 
   if (!isMounted) {
     return (
-      <Card className="border shadow-xs bg-card animate-pulse">
+      <Card className="  animate-pulse">
         <div className="p-6 border-b space-y-2">
           <div className="h-5 w-40 rounded bg-muted" />
           <div className="h-3.5 w-72 rounded bg-muted" />
@@ -154,7 +147,7 @@ export function ThemeSettingsForm() {
   }
 
   return (
-    <Card className="border shadow-xs bg-card">
+    <Card className="">
       <CardHeader className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b pb-4">
         <div>
           <CardTitle className="text-base font-semibold">{tAppearance("title")}</CardTitle>
@@ -163,13 +156,7 @@ export function ThemeSettingsForm() {
           </CardDescription>
         </div>
 
-        <div className="flex items-center gap-2">
-          {notification && (
-            <span className="inline-flex items-center gap-1.5 text-[11px] font-medium text-primary bg-primary/10 border border-primary/20 px-2.5 py-1.5 rounded-md transition-all">
-              <span className="size-1.5 rounded-full bg-primary animate-pulse" />
-              <span>{notification}</span>
-            </span>
-          )}
+        <div className="flex items-center gap-2"> 
           <span className="inline-flex items-center gap-1.5 text-[11px] font-medium text-muted-foreground bg-muted/60 border border-border/80 px-2.5 py-1.5 rounded-md">
             <span className="size-1.5 rounded-full bg-emerald-500 animate-pulse" />
             <span>{tCommon("autoSaved")}</span>

@@ -25,7 +25,7 @@ export default function SettingsLayout({
       </div>
 
       {/* Main Settings Two-Column Layout */}
-      <div className="flex flex-col gap-6 lg:flex-row lg:gap-8 items-start">
+      <div className="flex flex-col gap-4 lg:flex-row items-start">
         {/* Sticky Desktop Aside / Mobile Top Bar */}
         <aside className="w-full lg:w-60 xl:w-64 shrink-0 lg:sticky lg:top-20">
           <SettingsSidebar />

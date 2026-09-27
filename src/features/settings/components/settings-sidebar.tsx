@@ -35,7 +35,7 @@ export function SettingsSidebar({
   return (
     <Card
       className={cn(
-        "p-1.5 sm:p-2 border shadow-xs bg-card rounded-xl overflow-hidden",
+        "p-1.5 sm:p-2 overflow-hidden",
         className
       )}
       {...props}

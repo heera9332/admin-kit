@@ -78,7 +78,7 @@ export function ProfileInfoForm({
           {/* Avatar display */}
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 p-4 rounded-xl border bg-muted/20">
             <div className="relative group">
-              <Avatar className="size-16 ring-2 ring-primary/20">
+              <Avatar className="size-16   ring-primary/20">
                 <AvatarImage src={initialData.avatarUrl} alt={initialData.fullName} />
                 <AvatarFallback>
                   <User className="size-8 text-muted-foreground" />

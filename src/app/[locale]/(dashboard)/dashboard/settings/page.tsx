@@ -14,7 +14,7 @@ export default function ProfileSettingsPage() {
 
 function ProfileSettingsSkeleton() {
   return (
-    <Card className="border shadow-xs bg-card">
+    <Card className=" ">
       <div className="p-6 border-b space-y-4">
         <div className="space-y-2">
           <Skeleton className="h-5 w-48" />

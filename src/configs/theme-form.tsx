@@ -107,7 +107,7 @@ export function getThemeFormFields({
               className={cn(
                 "group relative flex flex-col items-center gap-2 rounded-xl border-2 p-2.5 transition-all text-left cursor-pointer",
                 selected === "light"
-                  ? "border-primary bg-primary/5 ring-2 ring-primary/20"
+                  ? "border-primary bg-primary/5   ring-primary/20"
                   : "border-border/80 bg-card hover:border-primary/40"
               )}
             >
@@ -137,7 +137,7 @@ export function getThemeFormFields({
               className={cn(
                 "group relative flex flex-col items-center gap-2 rounded-xl border-2 p-2.5 transition-all text-left cursor-pointer",
                 selected === "dark"
-                  ? "border-primary bg-primary/5 ring-2 ring-primary/20"
+                  ? "border-primary bg-primary/5   ring-primary/20"
                   : "border-border/80 bg-card hover:border-primary/40"
               )}
             >
@@ -167,7 +167,7 @@ export function getThemeFormFields({
               className={cn(
                 "group relative flex flex-col items-center gap-2 rounded-xl border-2 p-2.5 transition-all text-left cursor-pointer",
                 selected === "system"
-                  ? "border-primary bg-primary/5 ring-2 ring-primary/20"
+                  ? "border-primary bg-primary/5   ring-primary/20"
                   : "border-border/80 bg-card hover:border-primary/40"
               )}
             >
@@ -257,7 +257,7 @@ export function getThemeFormFields({
                   className={cn(
                     "flex flex-col items-center justify-center gap-1.5 p-3 border transition-all cursor-pointer",
                     isSelected
-                      ? "border-primary bg-primary/5 ring-2 ring-primary/20"
+                      ? "border-primary bg-primary/5   ring-primary/20"
                       : "border-border/80 bg-card hover:border-primary/40"
                   )}
                   style={{ borderRadius: `${r.value}rem` }}
@@ -302,7 +302,7 @@ export function getThemeFormFields({
                   className={cn(
                     "group relative flex flex-col items-start gap-2 rounded-xl border p-3 transition-all text-left cursor-pointer",
                     isSelected
-                      ? "border-primary bg-primary/5 ring-2 ring-primary/20"
+                      ? "border-primary bg-primary/5   ring-primary/20"
                       : "border-border/80 bg-card hover:border-primary/40"
                   )}
                 >
@@ -347,7 +347,7 @@ export function getThemeFormFields({
                   className={cn(
                     "flex flex-col items-start gap-1.5 rounded-xl border p-2.5 transition-all text-left cursor-pointer",
                     isSelected
-                      ? "border-primary bg-primary/5 ring-2 ring-primary/20"
+                      ? "border-primary bg-primary/5 ring-primary/20"
                       : "border-border/80 bg-card hover:border-primary/40"
                   )}
                 >

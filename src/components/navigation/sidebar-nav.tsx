@@ -211,7 +211,7 @@ export function SidebarNav({
                         showDescriptions
                           ? "group relative flex items-center gap-3 rounded-xl px-3 py-2.5 text-xs font-medium transition-all duration-200 outline-hidden select-none"
                           : "group relative flex items-center gap-2.5 rounded-lg px-2.5 py-2 text-xs font-medium transition-all duration-150 outline-hidden select-none",
-                        "focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1",
+                        "focus-visible:  focus-visible:ring-ring focus-visible:ring-offset-1",
 
                         // Variant: Pills (modern soft background highlight)
                         variant === "pills" && [

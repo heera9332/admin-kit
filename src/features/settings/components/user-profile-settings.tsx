@@ -160,7 +160,7 @@ export function UserProfileSettings() {
   }
 
   return (
-    <Card className="border shadow-xs bg-card">
+    <Card className=" ">
       <Tabs
         value={activeTab}
         onValueChange={handleTabChange}
@@ -183,7 +183,7 @@ export function UserProfileSettings() {
             </CardDescription>
           </div>
 
-          <div className="w-full overflow-x-auto">
+          <div className="w-full">
             <TabsList className="inline-flex h-9 w-full sm:w-auto items-center justify-start gap-1 rounded-lg bg-muted/60 p-1 text-muted-foreground border">
               <TabsTrigger
                 value="profile"

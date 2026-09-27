@@ -32,7 +32,7 @@ export default function AccountSettingsPage() {
   }
 
   return (
-    <Card className="border shadow-xs bg-card">
+    <Card className="">
       <CardHeader className="border-b pb-4">
         <CardTitle className="text-base font-semibold">{t("title")}</CardTitle>
         <CardDescription className="text-xs text-muted-foreground">
