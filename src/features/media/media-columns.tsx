@@ -1,7 +1,7 @@
 "use client"
 
 import type { ColumnDef } from "@tanstack/react-table"
-import { Copy, Eye, MoreHorizontal, Trash2, Download, ExternalLink } from "lucide-react"
+import { Copy, Eye, MoreHorizontal, Trash2, ExternalLink } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"

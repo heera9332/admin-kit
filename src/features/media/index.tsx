@@ -25,7 +25,6 @@ import {
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -40,9 +39,8 @@ import { MediaUploadDropzone } from "@/components/media/media-upload-dropzone"
 import { useMedia } from "@/context/media-provider"
 import { getMediaColumns } from "./media-columns"
 export * from "./media-columns"
-import type { MediaItem, MediaType } from "@/data/media"
+import type { MediaItem } from "@/data/media"
 import { formatBytes } from "@/lib/media-utils"
-import { cn } from "@/lib/utils"
 
 export function MediaFeature() {
   const t = useTranslations("media")
@@ -84,24 +82,26 @@ export function MediaFeature() {
   const [currentPage, setCurrentPage] = React.useState(1)
   const [pageSize, setPageSize] = React.useState(12)
 
-  // Reset to first page when search or type filter changes
-  React.useEffect(() => {
-    setCurrentPage(1)
-  }, [search, selectedType])
-
-  // Clamp current page if items change
+  // Clamp current page if items change (derived state - eliminates cascading renders)
   const totalPages = Math.max(1, Math.ceil(filteredItems.length / pageSize))
-  React.useEffect(() => {
-    if (currentPage > totalPages) {
-      setCurrentPage(totalPages)
-    }
-  }, [currentPage, totalPages])
+  const safeCurrentPage = Math.min(Math.max(1, currentPage), totalPages)
+
+  // Filter change handlers that reset to page 1 directly on user interaction
+  const handleTypeSelect = (type: string) => {
+    setSelectedType(type)
+    setCurrentPage(1)
+  }
+
+  const handleSearchChange = (value: string) => {
+    setSearch(value)
+    setCurrentPage(1)
+  }
 
   // Paginated items for grid view
   const paginatedGridItems = React.useMemo(() => {
-    const startIndex = (currentPage - 1) * pageSize
+    const startIndex = (safeCurrentPage - 1) * pageSize
     return filteredItems.slice(startIndex, startIndex + pageSize)
-  }, [filteredItems, currentPage, pageSize])
+  }, [filteredItems, safeCurrentPage, pageSize])
 
   const handleCopyUrl = async (item: MediaItem, e?: React.MouseEvent) => {
     e?.stopPropagation()
@@ -229,7 +229,7 @@ export function MediaFeature() {
             variant={selectedType === "all" ? "secondary" : "ghost"}
             size="sm"
             className="h-8 text-xs px-3 rounded-full cursor-pointer"
-            onClick={() => setSelectedType("all")}
+            onClick={() => handleTypeSelect("all")}
           >
             <Layers className="size-3.5 mr-1.5" />
             <span>{t("filter.all")}</span>
@@ -240,7 +240,7 @@ export function MediaFeature() {
             variant={selectedType === "image" ? "secondary" : "ghost"}
             size="sm"
             className="h-8 text-xs px-3 rounded-full cursor-pointer"
-            onClick={() => setSelectedType("image")}
+            onClick={() => handleTypeSelect("image")}
           >
             <ImageIcon className="size-3.5 mr-1.5 text-purple-500" />
             <span>{t("filter.image")}</span>
@@ -251,7 +251,7 @@ export function MediaFeature() {
             variant={selectedType === "document" ? "secondary" : "ghost"}
             size="sm"
             className="h-8 text-xs px-3 rounded-full cursor-pointer"
-            onClick={() => setSelectedType("document")}
+            onClick={() => handleTypeSelect("document")}
           >
             <FileText className="size-3.5 mr-1.5 text-blue-500" />
             <span>{t("filter.document")}</span>
@@ -262,7 +262,7 @@ export function MediaFeature() {
             variant={selectedType === "video" ? "secondary" : "ghost"}
             size="sm"
             className="h-8 text-xs px-3 rounded-full cursor-pointer"
-            onClick={() => setSelectedType("video")}
+            onClick={() => handleTypeSelect("video")}
           >
             <Video className="size-3.5 mr-1.5 text-purple-600" />
             <span>{t("filter.video")}</span>
@@ -273,7 +273,7 @@ export function MediaFeature() {
             variant={selectedType === "audio" ? "secondary" : "ghost"}
             size="sm"
             className="h-8 text-xs px-3 rounded-full cursor-pointer"
-            onClick={() => setSelectedType("audio")}
+            onClick={() => handleTypeSelect("audio")}
           >
             <Music className="size-3.5 mr-1.5 text-pink-500" />
             <span>{t("filter.audio")}</span>
@@ -284,7 +284,7 @@ export function MediaFeature() {
             variant={selectedType === "archive" ? "secondary" : "ghost"}
             size="sm"
             className="h-8 text-xs px-3 rounded-full cursor-pointer"
-            onClick={() => setSelectedType("archive")}
+            onClick={() => handleTypeSelect("archive")}
           >
             <Archive className="size-3.5 mr-1.5 text-orange-500" />
             <span>{t("filter.archive")}</span>
@@ -297,7 +297,7 @@ export function MediaFeature() {
             <Input
               placeholder={t("searchPlaceholder")}
               value={search}
-              onChange={(e) => setSearch(e.target.value)}
+              onChange={(e) => handleSearchChange(e.target.value)}
               className="pl-8 h-8 text-xs"
             />
           </div>
@@ -449,11 +449,14 @@ export function MediaFeature() {
 
               {/* Grid Pagination */}
               <GridPagination
-                currentPage={currentPage}
+                currentPage={safeCurrentPage}
                 totalItems={filteredItems.length}
                 pageSize={pageSize}
                 onPageChange={setCurrentPage}
-                onPageSizeChange={setPageSize}
+                onPageSizeChange={(newSize) => {
+                  setPageSize(newSize)
+                  setCurrentPage(1)
+                }}
                 pageSizeOptions={[12, 24, 36, 48]}
                 itemLabel={t("stats.totalFiles").toLowerCase()}
               />
