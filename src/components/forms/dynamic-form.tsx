@@ -35,7 +35,7 @@ export function DynamicForm<TFieldValues extends FieldValues = FieldValues>({
   return (
     <form
       onSubmit={form.handleSubmit(onSubmit)}
-      className={cn("w-full space-y-6", className)}
+      className={cn("w-full space-y-4", className)}
       noValidate
     >
       <FieldGroup

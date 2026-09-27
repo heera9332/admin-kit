@@ -176,7 +176,7 @@ export function ShippingAddressForm({
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <CardContent className="space-y-6  ">
+      <CardContent className="space-y-4  ">
 
       {/* eCommerce Sync Toolbar: Same as billing & Copy Button */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3.5 rounded-xl border bg-muted/30">

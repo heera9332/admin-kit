@@ -55,7 +55,7 @@ export function DashboardPreview() {
         <div className="flex flex-col lg:flex-row bg-background">
           {/* Mini Sidebar */}
           <aside className="hidden lg:flex w-56 flex-col justify-between border-r border-border/60 bg-card/50 p-4 shrink-0">
-            <div className="space-y-6">
+            <div className="space-y-4">
               <div className="flex items-center gap-2.5 px-2">
                 <span className="flex size-7 items-center justify-center rounded-lg bg-primary text-primary-foreground font-bold text-xs">
                   AK
@@ -146,7 +146,7 @@ export function DashboardPreview() {
             </div>
 
             {/* Dashboard Content */}
-            <div className="p-4 sm:p-6 lg:p-8 space-y-6">
+            <div className="p-4 sm:p-6 lg:p-8 space-y-4">
               {/* Header Title & Actions */}
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div>

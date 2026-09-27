@@ -34,7 +34,7 @@ export function RolesPermissionMatrix() {
   }, [allPermissions, searchTerm]);
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4">
       {/* Roles Summary Cards */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-5">
         {roles.map((r) => {

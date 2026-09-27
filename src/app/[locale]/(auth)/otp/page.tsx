@@ -39,7 +39,7 @@ export default function OtpPage() {
       </CardHeader>
 
       <form onSubmit={handleSubmit}>
-        <CardContent className="space-y-6 flex flex-col items-center">
+        <CardContent className="space-y-4 flex flex-col items-center">
           <InputOTP
             maxLength={6}
             value={value}

@@ -9,7 +9,7 @@ export default function SettingsLayout({
   const t = useTranslations("settings")
 
   return (
-    <div className="space-y-6 pb-12">
+    <div className="space-y-4 pb-12">
       {/* Settings Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pb-2 border-b border-border/60">
         <div className="space-y-1">

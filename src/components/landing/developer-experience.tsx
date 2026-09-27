@@ -107,7 +107,7 @@ export function DeveloperExperience() {
               </div>
 
               {/* Code Snippets */}
-              <div className="p-5 font-mono text-xs leading-relaxed overflow-x-auto space-y-6">
+              <div className="p-5 font-mono text-xs leading-relaxed overflow-x-auto space-y-4">
                 <div>
                   <div className="text-zinc-500 mb-2">{"// 1. Composable Data Table"}</div>
                   <pre className="text-zinc-300">

@@ -40,7 +40,7 @@ export function RecentSales() {
   ]
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4">
       {sales.map((sale) => (
         <div key={sale.email} className="flex items-center gap-4">
           <Avatar className="size-9">

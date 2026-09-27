@@ -76,7 +76,7 @@ export function UsersFeature() {
   );
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">
@@ -104,7 +104,7 @@ export function UsersFeature() {
         onValueChange={(val) => {
           if (val) setActiveTab(val);
         }}
-        className="w-full space-y-6"
+        className="w-full space-y-4"
       >
         <div className="w-full overflow-x-auto pb-1">
           <TabsList className="inline-flex h-9 items-center justify-start gap-1 rounded-lg bg-muted p-1 text-muted-foreground border">

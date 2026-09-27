@@ -131,7 +131,7 @@ export function MediaDetailsSheet({
         </div>
       }
     >
-      <div className="space-y-6 py-2">
+      <div className="space-y-4 py-2">
         {/* Visual Preview Banner */}
         <div className="rounded-xl border bg-muted/30 overflow-hidden flex flex-col items-center justify-center p-4 min-h-[220px] max-h-[360px] relative group">
           {item.type === "image" ? (

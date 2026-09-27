@@ -29,7 +29,7 @@ export default function HelpCenterPage() {
   ]
 
   return (
-    <div className="space-y-6 max-w-5xl">
+    <div className="space-y-4 max-w-5xl">
       <div>
         <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">Help Center</h1>
         <p className="text-xs sm:text-sm text-muted-foreground mt-0.5">
