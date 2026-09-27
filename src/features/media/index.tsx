@@ -209,7 +209,7 @@ export function MediaFeature() {
       {/* Expandable Upload Dropzone */}
       {showUploadZone && (
         <Card className="border-primary/20 bg-primary/5">
-          <CardContent className=" pt-6">
+          <CardContent className="">
             <MediaUploadDropzone
               onUploadSuccess={(uploaded) => {
                 if (uploaded.length > 0) {
