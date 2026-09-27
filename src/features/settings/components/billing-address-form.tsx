@@ -148,7 +148,7 @@ export function BillingAddressForm({
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <CardContent className="space-y-4 pt-6">
+      <CardContent className="space-y-4  ">
         {/* Name Fields: First Name & Last Name (2 cols) */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div className="space-y-1.5">

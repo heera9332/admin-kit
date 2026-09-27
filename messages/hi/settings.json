@@ -4,12 +4,17 @@
   "sidebar": {
     "profile": "प्रोफ़ाइल",
     "account": "खाता",
+    "overview": "अवलोकन",
+    "billing": "बिलिंग पता",
+    "shipping": "शिपिंग पता",
+    "payment": "भुगतान विधियां",
     "appearance": "दिखावट",
     "notifications": "सूचनाएं",
     "display": "डिस्प्ले"
   },
   "groups": {
     "personal": "खाता और पहचान",
+    "billing": "बिलिंग और पते",
     "preferences": "प्राथमिकताएं"
   },
   "profile": {

@@ -31,6 +31,10 @@ import {
   Palette,
   Bell,
   Monitor,
+  BookOpen,
+  Receipt,
+  Truck,
+  CreditCard,
 } from "lucide-react";
 import type { SidebarData } from "../types";
 
@@ -230,7 +234,7 @@ export const sidebarData: SidebarData = {
             {
               title: "Profile",
               titleKey: "profile",
-              url: "/dashboard/settings",
+              url: "/dashboard/settings/profile",
               icon: UserCog,
             },
             {
@@ -238,6 +242,30 @@ export const sidebarData: SidebarData = {
               titleKey: "account",
               url: "/dashboard/settings/account",
               icon: Wrench,
+            },
+            {
+              title: "Overview",
+              titleKey: "overview",
+              url: "/dashboard/settings/overview",
+              icon: BookOpen,
+            },
+            {
+              title: "Billing",
+              titleKey: "billing",
+              url: "/dashboard/settings/billing",
+              icon: Receipt,
+            },
+            {
+              title: "Shipping",
+              titleKey: "shipping",
+              url: "/dashboard/settings/shipping",
+              icon: Truck,
+            },
+            {
+              title: "Payment",
+              titleKey: "payment",
+              url: "/dashboard/settings/payment",
+              icon: CreditCard,
             },
             {
               title: "Appearance",

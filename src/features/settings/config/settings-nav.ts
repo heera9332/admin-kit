@@ -1,4 +1,14 @@
-import { UserCog, Wrench, Palette, Bell, Monitor } from "lucide-react"
+import {
+  UserCog,
+  Wrench,
+  Palette,
+  Bell,
+  Monitor,
+  BookOpen,
+  Receipt,
+  Truck,
+  CreditCard,
+} from "lucide-react"
 import type {
   SidebarNavItem,
   SidebarNavGroup,
@@ -13,7 +23,7 @@ export const settingsNavItems: SidebarNavItem[] = [
     titleKey: "sidebar.profile",
     description: "Public workspace profile, personal info, and contact details",
     descriptionKey: "profile.description",
-    href: "/dashboard/settings",
+    href: "/dashboard/settings/profile",
     icon: UserCog,
   },
   {
@@ -23,6 +33,38 @@ export const settingsNavItems: SidebarNavItem[] = [
     descriptionKey: "account.description",
     href: "/dashboard/settings/account",
     icon: Wrench,
+  },
+  {
+    title: "Overview",
+    titleKey: "sidebar.overview",
+    description: "Summary of addresses and saved payment methods",
+    descriptionKey: "addresses.subtitle",
+    href: "/dashboard/settings/overview",
+    icon: BookOpen,
+  },
+  {
+    title: "Billing Address",
+    titleKey: "sidebar.billing",
+    description: "Invoicing and tax billing address details",
+    descriptionKey: "billing.subtitle",
+    href: "/dashboard/settings/billing",
+    icon: Receipt,
+  },
+  {
+    title: "Shipping Address",
+    titleKey: "sidebar.shipping",
+    description: "Delivery and logistics destination addresses",
+    descriptionKey: "shipping.subtitle",
+    href: "/dashboard/settings/shipping",
+    icon: Truck,
+  },
+  {
+    title: "Payment Methods",
+    titleKey: "sidebar.payment",
+    description: "Saved credit cards, PayPal, and bank transfer accounts",
+    descriptionKey: "payment.savedMethodsDesc",
+    href: "/dashboard/settings/payment",
+    icon: CreditCard,
   },
   {
     title: "Appearance",
@@ -62,8 +104,18 @@ export const settingsNavGroups: SidebarNavGroup[] = [
     items: [settingsNavItems[0], settingsNavItems[1]],
   },
   {
+    title: "Billing & Addresses",
+    titleKey: "groups.billing",
+    items: [
+      settingsNavItems[2],
+      settingsNavItems[3],
+      settingsNavItems[4],
+      settingsNavItems[5],
+    ],
+  },
+  {
     title: "Preferences",
     titleKey: "groups.preferences",
-    items: [settingsNavItems[2], settingsNavItems[3], settingsNavItems[4]],
+    items: [settingsNavItems[6], settingsNavItems[7], settingsNavItems[8]],
   },
 ]

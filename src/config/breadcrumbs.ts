@@ -11,6 +11,11 @@ import {
   ShieldCheck,
   Bug,
   Image,
+  UserCog,
+  BookOpen,
+  Receipt,
+  Truck,
+  CreditCard,
 } from "lucide-react"
 import type { LucideIcon } from "lucide-react"
 
@@ -94,6 +99,36 @@ export const routeConfigMap: Record<string, RouteConfig> = {
     defaultTitle: "Settings",
     href: "/dashboard/settings",
     icon: Settings,
+  },
+  profile: {
+    titleKey: "profile",
+    defaultTitle: "Profile",
+    href: "/dashboard/settings/profile",
+    icon: UserCog,
+  },
+  billing: {
+    titleKey: "billing",
+    defaultTitle: "Billing",
+    href: "/dashboard/settings/billing",
+    icon: Receipt,
+  },
+  shipping: {
+    titleKey: "shipping",
+    defaultTitle: "Shipping",
+    href: "/dashboard/settings/shipping",
+    icon: Truck,
+  },
+  payment: {
+    titleKey: "payment",
+    defaultTitle: "Payment",
+    href: "/dashboard/settings/payment",
+    icon: CreditCard,
+  },
+  overview: {
+    titleKey: "overview",
+    defaultTitle: "Overview",
+    href: "/dashboard/settings/overview",
+    icon: BookOpen,
   },
   account: {
     titleKey: "account",

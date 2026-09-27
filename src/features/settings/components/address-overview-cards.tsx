@@ -71,7 +71,7 @@ export function AddressOverviewCards({
     paymentMethods.find((p) => p.isDefault) || paymentMethods[0]
 
   return (
-    <CardContent className="pt-6">
+    <CardContent className=" ">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {/* Billing Address Panel */}
         <div className="rounded-xl border bg-muted/10 hover:border-primary/30 transition-colors flex flex-col justify-between overflow-hidden">

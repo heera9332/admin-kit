@@ -26,7 +26,7 @@ export interface SettingsSidebarProps extends React.HTMLAttributes<HTMLDivElemen
 
 export function SettingsSidebar({
   items = settingsNavItems,
-  groups,
+  groups = settingsNavGroups,
   variant = "pills",
   showDescriptions = false,
   className,

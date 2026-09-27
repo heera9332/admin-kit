@@ -40,7 +40,7 @@ export default function AccountSettingsPage() {
         </CardDescription>
       </CardHeader>
 
-      <CardContent className="pt-6">
+      <CardContent className=" ">
         <form id="account-form" onSubmit={handleSubmit} className="space-y-4 max-w-md">
           <div className="space-y-1.5">
             <Label htmlFor="fullName" className="text-xs font-medium">

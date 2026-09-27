@@ -74,7 +74,7 @@ export function ProfileInfoForm({
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <CardContent className="space-y-6 pt-6">
+      <CardContent className="space-y-6  ">
           {/* Avatar display */}
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 p-4 rounded-xl border bg-muted/20">
             <div className="relative group">

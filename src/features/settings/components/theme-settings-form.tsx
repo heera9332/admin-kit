@@ -176,7 +176,7 @@ export function ThemeSettingsForm() {
         </div>
       </CardHeader>
 
-      <CardContent className="space-y-8 pt-6">
+      <CardContent className="space-y-8  ">
         <DynamicForm<ThemeFormValues>
           form={form}
           fields={fields}

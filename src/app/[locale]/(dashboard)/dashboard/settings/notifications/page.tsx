@@ -32,7 +32,7 @@ export default function NotificationsSettingsPage() {
         </CardDescription>
       </CardHeader>
 
-      <CardContent className="pt-6">
+      <CardContent className=" ">
         <form id="notifications-form" onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-3 max-w-xl">
             <div className="flex items-center justify-between rounded-lg border p-3.5 shadow-2xs">

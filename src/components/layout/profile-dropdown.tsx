@@ -66,7 +66,7 @@ export function ProfileDropdown() {
           </DropdownMenuGroup>
           <DropdownMenuSeparator />
           <DropdownMenuGroup>
-            <DropdownMenuItem render={<Link href="/dashboard/settings" />}>
+            <DropdownMenuItem render={<Link href="/dashboard/settings/profile" />}>
               <span>{tNav("profile")}</span>
               <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
             </DropdownMenuItem>

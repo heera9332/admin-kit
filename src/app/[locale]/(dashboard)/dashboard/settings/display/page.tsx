@@ -54,7 +54,7 @@ export default function DisplaySettingsPage() {
         </CardDescription>
       </CardHeader>
 
-      <CardContent className="pt-6">
+      <CardContent className=" ">
         <form id="display-form" onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-3 max-w-md">
             <div className="space-y-1 mb-3">

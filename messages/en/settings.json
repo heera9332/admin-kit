@@ -4,12 +4,17 @@
   "sidebar": {
     "profile": "Profile",
     "account": "Account",
+    "overview": "Overview",
+    "billing": "Billing Address",
+    "shipping": "Shipping Address",
+    "payment": "Payment Methods",
     "appearance": "Appearance",
     "notifications": "Notifications",
     "display": "Display"
   },
   "groups": {
     "personal": "Account & Identity",
+    "billing": "Billing & Addresses",
     "preferences": "Preferences"
   },
   "profile": {
