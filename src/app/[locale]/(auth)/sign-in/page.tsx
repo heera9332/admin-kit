@@ -42,8 +42,20 @@ export default function SignInPage() {
       return
     }
 
-    // 2. Validate password (each user password is "password" or matchedUser.password)
-    const expectedPassword = matchedUser.password || "password"
+    // 2. Validate password (each user password is "password" or matchedUser.password or updated password)
+    let expectedPassword = matchedUser.password || "password"
+    try {
+      const storedPasswords = localStorage.getItem("adminkit_user_passwords")
+      if (storedPasswords) {
+        const dict = JSON.parse(storedPasswords)
+        if (dict[cleanEmail]) {
+          expectedPassword = dict[cleanEmail]
+        }
+      }
+    } catch {
+      // Ignore
+    }
+
     if (cleanPassword !== expectedPassword) {
       setIsLoading(false)
       setError(t("invalidCredentials"))
@@ -74,9 +86,27 @@ export default function SignInPage() {
       // localStorage may fail in restricted environments
     }
 
+    // Check if 2FA is active for this account
+    let is2FAActive = false
+    try {
+      const secStr = localStorage.getItem("adminkit_security_settings")
+      if (secStr) {
+        const sec = JSON.parse(secStr)
+        if (sec.twoFactor?.enabled) {
+          is2FAActive = true
+        }
+      }
+    } catch {
+      // Ignore
+    }
+
     setTimeout(() => {
       setIsLoading(false)
-      router.push("/dashboard")
+      if (is2FAActive) {
+        router.push("/otp")
+      } else {
+        router.push("/dashboard")
+      }
     }, 400)
   }
 

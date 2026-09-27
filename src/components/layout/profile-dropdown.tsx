@@ -76,6 +76,12 @@ export function ProfileDropdown() {
               <span>{tNav("account")}</span>
               <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
             </DropdownMenuItem>
+            <DropdownMenuItem
+              render={<Link href="/dashboard/settings/security" />}
+            >
+              <span>{tNav("security")}</span>
+              <DropdownMenuShortcut>⌘K</DropdownMenuShortcut>
+            </DropdownMenuItem>
             <DropdownMenuItem render={<Link href="/dashboard/settings" />}>
               <span>{tNav("settings")}</span>
               <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>

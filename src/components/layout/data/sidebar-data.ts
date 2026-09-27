@@ -5,6 +5,7 @@ import {
   Package,
   MessagesSquare,
   Users,
+  UserCheck,
   ShieldCheck,
   Bug,
   Settings,
@@ -180,6 +181,12 @@ export const sidebarData: SidebarData = {
               url: "/otp",
               icon: Fingerprint,
             },
+            {
+              title: "User Profile & 2FA",
+              titleKey: "authProfile",
+              url: "/dashboard/settings/security",
+              icon: UserCheck,
+            },
           ],
         },
         {
@@ -242,6 +249,12 @@ export const sidebarData: SidebarData = {
               titleKey: "account",
               url: "/dashboard/settings/account",
               icon: Wrench,
+            },
+            {
+              title: "Security & 2FA",
+              titleKey: "security",
+              url: "/dashboard/settings/security",
+              icon: ShieldCheck,
             },
             {
               title: "Overview",

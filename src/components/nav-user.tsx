@@ -20,8 +20,9 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar"
-import { ChevronsUpDownIcon, SparklesIcon, BadgeCheckIcon, CreditCardIcon, BellIcon, LogOutIcon } from "lucide-react"
+import { ChevronsUpDownIcon, SparklesIcon, BadgeCheckIcon, CreditCardIcon, BellIcon, LogOutIcon, ShieldCheckIcon } from "lucide-react"
 import * as React from "react"
+import { Link } from "@/i18n/routing"
 import { useRBAC } from "@/context/rbac-provider"
 import { RoleBadge } from "@/components/rbac/role-badge"
 import { SignOutDialog } from "@/components/layout/sign-out-dialog"
@@ -99,15 +100,19 @@ export function NavUser({
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <DropdownMenuItem>
+              <DropdownMenuItem render={<Link href="/dashboard/settings/account" />}>
                 <BadgeCheckIcon />
                 Account
               </DropdownMenuItem>
-              <DropdownMenuItem>
+              <DropdownMenuItem render={<Link href="/dashboard/settings/security" />}>
+                <ShieldCheckIcon />
+                Security & 2FA
+              </DropdownMenuItem>
+              <DropdownMenuItem render={<Link href="/dashboard/settings/billing" />}>
                 <CreditCardIcon />
                 Billing
               </DropdownMenuItem>
-              <DropdownMenuItem>
+              <DropdownMenuItem render={<Link href="/dashboard/settings/notifications" />}>
                 <BellIcon />
                 Notifications
               </DropdownMenuItem>

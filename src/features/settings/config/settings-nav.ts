@@ -1,6 +1,7 @@
 import {
   UserCog,
   Wrench,
+  ShieldCheck,
   Palette,
   Bell,
   Monitor,
@@ -33,6 +34,14 @@ export const settingsNavItems: SidebarNavItem[] = [
     descriptionKey: "account.description",
     href: "/dashboard/settings/account",
     icon: Wrench,
+  },
+  {
+    title: "Security & Authentication",
+    titleKey: "sidebar.security",
+    description: "Two-factor authentication (2FA), password update, and active sessions",
+    descriptionKey: "security.description",
+    href: "/dashboard/settings/security",
+    icon: ShieldCheck,
   },
   {
     title: "Overview",
@@ -101,21 +110,21 @@ export const settingsNavGroups: SidebarNavGroup[] = [
   {
     title: "Account & Identity",
     titleKey: "groups.personal",
-    items: [settingsNavItems[0], settingsNavItems[1]],
+    items: [settingsNavItems[0], settingsNavItems[1], settingsNavItems[2]],
   },
   {
     title: "Billing & Addresses",
     titleKey: "groups.billing",
     items: [
-      settingsNavItems[2],
       settingsNavItems[3],
       settingsNavItems[4],
       settingsNavItems[5],
+      settingsNavItems[6],
     ],
   },
   {
     title: "Preferences",
     titleKey: "groups.preferences",
-    items: [settingsNavItems[6], settingsNavItems[7], settingsNavItems[8]],
+    items: [settingsNavItems[7], settingsNavItems[8], settingsNavItems[9]],
   },
 ]
