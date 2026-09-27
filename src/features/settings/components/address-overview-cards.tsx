@@ -15,24 +15,29 @@ import {
 import { Button } from "@/components/ui/button"
 import { CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import type { BillingAddress, ShippingAddress } from "../types/address"
+import type { BillingAddress, ShippingAddress, PaymentMethod } from "../types/address"
 import { formatAddress } from "../data/initial-addresses"
 import { getCountryByCode } from "../data/countries"
 
 interface AddressOverviewCardsProps {
   billingAddress: BillingAddress
   shippingAddress: ShippingAddress
+  paymentMethods?: PaymentMethod[]
   onEditBilling: () => void
   onEditShipping: () => void
+  onEditPayment?: () => void
 }
 
 export function AddressOverviewCards({
   billingAddress,
   shippingAddress,
+  paymentMethods = [],
   onEditBilling,
   onEditShipping,
+  onEditPayment,
 }: AddressOverviewCardsProps) {
   const t = useTranslations("settings.addresses")
+  const tPayment = useTranslations("settings.payment")
 
   const [copiedBilling, setCopiedBilling] = React.useState(false)
   const [copiedShipping, setCopiedShipping] = React.useState(false)
@@ -61,6 +66,9 @@ export function AddressOverviewCards({
     getCountryByCode(billingAddress.country)?.name || billingAddress.country
   const shippingCountryName =
     getCountryByCode(shippingAddress.country)?.name || shippingAddress.country
+
+  const defaultPayment =
+    paymentMethods.find((p) => p.isDefault) || paymentMethods[0]
 
   return (
     <CardContent className="pt-6">
@@ -261,6 +269,99 @@ export function AddressOverviewCards({
               <Edit3 className="size-3" />
               <span>{t("editShipping")}</span>
             </Button>
+          </div>
+        </div>
+
+        {/* Payment Method Panel */}
+        <div className="rounded-xl border bg-muted/10 hover:border-primary/30 transition-colors flex flex-col justify-between overflow-hidden">
+          <div>
+            <div className="px-4 py-3 border-b bg-muted/15 flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <div className="p-1.5 rounded-lg bg-primary/10 text-primary">
+                  <CreditCard className="size-4" />
+                </div>
+                <div>
+                  <h4 className="text-sm font-semibold text-foreground">
+                    {tPayment("overviewCardTitle")}
+                  </h4>
+                  <p className="text-[11px] text-muted-foreground">
+                    {tPayment("overviewCardDesc")}
+                  </p>
+                </div>
+              </div>
+              <Badge variant="outline" className="text-[10px] h-5 font-normal">
+                {paymentMethods.length} {tPayment("methodsCount")}
+              </Badge>
+            </div>
+
+            <div className="p-4 text-xs space-y-3 leading-relaxed">
+              {defaultPayment ? (
+                <>
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <span className="font-semibold text-foreground text-sm uppercase">
+                        {defaultPayment.type === "card"
+                          ? `${defaultPayment.brand} •••• ${defaultPayment.last4}`
+                          : defaultPayment.type === "paypal"
+                          ? "PayPal"
+                          : defaultPayment.bankName || "Bank Account"}
+                      </span>
+                      <Badge
+                        variant="secondary"
+                        className="text-[10px] h-4 font-normal text-emerald-600 dark:text-emerald-400 bg-emerald-500/10"
+                      >
+                        Default
+                      </Badge>
+                    </div>
+                    <p className="text-muted-foreground font-medium pt-0.5">
+                      {defaultPayment.type === "card"
+                        ? defaultPayment.cardholderName
+                        : defaultPayment.type === "paypal"
+                        ? defaultPayment.paypalEmail
+                        : defaultPayment.accountHolderName}
+                    </p>
+                  </div>
+
+                  {defaultPayment.type === "card" && (
+                    <div className="text-muted-foreground text-xs">
+                      <span>{tPayment("expires")}: </span>
+                      <span className="font-mono font-medium text-foreground">
+                        {defaultPayment.expiryMonth}/{defaultPayment.expiryYear}
+                      </span>
+                    </div>
+                  )}
+
+                  <div className="pt-2 border-t text-[11px] text-muted-foreground">
+                    <span>
+                      {paymentMethods.length}{" "}
+                      {paymentMethods.length === 1
+                        ? tPayment("savedMethodSingle")
+                        : tPayment("savedMethodsPlural")}{" "}
+                      {tPayment("availableForCheckout")}
+                    </span>
+                  </div>
+                </>
+              ) : (
+                <div className="py-4 text-center text-muted-foreground">
+                  <p>{tPayment("noMethodsTitle")}</p>
+                </div>
+              )}
+            </div>
+          </div>
+
+          <div className="pt-3 pb-3 px-4 border-t bg-muted/10 flex items-center justify-end gap-2">
+            {onEditPayment && (
+              <Button
+                type="button"
+                variant="secondary"
+                size="sm"
+                onClick={onEditPayment}
+                className="text-xs h-7 px-2.5 gap-1.5 font-medium"
+              >
+                <Edit3 className="size-3" />
+                <span>{tPayment("manageMethodsBtn")}</span>
+              </Button>
+            )}
           </div>
         </div>
       </div>

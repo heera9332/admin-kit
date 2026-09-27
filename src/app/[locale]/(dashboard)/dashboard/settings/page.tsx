@@ -20,8 +20,9 @@ function ProfileSettingsSkeleton() {
           <Skeleton className="h-5 w-48" />
           <Skeleton className="h-3.5 w-72" />
         </div>
-        <div className="flex gap-2">
+        <div className="flex gap-2 flex-wrap">
           <Skeleton className="h-8 w-24 rounded-lg" />
+          <Skeleton className="h-8 w-32 rounded-lg" />
           <Skeleton className="h-8 w-32 rounded-lg" />
           <Skeleton className="h-8 w-32 rounded-lg" />
           <Skeleton className="h-8 w-28 rounded-lg" />

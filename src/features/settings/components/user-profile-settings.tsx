@@ -6,6 +6,7 @@ import { useTranslations } from "next-intl"
 import {
   BookOpen,
   CreditCard,
+  Receipt,
   Truck,
   User,
 } from "lucide-react"
@@ -21,17 +22,20 @@ import { ProfileInfoForm } from "./profile-info-form"
 import { BillingAddressForm } from "./billing-address-form"
 import { ShippingAddressForm } from "./shipping-address-form"
 import { AddressOverviewCards } from "./address-overview-cards"
+import { PaymentMethodsManager } from "./payment-methods-manager"
 import type {
   AddressSettingsTab,
   BillingAddress,
   ShippingAddress,
   UserProfileData,
+  PaymentMethod,
 } from "../types/address"
 import {
   INITIAL_BILLING_ADDRESS,
   INITIAL_SHIPPING_ADDRESS,
   INITIAL_USER_PROFILE,
 } from "../data/initial-addresses"
+import { INITIAL_PAYMENT_METHODS } from "../data/initial-payments"
 
 export function UserProfileSettings() {
   const searchParams = useSearchParams()
@@ -41,11 +45,18 @@ export function UserProfileSettings() {
   const tProfile = useTranslations("settings.profile")
   const tBilling = useTranslations("settings.billing")
   const tShipping = useTranslations("settings.shipping")
+  const tPayment = useTranslations("settings.payment")
   const tOverview = useTranslations("settings.addresses")
 
   // Determine active tab from URL search params or fallback to "profile"
   const urlTab = searchParams.get("tab") as AddressSettingsTab | null
-  const validTabs: AddressSettingsTab[] = ["profile", "billing", "shipping", "overview"]
+  const validTabs: AddressSettingsTab[] = [
+    "profile",
+    "billing",
+    "shipping",
+    "payment",
+    "overview",
+  ]
   const initialTab = urlTab && validTabs.includes(urlTab) ? urlTab : "profile"
 
   const [activeTab, setActiveTab] = React.useState<string>(initialTab)
@@ -85,6 +96,18 @@ export function UserProfileSettings() {
       }
     }
     return INITIAL_SHIPPING_ADDRESS
+  })
+
+  const [paymentMethods, setPaymentMethods] = React.useState<PaymentMethod[]>(() => {
+    if (typeof window !== "undefined") {
+      try {
+        const saved = localStorage.getItem("adminkit_payment_methods")
+        if (saved) return JSON.parse(saved)
+      } catch {
+        // Ignore JSON error
+      }
+    }
+    return INITIAL_PAYMENT_METHODS
   })
 
   // Synchronize active tab with URL query parameter when tab changes
@@ -159,6 +182,18 @@ export function UserProfileSettings() {
     }
   }
 
+  // Handle saving payment methods
+  const handleSavePayments = (data: PaymentMethod[]) => {
+    setPaymentMethods(data)
+    if (typeof window !== "undefined") {
+      try {
+        localStorage.setItem("adminkit_payment_methods", JSON.stringify(data))
+      } catch {
+        // Ignore
+      }
+    }
+  }
+
   return (
     <Card className=" ">
       <Tabs
@@ -173,18 +208,20 @@ export function UserProfileSettings() {
               {activeTab === "profile" && tProfile("title")}
               {activeTab === "billing" && tBilling("title")}
               {activeTab === "shipping" && tShipping("title")}
+              {activeTab === "payment" && tPayment("title")}
               {activeTab === "overview" && tOverview("title")}
             </CardTitle>
             <CardDescription className="text-xs text-muted-foreground mt-0.5">
               {activeTab === "profile" && tProfile("description")}
               {activeTab === "billing" && tBilling("subtitle")}
               {activeTab === "shipping" && tShipping("subtitle")}
+              {activeTab === "payment" && tPayment("subtitle")}
               {activeTab === "overview" && tOverview("description")}
             </CardDescription>
           </div>
 
           <div className="w-full">
-            <TabsList className="inline-flex h-9 w-full sm:w-auto items-center justify-start gap-1 rounded-lg bg-muted/60 p-1 text-muted-foreground border">
+            <TabsList className="inline-flex h-9 w-full sm:w-auto items-center justify-start gap-1 rounded-lg bg-muted/60 p-1 text-muted-foreground border flex-wrap">
               <TabsTrigger
                 value="profile"
                 className="text-xs h-7 px-3 gap-2 font-medium"
@@ -197,7 +234,7 @@ export function UserProfileSettings() {
                 value="billing"
                 className="text-xs h-7 px-3 gap-2 font-medium"
               >
-                <CreditCard className="size-3.5" />
+                <Receipt className="size-3.5" />
                 <span>{tTabs("billing")}</span>
               </TabsTrigger>
 
@@ -207,6 +244,14 @@ export function UserProfileSettings() {
               >
                 <Truck className="size-3.5" />
                 <span>{tTabs("shipping")}</span>
+              </TabsTrigger>
+
+              <TabsTrigger
+                value="payment"
+                className="text-xs h-7 px-3 gap-2 font-medium"
+              >
+                <CreditCard className="size-3.5" />
+                <span>{tTabs("payment")}</span>
               </TabsTrigger>
 
               <TabsTrigger
@@ -245,13 +290,23 @@ export function UserProfileSettings() {
           />
         </TabsContent>
 
-        {/* Tab 4: eCommerce Address Book Overview */}
+        {/* Tab 4: eCommerce Payment Methods */}
+        <TabsContent value="payment" className="mt-0 outline-none">
+          <PaymentMethodsManager
+            paymentMethods={paymentMethods}
+            onSave={handleSavePayments}
+          />
+        </TabsContent>
+
+        {/* Tab 5: eCommerce Address & Payment Book Overview */}
         <TabsContent value="overview" className="mt-0 outline-none">
           <AddressOverviewCards
             billingAddress={billingAddress}
             shippingAddress={shippingAddress}
+            paymentMethods={paymentMethods}
             onEditBilling={() => handleTabChange("billing")}
             onEditShipping={() => handleTabChange("shipping")}
+            onEditPayment={() => handleTabChange("payment")}
           />
         </TabsContent>
       </Tabs>

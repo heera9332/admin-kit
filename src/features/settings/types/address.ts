@@ -48,4 +48,6 @@ export interface UserProfileData {
   avatarUrl?: string
 }
 
-export type AddressSettingsTab = "profile" | "billing" | "shipping" | "overview"
+export type AddressSettingsTab = "profile" | "billing" | "shipping" | "payment" | "overview"
+
+export * from "./payment"

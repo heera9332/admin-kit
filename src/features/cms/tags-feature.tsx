@@ -163,7 +163,7 @@ export function TagsFeature() {
           </p>
         </div>
         <div className="flex items-center gap-2 self-start sm:self-auto">
-          <div className="flex items-center border rounded-md p-0.5 bg-muted/40">
+          <div className="flex items-center border rounded-md bg-muted/40">
             <Button
               variant={viewMode === "table" ? "secondary" : "ghost"}
               size="icon"

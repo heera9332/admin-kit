@@ -302,7 +302,7 @@ export function MediaFeature() {
             />
           </div>
 
-          <div className="flex items-center border rounded-md p-0.5 bg-muted/40 shrink-0">
+          <div className="flex items-center border rounded-md bg-muted/40 shrink-0">
             <Button
               variant={viewMode === "grid" ? "secondary" : "ghost"}
               size="icon"
