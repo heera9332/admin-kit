@@ -13,7 +13,6 @@ import {
   Archive,
   Layers,
   X,
-  ExternalLink,
 } from "lucide-react"
 
 import {
@@ -27,7 +26,6 @@ import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
 import { Badge } from "@/components/ui/badge"
-import { ScrollArea } from "@/components/ui/scroll-area"
 import { useMedia } from "@/context/media-provider"
 import { GridPagination } from "@/components/shared/grid-pagination"
 import { FileTypeIcon } from "./file-type-icon"
@@ -48,17 +46,22 @@ export interface MediaPickerDialogProps {
   initialSelectedIds?: string[]
 }
 
-export function MediaPickerDialog({
-  open,
-  onOpenChange,
+const EMPTY_SELECTED_IDS: string[] = []
+
+interface MediaPickerContentProps extends Omit<MediaPickerDialogProps, "open" | "onOpenChange"> {
+  onClose: () => void
+}
+
+function MediaPickerContent({
   onSelect,
   multiple = false,
   allowedTypes,
   title,
   selectButtonText,
   initialSelectedId,
-  initialSelectedIds = [],
-}: MediaPickerDialogProps) {
+  initialSelectedIds = EMPTY_SELECTED_IDS,
+  onClose,
+}: MediaPickerContentProps) {
   const t = useTranslations("media")
   const tCommon = useTranslations("common")
   const { items } = useMedia()
@@ -66,24 +69,16 @@ export function MediaPickerDialog({
   const [activeTab, setActiveTab] = React.useState<"upload" | "library">("library")
   const [search, setSearch] = React.useState("")
   const [selectedType, setSelectedType] = React.useState<string>("all")
-  const [selectedIds, setSelectedIds] = React.useState<string[]>([])
-  const [focusedId, setFocusedId] = React.useState<string | null>(null)
-
-  // Initialize selected IDs on open
-  React.useEffect(() => {
-    if (open) {
-      if (initialSelectedIds.length > 0) {
-        setSelectedIds(initialSelectedIds)
-        setFocusedId(initialSelectedIds[0])
-      } else if (initialSelectedId) {
-        setSelectedIds([initialSelectedId])
-        setFocusedId(initialSelectedId)
-      } else {
-        setSelectedIds([])
-        setFocusedId(null)
-      }
-    }
-  }, [open, initialSelectedId, initialSelectedIds])
+  const [selectedIds, setSelectedIds] = React.useState<string[]>(() => {
+    if (initialSelectedIds && initialSelectedIds.length > 0) return initialSelectedIds
+    if (initialSelectedId) return [initialSelectedId]
+    return []
+  })
+  const [focusedId, setFocusedId] = React.useState<string | null>(() => {
+    if (initialSelectedIds && initialSelectedIds.length > 0) return initialSelectedIds[0]
+    if (initialSelectedId) return initialSelectedId
+    return null
+  })
 
   // Filter items based on search and type filters
   const filteredItems = React.useMemo(() => {
@@ -114,21 +109,10 @@ export function MediaPickerDialog({
   }, [items, allowedTypes, selectedType, search])
 
   // Pagination state for library tab
-  const [pickerPage, setPickerPage] = React.useState(1)
+  const [page, setPage] = React.useState(1)
   const [pickerPageSize, setPickerPageSize] = React.useState(10)
-
-  // Reset page when filter or search changes
-  React.useEffect(() => {
-    setPickerPage(1)
-  }, [selectedType, search, activeTab])
-
-  // Clamp current page if items change
   const totalPickerPages = Math.max(1, Math.ceil(filteredItems.length / pickerPageSize))
-  React.useEffect(() => {
-    if (pickerPage > totalPickerPages) {
-      setPickerPage(totalPickerPages)
-    }
-  }, [pickerPage, totalPickerPages])
+  const pickerPage = Math.min(page, totalPickerPages)
 
   // Paginated items for the picker grid
   const paginatedPickerItems = React.useMemo(() => {
@@ -180,7 +164,7 @@ export function MediaPickerDialog({
         onSelect(selectedMedia[0])
       }
     }
-    onOpenChange(false)
+    onClose()
   }
 
   const isTypeAllowed = (type: MediaType) => {
@@ -189,8 +173,7 @@ export function MediaPickerDialog({
   }
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-5xl! w-[95vw] h-[88vh] max-h-[850px] p-0 gap-0 overflow-hidden flex flex-col">
+    <DialogContent className="max-w-5xl! w-[95vw] h-[88vh] max-h-[850px] p-0 gap-0 overflow-hidden flex flex-col">
         {/* Header with Title and Mode */}
         <DialogHeader className="px-5 py-3.5 border-b shrink-0 flex flex-row items-center justify-between space-y-0">
           <DialogTitle className="text-base font-semibold">
@@ -405,7 +388,7 @@ export function MediaPickerDialog({
                     currentPage={pickerPage}
                     totalItems={filteredItems.length}
                     pageSize={pickerPageSize}
-                    onPageChange={setPickerPage}
+                    onPageChange={setPage}
                     onPageSizeChange={setPickerPageSize}
                     pageSizeOptions={[10, 15, 20, 30]}
                     itemLabel={t("stats.totalFiles").toLowerCase()}
@@ -533,7 +516,7 @@ export function MediaPickerDialog({
               type="button"
               variant="outline"
               size="sm"
-              onClick={() => onOpenChange(false)}
+              onClick={onClose}
               className="text-xs cursor-pointer"
             >
               {tCommon("cancel")}
@@ -556,6 +539,22 @@ export function MediaPickerDialog({
           </div>
         </div>
       </DialogContent>
+  )
+}
+
+export function MediaPickerDialog({
+  open,
+  onOpenChange,
+  ...contentProps
+}: MediaPickerDialogProps) {
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      {open && (
+        <MediaPickerContent
+          {...contentProps}
+          onClose={() => onOpenChange(false)}
+        />
+      )}
     </Dialog>
   )
 }

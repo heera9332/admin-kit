@@ -9,7 +9,12 @@ export interface Post {
   status: "published" | "draft" | "archived";
   publishedAt: string;
   views: number;
+  content: string;
+  featuredImage?: string | null;
+  metaTitle?: string;
+  metaDescription?: string;
 }
+
 
 export interface Category {
   id: string;

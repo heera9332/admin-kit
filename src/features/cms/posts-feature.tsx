@@ -6,31 +6,86 @@ import { Plus, Newspaper, CheckCircle, FileEdit, Archive } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { DataTable } from "@/components/shared/data-table"
+import { useRouter } from "@/i18n/routing"
+import { toast } from "@/components/ui/toast"
+import { useCms } from "@/context/cms-provider"
 import { getPostsColumns } from "./posts-columns"
-import { initialPosts, type Post } from "./data/cms-data"
-import { ViewPostSheet } from "./components/post-dialogs"
+import type { Post } from "@/data/cms"
+import {
+  ViewPostSheet,
+  QuickEditPostDialog,
+  CreatePostDialog,
+} from "./components/post-dialogs"
 
 export function PostsFeature() {
   const t = useTranslations("cms.posts")
-  const [posts, setPosts] = React.useState<Post[]>(initialPosts)
-  const [selectedPost, setSelectedPost] = React.useState<Post | null>(null)
+  const router = useRouter()
+  const { posts, updatePost, createPost, deletePost } = useCms()
 
-  const handleDelete = React.useCallback((post: Post) => {
-    setPosts((prev) => prev.filter((p) => p.id !== post.id))
-    if (selectedPost?.id === post.id) {
-      setSelectedPost(null)
-    }
-  }, [selectedPost])
+  const [selectedPost, setSelectedPost] = React.useState<Post | null>(null)
+  const [quickEditingPost, setQuickEditingPost] = React.useState<Post | null>(null)
+  const [createDialogOpen, setCreateDialogOpen] = React.useState(false)
+
+  const handleDelete = React.useCallback(
+    (post: Post) => {
+      deletePost(post.id)
+      if (selectedPost?.id === post.id) {
+        setSelectedPost(null)
+      }
+      toast.add({
+        title: t("editor.postDeletedSuccess"),
+        description: `"${post.title}" has been removed.`,
+      })
+    },
+    [deletePost, selectedPost, t]
+  )
+
+  const handleQuickEditSave = React.useCallback(
+    (updated: Post) => {
+      updatePost(updated.id, updated)
+      if (selectedPost?.id === updated.id) {
+        setSelectedPost(updated)
+      }
+      toast.add({
+        title: t("editor.postSavedSuccess"),
+        description: `Saved changes to "${updated.title}".`,
+      })
+    },
+    [updatePost, selectedPost, t]
+  )
+
+  const handleCreatePost = React.useCallback(
+    (postData: Partial<Post> & { title: string }) => {
+      const created = createPost(postData)
+      toast.add({
+        title: t("editor.postCreatedSuccess"),
+        description: `Created article "${created.title}".`,
+      })
+    },
+    [createPost, t]
+  )
+
+  const handleFullEdit = React.useCallback(
+    (post: Post) => {
+      router.push(`/dashboard/cms/posts/${post.id}`)
+    },
+    [router]
+  )
+
+  const handleFullCreate = React.useCallback(() => {
+    router.push("/dashboard/cms/posts/new")
+  }, [router])
 
   const columns = React.useMemo(
     () =>
       getPostsColumns({
         onView: (p) => setSelectedPost(p),
-        onEdit: (p) => alert(`Editing: ${p.title}`),
+        onQuickEdit: (p) => setQuickEditingPost(p),
+        onFullEdit: (p) => handleFullEdit(p),
         onDelete: handleDelete,
         t,
       }),
-    [handleDelete, t]
+    [handleDelete, handleFullEdit, t]
   )
 
   const totalCount = posts.length
@@ -48,6 +103,17 @@ export function PostsFeature() {
           <p className="text-xs sm:text-sm text-muted-foreground mt-0.5">
             {t("description")}
           </p>
+        </div>
+
+        <div className="flex items-center gap-2">
+          <Button
+            onClick={() => setCreateDialogOpen(true)}
+            size="sm"
+            className="h-8 gap-1.5 text-xs cursor-pointer"
+          >
+            <Plus className="size-3.5" />
+            <span>{t("newPost")}</span>
+          </Button>
         </div>
       </div>
 
@@ -129,22 +195,44 @@ export function PostsFeature() {
         }}
         onRowClick={(post) => setSelectedPost(post)}
         toolbarActions={
-          <Button
-            onClick={() => alert("Create post modal / action")}
-            size="sm"
-            className="h-8 gap-1.5 text-xs"
-          >
-            <Plus className="size-3.5" />
-            <span>{t("newPost")}</span>
-          </Button>
+          <div className="flex items-center gap-1.5">
+            <Button
+              onClick={() => setCreateDialogOpen(true)}
+              size="sm"
+              className="h-8 gap-1.5 text-xs cursor-pointer"
+            >
+              <Plus className="size-3.5" />
+              <span>{t("newPost")}</span>
+            </Button>
+          </div>
         }
       />
 
+      {/* View Post Drawer/Sheet */}
       <ViewPostSheet
         post={selectedPost}
         open={Boolean(selectedPost)}
         onOpenChange={(open) => !open && setSelectedPost(null)}
         onDelete={handleDelete}
+        onQuickEdit={(p) => setQuickEditingPost(p)}
+        onFullEdit={(p) => handleFullEdit(p)}
+      />
+
+      {/* Quick Edit Dialog */}
+      <QuickEditPostDialog
+        post={quickEditingPost}
+        open={Boolean(quickEditingPost)}
+        onOpenChange={(open) => !open && setQuickEditingPost(null)}
+        onSave={handleQuickEditSave}
+        onFullEdit={handleFullEdit}
+      />
+
+      {/* Create Post Dialog */}
+      <CreatePostDialog
+        open={createDialogOpen}
+        onOpenChange={setCreateDialogOpen}
+        onCreate={handleCreatePost}
+        onOpenFullCreate={handleFullCreate}
       />
     </div>
   )

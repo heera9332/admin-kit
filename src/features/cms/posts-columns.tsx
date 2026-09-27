@@ -1,7 +1,7 @@
 "use client"
 
 import type { ColumnDef } from "@tanstack/react-table"
-import { Eye, MoreHorizontal, Pencil, Trash2, FileText } from "lucide-react"
+import { Eye, MoreHorizontal, Trash2, FileText, Edit, ExternalLink } from "lucide-react"
 
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -21,6 +21,8 @@ import type { Post } from "./data/cms-data"
 interface GetPostsColumnsOptions {
   onView?: (post: Post) => void
   onEdit?: (post: Post) => void
+  onQuickEdit?: (post: Post) => void
+  onFullEdit?: (post: Post) => void
   onDelete?: (post: Post) => void
   t?: (key: string) => string
 }
@@ -28,6 +30,8 @@ interface GetPostsColumnsOptions {
 export function getPostsColumns({
   onView,
   onEdit,
+  onQuickEdit,
+  onFullEdit,
   onDelete,
   t = (key) => key,
 }: GetPostsColumnsOptions = {}): ColumnDef<Post>[] {
@@ -159,13 +163,22 @@ export function getPostsColumns({
                   <Eye className="size-3.5" />
                 </DropdownMenuItem>
               )}
-              {onEdit && (
+              {(onQuickEdit || onEdit) && (
                 <DropdownMenuItem
-                  onClick={() => onEdit(post)}
+                  onClick={() => (onQuickEdit ? onQuickEdit(post) : onEdit?.(post))}
+                  className="justify-between gap-2 cursor-pointer"
+                >
+                  <span>{t("actions.quickEdit")}</span>
+                  <Edit className="size-3.5" />
+                </DropdownMenuItem>
+              )}
+              {onFullEdit && (
+                <DropdownMenuItem
+                  onClick={() => onFullEdit(post)}
                   className="justify-between gap-2 cursor-pointer"
                 >
                   <span>{t("actions.edit")}</span>
-                  <Pencil className="size-3.5" />
+                  <ExternalLink className="size-3.5" />
                 </DropdownMenuItem>
               )}
               {onDelete && (
