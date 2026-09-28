@@ -129,6 +129,7 @@ export function UsersFeature() {
           <DataTable
             data={users}
             columns={columns}
+            onRowClick={canView ? (user) => setSelectedUser(user) : undefined}
             search={{
               column: "name",
               placeholder: t("searchPlaceholder"),
