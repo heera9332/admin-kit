@@ -186,7 +186,7 @@ export function SidebarNav({
           return (
             <div key={group.title || groupIdx} className="space-y-1.5">
               {groupTitle && (
-                <div className="px-3 pb-1">
+                <div className="pb-1">
                   <h4 className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground/80">
                     {groupTitle}
                   </h4>

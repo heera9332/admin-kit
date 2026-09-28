@@ -111,7 +111,7 @@ export function getThemeFormFields({
                   : "border-border/80 bg-card hover:border-primary/40"
               )}
             >
-              <div className="w-full aspect-16/10 rounded-lg border border-zinc-200 bg-white p-2 flex flex-col justify-between shadow-xs overflow-hidden">
+              <div className="w-full aspect-16/10 rounded-lg border border-zinc-200 bg-white p-2 flex flex-col justify-between overflow-hidden">
                 <div className="flex items-center gap-1">
                   <div className="h-2 w-2 rounded-full bg-zinc-300" />
                   <div className="h-1.5 w-8 rounded-sm bg-zinc-200" />
@@ -137,7 +137,7 @@ export function getThemeFormFields({
               className={cn(
                 "group relative flex flex-col items-center gap-2 rounded-xl border-2 p-2.5 transition-all text-left cursor-pointer",
                 selected === "dark"
-                  ? "border-primary bg-primary/5   ring-primary/20"
+                  ? "border-primary bg-primary/5 ring-primary/20"
                   : "border-border/80 bg-card hover:border-primary/40"
               )}
             >
@@ -165,7 +165,7 @@ export function getThemeFormFields({
               type="button"
               onClick={() => onChange("system")}
               className={cn(
-                "group relative flex flex-col items-center gap-2 rounded-xl border-2 p-2.5 transition-all text-left cursor-pointer",
+                "group relative flex flex-col items-center gap-2 rounded-xl border p-2.5 transition-all text-left cursor-pointer",
                 selected === "system"
                   ? "border-primary bg-primary/5   ring-primary/20"
                   : "border-border/80 bg-card hover:border-primary/40"
