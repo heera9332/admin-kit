@@ -32,6 +32,7 @@ import { DataTable } from "@/components/shared/data-table"
 import { DataTableColumnHeader } from "@/components/shared/data-table/data-table-column-header"
 import { initialCategories, type Category } from "./data/cms-data"
 import { CreateCategoryDialog, ViewCategorySheet } from "./components/category-dialogs"
+import { cn } from "@/lib/utils"
 
 export function CategoriesFeature() {
   const t = useTranslations("cms.categories")
@@ -177,18 +178,34 @@ export function CategoriesFeature() {
         <div className="flex items-center gap-2 self-start sm:self-auto">
           <div className="flex items-center border rounded-md bg-muted/40">
             <Button
-              variant={viewMode === "table" ? "secondary" : "ghost"}
+              variant="ghost"
               size="icon"
-              className="size-7 cursor-pointer"
+              aria-label="Table view"
+              aria-pressed={viewMode === "table"}
+              data-state={viewMode === "table" ? "active" : "inactive"}
+              className={cn(
+                "size-7 rounded-sm cursor-pointer transition-all",
+                viewMode === "table"
+                  ? "bg-background text-foreground shadow-xs dark:bg-card dark:text-foreground"
+                  : "text-muted-foreground hover:text-foreground hover:bg-transparent"
+              )}
               onClick={() => setViewMode("table")}
               title="Table view"
             >
               <List className="size-3.5" />
             </Button>
             <Button
-              variant={viewMode === "grid" ? "secondary" : "ghost"}
+              variant="ghost"
               size="icon"
-              className="size-7 cursor-pointer"
+              aria-label="Grid view"
+              aria-pressed={viewMode === "grid"}
+              data-state={viewMode === "grid" ? "active" : "inactive"}
+              className={cn(
+                "size-7 rounded-sm cursor-pointer transition-all",
+                viewMode === "grid"
+                  ? "bg-background text-foreground shadow-xs dark:bg-card dark:text-foreground"
+                  : "text-muted-foreground hover:text-foreground hover:bg-transparent"
+              )}
               onClick={() => setViewMode("grid")}
               title="Grid view"
             >

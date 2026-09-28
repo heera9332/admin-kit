@@ -41,6 +41,7 @@ import { getMediaColumns } from "./media-columns"
 export * from "./media-columns"
 import type { MediaItem } from "@/data/media"
 import { formatBytes } from "@/lib/media-utils"
+import { cn } from "@/lib/utils"
 
 export function MediaFeature() {
   const t = useTranslations("media")
@@ -304,18 +305,34 @@ export function MediaFeature() {
 
           <div className="flex items-center border rounded-md bg-muted/40 shrink-0">
             <Button
-              variant={viewMode === "grid" ? "secondary" : "ghost"}
+              variant="ghost"
               size="icon"
-              className="size-7 cursor-pointer"
+              aria-label="Grid view"
+              aria-pressed={viewMode === "grid"}
+              data-state={viewMode === "grid" ? "active" : "inactive"}
+              className={cn(
+                "size-7 rounded-sm cursor-pointer transition-all",
+                viewMode === "grid"
+                  ? "bg-background text-foreground shadow-xs dark:bg-card dark:text-foreground"
+                  : "text-muted-foreground hover:text-foreground hover:bg-transparent"
+              )}
               onClick={() => setViewMode("grid")}
               title="Grid view"
             >
               <LayoutGrid className="size-3.5" />
             </Button>
             <Button
-              variant={viewMode === "table" ? "secondary" : "ghost"}
+              variant="ghost"
               size="icon"
-              className="size-7 cursor-pointer"
+              aria-label="Table view"
+              aria-pressed={viewMode === "table"}
+              data-state={viewMode === "table" ? "active" : "inactive"}
+              className={cn(
+                "size-7 rounded-sm cursor-pointer transition-all",
+                viewMode === "table"
+                  ? "bg-background text-foreground shadow-xs dark:bg-card dark:text-foreground"
+                  : "text-muted-foreground hover:text-foreground hover:bg-transparent"
+              )}
               onClick={() => setViewMode("table")}
               title="Table view"
             >
