@@ -30,7 +30,9 @@ export function RolePreviewSwitcher() {
       >
         <Shield className="size-3.5 text-primary" />
         <span className="hidden md:inline text-muted-foreground">Role:</span>
-        <span className="font-semibold">{currentRole?.name || role}</span>
+        <span className="font-semibold" suppressHydrationWarning>
+          {currentRole?.name || role}
+        </span>
         <ChevronDown className="size-3 text-muted-foreground opacity-60" />
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-64">

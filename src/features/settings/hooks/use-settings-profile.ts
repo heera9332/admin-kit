@@ -34,18 +34,10 @@ function getStoredValue<T>(key: string, fallback: T): T {
 }
 
 export function useSettingsProfile() {
-  const [profile, setProfile] = React.useState<UserProfileData>(() =>
-    getStoredValue(STORAGE_KEYS.profile, INITIAL_USER_PROFILE)
-  )
-  const [billingAddress, setBillingAddress] = React.useState<BillingAddress>(() =>
-    getStoredValue(STORAGE_KEYS.billing, INITIAL_BILLING_ADDRESS)
-  )
-  const [shippingAddress, setShippingAddress] = React.useState<ShippingAddress>(() =>
-    getStoredValue(STORAGE_KEYS.shipping, INITIAL_SHIPPING_ADDRESS)
-  )
-  const [paymentMethods, setPaymentMethods] = React.useState<PaymentMethod[]>(() =>
-    getStoredValue(STORAGE_KEYS.payment, INITIAL_PAYMENT_METHODS)
-  )
+  const [profile, setProfile] = React.useState<UserProfileData>(INITIAL_USER_PROFILE)
+  const [billingAddress, setBillingAddress] = React.useState<BillingAddress>(INITIAL_BILLING_ADDRESS)
+  const [shippingAddress, setShippingAddress] = React.useState<ShippingAddress>(INITIAL_SHIPPING_ADDRESS)
+  const [paymentMethods, setPaymentMethods] = React.useState<PaymentMethod[]>(INITIAL_PAYMENT_METHODS)
 
   React.useEffect(() => {
     const handleSync = () => {
@@ -55,6 +47,7 @@ export function useSettingsProfile() {
       setPaymentMethods(getStoredValue(STORAGE_KEYS.payment, INITIAL_PAYMENT_METHODS))
     }
 
+    handleSync()
     window.addEventListener(SETTINGS_UPDATE_EVENT, handleSync)
     window.addEventListener("storage", handleSync)
 

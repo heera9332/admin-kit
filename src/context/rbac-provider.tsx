@@ -70,43 +70,42 @@ export function RBACProvider({
     []
   );
 
-  const [currentUser, setCurrentUser] = React.useState<RBACUser>(() => {
-    if (initialUser) return initialUser;
-    if (typeof window !== "undefined") {
+  const [currentUser, setCurrentUser] = React.useState<RBACUser>(
+    () => initialUser || defaultUser
+  );
+
+  const [activeRoleId, setActiveRoleId] = React.useState<string>(
+    () => initialRole || initialUser?.role || defaultUser.role || "admin"
+  );
+
+  React.useEffect(() => {
+    const syncFromStorage = () => {
       try {
+        let savedRole = localStorage.getItem(AUTH_ROLE_STORAGE_KEY);
         const savedUserStr = localStorage.getItem(AUTH_USER_STORAGE_KEY);
         if (savedUserStr) {
           const parsed = JSON.parse(savedUserStr);
           if (parsed && parsed.email) {
-            return parsed;
+            setCurrentUser(parsed);
+            if (!savedRole && parsed.role) {
+              savedRole = parsed.role;
+            }
           }
         }
-      } catch {
-        // ignore
-      }
-    }
-    return defaultUser;
-  });
-
-  const [activeRoleId, setActiveRoleId] = React.useState<string>(() => {
-    if (initialRole) return initialRole;
-    if (typeof window !== "undefined") {
-      try {
-        const savedRole = localStorage.getItem(AUTH_ROLE_STORAGE_KEY);
         if (savedRole && allRoles.some((r) => r.id === savedRole)) {
-          return savedRole;
-        }
-        const savedUserStr = localStorage.getItem(AUTH_USER_STORAGE_KEY);
-        if (savedUserStr) {
-          const parsed = JSON.parse(savedUserStr);
-          if (parsed?.role) return parsed.role;
+          setActiveRoleId(savedRole);
         }
       } catch {
         // localStorage may fail in restricted environments
       }
-    }
-    return initialUser?.role || defaultUser.role || "admin";
-  });
+    };
+
+    syncFromStorage();
+    window.addEventListener("storage", syncFromStorage);
+    return () => {
+      window.removeEventListener("storage", syncFromStorage);
+    };
+  }, [allRoles]);
 
   const currentRole = React.useMemo(
     () => getRole(activeRoleId),

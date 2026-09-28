@@ -62,53 +62,28 @@ export function UserProfileSettings() {
   const [activeTab, setActiveTab] = React.useState<string>(initialTab)
 
   // Address and Profile state
-  const [profile, setProfile] = React.useState<UserProfileData>(() => {
-    if (typeof window !== "undefined") {
-      try {
-        const saved = localStorage.getItem("adminkit_user_profile")
-        if (saved) return JSON.parse(saved)
-      } catch {
-        // Ignore JSON error
-      }
-    }
-    return INITIAL_USER_PROFILE
-  })
+  const [profile, setProfile] = React.useState<UserProfileData>(INITIAL_USER_PROFILE)
+  const [billingAddress, setBillingAddress] = React.useState<BillingAddress>(INITIAL_BILLING_ADDRESS)
+  const [shippingAddress, setShippingAddress] = React.useState<ShippingAddress>(INITIAL_SHIPPING_ADDRESS)
+  const [paymentMethods, setPaymentMethods] = React.useState<PaymentMethod[]>(INITIAL_PAYMENT_METHODS)
 
-  const [billingAddress, setBillingAddress] = React.useState<BillingAddress>(() => {
-    if (typeof window !== "undefined") {
-      try {
-        const saved = localStorage.getItem("adminkit_billing_address")
-        if (saved) return JSON.parse(saved)
-      } catch {
-        // Ignore JSON error
-      }
-    }
-    return INITIAL_BILLING_ADDRESS
-  })
+  React.useEffect(() => {
+    try {
+      const savedProfile = localStorage.getItem("adminkit_user_profile")
+      if (savedProfile) setProfile(JSON.parse(savedProfile))
 
-  const [shippingAddress, setShippingAddress] = React.useState<ShippingAddress>(() => {
-    if (typeof window !== "undefined") {
-      try {
-        const saved = localStorage.getItem("adminkit_shipping_address")
-        if (saved) return JSON.parse(saved)
-      } catch {
-        // Ignore JSON error
-      }
-    }
-    return INITIAL_SHIPPING_ADDRESS
-  })
+      const savedBilling = localStorage.getItem("adminkit_billing_address")
+      if (savedBilling) setBillingAddress(JSON.parse(savedBilling))
 
-  const [paymentMethods, setPaymentMethods] = React.useState<PaymentMethod[]>(() => {
-    if (typeof window !== "undefined") {
-      try {
-        const saved = localStorage.getItem("adminkit_payment_methods")
-        if (saved) return JSON.parse(saved)
-      } catch {
-        // Ignore JSON error
-      }
+      const savedShipping = localStorage.getItem("adminkit_shipping_address")
+      if (savedShipping) setShippingAddress(JSON.parse(savedShipping))
+
+      const savedPayments = localStorage.getItem("adminkit_payment_methods")
+      if (savedPayments) setPaymentMethods(JSON.parse(savedPayments))
+    } catch {
+      // Ignore JSON error
     }
-    return INITIAL_PAYMENT_METHODS
-  })
+  }, [])
 
   // Synchronize active tab with URL query parameter when tab changes
   const handleTabChange = (val: string | number | null | undefined) => {

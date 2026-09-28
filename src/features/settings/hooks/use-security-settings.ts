@@ -40,13 +40,14 @@ function generateRandomCodes(count = 8): string[] {
 export function useSecuritySettings() {
   const { currentUser } = useRBAC()
   const userEmail = currentUser?.email?.toLowerCase()
-  const [settings, setSettings] = React.useState<SecuritySettings>(getStoredSecuritySettings)
+  const [settings, setSettings] = React.useState<SecuritySettings>(INITIAL_SECURITY_SETTINGS)
 
   React.useEffect(() => {
     const handleSync = () => {
       setSettings(getStoredSecuritySettings())
     }
 
+    handleSync()
     window.addEventListener(SECURITY_UPDATE_EVENT, handleSync)
     window.addEventListener("storage", handleSync)
 
