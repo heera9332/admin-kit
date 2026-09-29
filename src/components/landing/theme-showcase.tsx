@@ -5,8 +5,17 @@ import { useTheme } from "next-themes"
 import { Sun, Moon, Sparkles, TrendingUp } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
+const emptySubscribe = () => () => {}
+
 export function ThemeShowcase() {
   const { theme, setTheme } = useTheme()
+  const mounted = React.useSyncExternalStore(
+    emptySubscribe,
+    () => true,
+    () => false
+  )
+
+  const currentTheme = mounted ? theme : "system"
 
   return (
     <section className="py-20 lg:py-28">
@@ -26,7 +35,7 @@ export function ThemeShowcase() {
           {/* Quick Active Theme Switcher Controls */}
           <div className="mt-6 inline-flex items-center gap-2 rounded-xl border border-border bg-card p-1.5 shadow-xs">
             <Button
-              variant={theme === "light" ? "default" : "ghost"}
+              variant={currentTheme === "light" ? "default" : "ghost"}
               size="sm"
               onClick={() => setTheme("light")}
               className="gap-1.5 text-xs h-7"
@@ -35,7 +44,7 @@ export function ThemeShowcase() {
               <span>Light</span>
             </Button>
             <Button
-              variant={theme === "dark" ? "default" : "ghost"}
+              variant={currentTheme === "dark" ? "default" : "ghost"}
               size="sm"
               onClick={() => setTheme("dark")}
               className="gap-1.5 text-xs h-7"
@@ -44,7 +53,7 @@ export function ThemeShowcase() {
               <span>Dark</span>
             </Button>
             <Button
-              variant={theme === "system" ? "default" : "ghost"}
+              variant={currentTheme === "system" ? "default" : "ghost"}
               size="sm"
               onClick={() => setTheme("system")}
               className="gap-1.5 text-xs h-7"

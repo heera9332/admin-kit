@@ -63,21 +63,7 @@ export function ThemeCustomizer({ className }: ThemeCustomizerProps) {
     displayFont,
     setDisplayFont,
     resetThemeSettings,
-    isMounted,
   } = useThemeSettings();
-
-  if (!isMounted) {
-    return (
-      <Button
-        variant="ghost"
-        size="icon-sm"
-        className={className}
-        aria-label="Customize theme"
-      >
-        <Palette className="size-4 text-muted-foreground" />
-      </Button>
-    );
-  }
 
   const currentColorConfig =
     THEME_COLORS.find((c) => c.name === themeColor) ?? THEME_COLORS[0];
