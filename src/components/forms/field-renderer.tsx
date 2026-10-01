@@ -7,6 +7,14 @@ import type { FieldValues } from "react-hook-form"
 
 import { cn } from "@/lib/utils"
 import type { FieldRendererProps } from "@/types/form"
+import {
+  Field,
+  FieldContent,
+  FieldDescription,
+  FieldError,
+  FieldGroup,
+  FieldLabel,
+} from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import {
@@ -22,7 +30,6 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { Calendar } from "@/components/ui/calendar"
 import { buttonVariants } from "@/components/ui/button"
-import { Label } from "@/components/ui/label"
 
 export function FieldRenderer<TFieldValues extends FieldValues = FieldValues>({
   config,
@@ -34,18 +41,45 @@ export function FieldRenderer<TFieldValues extends FieldValues = FieldValues>({
   fieldState,
   id,
 }: FieldRendererProps<TFieldValues>) {
+  const renderVerticalField = (control: React.ReactNode) => (
+    <Field
+      orientation="vertical"
+      data-invalid={fieldState.invalid}
+      data-disabled={config.disabled}
+      className={config.className}
+    >
+      {config.label && (
+        <FieldLabel htmlFor={id}>
+          {config.label}
+          {config.required && (
+            <span className="text-destructive ml-1">*</span>
+          )}
+        </FieldLabel>
+      )}
+      {control}
+      {config.description && (
+        <FieldDescription>{config.description}</FieldDescription>
+      )}
+      {fieldState.error?.message && (
+        <FieldError>{fieldState.error.message}</FieldError>
+      )}
+    </Field>
+  )
+
   switch (config.type) {
     case "text":
     case "email":
     case "password":
-      return (
+      return renderVerticalField(
         <Input
           id={id}
           type={config.type}
           placeholder={config.placeholder}
           disabled={config.disabled}
           autoComplete={config.autoComplete}
-          value={typeof value === "string" || typeof value === "number" ? value : ""}
+          value={
+            typeof value === "string" || typeof value === "number" ? value : ""
+          }
           onChange={onChange}
           onBlur={onBlur}
           name={name}
@@ -56,7 +90,7 @@ export function FieldRenderer<TFieldValues extends FieldValues = FieldValues>({
       )
 
     case "number":
-      return (
+      return renderVerticalField(
         <Input
           id={id}
           type="number"
@@ -83,13 +117,15 @@ export function FieldRenderer<TFieldValues extends FieldValues = FieldValues>({
       )
 
     case "textarea":
-      return (
+      return renderVerticalField(
         <Textarea
           id={id}
           placeholder={config.placeholder}
           disabled={config.disabled}
           rows={config.rows ?? 3}
-          value={typeof value === "string" || typeof value === "number" ? value : ""}
+          value={
+            typeof value === "string" || typeof value === "number" ? value : ""
+          }
           onChange={onChange}
           onBlur={onBlur}
           name={name}
@@ -100,7 +136,7 @@ export function FieldRenderer<TFieldValues extends FieldValues = FieldValues>({
       )
 
     case "select":
-      return (
+      return renderVerticalField(
         <Select
           value={value != null ? String(value) : ""}
           onValueChange={onChange}
@@ -111,7 +147,9 @@ export function FieldRenderer<TFieldValues extends FieldValues = FieldValues>({
             className="w-full"
             aria-invalid={fieldState.invalid}
           >
-            <SelectValue placeholder={config.placeholder ?? "Select an option"} />
+            <SelectValue
+              placeholder={config.placeholder ?? "Select an option"}
+            />
           </SelectTrigger>
           <SelectContent className="w-full">
             {config.options.map((option) => (
@@ -129,18 +167,93 @@ export function FieldRenderer<TFieldValues extends FieldValues = FieldValues>({
 
     case "switch":
       return (
-        <Switch
-          id={id}
-          checked={Boolean(value)}
-          onCheckedChange={onChange}
-          disabled={config.disabled}
-          aria-invalid={fieldState.invalid}
-        />
+        <Field
+          orientation="horizontal"
+          data-invalid={fieldState.invalid}
+          data-disabled={config.disabled}
+          className={cn(
+            "flex items-center justify-between gap-4 rounded-lg border p-3 bg-card/40",
+            config.className
+          )}
+        >
+          <FieldContent>
+            {config.label && (
+              <FieldLabel htmlFor={id} className="cursor-pointer">
+                {config.label}
+                {config.required && (
+                  <span className="text-destructive ml-1">*</span>
+                )}
+              </FieldLabel>
+            )}
+            {config.description && (
+              <FieldDescription>{config.description}</FieldDescription>
+            )}
+            {fieldState.error?.message && (
+              <FieldError>{fieldState.error.message}</FieldError>
+            )}
+          </FieldContent>
+          <Switch
+            id={id}
+            checked={Boolean(value)}
+            onCheckedChange={onChange}
+            disabled={config.disabled}
+            aria-invalid={fieldState.invalid}
+          />
+        </Field>
       )
 
-    case "checkbox":
+    case "checkbox": {
+      const hasTopLabel = Boolean(config.label && config.checkboxLabel)
+      const labelText = config.checkboxLabel ?? config.label
+
+      if (hasTopLabel) {
+        return (
+          <Field
+            orientation="vertical"
+            data-invalid={fieldState.invalid}
+            data-disabled={config.disabled}
+            className={config.className}
+          >
+            <FieldLabel id={`${id}-label`}>
+              {config.label}
+              {config.required && (
+                <span className="text-destructive ml-1">*</span>
+              )}
+            </FieldLabel>
+            <Field orientation="horizontal" className="items-center gap-2">
+              <Checkbox
+                id={id}
+                checked={Boolean(value)}
+                onCheckedChange={onChange}
+                disabled={config.disabled}
+                aria-invalid={fieldState.invalid}
+              />
+              {config.checkboxLabel && (
+                <FieldLabel
+                  htmlFor={id}
+                  className="text-sm font-normal cursor-pointer"
+                >
+                  {config.checkboxLabel}
+                </FieldLabel>
+              )}
+            </Field>
+            {config.description && (
+              <FieldDescription>{config.description}</FieldDescription>
+            )}
+            {fieldState.error?.message && (
+              <FieldError>{fieldState.error.message}</FieldError>
+            )}
+          </Field>
+        )
+      }
+
       return (
-        <div className="flex items-center gap-2">
+        <Field
+          orientation="horizontal"
+          data-invalid={fieldState.invalid}
+          data-disabled={config.disabled}
+          className={cn("items-start gap-2", config.className)}
+        >
           <Checkbox
             id={id}
             checked={Boolean(value)}
@@ -148,47 +261,99 @@ export function FieldRenderer<TFieldValues extends FieldValues = FieldValues>({
             disabled={config.disabled}
             aria-invalid={fieldState.invalid}
           />
-          {config.checkboxLabel ? (
-            <Label htmlFor={id} className="text-sm font-normal cursor-pointer">
-              {config.checkboxLabel}
-            </Label>
-          ) : null}
-        </div>
+          <FieldContent>
+            {labelText && (
+              <FieldLabel
+                htmlFor={id}
+                className="text-sm font-normal cursor-pointer"
+              >
+                {labelText}
+                {config.required && (
+                  <span className="text-destructive ml-1">*</span>
+                )}
+              </FieldLabel>
+            )}
+            {config.description && (
+              <FieldDescription>{config.description}</FieldDescription>
+            )}
+            {fieldState.error?.message && (
+              <FieldError>{fieldState.error.message}</FieldError>
+            )}
+          </FieldContent>
+        </Field>
       )
+    }
 
     case "radio":
       return (
-        <RadioGroup
-          id={id}
-          value={value != null ? String(value) : ""}
-          onValueChange={onChange}
-          disabled={config.disabled}
-          className={cn(
-            config.orientation === "horizontal"
-              ? "flex flex-wrap gap-4"
-              : "grid gap-2"
-          )}
-          aria-invalid={fieldState.invalid}
+        <Field
+          orientation="vertical"
+          data-invalid={fieldState.invalid}
+          data-disabled={config.disabled}
+          className={config.className}
         >
-          {config.options.map((option) => {
-            const optionId = `${id}-${option.value}`
-            return (
-              <div key={option.value} className="flex items-center gap-2">
-                <RadioGroupItem
-                  value={option.value}
-                  id={optionId}
-                  disabled={option.disabled}
-                />
-                <Label
-                  htmlFor={optionId}
-                  className="text-sm font-normal cursor-pointer"
-                >
-                  {option.label}
-                </Label>
-              </div>
-            )
-          })}
-        </RadioGroup>
+          {config.label && (
+            <FieldLabel id={`${id}-label`}>
+              {config.label}
+              {config.required && (
+                <span className="text-destructive ml-1">*</span>
+              )}
+            </FieldLabel>
+          )}
+          <RadioGroup
+            id={id}
+            value={value != null ? String(value) : ""}
+            onValueChange={onChange}
+            disabled={config.disabled}
+            aria-invalid={fieldState.invalid}
+            aria-labelledby={config.label ? `${id}-label` : undefined}
+          >
+            <FieldGroup
+              className={cn(
+                config.orientation === "horizontal"
+                  ? "flex flex-row flex-wrap gap-4"
+                  : "flex flex-col gap-2"
+              )}
+            >
+              {config.options.map((option) => {
+                const optionId = `${id}-${option.value}`
+                return (
+                  <Field
+                    key={option.value}
+                    orientation="horizontal"
+                    data-disabled={option.disabled || config.disabled}
+                    className="w-auto items-center gap-2"
+                  >
+                    <RadioGroupItem
+                      value={option.value}
+                      id={optionId}
+                      disabled={option.disabled || config.disabled}
+                    />
+                    <FieldContent>
+                      <FieldLabel
+                        htmlFor={optionId}
+                        className="text-sm font-normal cursor-pointer"
+                      >
+                        {option.label}
+                      </FieldLabel>
+                      {option.description && (
+                        <FieldDescription>
+                          {option.description}
+                        </FieldDescription>
+                      )}
+                    </FieldContent>
+                  </Field>
+                )
+              })}
+            </FieldGroup>
+          </RadioGroup>
+          {config.description && (
+            <FieldDescription>{config.description}</FieldDescription>
+          )}
+          {fieldState.error?.message && (
+            <FieldError>{fieldState.error.message}</FieldError>
+          )}
+        </Field>
       )
 
     case "date": {
@@ -199,12 +364,13 @@ export function FieldRenderer<TFieldValues extends FieldValues = FieldValues>({
             ? new Date(value)
             : undefined
 
-      const isValidDate = selectedDate instanceof Date && !isNaN(selectedDate.getTime())
+      const isValidDate =
+        selectedDate instanceof Date && !isNaN(selectedDate.getTime())
       const formattedDate = isValidDate
         ? format(selectedDate, config.dateFormat ?? "PPP")
         : null
 
-      return (
+      return renderVerticalField(
         <Popover>
           <PopoverTrigger
             id={id}
@@ -243,14 +409,16 @@ export function FieldRenderer<TFieldValues extends FieldValues = FieldValues>({
     }
 
     case "custom":
-      return config.render({
-        value,
-        onChange,
-        onBlur,
-        name,
-        fieldState,
-        id,
-      })
+      return renderVerticalField(
+        config.render({
+          value,
+          onChange,
+          onBlur,
+          name,
+          fieldState,
+          id,
+        })
+      )
 
     default:
       return null
