@@ -36,6 +36,11 @@ import {
   Receipt,
   Truck,
   CreditCard,
+  ShoppingBag,
+  ShoppingCart,
+  Ticket,
+  Star,
+  BarChart3,
 } from "lucide-react";
 import type { SidebarData } from "../types";
 
@@ -143,6 +148,67 @@ export const sidebarData: SidebarData = {
               url: "/dashboard/cms/tags",
               icon: Tag,
               permission: "cms:read",
+            },
+          ],
+        },
+        {
+          title: "E-Commerce",
+          titleKey: "ecommerce",
+          icon: ShoppingBag,
+          items: [
+            {
+              title: "Products",
+              titleKey: "products",
+              url: "/dashboard/ecommerce/products",
+              icon: Package,
+            },
+            {
+              title: "Categories",
+              titleKey: "categories",
+              url: "/dashboard/ecommerce/categories",
+              icon: FolderTree,
+            },
+            {
+              title: "Brands",
+              titleKey: "brands",
+              url: "/dashboard/ecommerce/brands",
+              icon: Tag,
+            },
+            {
+              title: "Orders",
+              titleKey: "orders",
+              url: "/dashboard/ecommerce/orders",
+              icon: ShoppingCart,
+            },
+            {
+              title: "Customers",
+              titleKey: "customers",
+              url: "/dashboard/ecommerce/customers",
+              icon: Users,
+            },
+            {
+              title: "Coupons",
+              titleKey: "coupons",
+              url: "/dashboard/ecommerce/coupons",
+              icon: Ticket,
+            },
+            {
+              title: "Reviews",
+              titleKey: "reviews",
+              url: "/dashboard/ecommerce/reviews",
+              icon: Star,
+            },
+            {
+              title: "Reports",
+              titleKey: "reports",
+              url: "/dashboard/ecommerce/reports",
+              icon: BarChart3,
+            },
+            {
+              title: "Settings",
+              titleKey: "settings",
+              url: "/dashboard/ecommerce/settings",
+              icon: Settings,
             },
           ],
         },

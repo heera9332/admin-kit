@@ -16,6 +16,12 @@ import {
   Receipt,
   Truck,
   CreditCard,
+  ShoppingBag,
+  Tag,
+  Ticket,
+  Star,
+  BarChart3,
+  ShoppingCart,
 } from "lucide-react"
 import type { LucideIcon } from "lucide-react"
 
@@ -93,6 +99,54 @@ export const routeConfigMap: Record<string, RouteConfig> = {
     titleKey: "tags",
     defaultTitle: "Tags",
     href: "/dashboard/cms/tags",
+  },
+  ecommerce: {
+    titleKey: "ecommerce",
+    defaultTitle: "E-Commerce",
+    href: "/dashboard/ecommerce",
+    icon: ShoppingBag,
+  },
+  products: {
+    titleKey: "products",
+    defaultTitle: "Products",
+    href: "/dashboard/ecommerce/products",
+    icon: Package,
+  },
+  brands: {
+    titleKey: "brands",
+    defaultTitle: "Brands",
+    href: "/dashboard/ecommerce/brands",
+    icon: Tag,
+  },
+  orders: {
+    titleKey: "orders",
+    defaultTitle: "Orders",
+    href: "/dashboard/ecommerce/orders",
+    icon: ShoppingCart,
+  },
+  customers: {
+    titleKey: "customers",
+    defaultTitle: "Customers",
+    href: "/dashboard/ecommerce/customers",
+    icon: Users,
+  },
+  coupons: {
+    titleKey: "coupons",
+    defaultTitle: "Coupons",
+    href: "/dashboard/ecommerce/coupons",
+    icon: Ticket,
+  },
+  reviews: {
+    titleKey: "reviews",
+    defaultTitle: "Reviews",
+    href: "/dashboard/ecommerce/reviews",
+    icon: Star,
+  },
+  reports: {
+    titleKey: "reports",
+    defaultTitle: "Reports",
+    href: "/dashboard/ecommerce/reports",
+    icon: BarChart3,
   },
   settings: {
     titleKey: "settings",

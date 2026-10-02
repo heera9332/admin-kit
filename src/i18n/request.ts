@@ -27,6 +27,7 @@ export default getRequestConfig(async ({ requestLocale }) => {
       projects,
       cms,
       media,
+      ecommerce,
     ] = await Promise.all([
       import(`../../messages/${locale}/common.json`),
       import(`../../messages/${locale}/dashboard.json`),
@@ -44,6 +45,7 @@ export default getRequestConfig(async ({ requestLocale }) => {
       import(`../../messages/${locale}/projects.json`),
       import(`../../messages/${locale}/cms.json`),
       import(`../../messages/${locale}/media.json`),
+      import(`../../messages/${locale}/ecommerce.json`),
     ]);
 
     return {
@@ -68,6 +70,7 @@ export default getRequestConfig(async ({ requestLocale }) => {
         projects: projects.default,
         cms: cms.default,
         media: media.default,
+        ecommerce: ecommerce.default,
       },
     };
   } catch {

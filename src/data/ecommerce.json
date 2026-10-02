@@ -1,0 +1,574 @@
+{
+  "products": [
+    {
+      "id": "prod-1",
+      "name": "Wireless Noise-Canceling Headphones",
+      "slug": "wireless-noise-canceling-headphones",
+      "description": "Premium over-ear wireless headphones with active noise cancellation, 40-hour battery life, and crystal-clear high fidelity sound reproduction.",
+      "sku": "AUD-WH-001",
+      "price": 299.99,
+      "compareAtPrice": 349.99,
+      "costPrice": 160.00,
+      "stock": 42,
+      "lowStockThreshold": 10,
+      "status": "published",
+      "category": "Electronics",
+      "brand": "Sony",
+      "image": "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=600&q=80",
+      "rating": 4.8,
+      "reviewsCount": 128,
+      "createdAt": "2026-08-10",
+      "updatedAt": "2026-09-20"
+    },
+    {
+      "id": "prod-2",
+      "name": "Mechanical Gaming Keyboard RGB",
+      "slug": "mechanical-gaming-keyboard-rgb",
+      "description": "Custom mechanical keyboard with hot-swappable switches, PBT double-shot keycaps, and customizable per-key dynamic RGB backlighting.",
+      "sku": "ACC-KB-002",
+      "price": 149.00,
+      "compareAtPrice": 179.00,
+      "costPrice": 75.00,
+      "stock": 18,
+      "lowStockThreshold": 5,
+      "status": "published",
+      "category": "Computers",
+      "brand": "Logitech",
+      "image": "https://images.unsplash.com/photo-1587829741301-dc798b83add3?auto=format&fit=crop&w=600&q=80",
+      "rating": 4.6,
+      "reviewsCount": 84,
+      "createdAt": "2026-08-15",
+      "updatedAt": "2026-09-22"
+    },
+    {
+      "id": "prod-3",
+      "name": "Minimalist Ceramic Coffee Dripper",
+      "slug": "minimalist-ceramic-coffee-dripper",
+      "description": "Handcrafted Japanese ceramic pour-over coffee dripper designed for optimal extraction flow rate and balanced aromatic coffee.",
+      "sku": "KIT-CF-003",
+      "price": 38.50,
+      "compareAtPrice": 45.00,
+      "costPrice": 14.00,
+      "stock": 65,
+      "lowStockThreshold": 15,
+      "status": "published",
+      "category": "Home & Kitchen",
+      "brand": "Hario",
+      "image": "https://images.unsplash.com/photo-1517256064527-09c73fc73e38?auto=format&fit=crop&w=600&q=80",
+      "rating": 4.9,
+      "reviewsCount": 46,
+      "createdAt": "2026-08-20",
+      "updatedAt": "2026-09-18"
+    },
+    {
+      "id": "prod-4",
+      "name": "Ergonomic Mesh Office Chair",
+      "slug": "ergonomic-mesh-office-chair",
+      "description": "High-back breathable mesh ergonomic desk chair with 3D lumbar support, adjustable headrest, and synchronous tilt mechanism.",
+      "sku": "FURN-CH-004",
+      "price": 420.00,
+      "compareAtPrice": 499.00,
+      "costPrice": 210.00,
+      "stock": 8,
+      "lowStockThreshold": 10,
+      "status": "published",
+      "category": "Furniture",
+      "brand": "Herman Miller",
+      "image": "https://images.unsplash.com/photo-1580481077195-c3a821a58875?auto=format&fit=crop&w=600&q=80",
+      "rating": 4.7,
+      "reviewsCount": 62,
+      "createdAt": "2026-08-25",
+      "updatedAt": "2026-09-24"
+    },
+    {
+      "id": "prod-5",
+      "name": "Smart Fitness Tracker Watch",
+      "slug": "smart-fitness-tracker-watch",
+      "description": "All-day heart rate, SpO2, sleep tracking, AMOLED display, water resistant up to 50m with 14-day ultra-long battery life.",
+      "sku": "WEAR-SM-005",
+      "price": 189.99,
+      "compareAtPrice": 219.99,
+      "costPrice": 95.00,
+      "stock": 0,
+      "lowStockThreshold": 5,
+      "status": "out_of_stock",
+      "category": "Electronics",
+      "brand": "Apple",
+      "image": "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=600&q=80",
+      "rating": 4.5,
+      "reviewsCount": 110,
+      "createdAt": "2026-08-28",
+      "updatedAt": "2026-09-25"
+    },
+    {
+      "id": "prod-6",
+      "name": "Organic Cotton Crewneck Sweatshirt",
+      "slug": "organic-cotton-crewneck-sweatshirt",
+      "description": "Heavyweight 400gsm French terry crafted from 100% GOTS-certified organic cotton with ribbed cuffs and relaxed unisex fit.",
+      "sku": "APP-SW-006",
+      "price": 75.00,
+      "compareAtPrice": 85.00,
+      "costPrice": 28.00,
+      "stock": 110,
+      "lowStockThreshold": 20,
+      "status": "published",
+      "category": "Apparel",
+      "brand": "Nike",
+      "image": "https://images.unsplash.com/photo-1556905055-8f358a7a47b2?auto=format&fit=crop&w=600&q=80",
+      "rating": 4.6,
+      "reviewsCount": 35,
+      "createdAt": "2026-09-01",
+      "updatedAt": "2026-09-26"
+    }
+  ],
+  "categories": [
+    {
+      "id": "cat-1",
+      "name": "Electronics",
+      "slug": "electronics",
+      "description": "Headphones, audio gear, smart watches, and modern personal electronics.",
+      "image": "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=400&q=80",
+      "productCount": 24,
+      "status": "active"
+    },
+    {
+      "id": "cat-2",
+      "name": "Computers",
+      "slug": "computers",
+      "description": "Laptops, mechanical keyboards, mice, monitors, and desktop peripherals.",
+      "image": "https://images.unsplash.com/photo-1587829741301-dc798b83add3?auto=format&fit=crop&w=400&q=80",
+      "productCount": 18,
+      "status": "active"
+    },
+    {
+      "id": "cat-3",
+      "name": "Home & Kitchen",
+      "slug": "home-kitchen",
+      "description": "Brewing equipment, cookware, kitchen accessories, and home dining.",
+      "image": "https://images.unsplash.com/photo-1517256064527-09c73fc73e38?auto=format&fit=crop&w=400&q=80",
+      "productCount": 31,
+      "status": "active"
+    },
+    {
+      "id": "cat-4",
+      "name": "Furniture",
+      "slug": "furniture",
+      "description": "Ergonomic office seating, standing desks, lighting, and living solutions.",
+      "image": "https://images.unsplash.com/photo-1580481077195-c3a821a58875?auto=format&fit=crop&w=400&q=80",
+      "productCount": 12,
+      "status": "active"
+    },
+    {
+      "id": "cat-5",
+      "name": "Apparel",
+      "slug": "apparel",
+      "description": "Organic streetwear, activewear, caps, and seasonal essentials.",
+      "image": "https://images.unsplash.com/photo-1556905055-8f358a7a47b2?auto=format&fit=crop&w=400&q=80",
+      "productCount": 45,
+      "status": "active"
+    }
+  ],
+  "brands": [
+    {
+      "id": "brand-1",
+      "name": "Sony",
+      "slug": "sony",
+      "description": "World-leading manufacturer of consumer audio and imaging hardware.",
+      "website": "https://sony.com",
+      "productCount": 14,
+      "featured": true
+    },
+    {
+      "id": "brand-2",
+      "name": "Logitech",
+      "slug": "logitech",
+      "description": "High performance computer mice, mechanical keyboards, and webcams.",
+      "website": "https://logitech.com",
+      "productCount": 19,
+      "featured": true
+    },
+    {
+      "id": "brand-3",
+      "name": "Apple",
+      "slug": "apple",
+      "description": "Smartphones, wearables, laptops, and integrated digital ecosystem.",
+      "website": "https://apple.com",
+      "productCount": 8,
+      "featured": true
+    },
+    {
+      "id": "brand-4",
+      "name": "Herman Miller",
+      "slug": "herman-miller",
+      "description": "Iconic ergonomic office chairs, desks, and architectural furnishings.",
+      "website": "https://hermanmiller.com",
+      "productCount": 6,
+      "featured": false
+    },
+    {
+      "id": "brand-5",
+      "name": "Nike",
+      "slug": "nike",
+      "description": "Global sportswear, innovative footwear, and athletic lifestyle apparel.",
+      "website": "https://nike.com",
+      "productCount": 26,
+      "featured": true
+    },
+    {
+      "id": "brand-6",
+      "name": "Hario",
+      "slug": "hario",
+      "description": "Japanese heatproof glassware and specialty coffee brewing equipment.",
+      "website": "https://hario-usa.com",
+      "productCount": 11,
+      "featured": false
+    }
+  ],
+  "orders": [
+    {
+      "id": "ord-1",
+      "orderNumber": "ORD-9421",
+      "customer": {
+        "id": "cust-1",
+        "name": "Liam Henderson",
+        "email": "liam.h@example.com",
+        "avatar": "/avatars/01.png"
+      },
+      "items": [
+        {
+          "id": "item-1",
+          "productId": "prod-1",
+          "name": "Wireless Noise-Canceling Headphones",
+          "price": 299.99,
+          "quantity": 1,
+          "image": "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=200&q=80"
+        }
+      ],
+      "total": 319.99,
+      "subtotal": 299.99,
+      "tax": 20.00,
+      "shipping": 0.00,
+      "discount": 0.00,
+      "paymentStatus": "paid",
+      "fulfillmentStatus": "delivered",
+      "paymentMethod": "credit_card",
+      "shippingAddress": {
+        "street": "742 Evergreen Terrace",
+        "city": "Springfield",
+        "state": "OR",
+        "zip": "97477",
+        "country": "United States"
+      },
+      "createdAt": "2026-09-28"
+    },
+    {
+      "id": "ord-2",
+      "orderNumber": "ORD-9420",
+      "customer": {
+        "id": "cust-2",
+        "name": "Sophia Martinez",
+        "email": "sophia.m@example.com",
+        "avatar": "/avatars/02.png"
+      },
+      "items": [
+        {
+          "id": "item-2",
+          "productId": "prod-2",
+          "name": "Mechanical Gaming Keyboard RGB",
+          "price": 149.00,
+          "quantity": 1,
+          "image": "https://images.unsplash.com/photo-1587829741301-dc798b83add3?auto=format&fit=crop&w=200&q=80"
+        },
+        {
+          "id": "item-3",
+          "productId": "prod-3",
+          "name": "Minimalist Ceramic Coffee Dripper",
+          "price": 38.50,
+          "quantity": 2,
+          "image": "https://images.unsplash.com/photo-1517256064527-09c73fc73e38?auto=format&fit=crop&w=200&q=80"
+        }
+      ],
+      "total": 236.00,
+      "subtotal": 226.00,
+      "tax": 18.00,
+      "shipping": 12.00,
+      "discount": 20.00,
+      "couponCode": "WELCOME20",
+      "paymentStatus": "paid",
+      "fulfillmentStatus": "shipped",
+      "paymentMethod": "stripe",
+      "shippingAddress": {
+        "street": "1200 Market Street",
+        "city": "San Francisco",
+        "state": "CA",
+        "zip": "94102",
+        "country": "United States"
+      },
+      "createdAt": "2026-09-27"
+    },
+    {
+      "id": "ord-3",
+      "orderNumber": "ORD-9419",
+      "customer": {
+        "id": "cust-3",
+        "name": "Ethan Wright",
+        "email": "ethan.w@example.com",
+        "avatar": "/avatars/03.png"
+      },
+      "items": [
+        {
+          "id": "item-4",
+          "productId": "prod-4",
+          "name": "Ergonomic Mesh Office Chair",
+          "price": 420.00,
+          "quantity": 1,
+          "image": "https://images.unsplash.com/photo-1580481077195-c3a821a58875?auto=format&fit=crop&w=200&q=80"
+        }
+      ],
+      "total": 455.00,
+      "subtotal": 420.00,
+      "tax": 35.00,
+      "shipping": 0.00,
+      "discount": 0.00,
+      "paymentStatus": "pending",
+      "fulfillmentStatus": "processing",
+      "paymentMethod": "paypal",
+      "shippingAddress": {
+        "street": "350 5th Avenue",
+        "city": "New York",
+        "state": "NY",
+        "zip": "10118",
+        "country": "United States"
+      },
+      "createdAt": "2026-09-26"
+    },
+    {
+      "id": "ord-4",
+      "orderNumber": "ORD-9418",
+      "customer": {
+        "id": "cust-4",
+        "name": "Emma Watson",
+        "email": "emma.w@example.com",
+        "avatar": "/avatars/04.png"
+      },
+      "items": [
+        {
+          "id": "item-5",
+          "productId": "prod-6",
+          "name": "Organic Cotton Crewneck Sweatshirt",
+          "price": 75.00,
+          "quantity": 2,
+          "image": "https://images.unsplash.com/photo-1556905055-8f358a7a47b2?auto=format&fit=crop&w=200&q=80"
+        }
+      ],
+      "total": 160.00,
+      "subtotal": 150.00,
+      "tax": 10.00,
+      "shipping": 0.00,
+      "discount": 0.00,
+      "paymentStatus": "paid",
+      "fulfillmentStatus": "delivered",
+      "paymentMethod": "credit_card",
+      "shippingAddress": {
+        "street": "221B Baker Street",
+        "city": "London",
+        "state": "Greater London",
+        "zip": "NW1 6XE",
+        "country": "United Kingdom"
+      },
+      "createdAt": "2026-09-25"
+    }
+  ],
+  "customers": [
+    {
+      "id": "cust-1",
+      "name": "Liam Henderson",
+      "email": "liam.h@example.com",
+      "phone": "+1 (555) 234-5678",
+      "avatar": "/avatars/01.png",
+      "ordersCount": 8,
+      "totalSpent": 1840.50,
+      "status": "active",
+      "city": "Springfield",
+      "country": "United States",
+      "createdAt": "2026-01-14",
+      "lastOrderDate": "2026-09-28"
+    },
+    {
+      "id": "cust-2",
+      "name": "Sophia Martinez",
+      "email": "sophia.m@example.com",
+      "phone": "+1 (555) 345-6789",
+      "avatar": "/avatars/02.png",
+      "ordersCount": 5,
+      "totalSpent": 912.00,
+      "status": "active",
+      "city": "San Francisco",
+      "country": "United States",
+      "createdAt": "2026-03-22",
+      "lastOrderDate": "2026-09-27"
+    },
+    {
+      "id": "cust-3",
+      "name": "Ethan Wright",
+      "email": "ethan.w@example.com",
+      "phone": "+1 (555) 456-7890",
+      "avatar": "/avatars/03.png",
+      "ordersCount": 2,
+      "totalSpent": 645.00,
+      "status": "active",
+      "city": "New York",
+      "country": "United States",
+      "createdAt": "2026-06-10",
+      "lastOrderDate": "2026-09-26"
+    },
+    {
+      "id": "cust-4",
+      "name": "Emma Watson",
+      "email": "emma.w@example.com",
+      "phone": "+44 20 7946 0958",
+      "avatar": "/avatars/04.png",
+      "ordersCount": 12,
+      "totalSpent": 2680.00,
+      "status": "active",
+      "city": "London",
+      "country": "United Kingdom",
+      "createdAt": "2025-11-05",
+      "lastOrderDate": "2026-09-25"
+    },
+    {
+      "id": "cust-5",
+      "name": "Lucas Silva",
+      "email": "lucas.s@example.com",
+      "phone": "+55 11 98765-4321",
+      "avatar": "/avatars/05.png",
+      "ordersCount": 1,
+      "totalSpent": 85.00,
+      "status": "inactive",
+      "city": "São Paulo",
+      "country": "Brazil",
+      "createdAt": "2026-04-18",
+      "lastOrderDate": "2026-04-20"
+    }
+  ],
+  "coupons": [
+    {
+      "id": "coup-1",
+      "code": "SUMMER25",
+      "type": "percentage",
+      "value": 25,
+      "minSpend": 100,
+      "usageLimit": 500,
+      "usageCount": 214,
+      "expiresAt": "2026-10-31",
+      "status": "active"
+    },
+    {
+      "id": "coup-2",
+      "code": "WELCOME20",
+      "type": "fixed_amount",
+      "value": 20,
+      "minSpend": 75,
+      "usageLimit": 1000,
+      "usageCount": 680,
+      "expiresAt": "2026-12-31",
+      "status": "active"
+    },
+    {
+      "id": "coup-3",
+      "code": "FREESHIP",
+      "type": "free_shipping",
+      "value": 0,
+      "minSpend": 50,
+      "usageLimit": 200,
+      "usageCount": 189,
+      "expiresAt": "2026-09-15",
+      "status": "expired"
+    },
+    {
+      "id": "coup-4",
+      "code": "VIP50",
+      "type": "percentage",
+      "value": 50,
+      "minSpend": 250,
+      "usageLimit": 50,
+      "usageCount": 12,
+      "expiresAt": "2026-11-15",
+      "status": "active"
+    }
+  ],
+  "reviews": [
+    {
+      "id": "rev-1",
+      "productId": "prod-1",
+      "productName": "Wireless Noise-Canceling Headphones",
+      "customerName": "Liam Henderson",
+      "customerEmail": "liam.h@example.com",
+      "rating": 5,
+      "title": "Best ANC headphones I've ever owned",
+      "comment": "The soundstage is remarkable and noise cancellation completely isolates airplane and subway hum. Very comfortable for 8+ hour work sessions.",
+      "status": "approved",
+      "createdAt": "2026-09-29"
+    },
+    {
+      "id": "rev-2",
+      "productId": "prod-2",
+      "productName": "Mechanical Gaming Keyboard RGB",
+      "customerName": "Sophia Martinez",
+      "customerEmail": "sophia.m@example.com",
+      "rating": 4,
+      "title": "Solid tactile switches, great build",
+      "comment": "The aluminum top plate provides zero flex. RGB effects are vibrant and software is clean. Spacebar could use a bit more factory lubrication.",
+      "status": "approved",
+      "createdAt": "2026-09-28"
+    },
+    {
+      "id": "rev-3",
+      "productId": "prod-3",
+      "productName": "Minimalist Ceramic Coffee Dripper",
+      "customerName": "Carlos Mendoza",
+      "customerEmail": "carlos.m@example.com",
+      "rating": 5,
+      "title": "Flawless coffee extraction",
+      "comment": "Retains heat beautifully throughout the pour. The matte glaze looks stunning on the counter.",
+      "status": "approved",
+      "createdAt": "2026-09-27"
+    },
+    {
+      "id": "rev-4",
+      "productId": "prod-4",
+      "productName": "Ergonomic Mesh Office Chair",
+      "customerName": "Anonymous Shopper",
+      "customerEmail": "promo.bot@spam.com",
+      "rating": 1,
+      "title": "Cheap discount crypto links here",
+      "comment": "Visit our website for 90% discount coins and free vouchers right now.",
+      "status": "rejected",
+      "createdAt": "2026-09-25"
+    },
+    {
+      "id": "rev-5",
+      "productId": "prod-6",
+      "productName": "Organic Cotton Crewneck Sweatshirt",
+      "customerName": "Emma Watson",
+      "customerEmail": "emma.w@example.com",
+      "rating": 5,
+      "title": "Incredibly soft and durable",
+      "comment": "Washed it twice already and zero shrinkage. True to size with a comfortable modern drape.",
+      "status": "pending",
+      "createdAt": "2026-09-24"
+    }
+  ],
+  "settings": {
+    "storeName": "Lumina Commerce",
+    "storeEmail": "store@luminacommerce.com",
+    "currency": "USD",
+    "phone": "+1 (800) 555-0199",
+    "address": "500 Howard Street, Suite 400, San Francisco, CA 94105",
+    "lowStockAlert": 10,
+    "taxRate": 8.5,
+    "freeShippingThreshold": 99.00,
+    "enableReviews": true,
+    "guestCheckout": true
+  }
+}
