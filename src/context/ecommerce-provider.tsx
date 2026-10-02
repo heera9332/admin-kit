@@ -34,6 +34,7 @@ interface EcommerceContextType {
   reviews: Review[]
   settings: EcommerceSettings
   // Product actions
+  getProduct: (id: string) => Product | undefined
   addProduct: (product: Omit<Product, "id" | "createdAt" | "updatedAt">) => Product
   updateProduct: (id: string, updates: Partial<Product>) => void
   deleteProduct: (id: string) => void
@@ -136,6 +137,11 @@ export function EcommerceProvider({ children }: { children: React.ReactNode }) {
   }, [])
 
   // Product operations
+  const getProduct = React.useCallback(
+    (id: string) => products.find((item) => item.id === id),
+    [products]
+  )
+
   const addProduct = React.useCallback(
     (data: Omit<Product, "id" | "createdAt" | "updatedAt">): Product => {
       const newProduct: Product = {
@@ -430,6 +436,7 @@ export function EcommerceProvider({ children }: { children: React.ReactNode }) {
       coupons,
       reviews,
       settings,
+      getProduct,
       addProduct,
       updateProduct,
       deleteProduct,
@@ -461,6 +468,7 @@ export function EcommerceProvider({ children }: { children: React.ReactNode }) {
       coupons,
       reviews,
       settings,
+      getProduct,
       addProduct,
       updateProduct,
       deleteProduct,
@@ -497,6 +505,7 @@ const defaultContext: EcommerceContextType = {
   coupons: initialCoupons,
   reviews: initialReviews,
   settings: initialSettings,
+  getProduct: (id) => initialProducts.find((item) => item.id === id),
   addProduct: (data) => ({
     ...data,
     id: `prod-${Date.now()}`,

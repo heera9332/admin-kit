@@ -2,38 +2,25 @@
 
 import * as React from "react"
 import { useTranslations } from "next-intl"
-import type { ColumnDef } from "@tanstack/react-table"
-import {
-  Package,
-  Plus,
-  MoreHorizontal,
-  Pencil,
-  Trash2,
-  Eye,
-  Star,
-} from "lucide-react"
+import { Plus, Package, CheckCircle, Boxes, AlertTriangle, Sparkles } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { StatusBadge } from "@/components/status-badge"
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { DataTable } from "@/components/shared/data-table"
-import { DataTableColumnHeader } from "@/components/shared/data-table/data-table-column-header"
 import { useEcommerce } from "@/context/ecommerce-provider"
+import { useRouter } from "@/i18n/routing"
+import { toast } from "@/components/ui/toast"
 import type { Product } from "@/data/ecommerce"
+import { getProductsColumns } from "./product-columns"
 import {
   CreateProductDialog,
-  EditProductDialog,
+  QuickEditProductDialog,
   ViewProductSheet,
 } from "./components/product-dialogs"
 
 export function ProductsFeature() {
   const t = useTranslations("ecommerce.products")
+  const router = useRouter()
   const { products, categories, brands, addProduct, updateProduct, deleteProduct } =
     useEcommerce()
 
@@ -47,211 +34,76 @@ export function ProductsFeature() {
     setViewOpen(true)
   }, [])
 
-  const handleEdit = React.useCallback((product: Product) => {
+  const handleQuickEdit = React.useCallback((product: Product) => {
     setEditingProduct(product)
   }, [])
 
-  const columns = React.useMemo<ColumnDef<Product>[]>(
-    () => [
-      {
-        accessorKey: "name",
-        header: ({ column }) => (
-          <DataTableColumnHeader column={column} title={t("fields.name")} />
-        ),
-        cell: ({ row }) => {
-          const product = row.original
-          return (
-            <div className="flex items-center gap-3 max-w-[320px]">
-              {product.image ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img
-                  src={product.image}
-                  alt={product.name}
-                  className="size-10 rounded-lg object-cover border shrink-0 bg-muted/20"
-                />
-              ) : (
-                <div className="size-10 rounded-lg bg-primary/10 text-primary flex items-center justify-center shrink-0">
-                  <Package className="size-5" />
-                </div>
-              )}
-              <div className="space-y-0.5 min-w-0">
-                <button
-                  type="button"
-                  onClick={() => handleView(product)}
-                  className="font-semibold text-xs text-foreground hover:text-primary transition-colors text-left block truncate cursor-pointer"
-                >
-                  {product.name}
-                </button>
-                <div className="text-[11px] text-muted-foreground font-mono truncate">
-                  SKU: {product.sku}
-                </div>
-              </div>
-            </div>
-          )
-        },
-      },
-      {
-        accessorKey: "category",
-        header: ({ column }) => (
-          <DataTableColumnHeader column={column} title={t("fields.category")} />
-        ),
-        cell: ({ row }) => (
-          <Badge variant="outline" className="text-xs font-normal">
-            {row.original.category}
-          </Badge>
-        ),
-        filterFn: (row, id, value) => {
-          return value.includes(row.getValue(id))
-        },
-      },
-      {
-        accessorKey: "brand",
-        header: ({ column }) => (
-          <DataTableColumnHeader column={column} title={t("fields.brand")} />
-        ),
-        cell: ({ row }) => (
-          <span className="text-xs text-muted-foreground font-medium">
-            {row.original.brand}
-          </span>
-        ),
-      },
-      {
-        accessorKey: "price",
-        header: ({ column }) => (
-          <DataTableColumnHeader column={column} title={t("fields.price")} />
-        ),
-        cell: ({ row }) => {
-          const product = row.original
-          return (
-            <div className="flex items-baseline gap-1.5">
-              <span className="text-xs font-semibold font-mono">
-                ${product.price.toFixed(2)}
-              </span>
-              {product.compareAtPrice && (
-                <span className="text-[10px] text-muted-foreground line-through font-mono">
-                  ${product.compareAtPrice.toFixed(2)}
-                </span>
-              )}
-            </div>
-          )
-        },
-      },
-      {
-        accessorKey: "stock",
-        header: ({ column }) => (
-          <DataTableColumnHeader column={column} title={t("fields.stock")} />
-        ),
-        cell: ({ row }) => {
-          const stock = row.original.stock
-          const variant =
-            stock > 10 ? "success" : stock > 0 ? "warning" : "destructive"
-          const label =
-            stock > 10
-              ? `${stock} in stock`
-              : stock > 0
-                ? `${stock} low`
-                : "Out of stock"
-          return (
-            <StatusBadge variant={variant} size="sm">
-              {label}
-            </StatusBadge>
-          )
-        },
-      },
-      {
-        accessorKey: "status",
-        header: ({ column }) => (
-          <DataTableColumnHeader column={column} title={t("fields.status")} />
-        ),
-        cell: ({ row }) => {
-          const status = row.original.status
-          const variant =
-            status === "published"
-              ? "success"
-              : status === "draft"
-                ? "neutral"
-                : status === "out_of_stock"
-                  ? "destructive"
-                  : "warning"
-          return (
-            <StatusBadge variant={variant} size="sm">
-              {t(`statuses.${status}`)}
-            </StatusBadge>
-          )
-        },
-        filterFn: (row, id, value) => {
-          return value.includes(row.getValue(id))
-        },
-      },
-      {
-        accessorKey: "rating",
-        header: ({ column }) => (
-          <DataTableColumnHeader column={column} title={t("fields.rating")} />
-        ),
-        cell: ({ row }) => (
-          <div className="flex items-center gap-1 text-xs">
-            <Star className="size-3 text-amber-500 fill-amber-500" />
-            <span className="font-medium">{row.original.rating}</span>
-            <span className="text-[10px] text-muted-foreground">
-              ({row.original.reviewsCount})
-            </span>
-          </div>
-        ),
-      },
-      {
-        id: "actions",
-        header: () => <span className="sr-only">{t("fields.actions")}</span>,
-        cell: ({ row }) => {
-          const product = row.original
-          return (
-            <div className="flex justify-end">
-              <DropdownMenu>
-                <DropdownMenuTrigger
-                  render={
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      className="size-8 cursor-pointer text-muted-foreground hover:text-foreground"
-                    />
-                  }
-                >
-                  <MoreHorizontal className="size-4" />
-                  <span className="sr-only">Actions</span>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="w-36">
-                  <DropdownMenuItem
-                    onClick={() => handleView(product)}
-                    className="gap-2 cursor-pointer text-xs"
-                  >
-                    <Eye className="size-3.5" />
-                    <span>View Details</span>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem
-                    onClick={() => handleEdit(product)}
-                    className="gap-2 cursor-pointer text-xs"
-                  >
-                    <Pencil className="size-3.5" />
-                    <span>Edit</span>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem
-                    onClick={() => {
-                      if (confirm(t("dialog.deleteConfirm"))) {
-                        deleteProduct(product.id)
-                      }
-                    }}
-                    className="gap-2 text-destructive focus:text-destructive cursor-pointer text-xs"
-                  >
-                    <Trash2 className="size-3.5" />
-                    <span>Delete</span>
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </div>
-          )
-        },
-      },
-    ],
-    [t, handleView, handleEdit, deleteProduct]
+  const handleFullEdit = React.useCallback(
+    (product: Product) => {
+      router.push(`/dashboard/ecommerce/products/${product.id}`)
+    },
+    [router]
+  )
+
+  const handleFullCreate = React.useCallback(() => {
+    router.push("/dashboard/ecommerce/products/new")
+  }, [router])
+
+  const handleDelete = React.useCallback(
+    (product: Product) => {
+      if (confirm(t("dialog.deleteConfirm"))) {
+        deleteProduct(product.id)
+        if (selectedProduct?.id === product.id) {
+          setSelectedProduct(null)
+          setViewOpen(false)
+        }
+        if (editingProduct?.id === product.id) {
+          setEditingProduct(null)
+        }
+        toast.add({
+          title: t("editor.productDeletedSuccess"),
+          description: `"${product.name}" has been removed from catalog.`,
+        })
+      }
+    },
+    [deleteProduct, selectedProduct, editingProduct, t]
+  )
+
+  const handleQuickEditUpdate = React.useCallback(
+    (id: string, updates: Partial<Product>) => {
+      updateProduct(id, updates)
+      if (selectedProduct?.id === id) {
+        setSelectedProduct((prev) => (prev ? { ...prev, ...updates } : null))
+      }
+      toast.add({
+        title: t("editor.productSavedSuccess"),
+        description: `Changes saved successfully.`,
+      })
+    },
+    [updateProduct, selectedProduct, t]
+  )
+
+  const handleCreateProduct = React.useCallback(
+    (data: Omit<Product, "id" | "createdAt" | "updatedAt">) => {
+      const created = addProduct(data)
+      toast.add({
+        title: t("editor.productCreatedSuccess"),
+        description: `"${created.name}" has been added to catalog.`,
+      })
+    },
+    [addProduct, t]
+  )
+
+  const columns = React.useMemo(
+    () =>
+      getProductsColumns({
+        onView: handleView,
+        onQuickEdit: handleQuickEdit,
+        onFullEdit: handleFullEdit,
+        onDelete: handleDelete,
+        t,
+      }),
+    [handleView, handleQuickEdit, handleFullEdit, handleDelete, t]
   )
 
   const categoryOptions = React.useMemo(
@@ -273,12 +125,17 @@ export function ProductsFeature() {
     [t]
   )
 
+  const totalCount = products.length
+  const publishedCount = products.filter((p) => p.status === "published").length
+  const inStockCount = products.filter((p) => p.stock > 0).length
+  const lowStockCount = products.filter((p) => p.stock > 0 && p.stock <= (p.lowStockThreshold ?? 5)).length
+
   return (
     <div className="space-y-4">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-xl sm:text-2xl font-bold tracking-tight">
+          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">
             {t("title")}
           </h1>
           <p className="text-xs sm:text-sm text-muted-foreground mt-0.5">
@@ -286,14 +143,80 @@ export function ProductsFeature() {
           </p>
         </div>
 
-        <Button
-          onClick={() => setCreateOpen(true)}
-          size="sm"
-          className="cursor-pointer gap-1.5 self-start sm:self-auto"
-        >
-          <Plus className="size-4" />
-          <span>{t("newProduct")}</span>
-        </Button>
+        <div className="flex items-center gap-2">
+          <Button
+            variant="outline"
+            onClick={() => setCreateOpen(true)}
+            size="sm"
+            className="h-8 gap-1.5 text-xs cursor-pointer"
+          >
+            <Sparkles className="size-3.5" />
+            <span>Quick Add</span>
+          </Button>
+
+          <Button
+            onClick={handleFullCreate}
+            size="sm"
+            className="h-8 gap-1.5 text-xs cursor-pointer shadow-xs"
+          >
+            <Plus className="size-3.5" />
+            <span>{t("newProduct")}</span>
+          </Button>
+        </div>
+      </div>
+
+      {/* Metrics Banner */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
+            <CardTitle className="text-xs font-medium text-muted-foreground">
+              Total Products
+            </CardTitle>
+            <Package className="size-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold font-mono">{totalCount}</div>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
+            <CardTitle className="text-xs font-medium text-muted-foreground">
+              Published
+            </CardTitle>
+            <CheckCircle className="size-4 text-emerald-500" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold font-mono text-emerald-600 dark:text-emerald-400">
+              {publishedCount}
+            </div>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
+            <CardTitle className="text-xs font-medium text-muted-foreground">
+              Active Inventory
+            </CardTitle>
+            <Boxes className="size-4 text-primary" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold font-mono text-foreground">
+              {inStockCount}
+            </div>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
+            <CardTitle className="text-xs font-medium text-muted-foreground">
+              Low Stock Alerts
+            </CardTitle>
+            <AlertTriangle className="size-4 text-amber-500" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold font-mono text-amber-600 dark:text-amber-400">
+              {lowStockCount}
+            </div>
+          </CardContent>
+        </Card>
       </div>
 
       {/* Reusable DataTable */}
@@ -318,32 +241,59 @@ export function ProductsFeature() {
         ]}
         pagination={{ pageSize: 10 }}
         sorting
+        onRowClick={(product) => handleView(product)}
+        toolbarActions={
+          <div className="flex items-center gap-1.5">
+            <Button
+              variant="outline"
+              onClick={() => setCreateOpen(true)}
+              size="sm"
+              className="h-8 gap-1.5 text-xs cursor-pointer"
+            >
+              <Sparkles className="size-3.5" />
+              <span>Quick Add</span>
+            </Button>
+            <Button
+              onClick={handleFullCreate}
+              size="sm"
+              className="h-8 gap-1.5 text-xs cursor-pointer shadow-xs"
+            >
+              <Plus className="size-3.5" />
+              <span>{t("newProduct")}</span>
+            </Button>
+          </div>
+        }
       />
 
-      {/* Modals & Sheets */}
+      {/* Quick Add Product Dialog */}
       <CreateProductDialog
         open={createOpen}
         onOpenChange={setCreateOpen}
         categories={categories}
         brands={brands}
-        onCreate={addProduct}
+        onCreate={handleCreateProduct}
+        onOpenFullCreate={handleFullCreate}
       />
 
-      <EditProductDialog
+      {/* Quick Edit Product Dialog */}
+      <QuickEditProductDialog
         product={editingProduct}
         open={Boolean(editingProduct)}
         onOpenChange={(open) => !open && setEditingProduct(null)}
         categories={categories}
         brands={brands}
-        onUpdate={updateProduct}
+        onUpdate={handleQuickEditUpdate}
+        onFullEdit={handleFullEdit}
       />
 
+      {/* View Product Details Sheet */}
       <ViewProductSheet
         product={selectedProduct}
         open={viewOpen}
         onOpenChange={setViewOpen}
-        onEdit={(p) => setEditingProduct(p)}
-        onDelete={deleteProduct}
+        onQuickEdit={(p) => setEditingProduct(p)}
+        onFullEdit={handleFullEdit}
+        onDelete={handleDelete}
       />
     </div>
   )

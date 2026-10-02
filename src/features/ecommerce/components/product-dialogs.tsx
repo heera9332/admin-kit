@@ -13,6 +13,7 @@ import {
   FolderTree,
   Boxes,
   Star,
+  ExternalLink,
 } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
@@ -141,6 +142,7 @@ interface CreateProductDialogProps {
   categories: ProductCategory[]
   brands: Brand[]
   onCreate: (product: Omit<Product, "id" | "createdAt" | "updatedAt">) => void
+  onOpenFullCreate?: () => void
 }
 
 export function CreateProductDialog({
@@ -149,6 +151,7 @@ export function CreateProductDialog({
   categories,
   brands,
   onCreate,
+  onOpenFullCreate,
 }: CreateProductDialogProps) {
   const t = useTranslations("ecommerce.products")
 
@@ -216,29 +219,49 @@ export function CreateProductDialog({
         submitLabel={t("newProduct")}
         columns={2}
         secondaryAction={
-          <Button
-            type="button"
-            variant="ghost"
-            size="sm"
-            onClick={() => onOpenChange(false)}
-            className="cursor-pointer"
-          >
-            Cancel
-          </Button>
+          <div className="flex items-center gap-2">
+            {onOpenFullCreate && (
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={() => {
+                  onOpenChange(false)
+                  onOpenFullCreate()
+                }}
+                className="gap-1.5 text-xs cursor-pointer"
+              >
+                <ExternalLink className="size-3.5" />
+                <span>{t("dialog.openFullEdit")}</span>
+              </Button>
+            )}
+            <Button
+              type="button"
+              variant="ghost"
+              size="sm"
+              onClick={() => onOpenChange(false)}
+              className="cursor-pointer text-xs"
+            >
+              Cancel
+            </Button>
+          </div>
         }
       />
     </AppDialog>
   )
 }
 
-interface EditProductDialogProps {
+export interface QuickEditProductDialogProps {
   product: Product | null
   open: boolean
   onOpenChange: (open: boolean) => void
   categories: ProductCategory[]
   brands: Brand[]
   onUpdate: (id: string, updates: Partial<Product>) => void
+  onFullEdit?: (product: Product) => void
 }
+
+export type EditProductDialogProps = QuickEditProductDialogProps
 
 export function EditProductDialog({
   product,
@@ -247,6 +270,7 @@ export function EditProductDialog({
   categories,
   brands,
   onUpdate,
+  onFullEdit,
 }: EditProductDialogProps) {
   const t = useTranslations("ecommerce.products")
 
@@ -302,39 +326,60 @@ export function EditProductDialog({
           <div className="flex size-7 items-center justify-center rounded-lg bg-primary/10 text-primary">
             <Edit className="size-4" />
           </div>
-          <span className="font-semibold text-base">{t("dialog.editTitle")}</span>
+          <span className="font-semibold text-base">{t("dialog.quickEditTitle")}</span>
         </div>
       }
-      description={t("dialog.editDescription")}
+      description={t("dialog.quickEditDescription")}
     >
       <DynamicForm<ProductFormValues>
         form={form}
         fields={fields}
         onSubmit={onSubmit}
-        submitLabel="Save Changes"
+        submitLabel={t("dialog.save")}
         columns={2}
         secondaryAction={
-          <Button
-            type="button"
-            variant="ghost"
-            size="sm"
-            onClick={() => onOpenChange(false)}
-            className="cursor-pointer"
-          >
-            Cancel
-          </Button>
+          <div className="flex items-center gap-2">
+            {onFullEdit && (
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={() => {
+                  onOpenChange(false)
+                  onFullEdit(product)
+                }}
+                className="gap-1.5 text-xs cursor-pointer"
+              >
+                <ExternalLink className="size-3.5" />
+                <span>{t("dialog.openFullEdit")}</span>
+              </Button>
+            )}
+            <Button
+              type="button"
+              variant="ghost"
+              size="sm"
+              onClick={() => onOpenChange(false)}
+              className="cursor-pointer text-xs"
+            >
+              Cancel
+            </Button>
+          </div>
         }
       />
     </AppDialog>
   )
 }
 
-interface ViewProductSheetProps {
+export const QuickEditProductDialog = EditProductDialog
+
+export interface ViewProductSheetProps {
   product: Product | null
   open: boolean
   onOpenChange: (open: boolean) => void
   onEdit?: (product: Product) => void
-  onDelete?: (id: string) => void
+  onQuickEdit?: (product: Product) => void
+  onFullEdit?: (product: Product) => void
+  onDelete?: (product: Product) => void
 }
 
 export function ViewProductSheet({
@@ -342,6 +387,8 @@ export function ViewProductSheet({
   open,
   onOpenChange,
   onEdit,
+  onQuickEdit,
+  onFullEdit,
   onDelete,
 }: ViewProductSheetProps) {
   const t = useTranslations("ecommerce.products")
@@ -461,39 +508,60 @@ export function ViewProductSheet({
         </div>
 
         {/* Actions */}
-        <div className="flex items-center justify-end gap-2 pt-4 border-t">
-          {onDelete && (
+        <div className="flex items-center justify-between w-full gap-2 pt-4 border-t">
+          {onDelete ? (
             <Button
               type="button"
               variant="outline"
               size="sm"
               onClick={() => {
-                if (confirm(t("dialog.deleteConfirm"))) {
-                  onDelete(product.id)
-                  onOpenChange(false)
-                }
+                onOpenChange(false)
+                onDelete(product)
               }}
-              className="text-destructive hover:bg-destructive/10 cursor-pointer"
+              className="text-destructive hover:bg-destructive/10 cursor-pointer text-xs"
             >
               <Trash2 className="size-3.5 mr-1" />
               <span>Delete</span>
             </Button>
+          ) : (
+            <div />
           )}
 
-          {onEdit && (
-            <Button
-              type="button"
-              size="sm"
-              onClick={() => {
-                onOpenChange(false)
-                onEdit(product)
-              }}
-              className="cursor-pointer gap-1.5"
-            >
-              <Edit className="size-3.5" />
-              <span>Edit Product</span>
-            </Button>
-          )}
+          <div className="flex items-center gap-2">
+            {(onQuickEdit || onEdit) && (
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={() => {
+                  onOpenChange(false)
+                  if (onQuickEdit) {
+                    onQuickEdit(product)
+                  } else {
+                    onEdit?.(product)
+                  }
+                }}
+                className="cursor-pointer gap-1.5 text-xs"
+              >
+                <Edit className="size-3.5" />
+                <span>{t("actions.quickEdit")}</span>
+              </Button>
+            )}
+            {onFullEdit && (
+              <Button
+                type="button"
+                size="sm"
+                onClick={() => {
+                  onOpenChange(false)
+                  onFullEdit(product)
+                }}
+                className="cursor-pointer gap-1.5 text-xs"
+              >
+                <ExternalLink className="size-3.5" />
+                <span>{t("actions.fullEdit")}</span>
+              </Button>
+            )}
+          </div>
         </div>
       </div>
     </AppSheet>

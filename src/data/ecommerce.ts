@@ -21,6 +21,8 @@ export interface Product {
   reviewsCount: number
   createdAt: string
   updatedAt: string
+  metaTitle?: string
+  metaDescription?: string
 }
 
 export type CategoryStatus = "active" | "inactive"
