@@ -8,6 +8,8 @@ import type {
   UseFormReturn,
 } from "react-hook-form"
 
+import type { MediaType } from "@/data/media"
+
 export type FieldType =
   | "text"
   | "email"
@@ -21,6 +23,9 @@ export type FieldType =
   | "radio"
   | "richtext"
   | "rich-text"
+  | "upload"
+  | "media"
+  | "file"
 
 export type ColSpan = 1 | 2 | 3 | 4
 
@@ -104,6 +109,16 @@ export interface RichTextFieldConfig<TFieldValues extends FieldValues = FieldVal
   hideToolbar?: boolean
 }
 
+export interface UploadFieldConfig<TFieldValues extends FieldValues = FieldValues>
+  extends BaseFieldConfig<TFieldValues> {
+  type: "upload" | "media" | "file"
+  allowedTypes?: MediaType[]
+  accept?: string
+  dialogTitle?: string
+  outputType?: "url" | "item"
+  maxSize?: number
+}
+
 export interface CustomFieldConfig<TFieldValues extends FieldValues = FieldValues>
   extends BaseFieldConfig<TFieldValues> {
   type: "custom"
@@ -127,6 +142,7 @@ export type FieldConfig<TFieldValues extends FieldValues = FieldValues> =
   | RadioFieldConfig<TFieldValues>
   | DateFieldConfig<TFieldValues>
   | RichTextFieldConfig<TFieldValues>
+  | UploadFieldConfig<TFieldValues>
   | CustomFieldConfig<TFieldValues>
 
 export type FormFieldsConfig<TFieldValues extends FieldValues = FieldValues> =

@@ -29,6 +29,7 @@ import type { Post } from "@/data/cms"
 const postFormSchema = z.object({
   title: z.string().min(1, "Title is required"),
   status: z.enum(["published", "draft", "archived"] as const),
+  featuredImage: z.string().nullable().optional(),
   content: z.string().optional(),
 })
 
@@ -57,6 +58,14 @@ function getPostFormFields(
         { value: "draft", label: t("statuses.draft") },
         { value: "archived", label: t("statuses.archived") },
       ],
+    },
+    {
+      name: "featuredImage",
+      type: "upload",
+      label: t("editor.featuredImageLabel"),
+      placeholder: "Choose or upload featured image",
+      allowedTypes: ["image"],
+      colSpan: 2,
     },
     {
       name: "content",
@@ -93,6 +102,7 @@ function QuickEditForm({ post, onSave, onClose, onFullEdit }: QuickEditFormProps
     defaultValues: {
       title: post.title || "",
       status: post.status || "draft",
+      featuredImage: post.featuredImage || null,
       content: post.content || "",
     },
   })
@@ -104,6 +114,7 @@ function QuickEditForm({ post, onSave, onClose, onFullEdit }: QuickEditFormProps
       ...post,
       title: data.title.trim(),
       status: data.status,
+      featuredImage: data.featuredImage || null,
       content: data.content || "",
     })
     onClose()
@@ -212,6 +223,7 @@ function CreatePostForm({
     defaultValues: {
       title: "",
       status: "draft",
+      featuredImage: null,
       content: "",
     },
   })
@@ -222,6 +234,7 @@ function CreatePostForm({
     onCreate({
       title: data.title.trim(),
       status: data.status,
+      featuredImage: data.featuredImage || null,
       content: data.content || "",
     })
     form.reset()

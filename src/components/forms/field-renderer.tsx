@@ -30,7 +30,9 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { Calendar } from "@/components/ui/calendar"
 import { buttonVariants } from "@/components/ui/button"
+import type { MediaItem } from "@/data/media"
 import { RichText } from "./richtext"
+import { UploadInput } from "./upload"
 
 export function FieldRenderer<TFieldValues extends FieldValues = FieldValues>({
   config,
@@ -425,6 +427,29 @@ export function FieldRenderer<TFieldValues extends FieldValues = FieldValues>({
           contentClassName={config.contentClassName}
           editable={config.editable}
           hideToolbar={config.hideToolbar}
+          aria-invalid={fieldState.invalid}
+          className="w-full"
+          ref={fieldRef as React.Ref<HTMLDivElement>}
+        />
+      )
+
+    case "upload":
+    case "media":
+    case "file":
+      return renderVerticalField(
+        <UploadInput
+          id={id}
+          name={name}
+          value={value as string | MediaItem | null}
+          onChange={onChange}
+          onBlur={onBlur}
+          disabled={config.disabled}
+          allowedTypes={config.allowedTypes}
+          accept={config.accept}
+          placeholder={config.placeholder}
+          dialogTitle={config.dialogTitle}
+          outputType={config.outputType}
+          maxSize={config.maxSize}
           aria-invalid={fieldState.invalid}
           className="w-full"
           ref={fieldRef as React.Ref<HTMLDivElement>}

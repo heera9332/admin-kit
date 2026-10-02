@@ -8,3 +8,10 @@ export {
   type RichTextProps,
 } from "./richtext"
 export { TiptapEditor, type TiptapEditorProps } from "./tiptap-editor"
+export {
+  UploadInput,
+  Upload,
+  MediaSelect,
+  MediaSelectInput,
+  type UploadInputProps,
+} from "./upload"
