@@ -19,6 +19,8 @@ export type FieldType =
   | "checkbox"
   | "date"
   | "radio"
+  | "richtext"
+  | "rich-text"
 
 export type ColSpan = 1 | 2 | 3 | 4
 
@@ -92,6 +94,16 @@ export interface DateFieldConfig<TFieldValues extends FieldValues = FieldValues>
   dateFormat?: string
 }
 
+export interface RichTextFieldConfig<TFieldValues extends FieldValues = FieldValues>
+  extends BaseFieldConfig<TFieldValues> {
+  type: "richtext" | "rich-text"
+  minHeight?: string
+  toolbarClassName?: string
+  contentClassName?: string
+  editable?: boolean
+  hideToolbar?: boolean
+}
+
 export interface CustomFieldConfig<TFieldValues extends FieldValues = FieldValues>
   extends BaseFieldConfig<TFieldValues> {
   type: "custom"
@@ -114,6 +126,7 @@ export type FieldConfig<TFieldValues extends FieldValues = FieldValues> =
   | CheckboxFieldConfig<TFieldValues>
   | RadioFieldConfig<TFieldValues>
   | DateFieldConfig<TFieldValues>
+  | RichTextFieldConfig<TFieldValues>
   | CustomFieldConfig<TFieldValues>
 
 export type FormFieldsConfig<TFieldValues extends FieldValues = FieldValues> =

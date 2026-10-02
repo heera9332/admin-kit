@@ -30,6 +30,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { Calendar } from "@/components/ui/calendar"
 import { buttonVariants } from "@/components/ui/button"
+import { RichText } from "./richtext"
 
 export function FieldRenderer<TFieldValues extends FieldValues = FieldValues>({
   config,
@@ -407,6 +408,28 @@ export function FieldRenderer<TFieldValues extends FieldValues = FieldValues>({
         </Popover>
       )
     }
+
+    case "richtext":
+    case "rich-text":
+      return renderVerticalField(
+        <RichText
+          id={id}
+          name={name}
+          value={typeof value === "string" ? value : ""}
+          onChange={onChange}
+          onBlur={onBlur}
+          placeholder={config.placeholder}
+          disabled={config.disabled}
+          minHeight={config.minHeight}
+          toolbarClassName={config.toolbarClassName}
+          contentClassName={config.contentClassName}
+          editable={config.editable}
+          hideToolbar={config.hideToolbar}
+          aria-invalid={fieldState.invalid}
+          className="w-full"
+          ref={fieldRef as React.Ref<HTMLDivElement>}
+        />
+      )
 
     case "custom":
       return renderVerticalField(
