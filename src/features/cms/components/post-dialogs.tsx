@@ -2,6 +2,9 @@
 
 import * as React from "react"
 import { useTranslations } from "next-intl"
+import { useForm } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { z } from "zod"
 import {
   FileText,
   Trash2,
@@ -18,18 +21,53 @@ import { Button } from "@/components/ui/button"
 import { AppDialog } from "@/components/app-dialog"
 import { AppSheet } from "@/components/app-sheet"
 import { Badge } from "@/components/ui/badge"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
 import { StatusBadge } from "@/components/status-badge"
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
-import { TiptapEditor } from "@/components/forms/tiptap-editor"
+import { DynamicForm } from "@/components/forms"
+import type { FormFieldsConfig } from "@/types/form"
 import type { Post } from "@/data/cms"
+
+const postFormSchema = z.object({
+  title: z.string().min(1, "Title is required"),
+  status: z.enum(["published", "draft", "archived"] as const),
+  content: z.string().optional(),
+})
+
+type PostFormValues = z.infer<typeof postFormSchema>
+
+function getPostFormFields(
+  t: (key: string) => string
+): FormFieldsConfig<PostFormValues> {
+  return [
+    {
+      name: "title",
+      type: "text",
+      label: t("fields.title"),
+      placeholder: t("dialog.titlePlaceholder"),
+      required: true,
+      colSpan: 2,
+    },
+    {
+      name: "status",
+      type: "select",
+      label: t("fields.status"),
+      required: true,
+      colSpan: 2,
+      options: [
+        { value: "published", label: t("statuses.published") },
+        { value: "draft", label: t("statuses.draft") },
+        { value: "archived", label: t("statuses.archived") },
+      ],
+    },
+    {
+      name: "content",
+      type: "richtext",
+      label: t("editor.contentLabel"),
+      placeholder: t("dialog.contentPlaceholder"),
+      minHeight: "min-h-[220px]",
+      colSpan: 2,
+    },
+  ]
+}
 
 interface QuickEditPostDialogProps {
   post: Post | null
@@ -50,98 +88,51 @@ function QuickEditForm({ post, onSave, onClose, onFullEdit }: QuickEditFormProps
   const t = useTranslations("cms.posts")
   const tCommon = useTranslations("common")
 
-  const [title, setTitle] = React.useState(post.title || "")
-  const [content, setContent] = React.useState(post.content || "")
-  const [status, setStatus] = React.useState<Post["status"]>(post.status || "draft")
+  const form = useForm<PostFormValues>({
+    resolver: zodResolver(postFormSchema),
+    defaultValues: {
+      title: post.title || "",
+      status: post.status || "draft",
+      content: post.content || "",
+    },
+  })
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    if (!title.trim()) return
+  const fields = React.useMemo(() => getPostFormFields(t), [t])
 
-    const updated: Post = {
+  const onSubmit = (data: PostFormValues) => {
+    onSave({
       ...post,
-      title: title.trim(),
-      content,
-      status,
-    }
-
-    onSave(updated)
+      title: data.title.trim(),
+      status: data.status,
+      content: data.content || "",
+    })
     onClose()
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4 py-1">
-      {/* Title */}
-      <div className="space-y-1.5">
-        <Label htmlFor="quick-post-title" className="text-xs font-medium">
-          {t("fields.title")} <span className="text-destructive">*</span>
-        </Label>
-        <Input
-          id="quick-post-title"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          placeholder={t("dialog.titlePlaceholder")}
-          required
-          className="h-9 text-sm"
-        />
-      </div>
-
-      {/* Status */}
-      <div className="space-y-1.5">
-        <Label htmlFor="quick-post-status" className="text-xs font-medium">
-          {t("fields.status")}
-        </Label>
-        <Select
-          value={status}
-          onValueChange={(val) => {
-            if (val) setStatus(val as Post["status"])
-          }}
-        >
-          <SelectTrigger id="quick-post-status" className="h-8 text-xs w-full sm:w-48">
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="published">{t("statuses.published")}</SelectItem>
-            <SelectItem value="draft">{t("statuses.draft")}</SelectItem>
-            <SelectItem value="archived">{t("statuses.archived")}</SelectItem>
-          </SelectContent>
-        </Select>
-      </div>
-
-      {/* Content with TipTap */}
-      <div className="space-y-1.5">
-        <div className="flex items-center justify-between">
-          <Label className="text-xs font-medium">{t("editor.contentLabel")}</Label>
-        </div>
-        <TiptapEditor
-          value={content}
-          onChange={setContent}
-          placeholder={t("dialog.contentPlaceholder")}
-          minHeight="min-h-[220px]"
-        />
-      </div>
-
-      {/* Footer Buttons */}
-      <div className="flex flex-col-reverse sm:flex-row items-center justify-between w-full gap-2.5 pt-3 border-t">
-        {onFullEdit ? (
-          <Button
-            type="button"
-            variant="outline"
-            size="sm"
-            onClick={() => {
-              onClose()
-              onFullEdit(post)
-            }}
-            className="gap-1.5 text-xs w-full sm:w-auto cursor-pointer"
-          >
-            <ExternalLink className="size-3.5" />
-            <span>{t("dialog.openFullEdit")}</span>
-          </Button>
-        ) : (
-          <div />
-        )}
-
-        <div className="flex items-center gap-2 w-full sm:w-auto justify-end">
+    <DynamicForm<PostFormValues>
+      form={form}
+      fields={fields}
+      onSubmit={onSubmit}
+      submitLabel={t("dialog.save")}
+      columns={2}
+      secondaryAction={
+        <div className="flex items-center gap-2">
+          {onFullEdit && (
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              onClick={() => {
+                onClose()
+                onFullEdit(post)
+              }}
+              className="gap-1.5 text-xs cursor-pointer"
+            >
+              <ExternalLink className="size-3.5" />
+              <span>{t("dialog.openFullEdit")}</span>
+            </Button>
+          )}
           <Button
             type="button"
             variant="ghost"
@@ -151,17 +142,9 @@ function QuickEditForm({ post, onSave, onClose, onFullEdit }: QuickEditFormProps
           >
             {tCommon("cancel")}
           </Button>
-          <Button
-            type="submit"
-            size="sm"
-            disabled={!title.trim()}
-            className="gap-1.5 cursor-pointer text-xs"
-          >
-            <span>{t("dialog.save")}</span>
-          </Button>
         </div>
-      </div>
-    </form>
+      }
+    />
   )
 }
 
@@ -181,6 +164,7 @@ export function QuickEditPostDialog({
       open={open}
       onOpenChange={onOpenChange}
       size="3xl"
+      scrollable
       title={
         <div className="flex items-center gap-2">
           <div className="flex size-7 items-center justify-center rounded-lg bg-primary/10 text-primary">
@@ -211,6 +195,78 @@ interface CreatePostDialogProps {
   onOpenFullCreate?: () => void
 }
 
+function CreatePostForm({
+  onOpenChange,
+  onCreate,
+  onOpenFullCreate,
+}: {
+  onOpenChange: (open: boolean) => void
+  onCreate: (postData: Partial<Post> & { title: string }) => void
+  onOpenFullCreate?: () => void
+}) {
+  const t = useTranslations("cms.posts")
+  const tCommon = useTranslations("common")
+
+  const form = useForm<PostFormValues>({
+    resolver: zodResolver(postFormSchema),
+    defaultValues: {
+      title: "",
+      status: "draft",
+      content: "",
+    },
+  })
+
+  const fields = React.useMemo(() => getPostFormFields(t), [t])
+
+  const onSubmit = (data: PostFormValues) => {
+    onCreate({
+      title: data.title.trim(),
+      status: data.status,
+      content: data.content || "",
+    })
+    form.reset()
+    onOpenChange(false)
+  }
+
+  return (
+    <DynamicForm<PostFormValues>
+      form={form}
+      fields={fields}
+      onSubmit={onSubmit}
+      submitLabel={t("dialog.create")}
+      columns={2}
+      secondaryAction={
+        <div className="flex items-center gap-2">
+          {onOpenFullCreate && (
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              onClick={() => {
+                onOpenChange(false)
+                onOpenFullCreate()
+              }}
+              className="gap-1.5 text-xs cursor-pointer"
+            >
+              <ExternalLink className="size-3.5" />
+              <span>{t("dialog.openFullEdit")}</span>
+            </Button>
+          )}
+          <Button
+            type="button"
+            variant="ghost"
+            size="sm"
+            onClick={() => onOpenChange(false)}
+            className="cursor-pointer text-xs"
+          >
+            {tCommon("cancel")}
+          </Button>
+        </div>
+      }
+    />
+  )
+}
+
 export function CreatePostDialog({
   open,
   onOpenChange,
@@ -218,40 +274,13 @@ export function CreatePostDialog({
   onOpenFullCreate,
 }: CreatePostDialogProps) {
   const t = useTranslations("cms.posts")
-  const tCommon = useTranslations("common")
-
-  const [title, setTitle] = React.useState("")
-  const [content, setContent] = React.useState("")
-  const [status, setStatus] = React.useState<Post["status"]>("draft")
-
-  const resetForm = () => {
-    setTitle("")
-    setContent("")
-    setStatus("draft")
-  }
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    if (!title.trim()) return
-
-    onCreate({
-      title: title.trim(),
-      content,
-      status,
-    })
-
-    resetForm()
-    onOpenChange(false)
-  }
 
   return (
     <AppDialog
       open={open}
-      onOpenChange={(next) => {
-        if (!next) resetForm()
-        onOpenChange(next)
-      }}
+      onOpenChange={onOpenChange}
       size="3xl"
+      scrollable
       title={
         <div className="flex items-center gap-2">
           <div className="flex size-7 items-center justify-center rounded-lg bg-primary/10 text-primary">
@@ -261,103 +290,13 @@ export function CreatePostDialog({
         </div>
       }
       description={t("dialog.createDescription")}
-      footer={
-        <div className="flex flex-col-reverse sm:flex-row items-center justify-between w-full gap-2.5">
-          {onOpenFullCreate ? (
-            <Button
-              type="button"
-              variant="outline"
-              size="sm"
-              onClick={() => {
-                onOpenChange(false)
-                onOpenFullCreate()
-              }}
-              className="gap-1.5 text-xs w-full sm:w-auto cursor-pointer"
-            >
-              <ExternalLink className="size-3.5" />
-              <span>{t("dialog.openFullEdit")}</span>
-            </Button>
-          ) : (
-            <div />
-          )}
-
-          <div className="flex items-center gap-2 w-full sm:w-auto justify-end">
-            <Button
-              type="button"
-              variant="ghost"
-              size="sm"
-              onClick={() => {
-                resetForm()
-                onOpenChange(false)
-              }}
-              className="cursor-pointer text-xs"
-            >
-              {tCommon("cancel")}
-            </Button>
-            <Button
-              type="submit"
-              size="sm"
-              onClick={handleSubmit}
-              disabled={!title.trim()}
-              className="gap-1.5 cursor-pointer text-xs"
-            >
-              <span>{t("dialog.create")}</span>
-            </Button>
-          </div>
-        </div>
-      }
     >
-      <form onSubmit={handleSubmit} className="space-y-4 py-1">
-        {/* Title */}
-        <div className="space-y-1.5">
-          <Label htmlFor="create-post-title" className="text-xs font-medium">
-            {t("fields.title")} <span className="text-destructive">*</span>
-          </Label>
-          <Input
-            id="create-post-title"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            placeholder={t("dialog.titlePlaceholder")}
-            required
-            className="h-9 text-sm"
-          />
-        </div>
-
-        {/* Status */}
-        <div className="space-y-1.5">
-          <Label htmlFor="create-post-status" className="text-xs font-medium">
-            {t("fields.status")}
-          </Label>
-          <Select
-            value={status}
-            onValueChange={(val) => {
-              if (val) setStatus(val as Post["status"])
-            }}
-          >
-            <SelectTrigger id="create-post-status" className="h-8 text-xs w-full sm:w-48">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="published">{t("statuses.published")}</SelectItem>
-              <SelectItem value="draft">{t("statuses.draft")}</SelectItem>
-              <SelectItem value="archived">{t("statuses.archived")}</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
-
-        {/* Content with TipTap */}
-        <div className="space-y-1.5">
-          <div className="flex items-center justify-between">
-            <Label className="text-xs font-medium">{t("editor.contentLabel")}</Label>
-          </div>
-          <TiptapEditor
-            value={content}
-            onChange={setContent}
-            placeholder={t("dialog.contentPlaceholder")}
-            minHeight="min-h-[220px]"
-          />
-        </div>
-      </form>
+      <CreatePostForm
+        key={open ? "open" : "closed"}
+        onOpenChange={onOpenChange}
+        onCreate={onCreate}
+        onOpenFullCreate={onOpenFullCreate}
+      />
     </AppDialog>
   )
 }

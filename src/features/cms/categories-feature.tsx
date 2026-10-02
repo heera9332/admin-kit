@@ -31,7 +31,7 @@ import {
 import { DataTable } from "@/components/shared/data-table"
 import { DataTableColumnHeader } from "@/components/shared/data-table/data-table-column-header"
 import { initialCategories, type Category } from "./data/cms-data"
-import { CreateCategoryDialog, ViewCategorySheet } from "./components/category-dialogs"
+import { CreateCategoryDialog, EditCategoryDialog, ViewCategorySheet } from "./components/category-dialogs"
 import { cn } from "@/lib/utils"
 
 export function CategoriesFeature() {
@@ -40,6 +40,7 @@ export function CategoriesFeature() {
   const [createOpen, setCreateOpen] = React.useState(false)
   const [viewOpen, setViewOpen] = React.useState(false)
   const [selectedCategory, setSelectedCategory] = React.useState<Category | null>(null)
+  const [editingCategory, setEditingCategory] = React.useState<Category | null>(null)
   const [viewMode, setViewMode] = React.useState<"table" | "grid">("table")
 
   const handleCreate = (newCategory: Category) => {
@@ -50,6 +51,17 @@ export function CategoriesFeature() {
     setSelectedCategory(category)
     setViewOpen(true)
   }, [])
+
+  const handleEdit = React.useCallback((category: Category) => {
+    setEditingCategory(category)
+  }, [])
+
+  const handleUpdate = React.useCallback((updated: Category) => {
+    setCategories((prev) => prev.map((c) => (c.id === updated.id ? updated : c)))
+    if (selectedCategory?.id === updated.id) {
+      setSelectedCategory(updated)
+    }
+  }, [selectedCategory])
 
   const handleDelete = React.useCallback((id: string) => {
     setCategories((prev) => prev.filter((c) => c.id !== id))
@@ -138,7 +150,7 @@ export function CategoriesFeature() {
                 <DropdownMenuItem
                   onClick={(e) => {
                     e.stopPropagation()
-                    alert(`Edit ${category.name}`)
+                    handleEdit(category)
                   }}
                   className="justify-between gap-2 cursor-pointer"
                 >
@@ -161,7 +173,7 @@ export function CategoriesFeature() {
         },
       },
     ],
-    [handleView, handleDelete, t]
+    [handleView, handleEdit, handleDelete, t]
   )
 
   return (
@@ -279,7 +291,7 @@ export function CategoriesFeature() {
                       <DropdownMenuItem
                         onClick={(e) => {
                           e.stopPropagation()
-                          alert(`Edit ${category.name}`)
+                          handleEdit(category)
                         }}
                         className="justify-between gap-2 cursor-pointer"
                       >
@@ -329,6 +341,13 @@ export function CategoriesFeature() {
         open={createOpen}
         onOpenChange={setCreateOpen}
         onCreate={handleCreate}
+      />
+
+      <EditCategoryDialog
+        category={editingCategory}
+        open={!!editingCategory}
+        onOpenChange={(open) => !open && setEditingCategory(null)}
+        onUpdate={handleUpdate}
       />
 
       <ViewCategorySheet

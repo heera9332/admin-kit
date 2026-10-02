@@ -2,23 +2,81 @@
 
 import * as React from "react"
 import { useTranslations } from "next-intl"
+import { useForm } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { z } from "zod"
 import { Pencil, Trash2 } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import { AppDialog } from "@/components/app-dialog"
 import { AppSheet } from "@/components/app-sheet"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
 import { Badge } from "@/components/ui/badge"
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
+import { DynamicForm } from "@/components/forms"
+import type { FormFieldsConfig } from "@/types/form"
 import type { Task } from "../data/tasks"
 import { statusIcons, priorityIcons } from "../task-columns"
+
+const taskFormSchema = z.object({
+  title: z.string().min(1, "Title is required"),
+  status: z.enum(["backlog", "todo", "in progress", "done", "canceled"] as const),
+  priority: z.enum(["low", "medium", "high"] as const),
+  label: z.enum(["bug", "feature", "documentation"] as const),
+})
+
+type TaskFormValues = z.infer<typeof taskFormSchema>
+
+function getTaskFormFields(
+  t: (key: string) => string
+): FormFieldsConfig<TaskFormValues> {
+  return [
+    {
+      name: "title",
+      type: "text",
+      label: t("dialog.titleLabel"),
+      placeholder: t("dialog.titlePlaceholder"),
+      required: true,
+      colSpan: 3,
+    },
+    {
+      name: "status",
+      type: "select",
+      label: t("dialog.statusLabel"),
+      required: true,
+      colSpan: 1,
+      options: [
+        { value: "backlog", label: t("status.backlog") },
+        { value: "todo", label: t("status.todo") },
+        { value: "in progress", label: t("status.inProgress") },
+        { value: "done", label: t("status.done") },
+        { value: "canceled", label: t("status.canceled") },
+      ],
+    },
+    {
+      name: "priority",
+      type: "select",
+      label: t("dialog.priorityLabel"),
+      required: true,
+      colSpan: 1,
+      options: [
+        { value: "low", label: t("priority.low") },
+        { value: "medium", label: t("priority.medium") },
+        { value: "high", label: t("priority.high") },
+      ],
+    },
+    {
+      name: "label",
+      type: "select",
+      label: t("dialog.labelLabel"),
+      required: true,
+      colSpan: 1,
+      options: [
+        { value: "bug", label: t("labels.bug") },
+        { value: "feature", label: t("labels.feature") },
+        { value: "documentation", label: t("labels.documentation") },
+      ],
+    },
+  ]
+}
 
 interface CreateTaskDialogProps {
   open: boolean
@@ -26,34 +84,64 @@ interface CreateTaskDialogProps {
   onCreate: (task: Task) => void
 }
 
-export function CreateTaskDialog({ open, onOpenChange, onCreate }: CreateTaskDialogProps) {
+function CreateTaskForm({
+  onOpenChange,
+  onCreate,
+}: {
+  onOpenChange: (open: boolean) => void
+  onCreate: (task: Task) => void
+}) {
   const t = useTranslations("tasks")
   const tCommon = useTranslations("common")
 
-  const [title, setTitle] = React.useState("")
-  const [status, setStatus] = React.useState<Task["status"]>("todo")
-  const [priority, setPriority] = React.useState<Task["priority"]>("medium")
-  const [label, setLabel] = React.useState<Task["label"]>("feature")
+  const form = useForm<TaskFormValues>({
+    resolver: zodResolver(taskFormSchema),
+    defaultValues: {
+      title: "",
+      status: "todo",
+      priority: "medium",
+      label: "feature",
+    },
+  })
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    if (!title.trim()) return
+  const fields = React.useMemo(() => getTaskFormFields(t), [t])
 
+  const onSubmit = (data: TaskFormValues) => {
     const newTask: Task = {
       id: `TASK-${Math.floor(1000 + Math.random() * 9000)}`,
-      title: title.trim(),
-      status,
-      priority,
-      label,
+      title: data.title.trim(),
+      status: data.status,
+      priority: data.priority,
+      label: data.label,
     }
 
     onCreate(newTask)
-    setTitle("")
-    setStatus("todo")
-    setPriority("medium")
-    setLabel("feature")
+    form.reset()
     onOpenChange(false)
   }
+
+  return (
+    <DynamicForm<TaskFormValues>
+      form={form}
+      fields={fields}
+      onSubmit={onSubmit}
+      submitLabel={t("dialog.create")}
+      columns={3}
+      secondaryAction={
+        <Button
+          type="button"
+          variant="outline"
+          onClick={() => onOpenChange(false)}
+        >
+          {tCommon("cancel")}
+        </Button>
+      }
+    />
+  )
+}
+
+export function CreateTaskDialog({ open, onOpenChange, onCreate }: CreateTaskDialogProps) {
+  const t = useTranslations("tasks")
 
   return (
     <AppDialog
@@ -61,205 +149,14 @@ export function CreateTaskDialog({ open, onOpenChange, onCreate }: CreateTaskDia
       onOpenChange={onOpenChange}
       title={t("dialog.createTitle")}
       description={t("dialog.createDescription")}
-      onSubmit={handleSubmit}
       size="md"
-      footer={
-        <div className="flex items-center justify-end gap-2 w-full">
-          <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
-            {tCommon("cancel")}
-          </Button>
-          <Button type="submit">{t("dialog.create")}</Button>
-        </div>
-      }
     >
-      <div className="grid gap-4 py-2">
-        <div className="space-y-1.5">
-          <Label htmlFor="title">{t("dialog.titleLabel")}</Label>
-          <Input
-            id="title"
-            placeholder={t("dialog.titlePlaceholder")}
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            required
-          />
-        </div>
-
-        <div className="grid grid-cols-3 gap-3">
-          <div className="space-y-1.5">
-            <Label htmlFor="status">{t("dialog.statusLabel")}</Label>
-            <Select
-              value={status}
-              onValueChange={(val) => {
-                if (val) setStatus(val as Task["status"])
-              }}
-            >
-              <SelectTrigger id="status" className="h-8 text-xs w-full">
-                <SelectValue placeholder={t("dialog.statusLabel")} />
-              </SelectTrigger>
-              <SelectContent className="w-full">
-                <SelectItem value="backlog">{t("status.backlog")}</SelectItem>
-                <SelectItem value="todo">{t("status.todo")}</SelectItem>
-                <SelectItem value="in progress">{t("status.inProgress")}</SelectItem>
-                <SelectItem value="done">{t("status.done")}</SelectItem>
-                <SelectItem value="canceled">{t("status.canceled")}</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-
-          <div className="space-y-1.5">
-            <Label htmlFor="priority">{t("dialog.priorityLabel")}</Label>
-            <Select
-              value={priority}
-              onValueChange={(val) => {
-                if (val) setPriority(val as Task["priority"])
-              }}
-            >
-              <SelectTrigger id="priority" className="h-8 text-xs w-full">
-                <SelectValue placeholder={t("dialog.priorityLabel")} />
-              </SelectTrigger>
-              <SelectContent className="w-full">
-                <SelectItem value="low">{t("priority.low")}</SelectItem>
-                <SelectItem value="medium">{t("priority.medium")}</SelectItem>
-                <SelectItem value="high">{t("priority.high")}</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-
-          <div className="space-y-1.5">
-            <Label htmlFor="label">{t("dialog.labelLabel")}</Label>
-            <Select
-              value={label}
-              onValueChange={(val) => {
-                if (val) setLabel(val as Task["label"])
-              }}
-            >
-              <SelectTrigger id="label" className="h-8 text-xs w-full">
-                <SelectValue placeholder={t("dialog.labelLabel")} />
-              </SelectTrigger>
-              <SelectContent className="w-full">
-                <SelectItem value="bug">{t("labels.bug")}</SelectItem>
-                <SelectItem value="feature">{t("labels.feature")}</SelectItem>
-                <SelectItem value="documentation">{t("labels.documentation")}</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-        </div>
-      </div>
+      <CreateTaskForm
+        key={open ? "open" : "closed"}
+        onOpenChange={onOpenChange}
+        onCreate={onCreate}
+      />
     </AppDialog>
-  )
-}
-
-interface EditTaskFormProps {
-  task: Task
-  onOpenChange: (open: boolean) => void
-  onUpdate: (task: Task) => void
-}
-
-function EditTaskForm({ task, onOpenChange, onUpdate }: EditTaskFormProps) {
-  const t = useTranslations("tasks")
-  const tCommon = useTranslations("common")
-
-  const [title, setTitle] = React.useState(task.title)
-  const [status, setStatus] = React.useState<Task["status"]>(task.status)
-  const [priority, setPriority] = React.useState<Task["priority"]>(task.priority)
-  const [label, setLabel] = React.useState<Task["label"]>(task.label)
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    if (!title.trim()) return
-
-    onUpdate({
-      ...task,
-      title: title.trim(),
-      status,
-      priority,
-      label,
-    })
-    onOpenChange(false)
-  }
-
-  return (
-    <form onSubmit={handleSubmit}>
-      <div className="grid gap-4 py-2">
-        <div className="space-y-1.5">
-          <Label htmlFor="edit-task-title">{t("dialog.titleLabel")}</Label>
-          <Input
-            id="edit-task-title"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            required
-          />
-        </div>
-
-        <div className="grid grid-cols-3 gap-3">
-          <div className="space-y-1.5">
-            <Label htmlFor="edit-task-status">{t("dialog.statusLabel")}</Label>
-            <Select
-              value={status}
-              onValueChange={(val) => {
-                if (val) setStatus(val as Task["status"])
-              }}
-            >
-              <SelectTrigger id="edit-task-status" className="h-8 text-xs w-full">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent className="w-full">
-                <SelectItem value="backlog">{t("status.backlog")}</SelectItem>
-                <SelectItem value="todo">{t("status.todo")}</SelectItem>
-                <SelectItem value="in progress">{t("status.inProgress")}</SelectItem>
-                <SelectItem value="done">{t("status.done")}</SelectItem>
-                <SelectItem value="canceled">{t("status.canceled")}</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-
-          <div className="space-y-1.5">
-            <Label htmlFor="edit-task-priority">{t("dialog.priorityLabel")}</Label>
-            <Select
-              value={priority}
-              onValueChange={(val) => {
-                if (val) setPriority(val as Task["priority"])
-              }}
-            >
-              <SelectTrigger id="edit-task-priority" className="h-8 text-xs w-full">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent className="w-full">
-                <SelectItem value="low">{t("priority.low")}</SelectItem>
-                <SelectItem value="medium">{t("priority.medium")}</SelectItem>
-                <SelectItem value="high">{t("priority.high")}</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-
-          <div className="space-y-1.5">
-            <Label htmlFor="edit-task-label">{t("dialog.labelLabel")}</Label>
-            <Select
-              value={label}
-              onValueChange={(val) => {
-                if (val) setLabel(val as Task["label"])
-              }}
-            >
-              <SelectTrigger id="edit-task-label" className="h-8 text-xs w-full">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent className="w-full">
-                <SelectItem value="bug">{t("labels.bug")}</SelectItem>
-                <SelectItem value="feature">{t("labels.feature")}</SelectItem>
-                <SelectItem value="documentation">{t("labels.documentation")}</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-        </div>
-      </div>
-
-      <div className="flex items-center justify-end gap-2 pt-4 border-t mt-4">
-        <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
-          {tCommon("cancel")}
-        </Button>
-        <Button type="submit">{t("dialog.save")}</Button>
-      </div>
-    </form>
   )
 }
 
@@ -268,6 +165,61 @@ interface EditTaskDialogProps {
   open: boolean
   onOpenChange: (open: boolean) => void
   onUpdate: (task: Task) => void
+}
+
+function EditTaskForm({
+  task,
+  onOpenChange,
+  onUpdate,
+}: {
+  task: Task
+  onOpenChange: (open: boolean) => void
+  onUpdate: (task: Task) => void
+}) {
+  const t = useTranslations("tasks")
+  const tCommon = useTranslations("common")
+
+  const form = useForm<TaskFormValues>({
+    resolver: zodResolver(taskFormSchema),
+    defaultValues: {
+      title: task.title,
+      status: task.status,
+      priority: task.priority,
+      label: task.label,
+    },
+  })
+
+  const fields = React.useMemo(() => getTaskFormFields(t), [t])
+
+  const onSubmit = (data: TaskFormValues) => {
+    onUpdate({
+      ...task,
+      title: data.title.trim(),
+      status: data.status,
+      priority: data.priority,
+      label: data.label,
+    })
+    onOpenChange(false)
+  }
+
+  return (
+    <DynamicForm<TaskFormValues>
+      form={form}
+      fields={fields}
+      onSubmit={onSubmit}
+      submitLabel={t("dialog.save")}
+      columns={3}
+      secondaryAction={
+        <Button
+          type="button"
+          variant="outline"
+          onClick={() => onOpenChange(false)}
+        >
+          {tCommon("cancel")}
+        </Button>
+      }
+    />
+  )
 }
 
 export function EditTaskDialog({ task, open, onOpenChange, onUpdate }: EditTaskDialogProps) {

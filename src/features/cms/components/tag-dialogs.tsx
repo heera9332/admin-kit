@@ -2,20 +2,118 @@
 
 import * as React from "react"
 import { useTranslations } from "next-intl"
+import { useForm } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { z } from "zod"
 import { Tag as TagIcon, Trash2 } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import { AppDialog } from "@/components/app-dialog"
 import { AppSheet } from "@/components/app-sheet"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
 import { Badge } from "@/components/ui/badge"
+import { DynamicForm } from "@/components/forms"
+import type { FormFieldsConfig } from "@/types/form"
 import type { Tag } from "../data/cms-data"
+
+const tagFormSchema = z.object({
+  name: z.string().min(1, "Name is required"),
+  slug: z.string().min(1, "Slug is required"),
+})
+
+type TagFormValues = z.infer<typeof tagFormSchema>
+
+function getTagFormFields(
+  t: (key: string) => string
+): FormFieldsConfig<TagFormValues> {
+  return [
+    {
+      name: "name",
+      type: "text",
+      label: t("fields.name"),
+      placeholder: t("dialog.namePlaceholder"),
+      required: true,
+      colSpan: 2,
+    },
+    {
+      name: "slug",
+      type: "text",
+      label: t("fields.slug"),
+      placeholder: t("dialog.slugPlaceholder"),
+      required: true,
+      colSpan: 2,
+    },
+  ]
+}
 
 interface CreateTagDialogProps {
   open: boolean
   onOpenChange: (open: boolean) => void
   onCreate: (tag: Tag) => void
+}
+
+function CreateTagForm({
+  onOpenChange,
+  onCreate,
+}: {
+  onOpenChange: (open: boolean) => void
+  onCreate: (tag: Tag) => void
+}) {
+  const t = useTranslations("cms.tags")
+  const tCommon = useTranslations("common")
+
+  const form = useForm<TagFormValues>({
+    resolver: zodResolver(tagFormSchema),
+    defaultValues: {
+      name: "",
+      slug: "",
+    },
+  })
+
+  React.useEffect(() => {
+    const subscription = form.watch((value, { name }) => {
+      if (name === "name" && !form.getFieldState("slug").isDirty && value.name) {
+        const generated = value.name
+          .toLowerCase()
+          .trim()
+          .replace(/[^a-z0-9]+/g, "-")
+          .replace(/^-|-$/g, "")
+        form.setValue("slug", generated, { shouldValidate: true })
+      }
+    })
+    return () => subscription.unsubscribe()
+  }, [form])
+
+  const fields = React.useMemo(() => getTagFormFields(t), [t])
+
+  const onSubmit = (data: TagFormValues) => {
+    onCreate({
+      id: `tag-${Date.now()}`,
+      name: data.name.trim(),
+      slug: data.slug.trim(),
+      count: 0,
+    })
+    form.reset()
+    onOpenChange(false)
+  }
+
+  return (
+    <DynamicForm<TagFormValues>
+      form={form}
+      fields={fields}
+      onSubmit={onSubmit}
+      submitLabel={t("dialog.create")}
+      columns={2}
+      secondaryAction={
+        <Button
+          type="button"
+          variant="outline"
+          onClick={() => onOpenChange(false)}
+        >
+          {tCommon("cancel")}
+        </Button>
+      }
+    />
+  )
 }
 
 export function CreateTagDialog({
@@ -24,60 +122,6 @@ export function CreateTagDialog({
   onCreate,
 }: CreateTagDialogProps) {
   const t = useTranslations("cms.tags")
-  const tCommon = useTranslations("common")
-
-  const [name, setName] = React.useState("")
-  const [slug, setSlug] = React.useState("")
-  const [isSlugManuallyEdited, setIsSlugManuallyEdited] = React.useState(false)
-
-  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const val = e.target.value
-    setName(val)
-    if (!isSlugManuallyEdited) {
-      setSlug(
-        val
-          .toLowerCase()
-          .trim()
-          .replace(/[^a-z0-9]+/g, "-")
-          .replace(/^-|-$/g, "")
-      )
-    }
-  }
-
-  const handleSlugChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setIsSlugManuallyEdited(true)
-    setSlug(
-      e.target.value
-        .toLowerCase()
-        .replace(/[^a-z0-9-_]/g, "")
-    )
-  }
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    if (!name.trim()) return
-
-    const generatedSlug =
-      slug.trim() ||
-      name
-        .toLowerCase()
-        .trim()
-        .replace(/[^a-z0-9]+/g, "-")
-        .replace(/^-|-$/g, "")
-
-    const newTag: Tag = {
-      id: `tag-${Date.now()}`,
-      name: name.trim(),
-      slug: generatedSlug,
-      count: 0,
-    }
-
-    onCreate(newTag)
-    setName("")
-    setSlug("")
-    setIsSlugManuallyEdited(false)
-    onOpenChange(false)
-  }
 
   return (
     <AppDialog
@@ -85,50 +129,99 @@ export function CreateTagDialog({
       onOpenChange={onOpenChange}
       title={t("dialog.createTitle")}
       description={t("dialog.createDescription")}
-      onSubmit={handleSubmit}
       size="md"
-      footer={
-        <div className="flex items-center justify-end gap-2 w-full">
-          <Button
-            type="button"
-            variant="outline"
-            onClick={() => onOpenChange(false)}
-          >
-            {tCommon("cancel")}
-          </Button>
-          <Button type="submit">{t("dialog.create")}</Button>
-        </div>
-      }
     >
-      <div className="grid gap-4 py-2">
-        <div className="space-y-1.5">
-          <Label htmlFor="tag-name">{t("fields.name")}</Label>
-          <Input
-            id="tag-name"
-            placeholder={t("dialog.namePlaceholder")}
-            value={name}
-            onChange={handleNameChange}
-            required
-            autoFocus
-          />
-        </div>
+      <CreateTagForm
+        key={open ? "open" : "closed"}
+        onOpenChange={onOpenChange}
+        onCreate={onCreate}
+      />
+    </AppDialog>
+  )
+}
 
-        <div className="space-y-1.5">
-          <Label htmlFor="tag-slug">{t("fields.slug")}</Label>
-          <div className="relative">
-            <span className="absolute left-3 top-1/2 -translate-y-1/2 font-mono text-xs text-muted-foreground">
-              #
-            </span>
-            <Input
-              id="tag-slug"
-              placeholder={t("dialog.slugPlaceholder")}
-              value={slug}
-              onChange={handleSlugChange}
-              className="pl-6 font-mono text-xs"
-            />
-          </div>
-        </div>
-      </div>
+interface EditTagDialogProps {
+  tag: Tag | null
+  open: boolean
+  onOpenChange: (open: boolean) => void
+  onUpdate: (tag: Tag) => void
+}
+
+function EditTagForm({
+  tag,
+  onOpenChange,
+  onUpdate,
+}: {
+  tag: Tag
+  onOpenChange: (open: boolean) => void
+  onUpdate: (tag: Tag) => void
+}) {
+  const t = useTranslations("cms.tags")
+  const tCommon = useTranslations("common")
+
+  const form = useForm<TagFormValues>({
+    resolver: zodResolver(tagFormSchema),
+    defaultValues: {
+      name: tag.name,
+      slug: tag.slug,
+    },
+  })
+
+  const fields = React.useMemo(() => getTagFormFields(t), [t])
+
+  const onSubmit = (data: TagFormValues) => {
+    onUpdate({
+      ...tag,
+      name: data.name.trim(),
+      slug: data.slug.trim(),
+    })
+    onOpenChange(false)
+  }
+
+  return (
+    <DynamicForm<TagFormValues>
+      form={form}
+      fields={fields}
+      onSubmit={onSubmit}
+      submitLabel={tCommon("save")}
+      columns={2}
+      secondaryAction={
+        <Button
+          type="button"
+          variant="outline"
+          onClick={() => onOpenChange(false)}
+        >
+          {tCommon("cancel")}
+        </Button>
+      }
+    />
+  )
+}
+
+export function EditTagDialog({
+  tag,
+  open,
+  onOpenChange,
+  onUpdate,
+}: EditTagDialogProps) {
+  const t = useTranslations("cms.tags")
+
+  return (
+    <AppDialog
+      open={open}
+      onOpenChange={onOpenChange}
+      title={t("actions.edit")}
+      description="Update the tag label and identifier slug."
+      size="md"
+    >
+      {tag && (
+        <EditTagForm
+          key={tag.id}
+          tag={tag}
+          onOpenChange={onOpenChange}
+          onUpdate={onUpdate}
+        />
+      )}
     </AppDialog>
   )
 }

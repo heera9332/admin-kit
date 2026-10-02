@@ -2,21 +2,129 @@
 
 import * as React from "react"
 import { useTranslations } from "next-intl"
+import { useForm } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { z } from "zod"
 import { FolderTree, Trash2 } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import { AppDialog } from "@/components/app-dialog"
 import { AppSheet } from "@/components/app-sheet"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
 import { Badge } from "@/components/ui/badge"
+import { DynamicForm } from "@/components/forms"
+import type { FormFieldsConfig } from "@/types/form"
 import type { Category } from "../data/cms-data"
+
+const categoryFormSchema = z.object({
+  name: z.string().min(1, "Name is required"),
+  slug: z.string().min(1, "Slug is required"),
+  description: z.string().optional(),
+})
+
+type CategoryFormValues = z.infer<typeof categoryFormSchema>
+
+function getCategoryFormFields(
+  t: (key: string) => string
+): FormFieldsConfig<CategoryFormValues> {
+  return [
+    {
+      name: "name",
+      type: "text",
+      label: t("fields.name"),
+      placeholder: t("dialog.namePlaceholder"),
+      required: true,
+      colSpan: 2,
+    },
+    {
+      name: "slug",
+      type: "text",
+      label: t("fields.slug"),
+      placeholder: t("dialog.slugPlaceholder"),
+      required: true,
+      colSpan: 2,
+    },
+    {
+      name: "description",
+      type: "textarea",
+      label: t("fields.description"),
+      placeholder: t("dialog.descPlaceholder"),
+      rows: 3,
+      colSpan: 2,
+    },
+  ]
+}
 
 interface CreateCategoryDialogProps {
   open: boolean
   onOpenChange: (open: boolean) => void
   onCreate: (category: Category) => void
+}
+
+function CreateCategoryForm({
+  onOpenChange,
+  onCreate,
+}: {
+  onOpenChange: (open: boolean) => void
+  onCreate: (category: Category) => void
+}) {
+  const t = useTranslations("cms.categories")
+  const tCommon = useTranslations("common")
+
+  const form = useForm<CategoryFormValues>({
+    resolver: zodResolver(categoryFormSchema),
+    defaultValues: {
+      name: "",
+      slug: "",
+      description: "",
+    },
+  })
+
+  React.useEffect(() => {
+    const subscription = form.watch((value, { name }) => {
+      if (name === "name" && !form.getFieldState("slug").isDirty && value.name) {
+        const generated = value.name
+          .toLowerCase()
+          .trim()
+          .replace(/[^a-z0-9]+/g, "-")
+          .replace(/^-|-$/g, "")
+        form.setValue("slug", generated, { shouldValidate: true })
+      }
+    })
+    return () => subscription.unsubscribe()
+  }, [form])
+
+  const fields = React.useMemo(() => getCategoryFormFields(t), [t])
+
+  const onSubmit = (data: CategoryFormValues) => {
+    onCreate({
+      id: `cat-${Date.now()}`,
+      name: data.name.trim(),
+      slug: data.slug.trim(),
+      description: (data.description || "").trim(),
+      postCount: 0,
+    })
+    form.reset()
+    onOpenChange(false)
+  }
+
+  return (
+    <DynamicForm<CategoryFormValues>
+      form={form}
+      fields={fields}
+      onSubmit={onSubmit}
+      submitLabel={t("dialog.create")}
+      columns={2}
+      secondaryAction={
+        <Button
+          type="button"
+          variant="outline"
+          onClick={() => onOpenChange(false)}
+        >
+          {tCommon("cancel")}
+        </Button>
+      }
+    />
+  )
 }
 
 export function CreateCategoryDialog({
@@ -25,63 +133,6 @@ export function CreateCategoryDialog({
   onCreate,
 }: CreateCategoryDialogProps) {
   const t = useTranslations("cms.categories")
-  const tCommon = useTranslations("common")
-
-  const [name, setName] = React.useState("")
-  const [slug, setSlug] = React.useState("")
-  const [description, setDescription] = React.useState("")
-  const [isSlugManuallyEdited, setIsSlugManuallyEdited] = React.useState(false)
-
-  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const val = e.target.value
-    setName(val)
-    if (!isSlugManuallyEdited) {
-      setSlug(
-        val
-          .toLowerCase()
-          .trim()
-          .replace(/[^a-z0-9]+/g, "-")
-          .replace(/^-|-$/g, "")
-      )
-    }
-  }
-
-  const handleSlugChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setIsSlugManuallyEdited(true)
-    setSlug(
-      e.target.value
-        .toLowerCase()
-        .replace(/[^a-z0-9-_]/g, "")
-    )
-  }
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    if (!name.trim()) return
-
-    const generatedSlug =
-      slug.trim() ||
-      name
-        .toLowerCase()
-        .trim()
-        .replace(/[^a-z0-9]+/g, "-")
-        .replace(/^-|-$/g, "")
-
-    const newCategory: Category = {
-      id: `cat-${Date.now()}`,
-      name: name.trim(),
-      slug: generatedSlug,
-      description: description.trim(),
-      postCount: 0,
-    }
-
-    onCreate(newCategory)
-    setName("")
-    setSlug("")
-    setDescription("")
-    setIsSlugManuallyEdited(false)
-    onOpenChange(false)
-  }
 
   return (
     <AppDialog
@@ -89,61 +140,101 @@ export function CreateCategoryDialog({
       onOpenChange={onOpenChange}
       title={t("dialog.createTitle")}
       description={t("dialog.createDescription")}
-      onSubmit={handleSubmit}
       size="md"
-      footer={
-        <div className="flex items-center justify-end gap-2 w-full">
-          <Button
-            type="button"
-            variant="outline"
-            onClick={() => onOpenChange(false)}
-          >
-            {tCommon("cancel")}
-          </Button>
-          <Button type="submit">{t("dialog.create")}</Button>
-        </div>
-      }
     >
-      <div className="grid gap-4 py-2">
-        <div className="space-y-1.5">
-          <Label htmlFor="category-name">{t("fields.name")}</Label>
-          <Input
-            id="category-name"
-            placeholder={t("dialog.namePlaceholder")}
-            value={name}
-            onChange={handleNameChange}
-            required
-            autoFocus
-          />
-        </div>
+      <CreateCategoryForm
+        key={open ? "open" : "closed"}
+        onOpenChange={onOpenChange}
+        onCreate={onCreate}
+      />
+    </AppDialog>
+  )
+}
 
-        <div className="space-y-1.5">
-          <Label htmlFor="category-slug">{t("fields.slug")}</Label>
-          <div className="relative">
-            <span className="absolute left-3 top-1/2 -translate-y-1/2 font-mono text-xs text-muted-foreground">
-              /
-            </span>
-            <Input
-              id="category-slug"
-              placeholder={t("dialog.slugPlaceholder")}
-              value={slug}
-              onChange={handleSlugChange}
-              className="pl-6 font-mono text-xs"
-            />
-          </div>
-        </div>
+interface EditCategoryDialogProps {
+  category: Category | null
+  open: boolean
+  onOpenChange: (open: boolean) => void
+  onUpdate: (category: Category) => void
+}
 
-        <div className="space-y-1.5">
-          <Label htmlFor="category-desc">{t("fields.description")}</Label>
-          <Textarea
-            id="category-desc"
-            placeholder={t("dialog.descPlaceholder")}
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            rows={3}
-          />
-        </div>
-      </div>
+function EditCategoryForm({
+  category,
+  onOpenChange,
+  onUpdate,
+}: {
+  category: Category
+  onOpenChange: (open: boolean) => void
+  onUpdate: (category: Category) => void
+}) {
+  const t = useTranslations("cms.categories")
+  const tCommon = useTranslations("common")
+
+  const form = useForm<CategoryFormValues>({
+    resolver: zodResolver(categoryFormSchema),
+    defaultValues: {
+      name: category.name,
+      slug: category.slug,
+      description: category.description || "",
+    },
+  })
+
+  const fields = React.useMemo(() => getCategoryFormFields(t), [t])
+
+  const onSubmit = (data: CategoryFormValues) => {
+    onUpdate({
+      ...category,
+      name: data.name.trim(),
+      slug: data.slug.trim(),
+      description: (data.description || "").trim(),
+    })
+    onOpenChange(false)
+  }
+
+  return (
+    <DynamicForm<CategoryFormValues>
+      form={form}
+      fields={fields}
+      onSubmit={onSubmit}
+      submitLabel={tCommon("save")}
+      columns={2}
+      secondaryAction={
+        <Button
+          type="button"
+          variant="outline"
+          onClick={() => onOpenChange(false)}
+        >
+          {tCommon("cancel")}
+        </Button>
+      }
+    />
+  )
+}
+
+export function EditCategoryDialog({
+  category,
+  open,
+  onOpenChange,
+  onUpdate,
+}: EditCategoryDialogProps) {
+  const t = useTranslations("cms.categories")
+
+  return (
+    <AppDialog
+      open={open}
+      onOpenChange={onOpenChange}
+      title={t("actions.edit")}
+      description="Update category name, URL slug, and description."
+      size="md"
+    >
+      {category && (
+        <EditCategoryForm
+          key={category.id}
+          category={category}
+          onOpenChange={onOpenChange}
+          onUpdate={onUpdate}
+        />
+      )}
     </AppDialog>
   )
 }

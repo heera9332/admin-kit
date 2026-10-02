@@ -30,7 +30,7 @@ import {
 import { DataTable } from "@/components/shared/data-table"
 import { DataTableColumnHeader } from "@/components/shared/data-table/data-table-column-header"
 import { initialTags, type Tag } from "./data/cms-data"
-import { CreateTagDialog, ViewTagSheet } from "./components/tag-dialogs"
+import { CreateTagDialog, EditTagDialog, ViewTagSheet } from "./components/tag-dialogs"
 import { cn } from "@/lib/utils"
 
 export function TagsFeature() {
@@ -39,6 +39,7 @@ export function TagsFeature() {
   const [createOpen, setCreateOpen] = React.useState(false)
   const [viewOpen, setViewOpen] = React.useState(false)
   const [selectedTag, setSelectedTag] = React.useState<Tag | null>(null)
+  const [editingTag, setEditingTag] = React.useState<Tag | null>(null)
   const [viewMode, setViewMode] = React.useState<"table" | "grid">("table")
 
   const handleCreate = (newTag: Tag) => {
@@ -49,6 +50,17 @@ export function TagsFeature() {
     setSelectedTag(tag)
     setViewOpen(true)
   }, [])
+
+  const handleEdit = React.useCallback((tag: Tag) => {
+    setEditingTag(tag)
+  }, [])
+
+  const handleUpdate = React.useCallback((updated: Tag) => {
+    setTags((prev) => prev.map((t) => (t.id === updated.id ? updated : t)))
+    if (selectedTag?.id === updated.id) {
+      setSelectedTag(updated)
+    }
+  }, [selectedTag])
 
   const handleDelete = React.useCallback((id: string) => {
     setTags((prev) => prev.filter((tag) => tag.id !== id))
@@ -126,7 +138,7 @@ export function TagsFeature() {
                 <DropdownMenuItem
                   onClick={(e) => {
                     e.stopPropagation()
-                    alert(`Edit ${tag.name}`)
+                    handleEdit(tag)
                   }}
                   className="justify-between gap-2 cursor-pointer"
                 >
@@ -149,7 +161,7 @@ export function TagsFeature() {
         },
       },
     ],
-    [handleView, handleDelete, t]
+    [handleView, handleEdit, handleDelete, t]
   )
 
   return (
@@ -278,7 +290,7 @@ export function TagsFeature() {
                       <DropdownMenuItem
                         onClick={(e) => {
                           e.stopPropagation()
-                          alert(`Edit ${tag.name}`)
+                          handleEdit(tag)
                         }}
                         className="justify-between gap-2 cursor-pointer"
                       >
@@ -322,6 +334,13 @@ export function TagsFeature() {
         open={createOpen}
         onOpenChange={setCreateOpen}
         onCreate={handleCreate}
+      />
+
+      <EditTagDialog
+        tag={editingTag}
+        open={!!editingTag}
+        onOpenChange={(open) => !open && setEditingTag(null)}
+        onUpdate={handleUpdate}
       />
 
       <ViewTagSheet
