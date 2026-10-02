@@ -123,9 +123,10 @@ export function EcommerceProvider({ children }: { children: React.ReactNode }) {
   const [reviews, setReviews] = React.useState<Review[]>(() =>
     loadInitial(STORAGE_KEYS.reviews, initialReviews)
   )
-  const [settings, setSettings] = React.useState<EcommerceSettings>(() =>
-    loadInitial(STORAGE_KEYS.settings, initialSettings)
-  )
+  const [settings, setSettings] = React.useState<EcommerceSettings>(() => {
+    const loaded = loadInitial(STORAGE_KEYS.settings, initialSettings)
+    return { ...initialSettings, ...loaded }
+  })
 
   const saveToStorage = React.useCallback((key: string, data: unknown) => {
     if (typeof window === "undefined") return

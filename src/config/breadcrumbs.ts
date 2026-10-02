@@ -22,6 +22,9 @@ import {
   Star,
   BarChart3,
   ShoppingCart,
+  Store,
+  MapPin,
+  Coins,
 } from "lucide-react"
 import type { LucideIcon } from "lucide-react"
 
@@ -147,6 +150,26 @@ export const routeConfigMap: Record<string, RouteConfig> = {
     defaultTitle: "Reports",
     href: "/dashboard/ecommerce/reports",
     icon: BarChart3,
+  },
+  store: {
+    defaultTitle: "Store Settings",
+    href: "/dashboard/ecommerce/settings/store",
+    icon: Store,
+  },
+  payments: {
+    defaultTitle: "Payments",
+    href: "/dashboard/ecommerce/settings/payments",
+    icon: CreditCard,
+  },
+  address: {
+    defaultTitle: "Store Address",
+    href: "/dashboard/ecommerce/settings/address",
+    icon: MapPin,
+  },
+  currency: {
+    defaultTitle: "Currency",
+    href: "/dashboard/ecommerce/settings/currency",
+    icon: Coins,
   },
   settings: {
     titleKey: "settings",

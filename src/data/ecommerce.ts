@@ -141,18 +141,111 @@ export interface Review {
   createdAt: string
 }
 
+export interface PaymentGatewayConfig {
+  id: string
+  name: string
+  description: string
+  enabled: boolean
+  isTestMode?: boolean
+  accountDetails?: string
+  instructions?: string
+  publishableKey?: string
+  secretKey?: string
+  merchantEmail?: string
+}
+
 export interface EcommerceSettings {
+  // Store Settings (General)
   storeName: string
   storeEmail: string
-  currency: string
   phone: string
-  address: string
-  lowStockAlert: number
+  tagline?: string
+  storeNotice?: string
+  sellingLocations?: string
+  shippingLocations?: string
+  defaultCustomerLocation?: string
   taxRate: number
+  enableTaxes?: boolean
+  enableCoupons?: boolean
+  lowStockAlert: number
   freeShippingThreshold: number
   enableReviews: boolean
   guestCheckout: boolean
+
+  // Store Address
+  address: string
+  addressLine1?: string
+  addressLine2?: string
+  city?: string
+  state?: string
+  country?: string
+  zip?: string
+  warehouseSameAsStore?: boolean
+  warehouseName?: string
+  warehouseAddressLine1?: string
+  warehouseCity?: string
+  warehouseState?: string
+  warehouseZip?: string
+  warehousePhone?: string
+
+  // Currency Options
+  currency: string
+  currencyPosition?: "left" | "right" | "left_space" | "right_space"
+  thousandSeparator?: string
+  decimalSeparator?: string
+  decimalPlaces?: number
+  priceSuffix?: string
+
+  // Payments
+  paymentGateways?: PaymentGatewayConfig[]
 }
+
+export const defaultPaymentGateways: PaymentGatewayConfig[] = [
+  {
+    id: "stripe",
+    name: "Stripe (Credit / Debit Card)",
+    description: "Accept Visa, Mastercard, Amex, Apple Pay, and Google Pay securely via Stripe.",
+    enabled: true,
+    isTestMode: true,
+    publishableKey: "pk_test_51MzExampleKey...",
+    secretKey: "sk_test_51MzExampleSecret...",
+    instructions: "Pay with your credit or debit card. Your payment is encrypted and PCI compliant.",
+  },
+  {
+    id: "paypal",
+    name: "PayPal Checkout",
+    description: "Accept PayPal balance, Pay in 4, and international credit cards.",
+    enabled: true,
+    isTestMode: true,
+    merchantEmail: "payments@luminacommerce.com",
+    instructions: "You will be redirected to PayPal to complete your purchase safely.",
+  },
+  {
+    id: "bacs",
+    name: "Direct Bank Transfer (BACS)",
+    description: "Make payment directly into our bank account. Goods dispatch upon payment clearance.",
+    enabled: false,
+    accountDetails: "Chase Bank • Account: 9876543210 • Routing: 121000358",
+    instructions: "Please use your Order ID as the payment reference. Your order will not ship until funds have cleared.",
+  },
+  {
+    id: "cod",
+    name: "Cash on Delivery (COD)",
+    description: "Pay with cash upon delivery at your doorstep.",
+    enabled: true,
+    instructions: "Please have exact cash ready when the courier arrives at your shipping address.",
+  },
+  {
+    id: "razorpay",
+    name: "Razorpay (UPI / NetBanking / Cards)",
+    description: "Accept UPI payments (GPay, PhonePe, Paytm), NetBanking, and Indian debit/credit cards.",
+    enabled: false,
+    isTestMode: true,
+    publishableKey: "rzp_test_example...",
+    secretKey: "rzp_secret_example...",
+    instructions: "Scan the UPI QR code or enter your VPA to pay instantly.",
+  },
+]
 
 export const initialProducts: Product[] = ecommerceData.products as Product[]
 export const initialProductCategories: ProductCategory[] = ecommerceData.categories as ProductCategory[]
@@ -162,4 +255,45 @@ export const initialOrders: Order[] = ecommerceData.orders as Order[]
 export const initialCustomers: Customer[] = ecommerceData.customers as Customer[]
 export const initialCoupons: Coupon[] = ecommerceData.coupons as Coupon[]
 export const initialReviews: Review[] = ecommerceData.reviews as Review[]
-export const initialSettings: EcommerceSettings = ecommerceData.settings as EcommerceSettings
+export const initialSettings: EcommerceSettings = {
+  storeName: (ecommerceData.settings as any)?.storeName || "Lumina Commerce",
+  storeEmail: (ecommerceData.settings as any)?.storeEmail || "store@luminacommerce.com",
+  phone: (ecommerceData.settings as any)?.phone || "+1 (800) 555-0199",
+  tagline: "Quality goods delivered to your doorstep",
+  storeNotice: "Enjoy free shipping on orders over $99. No coupon code required!",
+  sellingLocations: "all",
+  shippingLocations: "all_selling",
+  defaultCustomerLocation: "geolocate",
+  taxRate: (ecommerceData.settings as any)?.taxRate || 8.5,
+  enableTaxes: true,
+  enableCoupons: true,
+  lowStockAlert: (ecommerceData.settings as any)?.lowStockAlert || 10,
+  freeShippingThreshold: (ecommerceData.settings as any)?.freeShippingThreshold || 99.0,
+  enableReviews: (ecommerceData.settings as any)?.enableReviews ?? true,
+  guestCheckout: (ecommerceData.settings as any)?.guestCheckout ?? true,
+
+  address: (ecommerceData.settings as any)?.address || "500 Howard Street, Suite 400, San Francisco, CA 94105",
+  addressLine1: "500 Howard Street",
+  addressLine2: "Suite 400",
+  city: "San Francisco",
+  state: "CA",
+  country: "United States (US)",
+  zip: "94105",
+  warehouseSameAsStore: true,
+  warehouseName: "West Coast Distribution Hub",
+  warehouseAddressLine1: "500 Howard Street, Suite 400",
+  warehouseCity: "San Francisco",
+  warehouseState: "CA",
+  warehouseZip: "94105",
+  warehousePhone: "+1 (800) 555-0199",
+
+  currency: (ecommerceData.settings as any)?.currency || "USD",
+  currencyPosition: "left",
+  thousandSeparator: ",",
+  decimalSeparator: ".",
+  decimalPlaces: 2,
+  priceSuffix: "ex. VAT",
+
+  paymentGateways: defaultPaymentGateways,
+}
+
