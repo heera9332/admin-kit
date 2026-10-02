@@ -84,7 +84,7 @@ export function getProjectColumns({
                 </span>
               </div>
               <p className="text-[11px] text-muted-foreground truncate mt-0.5">
-                {project.description}
+                {project.description ? project.description.replace(/<[^>]*>/g, "") : ""}
               </p>
             </div>
           </div>

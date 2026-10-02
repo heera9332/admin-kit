@@ -2,6 +2,10 @@
 
 import * as React from "react"
 import { useTranslations } from "next-intl"
+import { useForm } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { z } from "zod"
+import { format } from "date-fns"
 import {
   Calendar,
   Clock,
@@ -15,18 +19,144 @@ import {
 import { AppDialog } from "@/components/app-dialog"
 import { AppSheet } from "@/components/app-sheet"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Progress } from "@/components/ui/progress"
 import { StatusBadge } from "@/components/status-badge"
-import type { Project, ProjectCategory, ProjectStatus } from "../types"
+import { DynamicForm } from "@/components/forms"
+import type { FormFieldsConfig } from "@/types/form"
+import type { Project, ProjectFormValues } from "../types"
+
+const projectFormSchema = z.object({
+  title: z.string().min(1, "Title is required"),
+  category: z.enum(["web", "mobile", "design", "marketing", "devops"] as const),
+  status: z.enum(["planning", "in_progress", "completed", "on_hold"] as const),
+  dueDate: z.union([z.string(), z.date()]).optional(),
+  description: z.string().optional(),
+})
+
+function getProjectFormFields(
+  t: (key: string) => string
+): FormFieldsConfig<ProjectFormValues> {
+  return [
+    {
+      name: "title",
+      type: "text",
+      label: t("fields.title"),
+      placeholder: t("fields.titlePlaceholder"),
+      required: true,
+      colSpan: 2,
+    },
+    {
+      name: "category",
+      type: "select",
+      label: t("fields.category"),
+      required: true,
+      colSpan: 1,
+      options: [
+        { value: "web", label: t("categories.web") },
+        { value: "mobile", label: t("categories.mobile") },
+        { value: "design", label: t("categories.design") },
+        { value: "marketing", label: t("categories.marketing") },
+        { value: "devops", label: t("categories.devops") },
+      ],
+    },
+    {
+      name: "status",
+      type: "select",
+      label: t("fields.status"),
+      required: true,
+      colSpan: 1,
+      options: [
+        { value: "planning", label: t("statuses.planning") },
+        { value: "in_progress", label: t("statuses.in_progress") },
+        { value: "completed", label: t("statuses.completed") },
+        { value: "on_hold", label: t("statuses.on_hold") },
+      ],
+    },
+    {
+      name: "dueDate",
+      type: "date",
+      label: t("fields.dueDate"),
+      placeholder: t("fields.dueDate"),
+      colSpan: 2,
+    },
+    {
+      name: "description",
+      type: "richtext",
+      label: t("fields.description"),
+      placeholder: t("fields.descriptionPlaceholder"),
+      minHeight: "min-h-[160px]",
+      colSpan: 2,
+    },
+  ]
+}
 
 interface CreateProjectDialogProps {
   open: boolean
   onOpenChange: (open: boolean) => void
   onCreate: (project: Omit<Project, "id" | "createdAt" | "progress">) => void
+}
+
+function CreateProjectForm({
+  onOpenChange,
+  onCreate,
+}: {
+  onOpenChange: (open: boolean) => void
+  onCreate: (project: Omit<Project, "id" | "createdAt" | "progress">) => void
+}) {
+  const t = useTranslations("projects")
+  const tCommon = useTranslations("common")
+
+  const form = useForm<ProjectFormValues>({
+    resolver: zodResolver(projectFormSchema),
+    defaultValues: {
+      title: "",
+      category: "web",
+      status: "planning",
+      dueDate: "",
+      description: "",
+    },
+  })
+
+  const fields = React.useMemo(() => getProjectFormFields(t), [t])
+
+  const onSubmit = (data: ProjectFormValues) => {
+    const formattedDueDate =
+      data.dueDate instanceof Date
+        ? format(data.dueDate, "yyyy-MM-dd")
+        : data.dueDate
+          ? String(data.dueDate)
+          : undefined
+
+    onCreate({
+      title: data.title.trim(),
+      description: (data.description || "").trim(),
+      status: data.status,
+      category: data.category,
+      dueDate: formattedDueDate,
+    })
+
+    form.reset()
+    onOpenChange(false)
+  }
+
+  return (
+    <DynamicForm<ProjectFormValues>
+      form={form}
+      fields={fields}
+      onSubmit={onSubmit}
+      submitLabel={t("dialogs.create")}
+      columns={2}
+      secondaryAction={
+        <Button
+          type="button"
+          variant="outline"
+          onClick={() => onOpenChange(false)}
+        >
+          {tCommon("cancel")}
+        </Button>
+      }
+    />
+  )
 }
 
 export function CreateProjectDialog({
@@ -35,33 +165,6 @@ export function CreateProjectDialog({
   onCreate,
 }: CreateProjectDialogProps) {
   const t = useTranslations("projects")
-  const tCommon = useTranslations("common")
-
-  const [title, setTitle] = React.useState("")
-  const [description, setDescription] = React.useState("")
-  const [status, setStatus] = React.useState<ProjectStatus>("planning")
-  const [category, setCategory] = React.useState<ProjectCategory>("web")
-  const [dueDate, setDueDate] = React.useState("")
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    if (!title.trim()) return
-
-    onCreate({
-      title: title.trim(),
-      description: description.trim(),
-      status,
-      category,
-      dueDate: dueDate || undefined,
-    })
-
-    setTitle("")
-    setDescription("")
-    setStatus("planning")
-    setCategory("web")
-    setDueDate("")
-    onOpenChange(false)
-  }
 
   return (
     <AppDialog
@@ -69,98 +172,14 @@ export function CreateProjectDialog({
       onOpenChange={onOpenChange}
       title={t("dialogs.createTitle")}
       description={t("dialogs.createDescription")}
-      size="lg"
-      onSubmit={handleSubmit}
-      footer={
-        <div className="flex items-center justify-end gap-2 w-full">
-          <Button
-            type="button"
-            variant="outline"
-            onClick={() => onOpenChange(false)}
-          >
-            {tCommon("cancel")}
-          </Button>
-          <Button type="submit" disabled={!title.trim()}>
-            {t("dialogs.create")}
-          </Button>
-        </div>
-      }
+      size="xl"
+      scrollable
     >
-      <div className="grid gap-4 py-1">
-        <div className="space-y-1.5">
-          <Label htmlFor="project-title">{t("fields.title")} *</Label>
-          <Input
-            id="project-title"
-            placeholder={t("fields.titlePlaceholder")}
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            required
-            className="w-full"
-          />
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div className="space-y-1.5">
-            <Label htmlFor="project-category">{t("fields.category")} *</Label>
-            <Select
-              value={category}
-              onValueChange={(val) => setCategory(val as ProjectCategory)}
-            >
-              <SelectTrigger id="project-category" className="w-full">
-                <SelectValue placeholder={t("fields.selectCategory")} />
-              </SelectTrigger>
-              <SelectContent className="w-full">
-                <SelectItem value="web">{t("categories.web")}</SelectItem>
-                <SelectItem value="mobile">{t("categories.mobile")}</SelectItem>
-                <SelectItem value="design">{t("categories.design")}</SelectItem>
-                <SelectItem value="marketing">{t("categories.marketing")}</SelectItem>
-                <SelectItem value="devops">{t("categories.devops")}</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-
-          <div className="space-y-1.5">
-            <Label htmlFor="project-status">{t("fields.status")} *</Label>
-            <Select
-              value={status}
-              onValueChange={(val) => setStatus(val as ProjectStatus)}
-            >
-              <SelectTrigger id="project-status" className="w-full">
-                <SelectValue placeholder={t("fields.selectStatus")} />
-              </SelectTrigger>
-              <SelectContent className="w-full">
-                <SelectItem value="planning">{t("statuses.planning")}</SelectItem>
-                <SelectItem value="in_progress">{t("statuses.in_progress")}</SelectItem>
-                <SelectItem value="completed">{t("statuses.completed")}</SelectItem>
-                <SelectItem value="on_hold">{t("statuses.on_hold")}</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-        </div>
-
-        <div className="space-y-1.5">
-          <Label htmlFor="project-duedate">{t("fields.dueDate")}</Label>
-          <Input
-            id="project-duedate"
-            type="date"
-            value={dueDate}
-            onChange={(e) => setDueDate(e.target.value)}
-            className="w-full"
-          />
-        </div>
-
-        <div className="space-y-1.5">
-          <Label htmlFor="project-description">{t("fields.description")}</Label>
-          <Textarea
-            id="project-description"
-            rows={3}
-            placeholder={t("fields.descriptionPlaceholder")}
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            className="w-full"
-          />
-        </div>
-      </div>
+      <CreateProjectForm
+        key={open ? "open" : "closed"}
+        onOpenChange={onOpenChange}
+        onCreate={onCreate}
+      />
     </AppDialog>
   )
 }
@@ -184,105 +203,47 @@ function EditProjectForm({
   const t = useTranslations("projects")
   const tCommon = useTranslations("common")
 
-  const [title, setTitle] = React.useState(project.title)
-  const [description, setDescription] = React.useState(project.description)
-  const [status, setStatus] = React.useState<ProjectStatus>(project.status)
-  const [category, setCategory] = React.useState<ProjectCategory>(project.category)
-  const [dueDate, setDueDate] = React.useState(project.dueDate ?? "")
+  const form = useForm<ProjectFormValues>({
+    resolver: zodResolver(projectFormSchema),
+    defaultValues: {
+      title: project.title,
+      category: project.category,
+      status: project.status,
+      dueDate: project.dueDate ? new Date(project.dueDate) : "",
+      description: project.description || "",
+    },
+  })
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    if (!title.trim()) return
+  const fields = React.useMemo(() => getProjectFormFields(t), [t])
+
+  const onSubmit = (data: ProjectFormValues) => {
+    const formattedDueDate =
+      data.dueDate instanceof Date
+        ? format(data.dueDate, "yyyy-MM-dd")
+        : data.dueDate
+          ? String(data.dueDate)
+          : undefined
 
     onUpdate({
       ...project,
-      title: title.trim(),
-      description: description.trim(),
-      status,
-      category,
-      dueDate: dueDate || undefined,
+      title: data.title.trim(),
+      description: (data.description || "").trim(),
+      status: data.status,
+      category: data.category,
+      dueDate: formattedDueDate,
     })
 
     onOpenChange(false)
   }
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-      <div className="grid gap-4 py-1">
-        <div className="space-y-1.5">
-          <Label htmlFor="edit-project-title">{t("fields.title")} *</Label>
-          <Input
-            id="edit-project-title"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            required
-            className="w-full"
-          />
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div className="space-y-1.5">
-            <Label htmlFor="edit-project-category">{t("fields.category")} *</Label>
-            <Select
-              value={category}
-              onValueChange={(val) => setCategory(val as ProjectCategory)}
-            >
-              <SelectTrigger id="edit-project-category" className="w-full">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent className="w-full">
-                <SelectItem value="web">{t("categories.web")}</SelectItem>
-                <SelectItem value="mobile">{t("categories.mobile")}</SelectItem>
-                <SelectItem value="design">{t("categories.design")}</SelectItem>
-                <SelectItem value="marketing">{t("categories.marketing")}</SelectItem>
-                <SelectItem value="devops">{t("categories.devops")}</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-
-          <div className="space-y-1.5">
-            <Label htmlFor="edit-project-status">{t("fields.status")} *</Label>
-            <Select
-              value={status}
-              onValueChange={(val) => setStatus(val as ProjectStatus)}
-            >
-              <SelectTrigger id="edit-project-status" className="w-full">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent className="w-full">
-                <SelectItem value="planning">{t("statuses.planning")}</SelectItem>
-                <SelectItem value="in_progress">{t("statuses.in_progress")}</SelectItem>
-                <SelectItem value="completed">{t("statuses.completed")}</SelectItem>
-                <SelectItem value="on_hold">{t("statuses.on_hold")}</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-        </div>
-
-        <div className="space-y-1.5">
-          <Label htmlFor="edit-project-duedate">{t("fields.dueDate")}</Label>
-          <Input
-            id="edit-project-duedate"
-            type="date"
-            value={dueDate}
-            onChange={(e) => setDueDate(e.target.value)}
-            className="w-full"
-          />
-        </div>
-
-        <div className="space-y-1.5">
-          <Label htmlFor="edit-project-description">{t("fields.description")}</Label>
-          <Textarea
-            id="edit-project-description"
-            rows={3}
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            className="w-full"
-          />
-        </div>
-      </div>
-
-      <div className="flex items-center justify-end gap-2 w-full">
+    <DynamicForm<ProjectFormValues>
+      form={form}
+      fields={fields}
+      onSubmit={onSubmit}
+      submitLabel={t("dialogs.save")}
+      columns={2}
+      secondaryAction={
         <Button
           type="button"
           variant="outline"
@@ -290,11 +251,8 @@ function EditProjectForm({
         >
           {tCommon("cancel")}
         </Button>
-        <Button type="submit" disabled={!title.trim()}>
-          {t("dialogs.save")}
-        </Button>
-      </div>
-    </form>
+      }
+    />
   )
 }
 
@@ -312,7 +270,8 @@ export function EditProjectDialog({
       onOpenChange={onOpenChange}
       title={t("dialogs.editTitle")}
       description={t("dialogs.editDescription")}
-      size="lg"
+      size="xl"
+      scrollable
     >
       {project && (
         <EditProjectForm
@@ -400,9 +359,16 @@ export function ViewProjectSheet({
           <span className="text-xs font-medium text-muted-foreground mb-2">
             {t("fields.description")}
           </span>
-          <p className="text-sm leading-relaxed text-foreground/90 bg-card p-3 rounded-lg border">
-            {project.description || "No description provided."}
-          </p>
+          {project.description ? (
+            <div
+              className="text-sm leading-relaxed text-foreground/90 bg-card p-3 rounded-lg border max-w-none text-xs [&_p]:my-1.5 [&_ul]:list-disc [&_ul]:pl-4 [&_ol]:list-decimal [&_ol]:pl-4 [&_h1]:text-lg [&_h1]:font-bold [&_h2]:text-base [&_h2]:font-semibold [&_h3]:text-sm [&_h3]:font-medium [&_blockquote]:border-l-2 [&_blockquote]:pl-2 [&_blockquote]:italic"
+              dangerouslySetInnerHTML={{ __html: project.description }}
+            />
+          ) : (
+            <p className="text-sm leading-relaxed text-muted-foreground bg-card p-3 rounded-lg border italic">
+              No description provided.
+            </p>
+          )}
         </div>
 
         {project.progress !== undefined && (

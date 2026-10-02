@@ -15,8 +15,8 @@ export interface Project {
 
 export interface ProjectFormValues {
   title: string
-  description: string
+  description?: string
   status: ProjectStatus
   category: ProjectCategory
-  dueDate?: string
+  dueDate?: string | Date
 }
