@@ -175,7 +175,7 @@ export function SiteVisibilitySettingsFeature() {
             Choose whether your site is live to all shoppers or hidden behind a customized landing page.
           </CardDescription>
         </CardHeader>
-        <CardContent className="p-4 sm:p-6 space-y-4">
+        <CardContent className="p-4 space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {/* OPTION 1: COMING SOON */}
             <div
@@ -390,7 +390,7 @@ export function SiteVisibilitySettingsFeature() {
             Control the visibility indicator shown to administrators in the top navigation bar.
           </CardDescription>
         </CardHeader>
-        <CardContent className="p-4 sm:p-6 space-y-4">
+        <CardContent className="p-4 space-y-4">
           <div className="flex items-center justify-between gap-4">
             <div className="space-y-1">
               <span className="text-sm font-semibold text-foreground block">
