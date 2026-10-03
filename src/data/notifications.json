@@ -1,0 +1,79 @@
+[
+  {
+    "id": "notif-1",
+    "title": "New order received",
+    "description": "Order #ORD-9421 placed by Alex Rivera for $349.00",
+    "timestamp": "10 minutes ago",
+    "createdAt": "2026-10-03T16:32:00Z",
+    "read": false,
+    "type": "order",
+    "link": "/dashboard/ecommerce/orders",
+    "priority": "medium"
+  },
+  {
+    "id": "notif-2",
+    "title": "Security alert: New login",
+    "description": "Unrecognized sign-in from Chrome on macOS (Frankfurt, DE)",
+    "timestamp": "45 minutes ago",
+    "createdAt": "2026-10-03T15:57:00Z",
+    "read": false,
+    "type": "security",
+    "link": "/dashboard/settings/security",
+    "priority": "high"
+  },
+  {
+    "id": "notif-3",
+    "title": "New user registered",
+    "description": "Marcus Vance joined Lumina Commerce with role Manager",
+    "timestamp": "2 hours ago",
+    "createdAt": "2026-10-03T14:42:00Z",
+    "read": false,
+    "type": "user",
+    "link": "/dashboard/users",
+    "priority": "low"
+  },
+  {
+    "id": "notif-4",
+    "title": "CMS post scheduled",
+    "description": "\"Next.js 16 Architectural Deep Dive\" is scheduled to publish at 18:00 UTC",
+    "timestamp": "3 hours ago",
+    "createdAt": "2026-10-03T13:42:00Z",
+    "read": false,
+    "type": "cms",
+    "link": "/dashboard/cms/posts",
+    "priority": "low"
+  },
+  {
+    "id": "notif-5",
+    "title": "Task assigned to you",
+    "description": "\"Optimize TanStack Table virtual scroll performance\" assigned by Sarah Jenkins",
+    "timestamp": "5 hours ago",
+    "createdAt": "2026-10-03T11:42:00Z",
+    "read": true,
+    "type": "task",
+    "link": "/dashboard/tasks",
+    "priority": "medium"
+  },
+  {
+    "id": "notif-6",
+    "title": "System backup completed",
+    "description": "Weekly automated PostgreSQL snapshot (2.4 GB) synced to S3 cold storage",
+    "timestamp": "1 day ago",
+    "createdAt": "2026-10-02T16:00:00Z",
+    "read": true,
+    "type": "system",
+    "link": "/dashboard/settings/notifications",
+    "priority": "low"
+  },
+  {
+    "id": "notif-7",
+    "title": "Payment gateway alert",
+    "description": "Stripe webhook retry succeeded after momentary latency spike",
+    "timestamp": "2 days ago",
+    "createdAt": "2026-10-01T09:15:00Z",
+    "read": true,
+    "type": "security",
+    "link": "/dashboard/settings/security",
+    "priority": "medium"
+  }
+]

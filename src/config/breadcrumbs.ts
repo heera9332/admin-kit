@@ -7,6 +7,7 @@ import {
   Users,
   Newspaper,
   Settings,
+  Bell,
   HelpCircle,
   ShieldCheck,
   Bug,
@@ -236,7 +237,8 @@ export const routeConfigMap: Record<string, RouteConfig> = {
   notifications: {
     titleKey: "notifications",
     defaultTitle: "Notifications",
-    href: "/dashboard/settings/notifications",
+    href: "/dashboard/notifications",
+    icon: Bell,
   },
   display: {
     titleKey: "display",

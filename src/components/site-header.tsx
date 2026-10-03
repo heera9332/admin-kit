@@ -12,6 +12,7 @@ import { ThemeCustomizer } from "@/components/theme-customizer"
 import { LocaleSwitcher } from "@/components/locale-switcher"
 import { RolePreviewSwitcher } from "@/components/rbac/role-preview-switcher"
 import { SiteVisibilityBadge } from "@/components/site-visibility-badge"
+import { NotificationPanel } from "@/components/notification-panel"
 import { AppBreadcrumbs } from "@/components/breadcrumbs"
 import { siteConfig } from "@/config/site"
 import { cn } from "@/lib/utils"
@@ -33,6 +34,7 @@ export function SiteHeader() {
       <div className="flex items-center gap-1 sm:gap-2 shrink-0">
         <RolePreviewSwitcher />
         <SearchButton />
+        <NotificationPanel />
         <LocaleSwitcher />
         <ThemeCustomizer />
         <ThemeToggle />

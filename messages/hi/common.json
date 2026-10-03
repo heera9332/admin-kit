@@ -131,5 +131,26 @@
     "de": "German",
     "ar": "Arabic",
     "hi": "हिन्दी"
+  },
+  "notificationPanel": {
+    "title": "सूचनाएं",
+    "unreadBadge": "{count} अपठित",
+    "markAllRead": "सभी को पढ़ा हुआ चिह्नित करें",
+    "clearAll": "सभी साफ़ करें",
+    "tabAll": "सभी",
+    "tabUnread": "अपठित",
+    "tabOrders": "ऑर्डर",
+    "tabSecurity": "सुरक्षा",
+    "emptyAllTitle": "कोई सूचना नहीं",
+    "emptyAllDesc": "आपकी सभी सूचनाएं देख ली गई हैं! नए अलर्ट यहां दिखाई देंगे।",
+    "emptyUnreadTitle": "कोई अपठित सूचना नहीं",
+    "emptyUnreadDesc": "सभी सूचनाओं की समीक्षा कर ली गई है।",
+    "markAsRead": "पढ़ा हुआ चिह्नित करें",
+    "markAsUnread": "अपठित चिह्नित करें",
+    "remove": "सूचना हटाएं",
+    "settings": "सूचना सेटिंग्स",
+    "newBadge": "नया",
+    "urgent": "अत्यावश्यक",
+    "viewAll": "सभी सूचनाएं देखें"
   }
 }

@@ -8,6 +8,7 @@ import { BreadcrumbProvider } from "@/context/breadcrumb-provider"
 import { MediaProvider } from "@/context/media-provider"
 import { CmsProvider } from "@/context/cms-provider"
 import { EcommerceProvider } from "@/context/ecommerce-provider"
+import { NotificationsProvider } from "@/context/notifications-provider"
 
 export default async function DashboardLayout({
   children,
@@ -23,20 +24,22 @@ export default async function DashboardLayout({
         <MediaProvider>
           <CmsProvider>
             <EcommerceProvider>
-              <SearchProvider>
-                <SidebarProvider defaultOpen={defaultOpen}>
-                  <AppSidebar />
-                  <SidebarInset>
-                  <SiteHeader />
-                  <div className="flex flex-1 flex-col gap-4 p-4 overflow-y-auto">
-                    {children}
-                  </div>
-                </SidebarInset>
-              </SidebarProvider>
-            </SearchProvider>
-          </EcommerceProvider>
-        </CmsProvider>
-      </MediaProvider>
+              <NotificationsProvider>
+                <SearchProvider>
+                  <SidebarProvider defaultOpen={defaultOpen}>
+                    <AppSidebar />
+                    <SidebarInset>
+                      <SiteHeader />
+                      <div className="flex flex-1 flex-col gap-4 p-4 overflow-y-auto">
+                        {children}
+                      </div>
+                    </SidebarInset>
+                  </SidebarProvider>
+                </SearchProvider>
+              </NotificationsProvider>
+            </EcommerceProvider>
+          </CmsProvider>
+        </MediaProvider>
       </BreadcrumbProvider>
     </RBACProvider>
   )

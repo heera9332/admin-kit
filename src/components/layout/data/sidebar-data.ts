@@ -117,6 +117,12 @@ export const sidebarData: SidebarData = {
           permission: "users:read",
         },
         {
+          title: "Notifications",
+          titleKey: "notifications",
+          url: "/dashboard/notifications",
+          icon: Bell,
+        },
+        {
           title: "CMS",
           titleKey: "cms",
           icon: Newspaper,

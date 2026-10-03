@@ -131,5 +131,26 @@
     "de": "German",
     "ar": "Arabic",
     "hi": "Hindi"
+  },
+  "notificationPanel": {
+    "title": "Notifications",
+    "unreadBadge": "{count} unread",
+    "markAllRead": "Mark all as read",
+    "clearAll": "Clear all",
+    "tabAll": "All",
+    "tabUnread": "Unread",
+    "tabOrders": "Orders",
+    "tabSecurity": "Security",
+    "emptyAllTitle": "No notifications",
+    "emptyAllDesc": "You're all caught up! New alerts will show up here.",
+    "emptyUnreadTitle": "No unread notifications",
+    "emptyUnreadDesc": "All notifications have been reviewed.",
+    "markAsRead": "Mark as read",
+    "markAsUnread": "Mark as unread",
+    "remove": "Remove notification",
+    "settings": "Notification settings",
+    "newBadge": "New",
+    "urgent": "Urgent",
+    "viewAll": "View all notifications"
   }
 }
