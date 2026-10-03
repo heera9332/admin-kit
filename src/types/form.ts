@@ -117,6 +117,8 @@ export interface UploadFieldConfig<TFieldValues extends FieldValues = FieldValue
   dialogTitle?: string
   outputType?: "url" | "item"
   maxSize?: number
+  previewVariant?: "auto" | "card" | "compact"
+  showPreview?: boolean
 }
 
 export interface CustomFieldConfig<TFieldValues extends FieldValues = FieldValues>

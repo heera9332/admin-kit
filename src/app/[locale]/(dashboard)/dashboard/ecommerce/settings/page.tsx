@@ -17,6 +17,8 @@ export default async function EcommerceSettingsIndexPage({
     payment: "/dashboard/ecommerce/settings/payments",
     address: "/dashboard/ecommerce/settings/address",
     currency: "/dashboard/ecommerce/settings/currency",
+    visibility: "/dashboard/ecommerce/settings/site-visibility",
+    "site-visibility": "/dashboard/ecommerce/settings/site-visibility",
   }
 
   const destination = (tab && tabRoutes[tab]) || "/dashboard/ecommerce/settings/store"

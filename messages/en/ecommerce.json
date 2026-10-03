@@ -303,6 +303,8 @@
     "sidebar": {
       "store": "Store Settings",
       "storeDesc": "Store identity, selling locations, and general rules",
+      "siteVisibility": "Site Visibility",
+      "siteVisibilityDesc": "Coming soon landing page and live store accessibility",
       "payments": "Payments",
       "paymentsDesc": "Payment gateways, Stripe, PayPal, and offline methods",
       "address": "Store Address",
@@ -339,6 +341,19 @@
       "guestCheckout": "Allow Guest Checkout",
       "guestCheckoutDesc": "Allow customers to place orders without creating an account",
       "saveSuccess": "Store settings saved successfully."
+    },
+    "siteVisibility": {
+      "title": "Site Visibility",
+      "description": "Manage how your site appears to visitors. Learn more",
+      "manageVisibility": "Manage how your site appears to visitors.",
+      "learnMore": "Learn more",
+      "comingSoon": "Coming soon",
+      "comingSoonDesc": "Your site is hidden from visitors behind a “Coming soon” landing page until it’s ready for viewing.",
+      "live": "Live",
+      "liveDesc": "Your entire site is visible to everyone.",
+      "displayBadge": "Display site visibility badge in admin bar",
+      "displayBadgeDesc": "Show the site visibility status badge in the WordPress admin bar.",
+      "saveSuccess": "Site visibility settings saved successfully."
     },
     "payments": {
       "title": "Payment Gateways",

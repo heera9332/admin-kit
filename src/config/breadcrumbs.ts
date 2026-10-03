@@ -25,6 +25,7 @@ import {
   Store,
   MapPin,
   Coins,
+  Eye,
 } from "lucide-react"
 import type { LucideIcon } from "lucide-react"
 
@@ -170,6 +171,16 @@ export const routeConfigMap: Record<string, RouteConfig> = {
     defaultTitle: "Currency",
     href: "/dashboard/ecommerce/settings/currency",
     icon: Coins,
+  },
+  "site-visibility": {
+    defaultTitle: "Site Visibility",
+    href: "/dashboard/ecommerce/settings/site-visibility",
+    icon: Eye,
+  },
+  visibility: {
+    defaultTitle: "Site Visibility",
+    href: "/dashboard/ecommerce/settings/site-visibility",
+    icon: Eye,
   },
   settings: {
     titleKey: "settings",

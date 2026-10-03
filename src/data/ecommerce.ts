@@ -173,6 +173,12 @@ export interface EcommerceSettings {
   enableReviews: boolean
   guestCheckout: boolean
 
+  // Site Visibility
+  siteVisibility?: "coming_soon" | "live"
+  showVisibilityBadgeInAdminBar?: boolean
+  comingSoonApplyToStoreOnly?: boolean
+  comingSoonShareableLink?: boolean
+
   // Store Address
   address: string
   addressLine1?: string
@@ -272,6 +278,11 @@ export const initialSettings: EcommerceSettings = {
   freeShippingThreshold: (ecommerceData.settings as any)?.freeShippingThreshold || 99.0,
   enableReviews: (ecommerceData.settings as any)?.enableReviews ?? true,
   guestCheckout: (ecommerceData.settings as any)?.guestCheckout ?? true,
+
+  siteVisibility: "coming_soon",
+  showVisibilityBadgeInAdminBar: true,
+  comingSoonApplyToStoreOnly: false,
+  comingSoonShareableLink: true,
 
   address: (ecommerceData.settings as any)?.address || "500 Howard Street, Suite 400, San Francisco, CA 94105",
   addressLine1: "500 Howard Street",

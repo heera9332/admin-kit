@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { Store, CreditCard, MapPin, Coins } from "lucide-react"
+import { Store, Eye, CreditCard, MapPin, Coins } from "lucide-react"
 import { cn } from "@/lib/utils"
 import {
   SidebarNav,
@@ -17,6 +17,14 @@ export const ecommerceSettingsNavItems: SidebarNavItem[] = [
     descriptionKey: "settings.sidebar.storeDesc",
     href: "/dashboard/ecommerce/settings/store",
     icon: Store,
+  },
+  {
+    title: "Site Visibility",
+    titleKey: "settings.sidebar.siteVisibility",
+    description: "Coming soon landing page and live store accessibility",
+    descriptionKey: "settings.sidebar.siteVisibilityDesc",
+    href: "/dashboard/ecommerce/settings/site-visibility",
+    icon: Eye,
   },
   {
     title: "Payments",
