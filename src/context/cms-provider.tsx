@@ -5,19 +5,26 @@ import {
   initialPosts,
   initialCategories,
   initialTags,
+  initialPages,
   type Post,
   type Category,
   type Tag,
+  type CmsPage,
 } from "@/data/cms"
 
 interface CmsContextType {
   posts: Post[]
   categories: Category[]
   tags: Tag[]
+  pages: CmsPage[]
   getPost: (id: string) => Post | undefined
   updatePost: (id: string, updates: Partial<Post>) => void
   createPost: (postData: Partial<Post> & { title: string }) => Post
   deletePost: (id: string) => void
+  getPage: (id: string) => CmsPage | undefined
+  updatePage: (id: string, updates: Partial<CmsPage>) => void
+  createPage: (pageData: Partial<CmsPage> & { title: string }) => CmsPage
+  deletePage: (id: string) => void
   addCategory: (category: Category) => void
   addTag: (tag: Tag) => void
 }
@@ -27,10 +34,12 @@ const CmsContext = React.createContext<CmsContextType | undefined>(undefined)
 const CMS_POSTS_STORAGE_KEY = "admin_cms_posts"
 const CMS_CATEGORIES_STORAGE_KEY = "admin_cms_categories"
 const CMS_TAGS_STORAGE_KEY = "admin_cms_tags"
+const CMS_PAGES_STORAGE_KEY = "admin_cms_pages"
 
 let memoryPosts: Post[] = initialPosts
 let memoryCategories: Category[] = initialCategories
 let memoryTags: Tag[] = initialTags
+let memoryPages: CmsPage[] = initialPages
 let isInitialized = false
 
 function initStorage() {
@@ -57,6 +66,14 @@ function initStorage() {
       const parsedTags = JSON.parse(savedTags)
       if (Array.isArray(parsedTags) && parsedTags.length > 0) {
         memoryTags = parsedTags
+      }
+    }
+
+    const savedPages = localStorage.getItem(CMS_PAGES_STORAGE_KEY)
+    if (savedPages) {
+      const parsedPages = JSON.parse(savedPages)
+      if (Array.isArray(parsedPages) && parsedPages.length > 0) {
+        memoryPages = parsedPages
       }
     }
   } catch {
@@ -114,6 +131,18 @@ function persistTags(tags: Tag[]) {
   }
 }
 
+function persistPages(pages: CmsPage[]) {
+  memoryPages = pages
+  notify()
+  if (typeof window !== "undefined") {
+    try {
+      localStorage.setItem(CMS_PAGES_STORAGE_KEY, JSON.stringify(pages))
+    } catch {
+      // Ignore write errors
+    }
+  }
+}
+
 export function CmsProvider({ children }: { children: React.ReactNode }) {
   React.useEffect(() => {
     initStorage()
@@ -145,6 +174,15 @@ export function CmsProvider({ children }: { children: React.ReactNode }) {
       return memoryTags
     },
     () => initialTags
+  )
+
+  const pages = React.useSyncExternalStore(
+    subscribe,
+    () => {
+      initStorage()
+      return memoryPages
+    },
+    () => initialPages
   )
 
   const getPost = React.useCallback(
@@ -205,6 +243,73 @@ export function CmsProvider({ children }: { children: React.ReactNode }) {
     [posts]
   )
 
+  const getPage = React.useCallback(
+    (id: string) => {
+      return pages.find((p) => p.id === id)
+    },
+    [pages]
+  )
+
+  const updatePage = React.useCallback(
+    (id: string, updates: Partial<CmsPage>) => {
+      const nextPages = pages.map((item) =>
+        item.id === id
+          ? {
+              ...item,
+              ...updates,
+              updatedAt: new Date().toISOString().split("T")[0],
+            }
+          : item
+      )
+      persistPages(nextPages)
+    },
+    [pages]
+  )
+
+  const createPage = React.useCallback(
+    (pageData: Partial<CmsPage> & { title: string }) => {
+      const slug =
+        pageData.slug ||
+        pageData.title
+          .toLowerCase()
+          .trim()
+          .replace(/[^a-z0-9]+/g, "-")
+          .replace(/^-|-$/g, "") ||
+        `page-${Date.now()}`
+
+      const newPage: CmsPage = {
+        id: pageData.id || `page-${Date.now().toString().slice(-4)}`,
+        title: pageData.title,
+        slug,
+        status: pageData.status || "draft",
+        author: pageData.author || "Admin User",
+        publishedAt: pageData.publishedAt || new Date().toISOString().split("T")[0],
+        updatedAt: new Date().toISOString().split("T")[0],
+        views: pageData.views ?? 0,
+        excerpt: pageData.excerpt || "",
+        content: pageData.content || "",
+        featuredImage: pageData.featuredImage ?? null,
+        template: pageData.template || "default",
+        parentId: pageData.parentId ?? null,
+        order: pageData.order ?? 0,
+        metaTitle: pageData.metaTitle || pageData.title,
+        metaDescription: pageData.metaDescription || "",
+      }
+
+      persistPages([newPage, ...pages])
+      return newPage
+    },
+    [pages]
+  )
+
+  const deletePage = React.useCallback(
+    (id: string) => {
+      const nextPages = pages.filter((item) => item.id !== id)
+      persistPages(nextPages)
+    },
+    [pages]
+  )
+
   const addCategory = React.useCallback(
     (category: Category) => {
       persistCategories([category, ...categories])
@@ -224,10 +329,15 @@ export function CmsProvider({ children }: { children: React.ReactNode }) {
       posts,
       categories,
       tags,
+      pages,
       getPost,
       updatePost,
       createPost,
       deletePost,
+      getPage,
+      updatePage,
+      createPage,
+      deletePage,
       addCategory,
       addTag,
     }),
@@ -235,10 +345,15 @@ export function CmsProvider({ children }: { children: React.ReactNode }) {
       posts,
       categories,
       tags,
+      pages,
       getPost,
       updatePost,
       createPost,
       deletePost,
+      getPage,
+      updatePage,
+      createPage,
+      deletePage,
       addCategory,
       addTag,
     ]
@@ -251,6 +366,7 @@ const defaultContext: CmsContextType = {
   posts: initialPosts,
   categories: initialCategories,
   tags: initialTags,
+  pages: initialPages,
   getPost: (id: string) => initialPosts.find((p) => p.id === id),
   updatePost: () => {},
   createPost: (data) => ({
@@ -266,6 +382,22 @@ const defaultContext: CmsContextType = {
     content: data.content || "",
   }),
   deletePost: () => {},
+  getPage: (id: string) => initialPages.find((p) => p.id === id),
+  updatePage: () => {},
+  createPage: (data) => ({
+    id: `page-${Date.now()}`,
+    title: data.title,
+    slug: "new-page",
+    status: "draft",
+    author: "Admin",
+    publishedAt: new Date().toISOString().split("T")[0],
+    views: 0,
+    content: data.content || "",
+    template: "default",
+    parentId: null,
+    order: 0,
+  }),
+  deletePage: () => {},
   addCategory: () => {},
   addTag: () => {},
 }

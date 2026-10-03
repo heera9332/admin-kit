@@ -15,6 +15,7 @@ import {
   AudioWaveform,
   Newspaper,
   FileText,
+  Files,
   FolderTree,
   Tag,
   Image as ImageIcon,
@@ -133,6 +134,13 @@ export const sidebarData: SidebarData = {
               titleKey: "posts",
               url: "/dashboard/cms/posts",
               icon: FileText,
+              permission: "cms:read",
+            },
+            {
+              title: "Pages",
+              titleKey: "pages",
+              url: "/dashboard/cms/pages",
+              icon: Files,
               permission: "cms:read",
             },
             {

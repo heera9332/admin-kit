@@ -1,8 +1,12 @@
 export { PostsFeature } from "./posts-feature"
 export { PostEditFeature } from "./post-edit-feature"
+export { PagesFeature } from "./pages-feature"
+export { PageEditFeature } from "./page-edit-feature"
 export { CategoriesFeature } from "./categories-feature"
 export { TagsFeature } from "./tags-feature"
+export { getPagesColumns } from "./pages-columns"
 export * from "./components/post-dialogs"
+export * from "./components/page-dialogs"
 export * from "./components/category-dialogs"
 export * from "./components/tag-dialogs"
 

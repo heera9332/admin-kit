@@ -94,6 +94,11 @@ export const routeConfigMap: Record<string, RouteConfig> = {
     defaultTitle: "Posts",
     href: "/dashboard/cms/posts",
   },
+  pages: {
+    titleKey: "pages",
+    defaultTitle: "Pages",
+    href: "/dashboard/cms/pages",
+  },
   categories: {
     titleKey: "categories",
     defaultTitle: "Categories",
