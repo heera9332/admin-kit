@@ -94,6 +94,17 @@ export function getProductsColumns({
           </div>
         )
       },
+      filterFn: (row, id, filterValue) => {
+        const product = row.original
+        const query = String(filterValue || "").toLowerCase()
+        return (
+          product.name.toLowerCase().includes(query) ||
+          product.sku.toLowerCase().includes(query) ||
+          product.brand.toLowerCase().includes(query) ||
+          Boolean(product.shortDescription?.toLowerCase().includes(query)) ||
+          product.description.toLowerCase().includes(query)
+        )
+      },
     },
     {
       accessorKey: "category",

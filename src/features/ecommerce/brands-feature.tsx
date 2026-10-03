@@ -210,7 +210,7 @@ export function BrandsFeature() {
 
         <div className="flex items-center gap-2 self-start sm:self-auto">
           {/* View Mode Toggle */}
-          <div className="flex items-center rounded-lg border bg-muted/40 p-0.5">
+          <div className="flex items-center rounded-lg border bg-muted/40">
             <Button
               type="button"
               variant={viewMode === "table" ? "secondary" : "ghost"}

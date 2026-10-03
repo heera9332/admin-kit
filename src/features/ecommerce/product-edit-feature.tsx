@@ -70,6 +70,9 @@ function ProductEditForm({ initialProduct, isNew }: ProductEditFormProps) {
   const [isSlugManuallyEdited, setIsSlugManuallyEdited] = React.useState(
     Boolean(initialProduct?.slug)
   )
+  const [shortDescription, setShortDescription] = React.useState(
+    initialProduct?.shortDescription || ""
+  )
   const [description, setDescription] = React.useState(
     initialProduct?.description || ""
   )
@@ -208,6 +211,7 @@ function ProductEditForm({ initialProduct, isNew }: ProductEditFormProps) {
         const created = addProduct({
           name: name.trim(),
           slug: finalSlug,
+          shortDescription: shortDescription.trim(),
           description,
           sku: sku.trim(),
           price: numPrice,
@@ -235,6 +239,7 @@ function ProductEditForm({ initialProduct, isNew }: ProductEditFormProps) {
         updateProduct(initialProduct.id, {
           name: name.trim(),
           slug: finalSlug,
+          shortDescription: shortDescription.trim(),
           description,
           sku: sku.trim(),
           price: numPrice,
@@ -380,6 +385,30 @@ function ProductEditForm({ initialProduct, isNew }: ProductEditFormProps) {
                   placeholder={t("editor.namePlaceholder")}
                   className="text-base sm:text-lg font-semibold h-11"
                   required
+                />
+              </div>
+
+              {/* Short Description */}
+              <div className="space-y-1.5">
+                <div className="flex items-center justify-between">
+                  <Label
+                    htmlFor="product-short-description"
+                    className="text-xs font-semibold"
+                  >
+                    {t("editor.shortDescriptionLabel")}
+                  </Label>
+                  <span className="text-[11px] text-muted-foreground font-mono">
+                    {shortDescription.length} chars
+                  </span>
+                </div>
+                <Textarea
+                  id="product-short-description"
+                  name="shortDescription"
+                  value={shortDescription}
+                  onChange={(e) => setShortDescription(e.target.value)}
+                  placeholder={t("editor.shortDescriptionPlaceholder")}
+                  rows={3}
+                  className="text-sm resize-none"
                 />
               </div>
 
@@ -902,6 +931,12 @@ function ProductEditForm({ initialProduct, isNew }: ProductEditFormProps) {
                 </>
               )}
             </div>
+
+            {shortDescription && (
+              <p className="text-xs text-muted-foreground leading-relaxed pt-1">
+                {shortDescription}
+              </p>
+            )}
           </div>
 
           <div className="border-t pt-4 space-y-2">

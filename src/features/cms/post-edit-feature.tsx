@@ -65,6 +65,7 @@ function PostEditForm({ initialPost, isNew }: PostEditFormProps) {
   const [isSlugManuallyEdited, setIsSlugManuallyEdited] = React.useState(
     Boolean(initialPost?.slug)
   )
+  const [excerpt, setExcerpt] = React.useState(initialPost?.excerpt || "")
   const [content, setContent] = React.useState(initialPost?.content || "")
   const [status, setStatus] = React.useState<Post["status"]>(
     initialPost?.status || "draft"
@@ -152,6 +153,7 @@ function PostEditForm({ initialPost, isNew }: PostEditFormProps) {
         const created = createPost({
           title: title.trim(),
           slug: finalSlug,
+          excerpt: excerpt.trim(),
           content,
           status,
           author: author.trim() || "Admin User",
@@ -174,6 +176,7 @@ function PostEditForm({ initialPost, isNew }: PostEditFormProps) {
           ...initialPost,
           title: title.trim(),
           slug: finalSlug,
+          excerpt: excerpt.trim(),
           content,
           status,
           author: author.trim() || "Admin User",
@@ -296,6 +299,27 @@ function PostEditForm({ initialPost, isNew }: PostEditFormProps) {
                   placeholder={t("editor.titlePlaceholder")}
                   className="text-base sm:text-lg font-semibold h-11"
                   required
+                />
+              </div>
+
+              {/* Post Excerpt */}
+              <div className="space-y-1.5">
+                <div className="flex items-center justify-between">
+                  <Label htmlFor="post-excerpt" className="text-xs font-semibold">
+                    {t("editor.excerptLabel")}
+                  </Label>
+                  <span className="text-[11px] text-muted-foreground font-mono">
+                    {excerpt.length} chars
+                  </span>
+                </div>
+                <Textarea
+                  id="post-excerpt"
+                  name="excerpt"
+                  value={excerpt}
+                  onChange={(e) => setExcerpt(e.target.value)}
+                  placeholder={t("editor.excerptPlaceholder")}
+                  rows={3}
+                  className="text-sm resize-none"
                 />
               </div>
 
@@ -630,6 +654,11 @@ function PostEditForm({ initialPost, isNew }: PostEditFormProps) {
               <span>•</span>
               <span>{metrics.readingTime} min read</span>
             </div>
+            {excerpt && (
+              <p className="text-sm text-muted-foreground italic border-l-2 border-primary/40 pl-3 py-1 bg-muted/20 rounded-r-md">
+                {excerpt}
+              </p>
+            )}
           </div>
 
           <div className="border-t pt-4">

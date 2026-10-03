@@ -31,6 +31,7 @@
       "status": "स्थिति",
       "rating": "रेटिंग",
       "image": "उत्पाद छवि",
+      "shortDescription": "संक्षिप्त विवरण",
       "description": "विवरण",
       "actions": "कार्रवाई"
     },
@@ -65,6 +66,8 @@
       "backToProducts": "उत्पादों पर वापस जाएं",
       "nameLabel": "उत्पाद का नाम",
       "namePlaceholder": "उदा. वायरलेस हेडफ़ोन",
+      "shortDescriptionLabel": "संक्षिप्त विवरण (Short Description)",
+      "shortDescriptionPlaceholder": "उत्पाद की मुख्य विशेषताओं और लाभों का संक्षिप्त सारांश लिखें...",
       "descriptionLabel": "उत्पाद विवरण",
       "descriptionPlaceholder": "विस्तृत विवरण और विशेषताएं लिखें...",
       "pricingInventoryTitle": "मूल्य निर्धारण और इन्वेंट्री",

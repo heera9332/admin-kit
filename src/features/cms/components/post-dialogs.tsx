@@ -30,6 +30,7 @@ const postFormSchema = z.object({
   title: z.string().min(1, "Title is required"),
   status: z.enum(["published", "draft", "archived"] as const),
   featuredImage: z.string().nullable().optional(),
+  excerpt: z.string().optional(),
   content: z.string().optional(),
 })
 
@@ -68,6 +69,14 @@ function getPostFormFields(
       colSpan: 2,
     },
     {
+      name: "excerpt",
+      type: "textarea",
+      label: t("editor.excerptLabel"),
+      placeholder: t("dialog.excerptPlaceholder"),
+      rows: 3,
+      colSpan: 2,
+    },
+    {
       name: "content",
       type: "richtext",
       label: t("editor.contentLabel"),
@@ -103,6 +112,7 @@ function QuickEditForm({ post, onSave, onClose, onFullEdit }: QuickEditFormProps
       title: post.title || "",
       status: post.status || "draft",
       featuredImage: post.featuredImage || null,
+      excerpt: post.excerpt || "",
       content: post.content || "",
     },
   })
@@ -115,6 +125,7 @@ function QuickEditForm({ post, onSave, onClose, onFullEdit }: QuickEditFormProps
       title: data.title.trim(),
       status: data.status,
       featuredImage: data.featuredImage || null,
+      excerpt: data.excerpt?.trim() || "",
       content: data.content || "",
     })
     onClose()
@@ -224,6 +235,7 @@ function CreatePostForm({
       title: "",
       status: "draft",
       featuredImage: null,
+      excerpt: "",
       content: "",
     },
   })
@@ -235,6 +247,7 @@ function CreatePostForm({
       title: data.title.trim(),
       status: data.status,
       featuredImage: data.featuredImage || null,
+      excerpt: data.excerpt?.trim() || "",
       content: data.content || "",
     })
     form.reset()
@@ -465,6 +478,18 @@ export function ViewPostSheet({
             </span>
           </div>
         </div>
+
+        {/* Post excerpt preview */}
+        {post.excerpt && (
+          <div className="space-y-1.5">
+            <span className="text-xs font-medium text-muted-foreground">
+              {t("editor.excerptLabel")}
+            </span>
+            <p className="p-3 rounded-lg border bg-muted/20 text-xs italic text-muted-foreground">
+              {post.excerpt}
+            </p>
+          </div>
+        )}
 
         {/* Content excerpt preview */}
         {post.content && (

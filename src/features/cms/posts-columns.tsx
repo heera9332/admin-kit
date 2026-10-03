@@ -79,6 +79,16 @@ export function getPostsColumns({
           </div>
         )
       },
+      filterFn: (row, id, filterValue) => {
+        const post = row.original
+        const query = String(filterValue || "").toLowerCase()
+        return (
+          post.title.toLowerCase().includes(query) ||
+          post.slug.toLowerCase().includes(query) ||
+          Boolean(post.excerpt?.toLowerCase().includes(query)) ||
+          post.author.toLowerCase().includes(query)
+        )
+      },
     },
     {
       accessorKey: "category",

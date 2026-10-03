@@ -31,6 +31,7 @@
       "status": "Status",
       "rating": "Rating",
       "image": "Product Image",
+      "shortDescription": "Short Description",
       "description": "Description",
       "actions": "Actions"
     },
@@ -65,6 +66,8 @@
       "backToProducts": "Back to Products",
       "nameLabel": "Product Name",
       "namePlaceholder": "e.g. Wireless Noise-Canceling Headphones",
+      "shortDescriptionLabel": "Short Description",
+      "shortDescriptionPlaceholder": "Brief summary highlighting key product features and benefits...",
       "descriptionLabel": "Product Description",
       "descriptionPlaceholder": "Write comprehensive specifications, features, and details...",
       "pricingInventoryTitle": "Pricing & Inventory",

@@ -9,6 +9,7 @@ export interface Post {
   status: "published" | "draft" | "archived";
   publishedAt: string;
   views: number;
+  excerpt?: string;
   content: string;
   featuredImage?: string | null;
   metaTitle?: string;

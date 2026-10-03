@@ -35,6 +35,7 @@ const productFormSchema = z.object({
   brand: z.string().min(1, "Brand is required"),
   status: z.enum(["published", "draft", "out_of_stock", "archived"] as const),
   image: z.string().nullable().optional(),
+  shortDescription: z.string().optional(),
   description: z.string().optional(),
 })
 
@@ -126,6 +127,14 @@ function getProductFormFields(
       colSpan: 2,
     },
     {
+      name: "shortDescription",
+      type: "textarea",
+      label: t("fields.shortDescription"),
+      placeholder: t("editor.shortDescriptionPlaceholder"),
+      rows: 2,
+      colSpan: 2,
+    },
+    {
       name: "description",
       type: "richtext",
       label: t("fields.description"),
@@ -167,6 +176,7 @@ export function CreateProductDialog({
       brand: brands[0]?.name || "General",
       status: "published",
       image: null,
+      shortDescription: "",
       description: "",
     },
   })
@@ -188,6 +198,7 @@ export function CreateProductDialog({
       brand: data.brand,
       status: data.status,
       image: data.image || undefined,
+      shortDescription: data.shortDescription?.trim() || "",
       description: data.description || "",
       rating: 5.0,
       reviewsCount: 0,
@@ -287,6 +298,7 @@ export function EditProductDialog({
           brand: product.brand,
           status: product.status,
           image: product.image || null,
+          shortDescription: product.shortDescription || "",
           description: product.description || "",
         }
       : undefined,
@@ -310,6 +322,7 @@ export function EditProductDialog({
       brand: data.brand,
       status: data.status,
       image: data.image || undefined,
+      shortDescription: data.shortDescription?.trim() || "",
       description: data.description || "",
     })
     onOpenChange(false)
@@ -495,6 +508,18 @@ export function ViewProductSheet({
             {t(`statuses.${product.status}`)}
           </StatusBadge>
         </div>
+
+        {/* Short Description */}
+        {product.shortDescription && (
+          <div className="space-y-1">
+            <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+              {t("fields.shortDescription")}
+            </span>
+            <p className="text-xs text-muted-foreground leading-relaxed bg-muted/20 p-3 rounded-lg border">
+              {product.shortDescription}
+            </p>
+          </div>
+        )}
 
         {/* Description */}
         <div className="space-y-2">
