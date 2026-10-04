@@ -62,7 +62,7 @@ export function Navbar() {
           </a>
 
           <a
-            href={siteConfig.links.store}
+            href={siteConfig.links.download}
             target="_blank"
             rel="noopener noreferrer"
             className={buttonVariants({ variant: "outline", size: "sm" })}
@@ -116,7 +116,7 @@ export function Navbar() {
             footer={
               <div className="flex flex-col gap-3 w-full">
                 <a
-                  href={siteConfig.links.store}
+                  href={siteConfig.links.download}
                   target="_blank"
                   rel="noopener noreferrer"
                   className={buttonVariants({

@@ -11,7 +11,6 @@ import { ThemeToggle } from "@/components/theme-toggle"
 import { ThemeCustomizer } from "@/components/theme-customizer"
 import { LocaleSwitcher } from "@/components/locale-switcher"
 import { RolePreviewSwitcher } from "@/components/rbac/role-preview-switcher"
-import { SiteVisibilityBadge } from "@/components/site-visibility-badge"
 import { NotificationPanel } from "@/components/notification-panel"
 import { AppBreadcrumbs } from "@/components/breadcrumbs"
 import { siteConfig } from "@/config/site"
@@ -39,7 +38,7 @@ export function SiteHeader() {
         <ThemeCustomizer />
         <ThemeToggle />
         <a
-          href={siteConfig.links.store}
+          href={siteConfig.links.download}
           target="_blank"
           rel="noopener noreferrer"
           className={cn(

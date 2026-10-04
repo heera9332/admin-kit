@@ -9,7 +9,7 @@ export const siteConfig = {
     docs: "#documentation",
     dashboard: "/dashboard",
     store: "https://store.zoro-dev.com",
-    download: "https://store.zoro-dev.com",
+    download: "https://store.zoro-dev.com/product/shadcn-admin-dashboard/",
   },
   author: {
     name: "AdminKit",
