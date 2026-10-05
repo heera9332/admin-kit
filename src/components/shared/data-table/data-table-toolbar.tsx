@@ -27,8 +27,8 @@ export function DataTableToolbar<TData>({
   const searchColumn = search ? table.getColumn(search.column) : undefined
 
   return (
-    <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-      <div className="flex flex-1 flex-wrap items-center gap-2">
+    <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap lg:flex-nowrap sm:items-center sm:justify-between min-w-0">
+      <div className="flex flex-1 flex-wrap items-center gap-2 min-w-0">
         {search && searchColumn && (
           <Input
             placeholder={search.placeholder ?? `Filter ${search.column}...`}
@@ -36,7 +36,7 @@ export function DataTableToolbar<TData>({
             onChange={(event) =>
               searchColumn.setFilterValue(event.target.value)
             }
-            className="h-8 w-full sm:w-[150px] lg:w-[250px] text-xs"
+            className="h-8 w-full sm:w-[150px] lg:w-[220px] text-xs"
           />
         )}
         {filters?.map((filter) => {
@@ -63,7 +63,7 @@ export function DataTableToolbar<TData>({
           </Button>
         )}
       </div>
-      <div className="flex items-center gap-2 self-end sm:self-auto">
+      <div className="flex flex-wrap items-center gap-2 self-end sm:self-auto shrink-0">
         {children}
         <DataTableViewOptions table={table} />
       </div>

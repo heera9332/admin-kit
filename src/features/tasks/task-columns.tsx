@@ -152,15 +152,15 @@ export function getTaskColumns({
         const task = row.original;
         const label = task.label;
         return (
-          <div className="space-y-1 py-1">
-            <div className="flex items-center space-x-2">
+          <div className="space-y-1 py-1 min-w-0 max-w-[260px] sm:max-w-[320px] md:max-w-[400px]">
+            <div className="flex items-center gap-2 min-w-0">
               <Badge
                 variant="outline"
-                className="text-[10px] font-normal capitalize"
+                className="text-[10px] font-normal capitalize shrink-0"
               >
                 {getLabelText(label)}
               </Badge>
-              <span className="max-w-100 truncate font-medium text-xs sm:text-sm">
+              <span className="truncate font-medium text-xs sm:text-sm">
                 {row.getValue("title")}
               </span>
             </div>
@@ -222,7 +222,7 @@ export function getTaskColumns({
           return <span className="text-xs text-muted-foreground italic">-</span>;
         }
         return (
-          <div className="flex items-center gap-1.5 max-w-40" title={`${project.title} (${project.id})`}>
+          <div className="flex items-center gap-1.5 max-w-36 min-w-0" title={`${project.title} (${project.id})`}>
             <FolderKanban className="size-3.5 text-primary/70 shrink-0" />
             <span className="truncate text-xs font-medium text-foreground">
               {project.title}
@@ -260,7 +260,7 @@ export function getTaskColumns({
       cell: ({ row }) => {
         const priority = row.original.priority;
         return (
-          <div className="flex items-center gap-1.5 text-xs capitalize text-muted-foreground">
+          <div className="flex items-center gap-1.5 text-xs capitalize text-muted-foreground whitespace-nowrap">
             {priorityIcons[priority]}
             <span>{getPriorityLabel(priority)}</span>
           </div>
@@ -287,8 +287,8 @@ export function getTaskColumns({
         }
         const initials = `${user.firstName[0] || ""}${user.lastName[0] || ""}`.toUpperCase();
         return (
-          <div className="flex items-center gap-2" title={user.email}>
-            <Avatar size="sm" className="size-6 text-[10px]">
+          <div className="flex items-center gap-2 min-w-0" title={user.email}>
+            <Avatar size="sm" className="size-6 text-[10px] shrink-0">
               {user.avatar && (
                 <AvatarImage src={user.avatar} alt={`${user.firstName} ${user.lastName}`} />
               )}
@@ -319,8 +319,8 @@ export function getTaskColumns({
         }
         const initials = `${user.firstName[0] || ""}${user.lastName[0] || ""}`.toUpperCase();
         return (
-          <div className="flex items-center gap-2" title={user.email}>
-            <Avatar size="sm" className="size-6 text-[10px]">
+          <div className="flex items-center gap-2 min-w-0" title={user.email}>
+            <Avatar size="sm" className="size-6 text-[10px] shrink-0">
               {user.avatar && (
                 <AvatarImage src={user.avatar} alt={`${user.firstName} ${user.lastName}`} />
               )}

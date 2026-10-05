@@ -134,7 +134,7 @@ export function TasksTable({ initialData }: TasksTableProps) {
   );
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 min-w-0 w-full">
       <DataTable
         data={data}
         columns={columns}

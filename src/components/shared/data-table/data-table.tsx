@@ -95,7 +95,7 @@ export function DataTable<TData, TValue = unknown>({
   })
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 min-w-0 w-full">
       <DataTableToolbar
         table={table}
         search={search}

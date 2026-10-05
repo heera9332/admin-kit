@@ -10,7 +10,7 @@ export function TasksFeature() {
   const t = useTranslations("tasks")
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 min-w-0 w-full">
       <div>
         <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">
           {t("title")}

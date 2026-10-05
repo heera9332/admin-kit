@@ -31,7 +31,7 @@ export function DataTableFloatingBar<TData>({
       role="toolbar"
       aria-label="Bulk actions toolbar"
       className={cn(
-        "fixed bottom-6 left-1/2 -translate-x-1/2 z-50 flex items-center gap-2 sm:gap-3 rounded-full border bg-background/95 px-3 py-1.5 sm:py-2 shadow-2xl backdrop-blur-md transition-all duration-300 animate-in fade-in slide-in-from-bottom-4 border-primary/20",
+        "fixed bottom-6 left-1/2 -translate-x-1/2 z-50 flex items-center gap-2 sm:gap-3 rounded-full border bg-background/95 px-3 py-1.5 sm:py-2 shadow-2xl backdrop-blur-md transition-all duration-300 animate-in fade-in slide-in-from-bottom-4 border-primary/20 max-w-[calc(100vw-2rem)] overflow-x-auto",
         className
       )}
     >
