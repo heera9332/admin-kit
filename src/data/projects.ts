@@ -1,7 +1,7 @@
 import projectsData from "./projects.json";
 
-export const projects = projectsData.projects;
-export const initialProjects = projects;
+export const projects: Project[] = projectsData.projects as unknown as Project[];
+export const initialProjects: Project[] = projects;
 
 export interface Project {
   id: string;

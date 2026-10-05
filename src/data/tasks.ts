@@ -9,4 +9,9 @@ export interface Task {
   status: "backlog" | "todo" | "in progress" | "done" | "canceled";
   label: "bug" | "feature" | "documentation";
   priority: "low" | "medium" | "high";
+  content?: string;
+  assignedTo?: string | null;
+  reportedTo?: string | null;
+  projectId?: string | null;
+  project?: string | null;
 }

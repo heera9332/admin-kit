@@ -12,6 +12,7 @@ import {
   Clock,
   HelpCircle,
   Plus,
+  Sparkles,
   XCircle,
 } from "lucide-react";
 
@@ -27,9 +28,13 @@ import {
 import { DataTable, DataTableFloatingBar } from "@/components/shared/data-table";
 import { toast } from "@/components/ui/toast";
 import { cn } from "@/lib/utils";
+import { usersDataList } from "@/data/users";
+import { projects } from "@/data/projects";
+import { useTasks } from "@/context/tasks-provider";
+import { useRouter } from "@/i18n/routing";
 import {
   CreateTaskDialog,
-  EditTaskDialog,
+  QuickEditTaskDialog,
   ViewTaskSheet,
   DeleteTaskDialog,
 } from "./tasks-dialogs";
@@ -37,45 +42,67 @@ import { getTaskColumns } from "../task-columns";
 import type { Task } from "../data/tasks";
 
 interface TasksTableProps {
-  initialData: Task[];
+  initialData?: Task[];
 }
 
 export function TasksTable({ initialData }: TasksTableProps) {
   const t = useTranslations("tasks");
+  const router = useRouter();
+  const { tasks, updateTask, createTask, deleteTask, bulkUpdateStatus } = useTasks();
 
-  const [data, setData] = React.useState<Task[]>(initialData);
+  const data = tasks && tasks.length > 0 ? tasks : (initialData || []);
+
   const [createOpen, setCreateOpen] = React.useState(false);
   const [selectedTask, setSelectedTask] = React.useState<Task | null>(null);
-  const [editingTask, setEditingTask] = React.useState<Task | null>(null);
+  const [quickEditingTask, setQuickEditingTask] = React.useState<Task | null>(null);
   const [deletingTask, setDeletingTask] = React.useState<Task | null>(null);
 
   const handleCreate = (newTask: Task) => {
-    setData((prev) => [newTask, ...prev]);
+    createTask(newTask);
+    toast.add({
+      title: t("dialog.createTitle"),
+      description: `Task "${newTask.id}" created successfully.`,
+    });
   };
 
   const handleUpdate = (updatedTask: Task) => {
-    setData((prev) =>
-      prev.map((t) => (t.id === updatedTask.id ? updatedTask : t))
-    );
+    updateTask(updatedTask.id, updatedTask);
     if (selectedTask?.id === updatedTask.id) {
       setSelectedTask(updatedTask);
     }
+    toast.add({
+      title: t("dialog.editTitle"),
+      description: `Task "${updatedTask.id}" updated successfully.`,
+    });
   };
 
   const handleDelete = (id: string) => {
-    setData((prev) => prev.filter((t) => t.id !== id));
+    deleteTask(id);
     if (selectedTask?.id === id) {
       setSelectedTask(null);
     }
+    toast.add({
+      title: t("actions.delete"),
+      description: `Task "${id}" deleted successfully.`,
+    });
   };
+
+  const handleFullEdit = React.useCallback(
+    (task: Task) => {
+      router.push(`/dashboard/tasks/${task.id}`);
+    },
+    [router]
+  );
+
+  const handleFullCreate = React.useCallback(() => {
+    router.push("/dashboard/tasks/new");
+  }, [router]);
 
   const handleBulkStatusChange = (
     taskIds: string[],
     newStatus: Task["status"]
   ) => {
-    setData((prev) =>
-      prev.map((t) => (taskIds.includes(t.id) ? { ...t, status: newStatus } : t))
-    );
+    bulkUpdateStatus(taskIds, newStatus);
     if (selectedTask && taskIds.includes(selectedTask.id)) {
       setSelectedTask((prev) => (prev ? { ...prev, status: newStatus } : null));
     }
@@ -98,11 +125,12 @@ export function TasksTable({ initialData }: TasksTableProps) {
     () =>
       getTaskColumns({
         onView: (task) => setSelectedTask(task),
-        onEdit: (task) => setEditingTask(task),
+        onQuickEdit: (task) => setQuickEditingTask(task),
+        onEdit: (task) => handleFullEdit(task),
         onDelete: (task) => setDeletingTask(task),
         t,
       }),
-    [t]
+    [handleFullEdit, t]
   );
 
   return (
@@ -135,6 +163,22 @@ export function TasksTable({ initialData }: TasksTableProps) {
               { label: t("priority.high"), value: "high", icon: ArrowUp },
             ],
           },
+          {
+            column: "project",
+            title: t("fields.project"),
+            options: projects.map((p) => ({
+              label: p.title,
+              value: p.id,
+            })),
+          },
+          {
+            column: "assignedTo",
+            title: t("fields.assignedTo"),
+            options: usersDataList.map((u) => ({
+              label: `${u.firstName} ${u.lastName}`,
+              value: u.id,
+            })),
+          },
         ]}
         sorting
         pagination={{
@@ -143,14 +187,26 @@ export function TasksTable({ initialData }: TasksTableProps) {
         }}
         onRowClick={(task) => setSelectedTask(task)}
         toolbarActions={
-          <Button
-            size="sm"
-            className="h-8 text-xs gap-1.5"
-            onClick={() => setCreateOpen(true)}
-          >
-            <Plus className="size-3.5" />
-            <span>{t("createTask")}</span>
-          </Button>
+          <div className="flex items-center gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              className="h-8 text-xs gap-1.5 cursor-pointer"
+              onClick={() => setCreateOpen(true)}
+            >
+              <Sparkles className="size-3.5" />
+              <span>Quick Add</span>
+            </Button>
+
+            <Button
+              size="sm"
+              className="h-8 text-xs gap-1.5 cursor-pointer shadow-xs"
+              onClick={handleFullCreate}
+            >
+              <Plus className="size-3.5" />
+              <span>{t("createTask")}</span>
+            </Button>
+          </div>
         }
         floatingBar={(table) => (
           <DataTableFloatingBar table={table} entityName="task">
@@ -210,18 +266,20 @@ export function TasksTable({ initialData }: TasksTableProps) {
         onCreate={handleCreate}
       />
 
-      <EditTaskDialog
-        task={editingTask}
-        open={!!editingTask}
-        onOpenChange={(open) => !open && setEditingTask(null)}
+      <QuickEditTaskDialog
+        task={quickEditingTask}
+        open={!!quickEditingTask}
+        onOpenChange={(open) => !open && setQuickEditingTask(null)}
         onUpdate={handleUpdate}
+        onFullEdit={handleFullEdit}
       />
 
       <ViewTaskSheet
         task={selectedTask}
         open={!!selectedTask}
         onOpenChange={(open) => !open && setSelectedTask(null)}
-        onEdit={(task) => setEditingTask(task)}
+        onQuickEdit={(task) => setQuickEditingTask(task)}
+        onEdit={handleFullEdit}
         onDelete={(task) => setDeletingTask(task)}
       />
 

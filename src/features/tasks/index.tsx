@@ -4,6 +4,8 @@ import { useTranslations } from "next-intl"
 import { tasksData } from "./data/tasks"
 import { TasksTable } from "./components/tasks-table"
 
+export { TaskEditFeature } from "./task-edit-feature"
+
 export function TasksFeature() {
   const t = useTranslations("tasks")
 

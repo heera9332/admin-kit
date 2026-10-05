@@ -8,6 +8,7 @@ import { BreadcrumbProvider } from "@/context/breadcrumb-provider"
 import { MediaProvider } from "@/context/media-provider"
 import { CmsProvider } from "@/context/cms-provider"
 import { EcommerceProvider } from "@/context/ecommerce-provider"
+import { TasksProvider } from "@/context/tasks-provider"
 import { NotificationsProvider } from "@/context/notifications-provider"
 
 export default async function DashboardLayout({
@@ -24,7 +25,8 @@ export default async function DashboardLayout({
         <MediaProvider>
           <CmsProvider>
             <EcommerceProvider>
-              <NotificationsProvider>
+              <TasksProvider>
+                <NotificationsProvider>
                 <SearchProvider>
                   <SidebarProvider defaultOpen={defaultOpen}>
                     <AppSidebar />
@@ -37,7 +39,8 @@ export default async function DashboardLayout({
                   </SidebarProvider>
                 </SearchProvider>
               </NotificationsProvider>
-            </EcommerceProvider>
+            </TasksProvider>
+          </EcommerceProvider>
           </CmsProvider>
         </MediaProvider>
       </BreadcrumbProvider>
