@@ -280,7 +280,7 @@ function PostEditForm({ initialPost, isNew }: PostEditFormProps) {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
         {/* ================= MAIN COLUMN (Title + TipTap Content) ================= */}
         <div className="lg:col-span-8 space-y-5">
-          <Card className="">
+          <Card className="py-0">
             <CardContent className="space-y-4">
               {/* Post Title */}
               <div className="space-y-1.5">

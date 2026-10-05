@@ -179,6 +179,14 @@ export function TasksTable({ initialData }: TasksTableProps) {
               value: u.id,
             })),
           },
+          {
+            column: "reportedTo",
+            title: t("fields.reportedTo"),
+            options: usersDataList.map((u) => ({
+              label: `${u.firstName} ${u.lastName}`,
+              value: u.id,
+            })),
+          },
         ]}
         sorting
         pagination={{

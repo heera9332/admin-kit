@@ -281,7 +281,7 @@ function TaskEditForm({ task, isNew }: TaskEditFormProps) {
         <div className="lg:col-span-8 space-y-5">
           {/* Title Card */}
           <Card>
-            <CardContent className="space-y-4 pt-6">
+            <CardContent className="space-y-4">
               <div className="space-y-1.5">
                 <div className="flex items-center justify-between">
                   <Label htmlFor="task-title" className="text-xs font-semibold">
