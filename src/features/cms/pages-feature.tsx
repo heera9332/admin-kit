@@ -142,9 +142,6 @@ export function PagesFeature() {
             <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground font-heading">
               {t("title")}
             </h1>
-            <span className="text-xs font-mono px-2 py-0.5 rounded-full bg-muted text-muted-foreground border">
-              WordPress Pages
-            </span>
           </div>
           <p className="text-xs sm:text-sm text-muted-foreground mt-0.5">
             {t("description")}
