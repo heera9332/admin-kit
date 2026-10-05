@@ -1,0 +1,158 @@
+{
+  "labels": [
+    {
+      "id": "lbl-1",
+      "name": "Work",
+      "slug": "work",
+      "color": "blue",
+      "description": "Professional tasks, sprint deliverables, and team objectives",
+      "createdAt": "2026-08-01T08:00:00Z"
+    },
+    {
+      "id": "lbl-2",
+      "name": "Personal",
+      "slug": "personal",
+      "color": "emerald",
+      "description": "Personal goals, reading lists, and lifestyle reminders",
+      "createdAt": "2026-08-02T08:00:00Z"
+    },
+    {
+      "id": "lbl-3",
+      "name": "Ideas",
+      "slug": "ideas",
+      "color": "amber",
+      "description": "Product concepts, brainstorming drafts, and future experiments",
+      "createdAt": "2026-08-03T08:00:00Z"
+    },
+    {
+      "id": "lbl-4",
+      "name": "Urgent",
+      "slug": "urgent",
+      "color": "rose",
+      "description": "Critical notices, security patches, and imminent deadlines",
+      "createdAt": "2026-08-04T08:00:00Z"
+    },
+    {
+      "id": "lbl-5",
+      "name": "Meeting",
+      "slug": "meeting",
+      "color": "violet",
+      "description": "Standup takeaways, client sync minutes, and stakeholder debriefs",
+      "createdAt": "2026-08-05T08:00:00Z"
+    },
+    {
+      "id": "lbl-6",
+      "name": "Architecture",
+      "slug": "architecture",
+      "color": "cyan",
+      "description": "System design specs, database schemas, and microservice topologies",
+      "createdAt": "2026-08-06T08:00:00Z"
+    },
+    {
+      "id": "lbl-7",
+      "name": "Finance",
+      "slug": "finance",
+      "color": "orange",
+      "description": "SaaS unit economics, expense allocations, and invoice schedules",
+      "createdAt": "2026-08-07T08:00:00Z"
+    }
+  ],
+  "notes": [
+    {
+      "id": "NOTE-101",
+      "title": "Q4 System Architecture Modernization Plan",
+      "content": "Migrate core authentication flow to OAuth 2.1 with PKCE verification.\n\nKey Milestones:\n• Implement session caching with Redis cluster\n• Standardize error envelopes across microservices\n• Audit database indexes for PostgreSQL 16 upgrade\n• Deprecate v1 endpoints by December 15th.",
+      "labelIds": ["lbl-1", "lbl-6"],
+      "color": "cyan",
+      "pinned": true,
+      "archived": false,
+      "priority": "high",
+      "createdAt": "2026-09-15T09:30:00Z",
+      "updatedAt": "2026-10-02T14:15:00Z"
+    },
+    {
+      "id": "NOTE-102",
+      "title": "Weekly Executive Standup Takeaways",
+      "content": "Action items from leadership sync:\n- Finalize candidate pipeline for Principal Frontend Engineer\n- Review SLA metrics for high-tier enterprise accounts\n- Sign off on external SOC2 penetration audit report\n- Approve budget allocation for AI developer tooling.",
+      "labelIds": ["lbl-1", "lbl-5"],
+      "color": "violet",
+      "pinned": true,
+      "archived": false,
+      "priority": "medium",
+      "createdAt": "2026-09-28T10:00:00Z",
+      "updatedAt": "2026-10-04T11:20:00Z"
+    },
+    {
+      "id": "NOTE-103",
+      "title": "Feature Idea: AI Agent Dashboard Autopilot",
+      "content": "Explore background autonomous agents for recurring analytics summaries. Users can schedule cron jobs that automatically synthesize MRR churn insights into Slack digests and PDF reports.",
+      "labelIds": ["lbl-3"],
+      "color": "amber",
+      "pinned": false,
+      "archived": false,
+      "priority": "low",
+      "createdAt": "2026-10-01T16:45:00Z",
+      "updatedAt": "2026-10-03T18:00:00Z"
+    },
+    {
+      "id": "NOTE-104",
+      "title": "Production Database SSL Certificate Renewal",
+      "content": "URGENT: Cloud SQL SSL cert expires in 7 calendar days.\n\nExecution Checklist:\n1. Download intermediate root CA bundle\n2. Update Kubernetes secrets in staging & prod\n3. Perform zero-downtime rolling restart\n4. Verify replica sync health and pool connections.",
+      "labelIds": ["lbl-1", "lbl-4", "lbl-6"],
+      "color": "rose",
+      "pinned": true,
+      "archived": false,
+      "priority": "urgent",
+      "createdAt": "2026-10-04T08:15:00Z",
+      "updatedAt": "2026-10-05T19:00:00Z"
+    },
+    {
+      "id": "NOTE-105",
+      "title": "Distributed Systems Reading List",
+      "content": "Curated reading list for engineering team development:\n- Designing Data-Intensive Applications (Martin Kleppmann)\n- Database Internals (Alex Petrov)\n- System Design Interview (Alex Xu)\n- Site Reliability Engineering (Beyer et al.)",
+      "labelIds": ["lbl-2"],
+      "color": "emerald",
+      "pinned": false,
+      "archived": false,
+      "priority": "low",
+      "createdAt": "2026-08-20T12:00:00Z",
+      "updatedAt": "2026-09-10T15:30:00Z"
+    },
+    {
+      "id": "NOTE-106",
+      "title": "Annual Prepayment Discount Financial Model",
+      "content": "Calculations for annual prepayment promotion: Offer 20% off for upfront annual commitments. Expected to boost cash reserves by 35% in Q1 while cutting annual churn by half across pro accounts.",
+      "labelIds": ["lbl-1", "lbl-7"],
+      "color": "orange",
+      "pinned": false,
+      "archived": false,
+      "priority": "medium",
+      "createdAt": "2026-09-22T14:30:00Z",
+      "updatedAt": "2026-10-01T10:00:00Z"
+    },
+    {
+      "id": "NOTE-107",
+      "title": "Quarterly Hackathon Guidelines & Prompts",
+      "content": "Theme: Developer Ergonomics & AI Tooling.\nTeams of up to 4 members.\n\nEvaluation Dimensions:\n1. Real-world utility (40%)\n2. Technical execution (30%)\n3. UX Polish & Presentation (30%)\n\nGrand prize: Custom mechanical keyboards and cloud compute credits.",
+      "labelIds": ["lbl-1", "lbl-3"],
+      "color": "blue",
+      "pinned": false,
+      "archived": false,
+      "priority": "low",
+      "createdAt": "2026-09-10T11:00:00Z",
+      "updatedAt": "2026-09-12T16:00:00Z"
+    },
+    {
+      "id": "NOTE-108",
+      "title": "Legacy Billing Gateway Deprecation Plan (Archived)",
+      "content": "Migration completed successfully on August 31st. All webhook endpoints rerouted to Stripe Elements v3. Webhook replay tests completed with 100% verified idempotency.",
+      "labelIds": ["lbl-1", "lbl-7"],
+      "color": "default",
+      "pinned": false,
+      "archived": true,
+      "priority": "low",
+      "createdAt": "2026-08-01T09:00:00Z",
+      "updatedAt": "2026-08-31T23:59:00Z"
+    }
+  ]
+}

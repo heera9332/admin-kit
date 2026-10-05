@@ -1,0 +1,113 @@
+{
+  "title": "Notes",
+  "description": "Capture ideas, organize thoughts, and manage notes with custom labels.",
+  "newNote": "New Note",
+  "manageLabels": "Manage Labels",
+  "searchPlaceholder": "Search notes by title or content...",
+  "allNotes": "All Notes",
+  "pinned": "Pinned",
+  "archived": "Archived",
+  "active": "Active",
+  "filterByLabel": "Filter by Label",
+  "filterByPriority": "Filter Priority",
+  "allLabels": "All Labels",
+  "allPriorities": "All Priorities",
+  "noLabels": "No Labels",
+  "viewMode": {
+    "grid": "Grid View",
+    "table": "Table View"
+  },
+  "stats": {
+    "totalNotes": "Total Notes",
+    "pinnedNotes": "Pinned",
+    "archivedNotes": "Archived",
+    "totalLabels": "Active Labels"
+  },
+  "fields": {
+    "title": "Title",
+    "content": "Content",
+    "labels": "Labels",
+    "color": "Color",
+    "priority": "Priority",
+    "pinned": "Pin to top",
+    "archived": "Archived",
+    "createdAt": "Created",
+    "updatedAt": "Updated",
+    "actions": "Actions"
+  },
+  "actions": {
+    "edit": "Edit",
+    "view": "View Details",
+    "delete": "Delete",
+    "duplicate": "Duplicate",
+    "pin": "Pin Note",
+    "unpin": "Unpin Note",
+    "archive": "Archive",
+    "unarchive": "Restore",
+    "copyContent": "Copy Content"
+  },
+  "dialog": {
+    "createTitle": "Create Note",
+    "createDescription": "Add a new note with custom labels and color accent.",
+    "editTitle": "Edit Note",
+    "editDescription": "Make changes to your note.",
+    "viewTitle": "Note Details",
+    "deleteTitle": "Delete Note",
+    "deleteDescription": "Are you sure you want to delete this note? This action cannot be undone.",
+    "titlePlaceholder": "Note title...",
+    "contentPlaceholder": "Write your note here...",
+    "save": "Save Changes",
+    "create": "Create Note"
+  },
+  "empty": {
+    "title": "No notes found",
+    "description": "Get started by creating your first note or adjusting your search filters.",
+    "create": "Create Note",
+    "clearFilters": "Clear Filters"
+  },
+  "labelsPage": {
+    "title": "Notes Labels",
+    "description": "Organize your notes systematically with colored labels and taxonomies.",
+    "newLabel": "New Label",
+    "backToNotes": "Back to Notes",
+    "searchPlaceholder": "Search labels...",
+    "stats": {
+      "total": "Total Labels",
+      "active": "In Use",
+      "unused": "Unused",
+      "totalNotesTagged": "Tagged Notes"
+    },
+    "fields": {
+      "name": "Label Name",
+      "slug": "Slug",
+      "color": "Color",
+      "description": "Description",
+      "notesCount": "Notes",
+      "createdAt": "Created",
+      "actions": "Actions"
+    },
+    "actions": {
+      "viewNotes": "View Notes",
+      "edit": "Edit",
+      "delete": "Delete"
+    },
+    "dialog": {
+      "createTitle": "Create Label",
+      "createDescription": "Define a new label to classify your notes.",
+      "editTitle": "Edit Label",
+      "editDescription": "Update label details and color theme.",
+      "deleteTitle": "Delete Label",
+      "deleteDescription": "Are you sure you want to delete this label? It will be removed from all attached notes.",
+      "namePlaceholder": "e.g., Work, Ideas, Architecture...",
+      "slugPlaceholder": "e.g., work, ideas...",
+      "descPlaceholder": "Optional description for this label...",
+      "save": "Save Changes",
+      "create": "Create Label"
+    },
+    "empty": {
+      "title": "No labels found",
+      "description": "Create labels to group and organize your notes by topic or workflow.",
+      "create": "Create Label"
+    }
+  }
+}

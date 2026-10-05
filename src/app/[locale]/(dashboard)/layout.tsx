@@ -10,6 +10,7 @@ import { CmsProvider } from "@/context/cms-provider"
 import { EcommerceProvider } from "@/context/ecommerce-provider"
 import { TasksProvider } from "@/context/tasks-provider"
 import { NotificationsProvider } from "@/context/notifications-provider"
+import { NotesProvider } from "@/context/notes-provider"
 
 export default async function DashboardLayout({
   children,
@@ -27,19 +28,21 @@ export default async function DashboardLayout({
             <EcommerceProvider>
               <TasksProvider>
                 <NotificationsProvider>
-                <SearchProvider>
-                  <SidebarProvider defaultOpen={defaultOpen}>
-                    <AppSidebar />
-                    <SidebarInset>
-                      <SiteHeader />
-                      <div className="flex flex-1 flex-col gap-4 p-4 overflow-y-auto min-w-0">
-                        {children}
-                      </div>
-                    </SidebarInset>
-                  </SidebarProvider>
-                </SearchProvider>
-              </NotificationsProvider>
-            </TasksProvider>
+                  <NotesProvider>
+                    <SearchProvider>
+                      <SidebarProvider defaultOpen={defaultOpen}>
+                        <AppSidebar />
+                        <SidebarInset>
+                          <SiteHeader />
+                          <div className="flex flex-1 flex-col gap-4 p-4 overflow-y-auto min-w-0">
+                            {children}
+                          </div>
+                        </SidebarInset>
+                      </SidebarProvider>
+                    </SearchProvider>
+                  </NotesProvider>
+                </NotificationsProvider>
+              </TasksProvider>
           </EcommerceProvider>
           </CmsProvider>
         </MediaProvider>

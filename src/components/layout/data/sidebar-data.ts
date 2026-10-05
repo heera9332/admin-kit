@@ -18,6 +18,7 @@ import {
   Files,
   FolderTree,
   Tag,
+  StickyNote,
   Image as ImageIcon,
   LogIn,
   UserPlus,
@@ -93,6 +94,25 @@ export const sidebarData: SidebarData = {
           url: "/dashboard/tasks",
           icon: ListTodo,
           permission: "tasks:read",
+        },
+        {
+          title: "Notes",
+          titleKey: "notes",
+          icon: StickyNote,
+          items: [
+            {
+              title: "Manage Notes",
+              titleKey: "manageNotes",
+              url: "/dashboard/notes",
+              icon: FileText,
+            },
+            {
+              title: "Labels",
+              titleKey: "labels",
+              url: "/dashboard/notes/labels",
+              icon: Tag,
+            },
+          ],
         },
         {
           title: "Apps",

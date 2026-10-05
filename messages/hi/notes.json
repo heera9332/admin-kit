@@ -1,0 +1,113 @@
+{
+  "title": "नोट्स",
+  "description": "विचारों को सहेजें, योजनाएं बनाएं और कस्टम लेबल्स के साथ नोट्स प्रबंधित करें।",
+  "newNote": "नया नोट",
+  "manageLabels": "लेबल्स प्रबंधित करें",
+  "searchPlaceholder": "शीर्षक या विवरण द्वारा खोजें...",
+  "allNotes": "सभी नोट्स",
+  "pinned": "पिन किए गए",
+  "archived": "अभिलेखागार",
+  "active": "सक्रिय",
+  "filterByLabel": "लेबल अनुसार फ़िल्टर",
+  "filterByPriority": "प्राथमिकता अनुसार",
+  "allLabels": "सभी लेबल्स",
+  "allPriorities": "सभी प्राथमिकताएं",
+  "noLabels": "कोई लेबल नहीं",
+  "viewMode": {
+    "grid": "ग्रिड दृश्य",
+    "table": "तालिका दृश्य"
+  },
+  "stats": {
+    "totalNotes": "कुल नोट्स",
+    "pinnedNotes": "पिन किए गए",
+    "archivedNotes": "संग्रहीत",
+    "totalLabels": "सक्रिय लेबल्स"
+  },
+  "fields": {
+    "title": "शीर्षक",
+    "content": "विवरण",
+    "labels": "लेबल्स",
+    "color": "रंग",
+    "priority": "प्राथमिकता",
+    "pinned": "शीर्ष पर पिन करें",
+    "archived": "अभिलेखागार",
+    "createdAt": "निर्मित",
+    "updatedAt": "अद्यतित",
+    "actions": "क्रियाएं"
+  },
+  "actions": {
+    "edit": "संपादित करें",
+    "view": "विवरण देखें",
+    "delete": "हटाएं",
+    "duplicate": "प्रतिलिपि बनाएं",
+    "pin": "पिन करें",
+    "unpin": "अनपिन करें",
+    "archive": "संग्रहित करें",
+    "unarchive": "पुनर्स्थापित करें",
+    "copyContent": "विवरण कॉपी करें"
+  },
+  "dialog": {
+    "createTitle": "नया नोट बनाएं",
+    "createDescription": "कस्टम लेबल्स और रंग के साथ नया नोट जोड़ें।",
+    "editTitle": "नोट संपादित करें",
+    "editDescription": "अपने नोट में बदलाव करें।",
+    "viewTitle": "नोट विवरण",
+    "deleteTitle": "नोट हटाएं",
+    "deleteDescription": "क्या आप वाकई इस नोट को हटाना चाहते हैं? यह क्रिया पूर्ववत नहीं की जा सकती।",
+    "titlePlaceholder": "नोट शीर्षक...",
+    "contentPlaceholder": "यहाँ अपना नोट लिखें...",
+    "save": "बदलाव सहेजें",
+    "create": "नोट बनाएं"
+  },
+  "empty": {
+    "title": "कोई नोट नहीं मिला",
+    "description": "अपना पहला नोट बनाकर या फ़िल्टर समायोजित करके शुरुआत करें।",
+    "create": "नोट बनाएं",
+    "clearFilters": "फ़िल्टर हटाएं"
+  },
+  "labelsPage": {
+    "title": "नोट्स लेबल्स",
+    "description": "रंगीन लेबल्स के साथ अपने नोट्स को व्यवस्थित करें।",
+    "newLabel": "नया लेबल",
+    "backToNotes": "नोट्स पर वापस जाएं",
+    "searchPlaceholder": "लेबल्स खोजें...",
+    "stats": {
+      "total": "कुल लेबल्स",
+      "active": "प्रयुक्त",
+      "unused": "अप्रयुक्त",
+      "totalNotesTagged": "टैग किए गए नोट्स"
+    },
+    "fields": {
+      "name": "लेबल नाम",
+      "slug": "स्लग",
+      "color": "रंग",
+      "description": "विवरण",
+      "notesCount": "नोट्स",
+      "createdAt": "निर्मित",
+      "actions": "क्रियाएं"
+    },
+    "actions": {
+      "viewNotes": "नोट्स देखें",
+      "edit": "संपादित करें",
+      "delete": "हटाएं"
+    },
+    "dialog": {
+      "createTitle": "नया लेबल बनाएं",
+      "createDescription": "अपने नोट्स को वर्गीकृत करने के लिए नया लेबल बनाएं।",
+      "editTitle": "लेबल संपादित करें",
+      "editDescription": "लेबल का विवरण और रंग बदलें।",
+      "deleteTitle": "लेबल हटाएं",
+      "deleteDescription": "क्या आप वाकई इस लेबल को हटाना चाहते हैं? यह संबंधित सभी नोट्स से हटा दिया जाएगा।",
+      "namePlaceholder": "उदा. कार्य, विचार, वास्तुकला...",
+      "slugPlaceholder": "उदा. work, ideas...",
+      "descPlaceholder": "इस लेबल के लिए वैकल्पिक विवरण...",
+      "save": "बदलाव सहेजें",
+      "create": "लेबल बनाएं"
+    },
+    "empty": {
+      "title": "कोई लेबल नहीं मिला",
+      "description": "अपने नोट्स को समूहित करने के लिए लेबल्स बनाएं।",
+      "create": "लेबल बनाएं"
+    }
+  }
+}

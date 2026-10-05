@@ -10,6 +10,8 @@ export type SidebarMenuMeaning =
   | "dashboard"
   | "projects"
   | "tasks"
+  | "notes"
+  | "labels"
   | "apps"
   | "chats"
   | "users"
@@ -30,6 +32,8 @@ export const sidebarMeaningIconColorMap: Record<SidebarMenuMeaning, string> = {
   dashboard: "text-sky-500 dark:text-sky-400",
   projects: "text-violet-500 dark:text-violet-400",
   tasks: "text-emerald-500 dark:text-emerald-400",
+  notes: "text-amber-500 dark:text-amber-400",
+  labels: "text-teal-500 dark:text-teal-400",
   apps: "text-orange-500 dark:text-orange-400",
   chats: "text-cyan-500 dark:text-cyan-400",
   users: "text-blue-500 dark:text-blue-400",
@@ -86,6 +90,23 @@ export function resolveSidebarItemMeaning(input?: string): SidebarMenuMeaning {
     normalized.includes("कार्य")
   ) {
     return "tasks"
+  }
+
+  // Notes
+  if (
+    normalized.includes("note") ||
+    normalized.includes("नोट") ||
+    normalized.includes("memo")
+  ) {
+    return "notes"
+  }
+
+  // Labels / Tags
+  if (
+    normalized.includes("label") ||
+    normalized.includes("लेबल")
+  ) {
+    return "labels"
   }
 
   // Apps / Integrations

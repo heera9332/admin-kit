@@ -9,3 +9,4 @@ export * from "./cms";
 export * from "./media";
 export * from "./ecommerce";
 export * from "./notifications";
+export * from "./notes";

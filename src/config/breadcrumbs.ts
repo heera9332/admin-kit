@@ -19,6 +19,7 @@ import {
   CreditCard,
   ShoppingBag,
   Tag,
+  StickyNote,
   Ticket,
   Star,
   BarChart3,
@@ -59,6 +60,18 @@ export const routeConfigMap: Record<string, RouteConfig> = {
     defaultTitle: "Tasks",
     href: "/dashboard/tasks",
     icon: ListTodo,
+  },
+  notes: {
+    titleKey: "notes",
+    defaultTitle: "Notes",
+    href: "/dashboard/notes",
+    icon: StickyNote,
+  },
+  labels: {
+    titleKey: "labels",
+    defaultTitle: "Labels",
+    href: "/dashboard/notes/labels",
+    icon: Tag,
   },
   apps: {
     titleKey: "apps",
