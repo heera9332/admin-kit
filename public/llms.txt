@@ -1,0 +1,73 @@
+# AdminKit
+
+> AdminKit is a production-ready Next.js admin dashboard template and component ecosystem built with TypeScript, Tailwind CSS v4, and shadcn/ui. Designed for enterprise SaaS, CRM, e-commerce, analytics, project management, and internal tools.
+
+AdminKit provides a scalable, modular architecture following Next.js 16 App Router standards, React 19 Server Components, and strict TypeScript. It features full internationalization (next-intl), theme customization with semantic design tokens, role-based access control (RBAC), and high-performance data tables with TanStack Table.
+
+Key technical specifications:
+- Framework: Next.js 16 (App Router, Turbopack, Server Components by default)
+- UI & Styling: Tailwind CSS v4, shadcn/ui, Radix UI / Base UI, Lucide Icons
+- Typography: Lexend primary font with dynamic Google font switching
+- State & Data: React Hook Form, Zod validation, TanStack Table, nuqs URL state, Recharts
+- Authentication & Security: Multi-step auth, OTP / 2FA, session handling, granular RBAC permission gates
+- Internationalization: Multi-language routing (English, Hindi, RTL layout support)
+- Theming: Light, Dark, System modes, semantic CSS variables, custom theme builder
+
+## Core Dashboards & Modules
+
+- [Dashboard Overview](https://adminkit.dev/dashboard): Central metrics hub with customizable KPI cards, revenue analytics, quick actions, and recent activity.
+- [E-Commerce Overview](https://adminkit.dev/dashboard/ecommerce): Store performance analytics, transaction summaries, and quick links to catalog management.
+- [Products Management](https://adminkit.dev/dashboard/ecommerce/products): Filterable data table with product creation, SKU tracking, stock management, and bulk actions.
+- [Orders Management](https://adminkit.dev/dashboard/ecommerce/orders): Order fulfillment tracking, status lifecycle badges, order items detail, and customer records.
+- [Customers](https://adminkit.dev/dashboard/ecommerce/customers): Customer directory with purchase history, lifetime value, and status management.
+- [Categories & Brands](https://adminkit.dev/dashboard/ecommerce/categories): Hierarchical product taxonomy and brand organization.
+- [Coupons & Discounts](https://adminkit.dev/dashboard/ecommerce/coupons): Promotion code generator, expiration rules, and usage statistics.
+- [Reviews & Ratings](https://adminkit.dev/dashboard/ecommerce/reviews): Moderation queue for product ratings and verified purchaser reviews.
+- [Store Settings](https://adminkit.dev/dashboard/ecommerce/settings): Configuration for store addresses, payment gateways, currencies, and site visibility.
+- [CMS Posts](https://adminkit.dev/dashboard/cms/posts): Publishing platform for blog articles, news, and release announcements.
+- [CMS Pages](https://adminkit.dev/dashboard/cms/pages): Page builder with Tiptap rich-text editor, revision history, and SEO metadata.
+- [CMS Taxonomy](https://adminkit.dev/dashboard/cms/categories): Content classification with categories and tag assignment.
+- [Media Library](https://adminkit.dev/dashboard/media): Drag-and-drop asset management, media picker dialogs, and file type classification.
+- [Projects Hub](https://adminkit.dev/dashboard/projects): Project status monitoring, milestones, progress tracking, and team assignment.
+- [Tasks & Kanban](https://adminkit.dev/dashboard/tasks): Task tracking with priority levels, assignment, and status columns.
+- [Users & RBAC](https://adminkit.dev/dashboard/users): User administration with dynamic role assignment, permission gates, and role matrix preview.
+- [Live Chat](https://adminkit.dev/dashboard/chats): Messaging interface with direct conversations, threaded chats, and unread badges.
+- [Apps Catalog](https://adminkit.dev/dashboard/apps): Directory of third-party service integrations with activation toggles.
+- [Notification Center](https://adminkit.dev/dashboard/notifications): Real-time system notifications, alert categories, and mark-as-read actions.
+- [Help Center](https://adminkit.dev/dashboard/help-center): Self-service knowledge base, FAQs, and support documentation.
+
+## Settings Suite
+
+- [User Profile](https://adminkit.dev/dashboard/settings/profile): Personal information, contact details, bio, and avatar upload.
+- [Account Settings](https://adminkit.dev/dashboard/settings/account): Language preferences, timezones, and account deletion workflow.
+- [Security & 2FA](https://adminkit.dev/dashboard/settings/security): Password management, two-factor authentication, active sessions, and security logs.
+- [Billing & Invoices](https://adminkit.dev/dashboard/settings/billing): Subscription plan management, payment methods, and downloadable PDF invoices.
+- [Appearance & Themes](https://adminkit.dev/dashboard/settings/appearance): Light, Dark, System modes, custom color palettes, and typography controls.
+- [Notification Preferences](https://adminkit.dev/dashboard/settings/notifications): Granular email, push, and in-app notification toggles.
+- [Display Options](https://adminkit.dev/dashboard/settings/display): Sidebar collapse states, compact density modes, and accessibility preferences.
+
+## Authentication & System Pages
+
+- [Sign In](https://adminkit.dev/sign-in): Clean sign-in screen with email, password, and social authentication options.
+- [Sign Up](https://adminkit.dev/sign-up): Multi-step user registration form with client and server-side validation.
+- [Forgot Password](https://adminkit.dev/forgot-password): Password reset request with token delivery flow.
+- [Two-Factor Verification](https://adminkit.dev/otp): One-time passcode (OTP) verification with 6-digit input component.
+- [Unauthorized (401)](https://adminkit.dev/errors/unauthorized): Error state for unauthenticated users.
+- [Forbidden (403)](https://adminkit.dev/errors/forbidden): Error state for unauthorized permission attempts.
+- [Not Found (404)](https://adminkit.dev/errors/not-found): Accessible 404 page with return-to-safety navigation.
+- [Server Error (500)](https://adminkit.dev/errors/internal-server-error): Server error boundary state.
+- [Maintenance Mode (503)](https://adminkit.dev/errors/maintenance-error): Maintenance screen with status messaging.
+
+## Technical Architecture & Developer Documentation
+
+- [Architecture & Layering](https://github.com/heera9332/admin-kit/blob/main/docs/ARCHITECTURE.md): Guide to app routing, feature encapsulation, repository patterns, and Server/Client Component boundaries.
+- [Design System & UI Tokens](https://github.com/heera9332/admin-kit/blob/main/docs/DESIGN-SYSTEM.md): Semantic color tokens, Lexend type scale, layout shells, and WCAG 2.2 AA accessibility guidelines.
+- [Coding Standards](https://github.com/heera9332/admin-kit/blob/main/docs/CODING-STANDARDS.md): Strict TypeScript guidelines, Zod validation, error handling states, and component conventions.
+- [Product Roadmap](https://github.com/heera9332/admin-kit/blob/main/docs/ROADMAP.md): Multi-phase development roadmap, feature milestones, and release strategy.
+- [AI Development Guide](https://github.com/heera9332/admin-kit/blob/main/README-AI.md): Rules, conventions, and boundary definitions for AI agents working in this codebase.
+
+## Optional
+
+- [Full LLM Documentation](https://adminkit.dev/llms-full.txt): Comprehensive technical guide and API reference aggregated for AI agents with large context windows.
+- [GitHub Repository](https://github.com/heera9332/admin-kit): Open-source repository, issue tracker, and contribution guide.
+- [Product Download & Pro License](https://store.zoro-dev.com/product/shadcn-admin-dashboard/): Official download page, pro templates, and commercial license info.

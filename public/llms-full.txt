@@ -1,0 +1,174 @@
+# AdminKit — Complete AI & LLM Technical Reference
+
+> AdminKit is a production-ready Next.js admin dashboard template and component ecosystem built with TypeScript, Tailwind CSS v4, and shadcn/ui. Designed for enterprise SaaS, CRM, e-commerce, analytics, project management, CMS, finance, and internal business applications.
+
+---
+
+## 1. Overview & Mission
+
+AdminKit provides a modular, production-tested foundation for complex admin interfaces. Instead of building administrative backends from scratch, developers can leverage AdminKit's composable architecture, pre-built business domains, role-based access control, responsive layout shells, and unified design token system.
+
+### Key Highlights
+- **Framework**: Next.js 16 (App Router, Turbopack, React 19)
+- **Component Architecture**: Server Components by default; Client Components used only where interactivity requires them
+- **UI Library**: shadcn/ui primitives with Radix UI / Base UI foundation
+- **Styling**: Tailwind CSS v4 with semantic CSS custom properties
+- **Typography**: Lexend font default with dynamic Google Font switching (Inter, Geist, Plus Jakarta Sans, Manrope, Outfit, DM Sans)
+- **Data Tables**: TanStack Table v8 with server/client filtering, column sorting, pagination, and row selection
+- **Forms & Validation**: React Hook Form with Zod schema validation
+- **Internationalization (i18n)**: next-intl with localized route handlers (`/[locale]/...`) and full RTL layout support
+- **State Management**: nuqs for URL search parameters; TanStack Query for client server-state; Zustand for global client-only UI state
+- **Charts & Visualizations**: Recharts responsive charts
+- **Rich Text Authoring**: Tiptap headless editor with markdown & HTML serialization
+- **Security & RBAC**: Permission gates (`PermissionGate`), role gates (`RoleGate`), dynamic role matrix switcher, and two-factor authentication (OTP)
+
+---
+
+## 2. Architecture & Directory Structure
+
+AdminKit follows domain-driven feature encapsulation and strict separation of concerns:
+
+```text
+src/
+├── app/                  # Next.js App Router: thin routes, metadata, and layouts
+│   └── [locale]/         # Localized routing root
+│       ├── (auth)/       # Authentication routes (sign-in, sign-up, forgot-password, otp)
+│       ├── (dashboard)/  # Authenticated admin routes with main layout shell
+│       │   └── dashboard/
+│       │       ├── apps/         # App integrations catalog
+│       │       ├── chats/        # Real-time chat & messaging
+│       │       ├── cms/          # Posts, pages, categories, tags
+│       │       ├── ecommerce/    # Products, orders, customers, coupons, reviews, reports, settings
+│       │       ├── help-center/  # Knowledge base & FAQs
+│       │       ├── media/        # Media library & file manager
+│       │       ├── notifications/# Notification center
+│       │       ├── projects/     # Project management & milestones
+│       │       ├── settings/     # Profile, account, security, billing, appearance, display
+│       │       ├── tasks/        # Task management & Kanban board
+│       │       └── users/        # User accounts & RBAC permissions
+│       ├── (errors)/     # Error boundary pages (401, 403, 404, 500, 503)
+│       ├── (marketing)/  # Public landing page & showcase
+│       └── layout.tsx    # Root layout with fonts, providers, and analytics
+├── components/           # Reusable UI primitives and layout infrastructure
+│   ├── ui/               # shadcn/ui primitives (button, dialog, card, dropdown, etc.)
+│   ├── layout/           # Sidebar, navbar, command menu, search button, profile dropdown
+│   ├── shared/           # Data table components, grid pagination, badges
+│   ├── media/            # Media upload dropzone, media picker dialog, file icons
+│   └── rbac/             # Permission gates, role badges, roles-permission matrix
+├── config/               # App configuration (site metadata, navigation, themes)
+├── context/              # React context providers (theme settings, search, RBAC, notifications)
+├── data/                 # Demo/mock data models and JSON seed collections
+├── features/             # Business domain feature modules
+│   ├── apps/             # Integrations feature logic and UI
+│   ├── chats/            # Messaging threads and chat UI
+│   ├── cms/              # Content editor, pages/posts columns and actions
+│   ├── dashboard/        # KPI metrics, revenue charts, activity feeds
+│   ├── ecommerce/        # E-commerce store management, product tables, order flows
+│   ├── media/            # Media asset management feature
+│   ├── notifications/    # Notifications feature
+│   ├── projects/         # Projects feature
+│   ├── settings/         # Settings schemas, forms, hooks, and tabs
+│   ├── tasks/            # Task tracking feature
+│   └── users/            # User administration feature
+├── hooks/                # Reusable custom hooks (e.g., useMobile)
+├── i18n/                 # next-intl configuration, routing, and request handlers
+├── lib/                  # Utilities, RBAC types, helpers, icon colors
+├── providers/            # Top-level client providers (ThemeProvider, TooltipProvider)
+├── schemas/              # Zod validation schemas
+├── styles/               # Global CSS and theme custom properties
+└── types/                # Domain-independent shared TypeScript types
+```
+
+---
+
+## 3. Engineering & Design Principles
+
+### Layering & Data Flow
+```text
+Page (app/) -> Feature (features/) -> Reusable Components (components/) -> Service/Repository -> API/Database
+```
+- Pages are thin orchestrators responsible for routing, metadata, and passing route params.
+- Feature directories contain business logic, domain-specific subcomponents, schemas, and state.
+- Components in `components/` are pure, reusable presentation primitives without business logic.
+- Presentation components do not make direct database or API calls.
+
+### Server vs. Client Components Boundary
+- **Server Components (Default)**: Layouts, page shells, data fetching, non-interactive presentations, and static marketing blocks.
+- **Client Components (`"use client"`)**: Interactive forms, state-dependent dropdowns/dialogs, drag-and-drop zones, real-time chats, theme toggles, and command palette.
+- Never mark an entire page or root layout as `"use client"` when only a child element needs interactivity.
+
+### Design System & Semantic Tokens
+AdminKit uses semantic CSS variables instead of hardcoded colors, ensuring consistent dark/light themes and custom color palettes:
+- `background`, `foreground`
+- `card`, `card-foreground`
+- `muted`, `muted-foreground`
+- `border`, `input`, `ring`
+- `primary`, `secondary`, `destructive`
+- `accent`, `accent-foreground`
+
+---
+
+## 4. Business Domain Modules
+
+### 4.1 E-Commerce Suite (`/dashboard/ecommerce`)
+- **Products**: Searchable, filterable TanStack Table with SKU, category, price, stock levels, status tags, and bulk actions.
+- **Orders**: Detailed order status lifecycle (Pending, Processing, Completed, Cancelled), customer associations, and line-item breakdown.
+- **Customers**: Directory tracking lifetime orders, total spend, registration date, and customer status.
+- **Categories & Brands**: Categorization hierarchy with category images, slugs, and brand associations.
+- **Coupons**: Percentage and fixed discount rules with expiration dates and usage quotas.
+- **Reviews**: Product rating moderation queue with star ratings and sentiment review controls.
+- **Reports**: Revenue charts, sales conversion breakdowns, and top-selling product metrics.
+- **Settings**: Store physical address, primary currency configuration, supported payment gateways, and site visibility modes.
+
+### 4.2 Content Management System (`/dashboard/cms`)
+- **Posts & Pages**: Article and page authoring using the Tiptap rich-text editor with support for headings, bold/italic, links, quotes, and code blocks.
+- **Taxonomy**: Hierarchical categories and tag assignments.
+- **Publishing Status**: Draft, Published, Scheduled, and Archived states with slug generation.
+
+### 4.3 Media Manager (`/dashboard/media`)
+- **Upload Dropzone**: Multi-file drag-and-drop with progress indicators and format validation.
+- **Media Picker Dialog**: Reusable modal for selecting images/files across CMS and e-commerce forms.
+- **File Details Sheet**: Metadata inspection including file size, dimensions, MIME type, upload timestamp, and direct URL copy.
+
+### 4.4 Projects & Tasks (`/dashboard/projects`, `/dashboard/tasks`)
+- **Projects**: Portfolio monitoring, milestone tracking, completion percentages, and team assignment.
+- **Tasks**: Kanban and list views with priority levels (Low, Medium, High, Urgent) and status workflow (Backlog, In Progress, In Review, Done).
+
+### 4.5 User Management & RBAC (`/dashboard/users`)
+- **User Directory**: User profiles, email verification badges, assigned roles, and activity status.
+- **Role-Based Access Control**: Pre-configured roles (Admin, Manager, Editor, User) and granular permission gates (`projects:read`, `cms:read`, `settings:read`, etc.).
+- **Role Preview Switcher**: Interactive switcher enabling developers and testers to preview the dashboard under different role permissions.
+
+### 4.6 Communication & Notifications (`/dashboard/chats`, `/dashboard/notifications`)
+- **Chat**: Split-panel conversation list, active thread view, message bubbles, timestamps, and typing state.
+- **Notifications**: Popover panel in the top navigation bar plus a dedicated management page for system alerts and notifications.
+
+### 4.7 Settings Suite (`/dashboard/settings`)
+- Dedicated panels for Profile, Account, Security (password & 2FA), Billing (subscription plans & invoices), Shipping, Payments, Appearance (themes & fonts), Notifications, and Display density.
+
+---
+
+## 5. Available Scripts & Commands
+
+```bash
+# Start development server with Turbopack
+pnpm dev
+
+# Create optimized production build
+pnpm build
+
+# Start production server
+pnpm start
+
+# Run ESLint validation
+pnpm lint
+```
+
+---
+
+## 6. Official Resources & Links
+
+- **Website**: https://adminkit.dev
+- **Documentation**: https://adminkit.dev/dashboard/help-center
+- **GitHub Repository**: https://github.com/heera9332/admin-kit
+- **Download & Pro Templates**: https://store.zoro-dev.com/product/shadcn-admin-dashboard/
