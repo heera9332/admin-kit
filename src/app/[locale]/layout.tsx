@@ -76,6 +76,7 @@ export const metadata: Metadata = {
     ],
     apple: "/apple-icon.png",
   },
+  archives: ["/llms.txt"],
 }
 
 export const viewport: Viewport = {
@@ -117,6 +118,9 @@ export default async function RootLayout({
       className={`${lexend.variable} ${inter.variable} ${geist.variable} ${plusJakartaSans.variable} ${manrope.variable} ${outfit.variable} ${dmSans.variable} font-sans h-full antialiased`}
       suppressHydrationWarning
     >
+      <head>
+        <link rel="describedby" href="/llms.txt" />
+      </head>
       <body className="min-h-full flex flex-col bg-background text-foreground antialiased selection:bg-primary/10 selection:text-primary">
         <Analytics />
         <Script
