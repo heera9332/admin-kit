@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -48,6 +49,8 @@ export function CreateLabelDialog({
   onOpenChange,
   onCreate,
 }: CreateLabelDialogProps) {
+  const t = useTranslations("notes");
+  const tCommon = useTranslations("common");
   const [isSlugManuallyEdited, setIsSlugManuallyEdited] = React.useState(false);
 
   const form = useForm<LabelFormValues>({
@@ -96,19 +99,19 @@ export function CreateLabelDialog({
     <AppDialog
       open={open}
       onOpenChange={onOpenChange}
-      title="Create New Label"
-      description="Create a taxonomy label to classify and filter your notes."
+      title={t("labelsPage.dialog.createTitle")}
+      description={t("labelsPage.dialog.createDescription")}
       size="md"
     >
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
         {/* Name */}
         <div className="space-y-1.5">
           <Label htmlFor="create-label-name" className="text-xs font-semibold">
-            Label Name <span className="text-destructive">*</span>
+            {t("labelsPage.dialog.nameLabel")} <span className="text-destructive">*</span>
           </Label>
           <Input
             id="create-label-name"
-            placeholder="e.g. Work, Ideas, Architecture"
+            placeholder={t("labelsPage.dialog.namePlaceholder")}
             {...form.register("name")}
             onChange={handleNameChange}
             autoFocus
@@ -123,7 +126,7 @@ export function CreateLabelDialog({
         {/* Slug */}
         <div className="space-y-1.5">
           <Label htmlFor="create-label-slug" className="text-xs font-semibold">
-            Slug <span className="text-destructive">*</span>
+            {t("labelsPage.dialog.slugLabel")} <span className="text-destructive">*</span>
           </Label>
           <div className="relative">
             <span className="absolute left-2.5 top-1/2 -translate-y-1/2 text-xs font-mono text-muted-foreground select-none">
@@ -131,7 +134,7 @@ export function CreateLabelDialog({
             </span>
             <Input
               id="create-label-slug"
-              placeholder="work"
+              placeholder={t("labelsPage.dialog.slugPlaceholder")}
               className="pl-6 font-mono text-xs"
               {...form.register("slug")}
               onChange={(e) => {
@@ -149,10 +152,11 @@ export function CreateLabelDialog({
 
         {/* Color Palette */}
         <div className="space-y-1.5">
-          <Label className="text-xs font-semibold">Color Accent</Label>
+          <Label className="text-xs font-semibold">{t("labelsPage.dialog.colorLabel")}</Label>
           <div className="flex flex-wrap gap-2 pt-0.5">
             {LABEL_COLORS.map((c) => {
               const isSelected = selectedColor === c.id;
+              const colorName = t(`colors.${c.id}`);
               return (
                 <button
                   key={c.id}
@@ -166,7 +170,7 @@ export function CreateLabelDialog({
                   )}
                 >
                   <span className={cn("size-2.5 rounded-full shrink-0", c.dotClass)} />
-                  <span>{c.name}</span>
+                  <span>{colorName}</span>
                 </button>
               );
             })}
@@ -176,11 +180,14 @@ export function CreateLabelDialog({
         {/* Description */}
         <div className="space-y-1.5">
           <Label htmlFor="create-label-desc" className="text-xs font-semibold">
-            Description <span className="text-muted-foreground font-normal">(Optional)</span>
+            {t("labelsPage.dialog.descLabel")}{" "}
+            <span className="text-muted-foreground font-normal">
+              ({t("fields.optional")})
+            </span>
           </Label>
           <Textarea
             id="create-label-desc"
-            placeholder="Brief explanation of when to apply this label..."
+            placeholder={t("labelsPage.dialog.descPlaceholder")}
             rows={2}
             className="min-h-[70px]"
             {...form.register("description")}
@@ -194,9 +201,9 @@ export function CreateLabelDialog({
             variant="outline"
             onClick={() => onOpenChange(false)}
           >
-            Cancel
+            {tCommon("cancel")}
           </Button>
-          <Button type="submit">Create Label</Button>
+          <Button type="submit">{t("labelsPage.dialog.create")}</Button>
         </div>
       </form>
     </AppDialog>
@@ -219,6 +226,9 @@ export function EditLabelDialog({
   onOpenChange,
   onUpdate,
 }: EditLabelDialogProps) {
+  const t = useTranslations("notes");
+  const tCommon = useTranslations("common");
+
   const form = useForm<LabelFormValues>({
     resolver: zodResolver(labelFormSchema),
     defaultValues: {
@@ -258,19 +268,19 @@ export function EditLabelDialog({
     <AppDialog
       open={open}
       onOpenChange={onOpenChange}
-      title="Edit Label"
-      description="Update label title, slug, color, and description."
+      title={t("labelsPage.dialog.editTitle")}
+      description={t("labelsPage.dialog.editDescription")}
       size="md"
     >
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
         {/* Name */}
         <div className="space-y-1.5">
           <Label htmlFor="edit-label-name" className="text-xs font-semibold">
-            Label Name <span className="text-destructive">*</span>
+            {t("labelsPage.dialog.nameLabel")} <span className="text-destructive">*</span>
           </Label>
           <Input
             id="edit-label-name"
-            placeholder="e.g. Work, Ideas"
+            placeholder={t("labelsPage.dialog.namePlaceholder")}
             {...form.register("name")}
           />
           {form.formState.errors.name && (
@@ -283,7 +293,7 @@ export function EditLabelDialog({
         {/* Slug */}
         <div className="space-y-1.5">
           <Label htmlFor="edit-label-slug" className="text-xs font-semibold">
-            Slug <span className="text-destructive">*</span>
+            {t("labelsPage.dialog.slugLabel")} <span className="text-destructive">*</span>
           </Label>
           <div className="relative">
             <span className="absolute left-2.5 top-1/2 -translate-y-1/2 text-xs font-mono text-muted-foreground select-none">
@@ -291,7 +301,7 @@ export function EditLabelDialog({
             </span>
             <Input
               id="edit-label-slug"
-              placeholder="work"
+              placeholder={t("labelsPage.dialog.slugPlaceholder")}
               className="pl-6 font-mono text-xs"
               {...form.register("slug")}
             />
@@ -305,10 +315,11 @@ export function EditLabelDialog({
 
         {/* Color Palette */}
         <div className="space-y-1.5">
-          <Label className="text-xs font-semibold">Color Accent</Label>
+          <Label className="text-xs font-semibold">{t("labelsPage.dialog.colorLabel")}</Label>
           <div className="flex flex-wrap gap-2 pt-0.5">
             {LABEL_COLORS.map((c) => {
               const isSelected = selectedColor === c.id;
+              const colorName = t(`colors.${c.id}`);
               return (
                 <button
                   key={c.id}
@@ -322,7 +333,7 @@ export function EditLabelDialog({
                   )}
                 >
                   <span className={cn("size-2.5 rounded-full shrink-0", c.dotClass)} />
-                  <span>{c.name}</span>
+                  <span>{colorName}</span>
                 </button>
               );
             })}
@@ -332,11 +343,14 @@ export function EditLabelDialog({
         {/* Description */}
         <div className="space-y-1.5">
           <Label htmlFor="edit-label-desc" className="text-xs font-semibold">
-            Description <span className="text-muted-foreground font-normal">(Optional)</span>
+            {t("labelsPage.dialog.descLabel")}{" "}
+            <span className="text-muted-foreground font-normal">
+              ({t("fields.optional")})
+            </span>
           </Label>
           <Textarea
             id="edit-label-desc"
-            placeholder="Optional description..."
+            placeholder={t("labelsPage.dialog.descPlaceholder")}
             rows={2}
             className="min-h-[70px]"
             {...form.register("description")}
@@ -350,9 +364,9 @@ export function EditLabelDialog({
             variant="outline"
             onClick={() => onOpenChange(false)}
           >
-            Cancel
+            {tCommon("cancel")}
           </Button>
-          <Button type="submit">Save Changes</Button>
+          <Button type="submit">{t("labelsPage.dialog.save")}</Button>
         </div>
       </form>
     </AppDialog>
@@ -377,6 +391,9 @@ export function DeleteLabelDialog({
   onOpenChange,
   onConfirm,
 }: DeleteLabelDialogProps) {
+  const t = useTranslations("notes");
+  const tCommon = useTranslations("common");
+
   if (!label) return null;
 
   const { badgeClass } = getLabelColorClasses(label.color);
@@ -385,8 +402,8 @@ export function DeleteLabelDialog({
     <AppDialog
       open={open}
       onOpenChange={onOpenChange}
-      title="Delete Label"
-      description="Are you sure you want to permanently remove this label?"
+      title={t("labelsPage.dialog.deleteTitle")}
+      description={t("labelsPage.dialog.deleteDescription")}
       size="sm"
       footer={
         <div className="flex items-center justify-end gap-2 w-full">
@@ -395,7 +412,7 @@ export function DeleteLabelDialog({
             variant="outline"
             onClick={() => onOpenChange(false)}
           >
-            Cancel
+            {tCommon("cancel")}
           </Button>
           <Button
             type="button"
@@ -405,7 +422,7 @@ export function DeleteLabelDialog({
               onOpenChange(false);
             }}
           >
-            Delete
+            {tCommon("delete")}
           </Button>
         </div>
       }
@@ -428,14 +445,12 @@ export function DeleteLabelDialog({
           <div className="flex items-start gap-2 p-2.5 rounded-lg bg-amber-500/10 border border-amber-500/20 text-amber-800 dark:text-amber-300">
             <AlertCircle className="size-4 shrink-0 mt-0.5" />
             <span>
-              This label is currently attached to <strong>{notesCount}</strong>{" "}
-              {notesCount === 1 ? "note" : "notes"}. It will be safely unlinked from
-              those notes upon deletion.
+              {t("labelsPage.dialog.attachedWarning", { count: notesCount })}
             </span>
           </div>
         ) : (
           <p className="text-muted-foreground">
-            No notes are currently using this label.
+            {t("labelsPage.dialog.noNotesAttached")}
           </p>
         )}
       </div>

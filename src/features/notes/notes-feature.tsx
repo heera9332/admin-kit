@@ -1,8 +1,9 @@
 "use client";
 
 import * as React from "react";
+import { useTranslations } from "next-intl";
 import { useSearchParams } from "next/navigation";
-import { Link } from "@/i18n/routing";
+import { Link, useRouter } from "@/i18n/routing";
 import {
   StickyNote,
   Plus,
@@ -34,7 +35,7 @@ import { NoteCard } from "./components/note-card";
 import { getNotesColumns } from "./components/notes-table-columns";
 import {
   CreateNoteDialog,
-  EditNoteDialog,
+  QuickEditNoteDialog,
   ViewNoteSheet,
   DeleteNoteDialog,
 } from "./components/note-dialogs";
@@ -46,6 +47,8 @@ import type { NotesViewMode, NotesStatusFilter } from "./types";
 import { cn } from "@/lib/utils";
 
 export function NotesFeature() {
+  const t = useTranslations("notes");
+  const router = useRouter();
   const searchParams = useSearchParams();
   const labelFromUrl = searchParams.get("label") || "all";
 
@@ -71,16 +74,28 @@ export function NotesFeature() {
 
   // Dialogs State
   const [createOpen, setCreateOpen] = React.useState(false);
-  const [editingNote, setEditingNote] = React.useState<Note | null>(null);
+  const [quickEditingNote, setQuickEditingNote] = React.useState<Note | null>(null);
   const [viewingNote, setViewingNote] = React.useState<Note | null>(null);
   const [deletingNote, setDeletingNote] = React.useState<Note | null>(null);
+
+  // Quick & Full Edit Actions
+  const handleQuickEdit = React.useCallback((note: Note) => {
+    setQuickEditingNote(note);
+  }, []);
+
+  const handleFullEdit = React.useCallback(
+    (note: Note) => {
+      router.push(`/dashboard/notes/${note.id}`);
+    },
+    [router]
+  );
 
   // Actions with Toasts
   const handleCreate = (data: Omit<Note, "id" | "createdAt" | "updatedAt">) => {
     const created = createNote(data);
     toast.add({
-      title: "Note Created",
-      description: `"${created.title}" was saved successfully.`,
+      title: t("toasts.noteCreated"),
+      description: t("toasts.noteCreatedDesc", { title: created.title }),
     });
   };
 
@@ -90,8 +105,8 @@ export function NotesFeature() {
       setViewingNote((prev) => (prev ? { ...prev, ...updates } : null));
     }
     toast.add({
-      title: "Note Updated",
-      description: "Changes saved successfully.",
+      title: t("toasts.noteUpdated"),
+      description: t("toasts.noteUpdatedDesc"),
     });
   };
 
@@ -101,8 +116,8 @@ export function NotesFeature() {
       setViewingNote(null);
     }
     toast.add({
-      title: "Note Deleted",
-      description: "Note removed permanently.",
+      title: t("toasts.noteDeleted"),
+      description: t("toasts.noteDeletedDesc"),
     });
   };
 
@@ -113,10 +128,10 @@ export function NotesFeature() {
       setViewingNote((prev) => (prev ? { ...prev, pinned: !prev.pinned } : null));
     }
     toast.add({
-      title: target?.pinned ? "Note Unpinned" : "Note Pinned",
+      title: target?.pinned ? t("toasts.noteUnpinned") : t("toasts.notePinned"),
       description: target?.pinned
-        ? "Note unpinned from the top."
-        : "Note pinned to the top of your board.",
+        ? t("toasts.noteUnpinnedDesc")
+        : t("toasts.notePinnedDesc"),
     });
   };
 
@@ -127,10 +142,10 @@ export function NotesFeature() {
       setViewingNote((prev) => (prev ? { ...prev, archived: !prev.archived } : null));
     }
     toast.add({
-      title: target?.archived ? "Note Restored" : "Note Archived",
+      title: target?.archived ? t("toasts.noteRestored") : t("toasts.noteArchived"),
       description: target?.archived
-        ? "Note moved back to active notes."
-        : "Note archived.",
+        ? t("toasts.noteRestoredDesc")
+        : t("toasts.noteArchivedDesc"),
     });
   };
 
@@ -138,8 +153,8 @@ export function NotesFeature() {
     const dup = duplicateNote(id);
     if (dup) {
       toast.add({
-        title: "Note Duplicated",
-        description: `Created copy: "${dup.title}".`,
+        title: t("toasts.noteDuplicated"),
+        description: t("toasts.noteDuplicatedDesc", { title: dup.title }),
       });
     }
   };
@@ -213,14 +228,16 @@ export function NotesFeature() {
       getNotesColumns({
         labels,
         onView: (note) => setViewingNote(note),
-        onEdit: (note) => setEditingNote(note),
+        onQuickEdit: handleQuickEdit,
+        onFullEdit: handleFullEdit,
         onDelete: (note) => setDeletingNote(note),
         onTogglePin: handleTogglePin,
         onToggleArchive: handleToggleArchive,
         onDuplicate: handleDuplicate,
+        t,
       }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [labels, notes]
+    [labels, notes, handleQuickEdit, handleFullEdit, t]
   );
 
   return (
@@ -230,14 +247,14 @@ export function NotesFeature() {
         <div>
           <div className="flex items-center gap-2">
             <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground">
-              Notes
+              {t("title")}
             </h1>
             <Badge variant="secondary" className="font-mono text-xs px-2 py-0.5">
-              {activeCount} active
+              {t("stats.activeBadge", { count: activeCount })}
             </Badge>
           </div>
           <p className="text-xs sm:text-sm text-muted-foreground mt-0.5">
-            Capture ideas, organize thoughts, and manage notes with custom labels.
+            {t("description")}
           </p>
         </div>
 
@@ -249,7 +266,7 @@ export function NotesFeature() {
             className="cursor-pointer gap-2 h-9"
           >
             <Tag className="size-3.5 text-teal-500" />
-            <span>Manage Labels</span>
+            <span>{t("manageLabels")}</span>
             <Badge
               variant="secondary"
               className="ml-1 px-1.5 py-0 text-[10px] font-mono bg-muted"
@@ -264,7 +281,7 @@ export function NotesFeature() {
             className="gap-1.5 h-9 cursor-pointer"
           >
             <Plus className="size-4" />
-            <span>New Note</span>
+            <span>{t("newNote")}</span>
           </Button>
         </div>
       </div>
@@ -283,7 +300,7 @@ export function NotesFeature() {
         >
           <div className="flex items-center justify-between">
             <span className="text-xs text-muted-foreground font-medium">
-              Active Notes
+              {t("stats.activeNotes")}
             </span>
             <FileText className="size-3.5 text-sky-500" />
           </div>
@@ -304,7 +321,7 @@ export function NotesFeature() {
         >
           <div className="flex items-center justify-between">
             <span className="text-xs text-muted-foreground font-medium">
-              Pinned Notes
+              {t("stats.pinnedNotes")}
             </span>
             <Pin className="size-3.5 text-amber-500 rotate-45" />
           </div>
@@ -325,7 +342,7 @@ export function NotesFeature() {
         >
           <div className="flex items-center justify-between">
             <span className="text-xs text-muted-foreground font-medium">
-              Archived
+              {t("stats.archivedNotes")}
             </span>
             <Archive className="size-3.5 text-muted-foreground" />
           </div>
@@ -337,7 +354,7 @@ export function NotesFeature() {
         <div className="p-3 rounded-xl border bg-card text-left">
           <div className="flex items-center justify-between">
             <span className="text-xs text-muted-foreground font-medium">
-              Total Labels
+              {t("stats.totalLabels")}
             </span>
             <Tag className="size-3.5 text-teal-500" />
           </div>
@@ -353,7 +370,7 @@ export function NotesFeature() {
         <div className="relative flex-1 max-w-md">
           <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
           <Input
-            placeholder="Search notes by title or content..."
+            placeholder={t("toolbar.searchNotesPlaceholder")}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="pl-9 h-9 text-xs"
@@ -377,13 +394,21 @@ export function NotesFeature() {
             onValueChange={(val) => setSelectedStatus((val as NotesStatusFilter) ?? "active")}
           >
             <SelectTrigger className="w-[125px] h-9 text-xs">
-              <SelectValue placeholder="Status" />
+              <SelectValue placeholder={t("toolbar.status")} />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="active">Active ({activeCount})</SelectItem>
-              <SelectItem value="pinned">Pinned ({pinnedCount})</SelectItem>
-              <SelectItem value="archived">Archived ({archivedCount})</SelectItem>
-              <SelectItem value="all">All ({totalCount})</SelectItem>
+              <SelectItem value="active">
+                {t("status.active")} ({activeCount})
+              </SelectItem>
+              <SelectItem value="pinned">
+                {t("status.pinned")} ({pinnedCount})
+              </SelectItem>
+              <SelectItem value="archived">
+                {t("status.archived")} ({archivedCount})
+              </SelectItem>
+              <SelectItem value="all">
+                {t("status.all")} ({totalCount})
+              </SelectItem>
             </SelectContent>
           </Select>
 
@@ -393,10 +418,10 @@ export function NotesFeature() {
             onValueChange={(val) => setSelectedLabel(val ?? "all")}
           >
             <SelectTrigger className="w-[135px] h-9 text-xs">
-              <SelectValue placeholder="Label" />
+              <SelectValue placeholder={t("toolbar.label")} />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">All Labels</SelectItem>
+              <SelectItem value="all">{t("toolbar.allLabels")}</SelectItem>
               {labels.map((lbl) => (
                 <SelectItem key={lbl.id} value={lbl.id}>
                   #{lbl.name}
@@ -404,24 +429,7 @@ export function NotesFeature() {
               ))}
             </SelectContent>
           </Select>
-
-          {/* Priority selector */}
-          <Select
-            value={selectedPriority}
-            onValueChange={(val) => setSelectedPriority(val ?? "all")}
-          >
-            <SelectTrigger className="w-[125px] h-9 text-xs">
-              <SelectValue placeholder="Priority" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">All Priorities</SelectItem>
-              <SelectItem value="urgent">Urgent</SelectItem>
-              <SelectItem value="high">High</SelectItem>
-              <SelectItem value="medium">Medium</SelectItem>
-              <SelectItem value="low">Low</SelectItem>
-            </SelectContent>
-          </Select>
-
+ 
           {/* Clear Filters */}
           {hasActiveFilters && (
             <Button
@@ -429,10 +437,10 @@ export function NotesFeature() {
               size="sm"
               onClick={clearAllFilters}
               className="h-9 px-2 text-xs text-muted-foreground hover:text-foreground"
-              title="Clear all filters"
+              title={t("toolbar.reset")}
             >
               <FilterX className="size-3.5 mr-1" />
-              Reset
+              {t("toolbar.reset")}
             </Button>
           )}
 
@@ -441,7 +449,7 @@ export function NotesFeature() {
             <Button
               variant="ghost"
               size="icon"
-              aria-label="Grid view"
+              aria-label={t("viewMode.grid")}
               className={cn(
                 "size-7 rounded-sm transition-all cursor-pointer",
                 viewMode === "grid"
@@ -455,7 +463,7 @@ export function NotesFeature() {
             <Button
               variant="ghost"
               size="icon"
-              aria-label="Table view"
+              aria-label={t("viewMode.table")}
               className={cn(
                 "size-7 rounded-sm transition-all cursor-pointer",
                 viewMode === "table"
@@ -473,7 +481,7 @@ export function NotesFeature() {
       {/* Selected Label Filter Chip Indicator */}
       {selectedLabel !== "all" && (
         <div className="flex items-center gap-2 text-xs text-muted-foreground">
-          <span>Filtering by label:</span>
+          <span>{t("toolbar.filteringByLabel")}</span>
           {(() => {
             const currentLabel = labels.find((l) => l.id === selectedLabel);
             if (!currentLabel) return null;
@@ -508,12 +516,12 @@ export function NotesFeature() {
               <StickyNote className="size-6" />
             </div>
             <h3 className="font-semibold text-base text-foreground">
-              {hasActiveFilters ? "No matching notes found" : "No notes yet"}
+              {hasActiveFilters ? t("empty.title") : t("empty.noNotes")}
             </h3>
             <p className="text-xs text-muted-foreground max-w-sm mt-1 mb-4">
               {hasActiveFilters
-                ? "Try clearing your filters or changing your search terms to find what you're looking for."
-                : "Create your first note to start organizing ideas, code snippets, meetings, and sprint tasks."}
+                ? t("empty.filterDescription")
+                : t("empty.getStartedDescription")}
             </p>
             {hasActiveFilters ? (
               <Button
@@ -523,7 +531,7 @@ export function NotesFeature() {
                 className="gap-1.5"
               >
                 <FilterX className="size-3.5" />
-                Clear Filters
+                {t("empty.clearFilters")}
               </Button>
             ) : (
               <Button
@@ -532,7 +540,7 @@ export function NotesFeature() {
                 className="gap-1.5"
               >
                 <Plus className="size-3.5" />
-                Create First Note
+                {t("empty.create")}
               </Button>
             )}
           </div>
@@ -543,7 +551,7 @@ export function NotesFeature() {
               <div className="space-y-3">
                 <div className="flex items-center gap-1.5 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
                   <Pin className="size-3.5 text-amber-500 rotate-45" />
-                  <span>Pinned Notes ({pinnedNotes.length})</span>
+                  <span>{t("sections.pinnedNotes")} ({pinnedNotes.length})</span>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3.5">
                   {pinnedNotes.map((note) => (
@@ -552,7 +560,8 @@ export function NotesFeature() {
                       note={note}
                       labels={labels}
                       onView={(n) => setViewingNote(n)}
-                      onEdit={(n) => setEditingNote(n)}
+                      onQuickEdit={handleQuickEdit}
+                      onFullEdit={handleFullEdit}
                       onDelete={(n) => setDeletingNote(n)}
                       onTogglePin={handleTogglePin}
                       onToggleArchive={handleToggleArchive}
@@ -567,7 +576,7 @@ export function NotesFeature() {
             <div className="space-y-3">
               {pinnedNotes.length > 0 && selectedStatus !== "pinned" && (
                 <div className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-                  <span>Other Notes ({unpinnedNotes.length})</span>
+                  <span>{t("sections.otherNotes")} ({unpinnedNotes.length})</span>
                 </div>
               )}
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3.5">
@@ -578,7 +587,8 @@ export function NotesFeature() {
                       note={note}
                       labels={labels}
                       onView={(n) => setViewingNote(n)}
-                      onEdit={(n) => setEditingNote(n)}
+                      onQuickEdit={handleQuickEdit}
+                      onFullEdit={handleFullEdit}
                       onDelete={(n) => setDeletingNote(n)}
                       onTogglePin={handleTogglePin}
                       onToggleArchive={handleToggleArchive}
@@ -616,7 +626,7 @@ export function NotesFeature() {
                 }}
               >
                 <Archive className="size-3.5 mr-1" />
-                Archive
+                {t("actions.archive")}
               </Button>
               <Button
                 type="button"
@@ -631,7 +641,7 @@ export function NotesFeature() {
                 }}
               >
                 <Trash2 className="size-3.5 mr-1" />
-                Delete
+                {t("actions.delete")}
               </Button>
             </DataTableFloatingBar>
           )}
@@ -646,12 +656,13 @@ export function NotesFeature() {
         onCreate={handleCreate}
       />
 
-      <EditNoteDialog
-        note={editingNote}
-        open={Boolean(editingNote)}
-        onOpenChange={(open) => !open && setEditingNote(null)}
+      <QuickEditNoteDialog
+        note={quickEditingNote}
+        open={Boolean(quickEditingNote)}
+        onOpenChange={(open) => !open && setQuickEditingNote(null)}
         labels={labels}
         onUpdate={handleUpdate}
+        onFullEdit={handleFullEdit}
       />
 
       <ViewNoteSheet
@@ -659,7 +670,8 @@ export function NotesFeature() {
         open={Boolean(viewingNote)}
         onOpenChange={(open) => !open && setViewingNote(null)}
         labels={labels}
-        onEdit={(n) => setEditingNote(n)}
+        onQuickEdit={handleQuickEdit}
+        onFullEdit={handleFullEdit}
         onDelete={(n) => setDeletingNote(n)}
         onTogglePin={handleTogglePin}
       />

@@ -12,6 +12,7 @@ import {
   Archive,
   ArchiveRestore,
   Eye,
+  SlidersHorizontal,
 } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
@@ -33,24 +34,30 @@ import {
 } from "@/data/notes";
 import { cn } from "@/lib/utils";
 
-interface GetNotesColumnsOptions {
+export interface GetNotesColumnsOptions {
   labels: NoteLabel[];
   onView: (note: Note) => void;
-  onEdit: (note: Note) => void;
+  onQuickEdit?: (note: Note) => void;
+  onFullEdit?: (note: Note) => void;
+  onEdit?: (note: Note) => void;
   onDelete: (note: Note) => void;
   onTogglePin: (id: string) => void;
   onToggleArchive: (id: string) => void;
   onDuplicate: (id: string) => void;
+  t?: (key: string, values?: Record<string, any>) => string;
 }
 
 export function getNotesColumns({
   labels,
   onView,
+  onQuickEdit,
+  onFullEdit,
   onEdit,
   onDelete,
   onTogglePin,
   onToggleArchive,
   onDuplicate,
+  t,
 }: GetNotesColumnsOptions): ColumnDef<Note>[] {
   return [
     {
@@ -60,7 +67,7 @@ export function getNotesColumns({
           checked={table.getIsAllPageRowsSelected()}
           indeterminate={table.getIsSomePageRowsSelected()}
           onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-          aria-label="Select all"
+          aria-label={t ? t("table.selectAll") : "Select all"}
           className="translate-y-0.5"
         />
       ),
@@ -68,7 +75,7 @@ export function getNotesColumns({
         <Checkbox
           checked={row.getIsSelected()}
           onCheckedChange={(value) => row.toggleSelected(!!value)}
-          aria-label="Select row"
+          aria-label={t ? t("table.selectRow") : "Select row"}
           className="translate-y-0.5"
           onClick={(e) => e.stopPropagation()}
         />
@@ -79,7 +86,10 @@ export function getNotesColumns({
     {
       accessorKey: "pinned",
       header: ({ column }) => (
-        <DataTableColumnHeader column={column} title="Pin" />
+        <DataTableColumnHeader
+          column={column}
+          title={t ? t("table.pin") : "Pin"}
+        />
       ),
       cell: ({ row }) => {
         const isPinned = row.getValue("pinned") as boolean;
@@ -101,7 +111,9 @@ export function getNotesColumns({
                 isPinned ? "rotate-45 fill-primary text-primary" : "opacity-40"
               )}
             />
-            <span className="sr-only">Toggle Pin</span>
+            <span className="sr-only">
+              {t ? t("table.togglePin") : "Toggle Pin"}
+            </span>
           </Button>
         );
       },
@@ -110,11 +122,15 @@ export function getNotesColumns({
     {
       accessorKey: "title",
       header: ({ column }) => (
-        <DataTableColumnHeader column={column} title="Title & Content" />
+        <DataTableColumnHeader
+          column={column}
+          title={t ? t("table.titleAndContent") : "Title & Content"}
+        />
       ),
       cell: ({ row }) => {
         const note = row.original;
         const colorConfig = NOTE_COLORS.find((c) => c.id === note.color);
+        const colorName = t ? t(`colors.${note.color}`) : (colorConfig?.name || "Default");
         return (
           <div className="flex items-start gap-2.5 max-w-[380px]">
             <span
@@ -122,7 +138,7 @@ export function getNotesColumns({
                 "size-2.5 rounded-full shrink-0 mt-1.5",
                 colorConfig?.bgDot || "bg-muted-foreground"
               )}
-              title={colorConfig?.name || "Default"}
+              title={colorName}
             />
             <div className="min-w-0">
               <div className="font-semibold text-xs text-foreground truncate">
@@ -140,7 +156,10 @@ export function getNotesColumns({
     {
       accessorKey: "labelIds",
       header: ({ column }) => (
-        <DataTableColumnHeader column={column} title="Labels" />
+        <DataTableColumnHeader
+          column={column}
+          title={t ? t("table.labels") : "Labels"}
+        />
       ),
       cell: ({ row }) => {
         const labelIds = row.getValue("labelIds") as string[];
@@ -181,7 +200,10 @@ export function getNotesColumns({
     {
       accessorKey: "priority",
       header: ({ column }) => (
-        <DataTableColumnHeader column={column} title="Priority" />
+        <DataTableColumnHeader
+          column={column}
+          title={t ? t("table.priority") : "Priority"}
+        />
       ),
       cell: ({ row }) => {
         const priority = row.getValue("priority") as Note["priority"];
@@ -191,7 +213,7 @@ export function getNotesColumns({
             variant="outline"
             className={cn("px-1.5 py-0 text-[10px] font-medium border", meta.badgeClass)}
           >
-            {meta.label}
+            {t ? t(`priority.${priority}`) : meta.label}
           </Badge>
         );
       },
@@ -203,7 +225,10 @@ export function getNotesColumns({
     {
       accessorKey: "updatedAt",
       header: ({ column }) => (
-        <DataTableColumnHeader column={column} title="Last Updated" />
+        <DataTableColumnHeader
+          column={column}
+          title={t ? t("table.lastUpdated") : "Last Updated"}
+        />
       ),
       cell: ({ row }) => {
         const dateStr = (row.getValue("updatedAt") || row.original.createdAt) as string;
@@ -226,7 +251,10 @@ export function getNotesColumns({
     {
       id: "actions",
       header: ({ column }) => (
-        <DataTableColumnHeader column={column} title="Actions" />
+        <DataTableColumnHeader
+          column={column}
+          title={t ? t("table.actions") : "Actions"}
+        />
       ),
       cell: ({ row }) => {
         const note = row.original;
@@ -244,7 +272,9 @@ export function getNotesColumns({
               }
             >
               <MoreHorizontal className="size-3.5" />
-              <span className="sr-only">Open actions</span>
+              <span className="sr-only">
+                {t ? t("table.openActions") : "Open actions"}
+              </span>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-40 text-xs">
               <DropdownMenuItem
@@ -255,18 +285,40 @@ export function getNotesColumns({
                 className="gap-2 cursor-pointer"
               >
                 <Eye className="size-3.5" />
-                <span>View Details</span>
+                <span>{t ? t("actions.view") : "View Details"}</span>
               </DropdownMenuItem>
-              <DropdownMenuItem
-                onClick={(e) => {
-                  e.stopPropagation();
-                  onEdit(note);
-                }}
-                className="gap-2 cursor-pointer"
-              >
-                <Pencil className="size-3.5" />
-                <span>Edit Note</span>
-              </DropdownMenuItem>
+              {(onQuickEdit || onEdit) && (
+                <DropdownMenuItem
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    if (onQuickEdit) {
+                      onQuickEdit(note);
+                    } else if (onEdit) {
+                      onEdit(note);
+                    }
+                  }}
+                  className="gap-2 cursor-pointer"
+                >
+                  <SlidersHorizontal className="size-3.5" />
+                  <span>{t ? t("actions.quickEdit") : "Quick Edit"}</span>
+                </DropdownMenuItem>
+              )}
+              {(onFullEdit || onEdit) && (
+                <DropdownMenuItem
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    if (onFullEdit) {
+                      onFullEdit(note);
+                    } else if (onEdit) {
+                      onEdit(note);
+                    }
+                  }}
+                  className="gap-2 cursor-pointer"
+                >
+                  <Pencil className="size-3.5" />
+                  <span>{t ? t("actions.fullEdit") : "Full Edit"}</span>
+                </DropdownMenuItem>
+              )}
               <DropdownMenuItem
                 onClick={(e) => {
                   e.stopPropagation();
@@ -275,7 +327,11 @@ export function getNotesColumns({
                 className="gap-2 cursor-pointer"
               >
                 <Pin className="size-3.5" />
-                <span>{note.pinned ? "Unpin" : "Pin to top"}</span>
+                <span>
+                  {note.pinned
+                    ? (t ? t("actions.unpin") : "Unpin")
+                    : (t ? t("actions.pin") : "Pin to top")}
+                </span>
               </DropdownMenuItem>
               <DropdownMenuItem
                 onClick={(e) => {
@@ -285,7 +341,7 @@ export function getNotesColumns({
                 className="gap-2 cursor-pointer"
               >
                 <Copy className="size-3.5" />
-                <span>Duplicate</span>
+                <span>{t ? t("actions.duplicate") : "Duplicate"}</span>
               </DropdownMenuItem>
               <DropdownMenuItem
                 onClick={(e) => {
@@ -297,12 +353,12 @@ export function getNotesColumns({
                 {note.archived ? (
                   <>
                     <ArchiveRestore className="size-3.5" />
-                    <span>Restore</span>
+                    <span>{t ? t("actions.unarchive") : "Restore"}</span>
                   </>
                 ) : (
                   <>
                     <Archive className="size-3.5" />
-                    <span>Archive</span>
+                    <span>{t ? t("actions.archive") : "Archive"}</span>
                   </>
                 )}
               </DropdownMenuItem>
@@ -315,7 +371,7 @@ export function getNotesColumns({
                 className="gap-2 text-destructive focus:text-destructive cursor-pointer"
               >
                 <Trash2 className="size-3.5" />
-                <span>Delete</span>
+                <span>{t ? t("actions.delete") : "Delete"}</span>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

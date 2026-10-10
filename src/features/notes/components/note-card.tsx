@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { useTranslations } from "next-intl";
 import { formatDistanceToNow } from "date-fns";
 import {
   Pin,
@@ -11,6 +12,7 @@ import {
   Archive,
   ArchiveRestore,
   Eye,
+  SlidersHorizontal,
 } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -35,7 +37,9 @@ interface NoteCardProps {
   note: Note;
   labels: NoteLabel[];
   onView: (note: Note) => void;
-  onEdit: (note: Note) => void;
+  onQuickEdit?: (note: Note) => void;
+  onFullEdit?: (note: Note) => void;
+  onEdit?: (note: Note) => void;
   onDelete: (note: Note) => void;
   onTogglePin: (id: string) => void;
   onToggleArchive: (id: string) => void;
@@ -46,12 +50,15 @@ export function NoteCard({
   note,
   labels,
   onView,
+  onQuickEdit,
+  onFullEdit,
   onEdit,
   onDelete,
   onTogglePin,
   onToggleArchive,
   onDuplicate,
 }: NoteCardProps) {
+  const t = useTranslations("notes");
   const noteColorClass = getNoteColorClasses(note.color);
   const priorityMeta = getPriorityMeta(note.priority);
 
@@ -96,7 +103,7 @@ export function NoteCard({
               type="button"
               variant="ghost"
               size="icon"
-              aria-label={note.pinned ? "Unpin note" : "Pin note"}
+              aria-label={note.pinned ? t("actions.unpinNote") : t("actions.pinNote")}
               onClick={() => onTogglePin(note.id)}
               className={cn(
                 "size-7 rounded-full text-muted-foreground hover:text-foreground transition-colors",
@@ -121,7 +128,7 @@ export function NoteCard({
                     type="button"
                     variant="ghost"
                     size="icon"
-                    aria-label="Note actions"
+                    aria-label={t("fields.actions")}
                     className="size-7 rounded-full text-muted-foreground hover:text-foreground opacity-70 group-hover:opacity-100"
                   />
                 }
@@ -134,28 +141,51 @@ export function NoteCard({
                   className="gap-2 cursor-pointer"
                 >
                   <Eye className="size-3.5" />
-                  <span>View Details</span>
+                  <span>{t("actions.view")}</span>
                 </DropdownMenuItem>
-                <DropdownMenuItem
-                  onClick={() => onEdit(note)}
-                  className="gap-2 cursor-pointer"
-                >
-                  <Pencil className="size-3.5" />
-                  <span>Edit Note</span>
-                </DropdownMenuItem>
+                {(onQuickEdit || onEdit) && (
+                  <DropdownMenuItem
+                    onClick={() => {
+                      if (onQuickEdit) {
+                        onQuickEdit(note);
+                      } else if (onEdit) {
+                        onEdit(note);
+                      }
+                    }}
+                    className="gap-2 cursor-pointer"
+                  >
+                    <SlidersHorizontal className="size-3.5" />
+                    <span>{t("actions.quickEdit")}</span>
+                  </DropdownMenuItem>
+                )}
+                {(onFullEdit || onEdit) && (
+                  <DropdownMenuItem
+                    onClick={() => {
+                      if (onFullEdit) {
+                        onFullEdit(note);
+                      } else if (onEdit) {
+                        onEdit(note);
+                      }
+                    }}
+                    className="gap-2 cursor-pointer"
+                  >
+                    <Pencil className="size-3.5" />
+                    <span>{t("actions.fullEdit")}</span>
+                  </DropdownMenuItem>
+                )}
                 <DropdownMenuItem
                   onClick={() => onTogglePin(note.id)}
                   className="gap-2 cursor-pointer"
                 >
                   <Pin className="size-3.5" />
-                  <span>{note.pinned ? "Unpin" : "Pin to top"}</span>
+                  <span>{note.pinned ? t("actions.unpin") : t("actions.pin")}</span>
                 </DropdownMenuItem>
                 <DropdownMenuItem
                   onClick={() => onDuplicate(note.id)}
                   className="gap-2 cursor-pointer"
                 >
                   <Copy className="size-3.5" />
-                  <span>Duplicate</span>
+                  <span>{t("actions.duplicate")}</span>
                 </DropdownMenuItem>
                 <DropdownMenuItem
                   onClick={() => onToggleArchive(note.id)}
@@ -164,12 +194,12 @@ export function NoteCard({
                   {note.archived ? (
                     <>
                       <ArchiveRestore className="size-3.5" />
-                      <span>Unarchive</span>
+                      <span>{t("actions.unarchive")}</span>
                     </>
                   ) : (
                     <>
                       <Archive className="size-3.5" />
-                      <span>Archive</span>
+                      <span>{t("actions.archive")}</span>
                     </>
                   )}
                 </DropdownMenuItem>
@@ -179,7 +209,7 @@ export function NoteCard({
                   className="gap-2 text-destructive focus:text-destructive cursor-pointer"
                 >
                   <Trash2 className="size-3.5" />
-                  <span>Delete</span>
+                  <span>{t("actions.delete")}</span>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
@@ -221,10 +251,10 @@ export function NoteCard({
               variant="outline"
               className={cn("px-1.5 py-0 text-[10px] font-medium border", priorityMeta.badgeClass)}
             >
-              {priorityMeta.label}
+              {t(`priority.${note.priority}`)}
             </Badge>
           ) : (
-            <span className="text-[10px] text-muted-foreground/80">Normal</span>
+            <span className="text-[10px] text-muted-foreground/80">{t("priority.normal")}</span>
           )}
 
           <span className="text-[10px] text-muted-foreground font-mono">

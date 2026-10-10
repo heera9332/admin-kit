@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { useTranslations } from "next-intl";
 import { Link, useRouter } from "@/i18n/routing";
 import type { ColumnDef } from "@tanstack/react-table";
 import { format } from "date-fns";
@@ -45,6 +46,7 @@ import {
 import { cn } from "@/lib/utils";
 
 export function NotesLabelsFeature() {
+  const t = useTranslations("notes");
   const router = useRouter();
   const {
     labels,
@@ -67,24 +69,24 @@ export function NotesLabelsFeature() {
   const handleCreate = (data: Omit<NoteLabel, "id" | "createdAt">) => {
     const created = createLabel(data);
     toast.add({
-      title: "Label Created",
-      description: `Label "#${created.name}" created successfully.`,
+      title: t("toasts.labelCreated"),
+      description: t("toasts.labelCreatedDesc", { name: created.name }),
     });
   };
 
   const handleUpdate = (id: string, updates: Partial<NoteLabel>) => {
     updateLabel(id, updates);
     toast.add({
-      title: "Label Updated",
-      description: "Label changes saved successfully.",
+      title: t("toasts.labelUpdated"),
+      description: t("toasts.labelUpdatedDesc", { name: updates.name || "" }),
     });
   };
 
   const handleDelete = (id: string) => {
     deleteLabel(id);
     toast.add({
-      title: "Label Deleted",
-      description: "Label removed and unlinked from associated notes.",
+      title: t("toasts.labelDeleted"),
+      description: t("toasts.labelDeletedDesc"),
     });
   };
 
@@ -120,7 +122,10 @@ export function NotesLabelsFeature() {
       {
         accessorKey: "name",
         header: ({ column }) => (
-          <DataTableColumnHeader column={column} title="Label Name" />
+          <DataTableColumnHeader
+            column={column}
+            title={t("labelsPage.fields.name")}
+          />
         ),
         cell: ({ row }) => {
           const label = row.original;
@@ -148,7 +153,10 @@ export function NotesLabelsFeature() {
       {
         accessorKey: "slug",
         header: ({ column }) => (
-          <DataTableColumnHeader column={column} title="Slug" />
+          <DataTableColumnHeader
+            column={column}
+            title={t("labelsPage.fields.slug")}
+          />
         ),
         cell: ({ row }) => (
           <span className="font-mono text-xs text-muted-foreground">
@@ -159,13 +167,20 @@ export function NotesLabelsFeature() {
       {
         accessorKey: "description",
         header: ({ column }) => (
-          <DataTableColumnHeader column={column} title="Description" />
+          <DataTableColumnHeader
+            column={column}
+            title={t("labelsPage.fields.description")}
+          />
         ),
         cell: ({ row }) => {
           const desc = row.getValue("description") as string | undefined;
           return (
             <span className="text-xs text-muted-foreground line-clamp-1 max-w-[320px]">
-              {desc || <span className="italic opacity-60">No description</span>}
+              {desc || (
+                <span className="italic opacity-60">
+                  {t("labelsPage.noDescription")}
+                </span>
+              )}
             </span>
           );
         },
@@ -173,7 +188,10 @@ export function NotesLabelsFeature() {
       {
         id: "notesCount",
         header: ({ column }) => (
-          <DataTableColumnHeader column={column} title="Notes Tagged" />
+          <DataTableColumnHeader
+            column={column}
+            title={t("labelsPage.fields.notesCount")}
+          />
         ),
         cell: ({ row }) => {
           const count = getNotesCountForLabel(row.original.id);
@@ -185,9 +203,9 @@ export function NotesLabelsFeature() {
                 e.stopPropagation();
                 handleViewNotes(row.original.id);
               }}
-              title="Click to view notes with this label"
+              title={t("labelsPage.clickToViewNotes")}
             >
-              {count} {count === 1 ? "note" : "notes"}
+              {t("labelsPage.notesCountBadge", { count })}
             </Badge>
           );
         },
@@ -195,7 +213,10 @@ export function NotesLabelsFeature() {
       {
         accessorKey: "createdAt",
         header: ({ column }) => (
-          <DataTableColumnHeader column={column} title="Created" />
+          <DataTableColumnHeader
+            column={column}
+            title={t("labelsPage.fields.createdAt")}
+          />
         ),
         cell: ({ row }) => {
           const dateStr = row.getValue("createdAt") as string;
@@ -215,7 +236,10 @@ export function NotesLabelsFeature() {
       {
         id: "actions",
         header: ({ column }) => (
-          <DataTableColumnHeader column={column} title="Actions" />
+          <DataTableColumnHeader
+            column={column}
+            title={t("labelsPage.fields.actions")}
+          />
         ),
         cell: ({ row }) => {
           const label = row.original;
@@ -234,7 +258,7 @@ export function NotesLabelsFeature() {
                 }}
               >
                 <ExternalLink className="size-3" />
-                <span>View Notes</span>
+                <span>{t("labelsPage.actions.viewNotes")}</span>
               </Button>
 
               <DropdownMenu>
@@ -250,7 +274,9 @@ export function NotesLabelsFeature() {
                   }
                 >
                   <MoreHorizontal className="size-3.5" />
-                  <span className="sr-only">Actions</span>
+                  <span className="sr-only">
+                    {t("labelsPage.fields.actions")}
+                  </span>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end" className="w-36 text-xs">
                   <DropdownMenuItem
@@ -261,7 +287,9 @@ export function NotesLabelsFeature() {
                     className="gap-2 cursor-pointer"
                   >
                     <StickyNote className="size-3.5" />
-                    <span>View Notes ({count})</span>
+                    <span>
+                      {t("labelsPage.actions.viewNotesWithCount", { count })}
+                    </span>
                   </DropdownMenuItem>
                   <DropdownMenuItem
                     onClick={(e) => {
@@ -271,7 +299,7 @@ export function NotesLabelsFeature() {
                     className="gap-2 cursor-pointer"
                   >
                     <Pencil className="size-3.5" />
-                    <span>Edit Label</span>
+                    <span>{t("labelsPage.actions.edit")}</span>
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem
@@ -282,7 +310,7 @@ export function NotesLabelsFeature() {
                     className="gap-2 text-destructive focus:text-destructive cursor-pointer"
                   >
                     <Trash2 className="size-3.5" />
-                    <span>Delete</span>
+                    <span>{t("labelsPage.actions.delete")}</span>
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
@@ -292,7 +320,7 @@ export function NotesLabelsFeature() {
       },
     ],
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [labels, notes]
+    [labels, notes, t]
   );
 
   return (
@@ -306,7 +334,7 @@ export function NotesLabelsFeature() {
           className="gap-1.5 text-xs text-muted-foreground hover:text-foreground -ml-2 mb-2 cursor-pointer"
         >
           <ArrowLeft className="size-3.5" />
-          <span>Back to Notes</span>
+          <span>{t("labelsPage.backToNotes")}</span>
         </Button>
       </div>
 
@@ -315,14 +343,14 @@ export function NotesLabelsFeature() {
         <div>
           <div className="flex items-center gap-2">
             <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground">
-              Notes Labels
+              {t("labelsPage.title")}
             </h1>
             <Badge variant="secondary" className="font-mono text-xs px-2 py-0.5">
-              {totalLabels} total
+              {t("labelsPage.totalBadge", { count: totalLabels })}
             </Badge>
           </div>
           <p className="text-xs sm:text-sm text-muted-foreground mt-0.5">
-            Organize your notes systematically with colored labels and taxonomies.
+            {t("labelsPage.description")}
           </p>
         </div>
 
@@ -332,7 +360,7 @@ export function NotesLabelsFeature() {
             className="gap-1.5 h-9 cursor-pointer"
           >
             <Plus className="size-4" />
-            <span>New Label</span>
+            <span>{t("labelsPage.newLabel")}</span>
           </Button>
         </div>
       </div>
@@ -342,7 +370,7 @@ export function NotesLabelsFeature() {
         <div className="p-3 rounded-xl border bg-card text-left">
           <div className="flex items-center justify-between">
             <span className="text-xs text-muted-foreground font-medium">
-              Total Labels
+              {t("labelsPage.stats.total")}
             </span>
             <TagIcon className="size-3.5 text-teal-500" />
           </div>
@@ -354,7 +382,7 @@ export function NotesLabelsFeature() {
         <div className="p-3 rounded-xl border bg-card text-left">
           <div className="flex items-center justify-between">
             <span className="text-xs text-muted-foreground font-medium">
-              Active In Use
+              {t("labelsPage.stats.active")}
             </span>
             <StickyNote className="size-3.5 text-sky-500" />
           </div>
@@ -366,7 +394,7 @@ export function NotesLabelsFeature() {
         <div className="p-3 rounded-xl border bg-card text-left">
           <div className="flex items-center justify-between">
             <span className="text-xs text-muted-foreground font-medium">
-              Unused Labels
+              {t("labelsPage.stats.unused")}
             </span>
             <TagIcon className="size-3.5 text-amber-500" />
           </div>
@@ -378,7 +406,7 @@ export function NotesLabelsFeature() {
         <div className="p-3 rounded-xl border bg-card text-left">
           <div className="flex items-center justify-between">
             <span className="text-xs text-muted-foreground font-medium">
-              Notes Tagged
+              {t("labelsPage.stats.totalNotesTagged")}
             </span>
             <TagIcon className="size-3.5 text-violet-500" />
           </div>
@@ -393,7 +421,7 @@ export function NotesLabelsFeature() {
         <div className="relative flex-1 max-w-sm">
           <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
           <Input
-            placeholder="Search labels by name, slug or description..."
+            placeholder={t("labelsPage.searchPlaceholder")}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="pl-9 h-9 text-xs"
@@ -413,7 +441,7 @@ export function NotesLabelsFeature() {
           <Button
             variant="ghost"
             size="icon"
-            aria-label="Table view"
+            aria-label={t("viewMode.table")}
             className={cn(
               "size-7 rounded-sm transition-all cursor-pointer",
               viewMode === "table"
@@ -427,7 +455,7 @@ export function NotesLabelsFeature() {
           <Button
             variant="ghost"
             size="icon"
-            aria-label="Grid view"
+            aria-label={t("viewMode.grid")}
             className={cn(
               "size-7 rounded-sm transition-all cursor-pointer",
               viewMode === "grid"
@@ -459,20 +487,22 @@ export function NotesLabelsFeature() {
             <TagIcon className="size-6" />
           </div>
           <h3 className="font-semibold text-base text-foreground">
-            No labels found
+            {searchQuery
+              ? t("labelsPage.empty.noMatching")
+              : t("labelsPage.empty.noLabels")}
           </h3>
           <p className="text-xs text-muted-foreground max-w-sm mt-1 mb-4">
             {searchQuery
-              ? "No labels matched your search query. Try typing something else."
-              : "Create custom labels to tag, group, and easily filter notes."}
+              ? t("labelsPage.empty.noMatchingDesc")
+              : t("labelsPage.empty.noLabelsDesc")}
           </p>
           <Button
             size="sm"
             onClick={() => setCreateOpen(true)}
-            className="gap-1.5"
+            className="gap-1.5 cursor-pointer"
           >
             <Plus className="size-3.5" />
-            Create First Label
+            {t("labelsPage.empty.createFirst")}
           </Button>
         </div>
       ) : (
@@ -512,7 +542,9 @@ export function NotesLabelsFeature() {
                         }
                       >
                         <MoreHorizontal className="size-3.5" />
-                        <span className="sr-only">Actions</span>
+                        <span className="sr-only">
+                          {t("labelsPage.fields.actions")}
+                        </span>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end" className="w-36 text-xs">
                         <DropdownMenuItem
@@ -523,7 +555,11 @@ export function NotesLabelsFeature() {
                           className="gap-2 cursor-pointer"
                         >
                           <StickyNote className="size-3.5" />
-                          <span>View Notes ({notesCount})</span>
+                          <span>
+                            {t("labelsPage.actions.viewNotesWithCount", {
+                              count: notesCount,
+                            })}
+                          </span>
                         </DropdownMenuItem>
                         <DropdownMenuItem
                           onClick={(e) => {
@@ -533,7 +569,7 @@ export function NotesLabelsFeature() {
                           className="gap-2 cursor-pointer"
                         >
                           <Pencil className="size-3.5" />
-                          <span>Edit</span>
+                          <span>{t("labelsPage.actions.edit")}</span>
                         </DropdownMenuItem>
                         <DropdownMenuSeparator />
                         <DropdownMenuItem
@@ -544,7 +580,7 @@ export function NotesLabelsFeature() {
                           className="gap-2 text-destructive focus:text-destructive cursor-pointer"
                         >
                           <Trash2 className="size-3.5" />
-                          <span>Delete</span>
+                          <span>{t("labelsPage.actions.delete")}</span>
                         </DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
@@ -556,7 +592,9 @@ export function NotesLabelsFeature() {
 
                   <p className="text-xs text-muted-foreground line-clamp-2 leading-relaxed">
                     {lbl.description || (
-                      <span className="italic opacity-60">No description provided</span>
+                      <span className="italic opacity-60">
+                        {t("labelsPage.noDescription")}
+                      </span>
                     )}
                   </p>
                 </div>
@@ -566,7 +604,7 @@ export function NotesLabelsFeature() {
                     variant={notesCount > 0 ? "secondary" : "outline"}
                     className="font-mono text-[10px]"
                   >
-                    {notesCount} {notesCount === 1 ? "note" : "notes"}
+                    {t("labelsPage.notesCountBadge", { count: notesCount })}
                   </Badge>
 
                   <Button
@@ -579,7 +617,7 @@ export function NotesLabelsFeature() {
                       handleViewNotes(lbl.id);
                     }}
                   >
-                    <span>Notes</span>
+                    <span>{t("labelsPage.actions.viewNotes")}</span>
                     <ExternalLink className="size-3" />
                   </Button>
                 </div>
