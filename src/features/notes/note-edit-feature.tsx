@@ -572,8 +572,8 @@ function NoteEditForm({ note, isNew }: NoteEditFormProps) {
       <AppSheet
         open={previewOpen}
         onOpenChange={setPreviewOpen}
-        title={title || "Untitled Note"}
-        description={note?.id || "NEW NOTE"}
+        title={title || t("editor.noteTitle")}
+        description={note?.id || t("dialog.createTitle")}
         size="lg"
       >
         <div className="space-y-4 py-2">
@@ -583,17 +583,17 @@ function NoteEditForm({ note, isNew }: NoteEditFormProps) {
               variant="outline"
               className={cn("px-2 py-0.5 text-xs font-medium border", priorityMeta.badgeClass)}
             >
-              {priorityMeta.label} Priority
+              {t("sheet.priorityBadge", { priority: t(`priority.${priority}`) })}
             </Badge>
             {pinned && (
               <Badge variant="secondary" className="gap-1 text-xs">
                 <Pin className="size-3 rotate-45 fill-primary text-primary" />
-                <span>Pinned</span>
+                <span>{t("sheet.pinned")}</span>
               </Badge>
             )}
             {archived && (
               <Badge variant="secondary" className="text-xs">
-                Archived
+                {t("sheet.archived")}
               </Badge>
             )}
           </div>
@@ -602,7 +602,7 @@ function NoteEditForm({ note, isNew }: NoteEditFormProps) {
           {assignedLabels.length > 0 && (
             <div className="space-y-1.5">
               <span className="text-xs font-semibold text-muted-foreground">
-                Labels
+                {t("sheet.labels")}
               </span>
               <div className="flex flex-wrap gap-1.5">
                 {assignedLabels.map((lbl) => {
@@ -626,7 +626,7 @@ function NoteEditForm({ note, isNew }: NoteEditFormProps) {
           {/* Content */}
           <div className="space-y-1.5">
             <span className="text-xs font-semibold text-muted-foreground">
-              Content
+              {t("sheet.content")}
             </span>
             <div
               className={cn(
@@ -636,7 +636,7 @@ function NoteEditForm({ note, isNew }: NoteEditFormProps) {
             >
               {content || (
                 <span className="text-muted-foreground italic">
-                  No content recorded for this note.
+                  {t("sheet.noContent")}
                 </span>
               )}
             </div>
